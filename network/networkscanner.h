@@ -4,6 +4,8 @@
 #include <QUdpSocket>
 #include <QNetworkInterface>
 #include <QNetworkAddressEntry>
+#include <QUuid>
+#include <QHostInfo>
 
 #include "networkexception.h"
 
@@ -31,7 +33,7 @@ public:
 
 signals:
     void sendLog (QString data);
-    void sendAddress(QHostAddress senderHost);
+    void sendAddress(QHostAddress senderHost, QString hostName);
 
 private:
     QUdpSocket* scanningUpstreamSocket;
@@ -46,6 +48,8 @@ private:
 
     bool stopped = true;
     Mode mode = None;
+
+    QString currentScanToken;
 
     void initScanningSockets();
     QHostAddress findAnyBroadcastAddress();

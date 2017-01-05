@@ -1,5 +1,4 @@
 #include "networkscanner.h"
-#include <iostream>
 
 NetworkScanner::NetworkScanner()
 {
@@ -104,10 +103,11 @@ void NetworkScanner::processScanningDatagrams()
         sendLog(QString("[Client] Got request: ") + datagram);
         sendLog("[Client] Sending response to " + senderHost.toString());
 
+        datagram.append("@"+QHostInfo::localHostName());
+
         QUdpSocket* udpSocket = new QUdpSocket(this);
 
-        QByteArray responseData = "AUTH CONFIRMATION";
-        udpSocket->writeDatagram(responseData.data(), responseData.size(), senderHost, responsePort);
+        udpSocket->writeDatagram(datagram.data(), datagram.size(), senderHost, responsePort);
 
         udpSocket->close();
         delete udpSocket;
@@ -125,8 +125,20 @@ void NetworkScanner::processResponseDatagrams()
 
         responseDownstreamSocket->readDatagram(datagram.data(), datagram.size(), &senderHost);
 
-        sendLog("[Server] Got response from " + senderHost.toString());
-        sendAddress(senderHost);
+        sendLog("[Server] Got response from " + senderHost.toString() + ":" + datagram);
+
+        QString datagramString = QString(datagram);
+
+        QString token = datagramString.section("@", 0, 0);
+
+        if (token == currentScanToken.toUtf8())
+        {
+            QString hostName = datagramString.section("@", 1);
+
+            sendLog ("[Server] Auth confirmed.");
+            sendAddress(senderHost, hostName);
+        }
+        else sendLog ("[Server] Wrong auth token, ignored.");
     }
 }
 
@@ -140,9 +152,11 @@ void NetworkScanner::scanNetwork()
 
     stopped = false;
 
-    sendLog("[Server] Sending auth request...");
+    currentScanToken = QUuid::createUuid().toString();
 
-    QByteArray data = "AUTH REQUEST";
+    sendLog("[Server] Sending auth request with token: " + currentScanToken);
+
+    QByteArray data = currentScanToken.toUtf8();
     scanningUpstreamSocket->writeDatagram(data.data(), data.size(), scanningAddress, scanningPort);
 }
 

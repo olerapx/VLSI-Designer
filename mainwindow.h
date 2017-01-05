@@ -28,7 +28,7 @@ private slots:
     void on_saveButton_clicked();
 
     void on_sendLog(QString data);
-    void on_sendAddress(QHostAddress senderHost);
+    void on_sendAddress(QHostAddress senderHost, QString hostName);
 
 private:
     Ui::MainWindow *ui;

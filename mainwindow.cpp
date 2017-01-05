@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
                               ui->scanningPortText->text().toInt(), ui->responsePortText->text().toInt());
 
     connect (&scanner, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
-    connect (&scanner, SIGNAL(sendAddress(QHostAddress)), this, SLOT(on_sendAddress(QHostAddress)));
+    connect (&scanner, SIGNAL(sendAddress(QHostAddress, QString)), this, SLOT(on_sendAddress(QHostAddress, QString)));
 }
 
 void MainWindow::on_sendLog(QString data)
@@ -23,12 +23,14 @@ void MainWindow::on_sendLog(QString data)
     log(data);
 }
 
-void MainWindow::on_sendAddress(QHostAddress senderHost)
+void MainWindow::on_sendAddress(QHostAddress senderHost, QString hostName)
 {
-    QTableWidgetItem* item = new QTableWidgetItem(senderHost.toString());
+    QTableWidgetItem* item = new QTableWidgetItem(hostName);
+    QTableWidgetItem* item1 = new QTableWidgetItem(senderHost.toString());
     ui->nodeList->insertRow(ui->nodeList->rowCount());
 
-    ui->nodeList->setItem(ui->nodeList->rowCount()-1, 1, item);
+    ui->nodeList->setItem(ui->nodeList->rowCount()-1, 0, item);
+    ui->nodeList->setItem(ui->nodeList->rowCount()-1, 1, item1);
 }
 
 void MainWindow::showNetworkInterfaces()
