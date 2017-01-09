@@ -16,6 +16,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect (&scanner, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
     connect (&scanner, SIGNAL(sendAddress(QHostAddress, QString)), this, SLOT(on_sendAddress(QHostAddress, QString)));
+
+    clientT.init(40001);
+    serverT.init(40000);
+
+    connect(&serverT, SIGNAL(dataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
 }
 
 void MainWindow::on_sendLog(QString data)
@@ -67,7 +72,10 @@ void MainWindow::on_scanButton_clicked()
 
 void MainWindow::on_sendButton_clicked()
 {
+    QString ip = ui->nodeList->selectedItems()[1]->text();
+    QHostAddress host(ip);
 
+    clientT.sendData(ui->sendText->text().toUtf8(), host, 40000);
 }
 
 void MainWindow::log(QString text)
@@ -96,4 +104,9 @@ void MainWindow::on_saveButton_clicked()
         {
            QMessageBox::critical(this, "Exception", ex.what());
         }
+}
+
+void MainWindow::on_dataReceived(QByteArray data, QHostAddress address, int port)
+{
+    log(QString("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
 }

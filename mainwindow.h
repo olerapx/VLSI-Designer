@@ -7,6 +7,7 @@
 #include <QMessageBox>
 
 #include "network/networkscanner.h"
+#include "network/networktransmitter.h"
 
 namespace Ui
 {
@@ -30,12 +31,15 @@ private slots:
     void on_sendLog(QString data);
     void on_sendAddress(QHostAddress senderHost, QString hostName);
 
+    void on_dataReceived(QByteArray data,QHostAddress address,int port);
+
 private:
     Ui::MainWindow *ui;
 
     QList<QNetworkInterface> interfaces;
 
     NetworkScanner scanner;
+    NetworkTransmitter clientT, serverT;
 
     void showNetworkInterfaces();
 

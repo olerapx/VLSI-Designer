@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     network/networkscanner.cpp \
-    network/networkexception.cpp
+    network/networkexception.cpp \
+    network/networktransmitter.cpp
 
 HEADERS  += mainwindow.h \
     network/networkscanner.h \
-    network/networkexception.h
+    network/networkexception.h \
+    network/networktransmitter.h
 
 FORMS    += mainwindow.ui

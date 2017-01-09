@@ -17,8 +17,11 @@ void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInt
     initScanningSockets();
 
     scanningUpstreamSocket->bind();
-    scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress);
-    responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress);
+    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+        throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
+
+    if (!responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+        throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
 
     scanningUpstreamSocket->setMulticastInterface(this->interface);
     scanningDownstreamSocket->joinMulticastGroup(this->scanningAddress, this->interface);
@@ -43,8 +46,12 @@ void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanning
     if (scanningAddress == QHostAddress::Null) throw NetworkException ("No broadcast address found.");
 
     scanningUpstreamSocket->bind();
-    scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress);
-    responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress);
+
+    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+        throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
+
+    if (!responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+        throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
 
     mode = IPv4;
 }
