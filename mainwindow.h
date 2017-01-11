@@ -5,6 +5,7 @@
 #include <QNetworkInterface>
 #include <QNetworkAddressEntry>
 #include <QMessageBox>
+#include <QFile>
 
 #include "network/networkscanner.h"
 #include "network/networktransmitter.h"

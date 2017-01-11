@@ -75,7 +75,10 @@ void MainWindow::on_sendButton_clicked()
     QString ip = ui->nodeList->selectedItems()[1]->text();
     QHostAddress host(ip);
 
-    clientT.sendData(ui->sendText->text().toUtf8(), host, 40000);
+    QFile f("D:/music/Estatic Fear/1996 - Somnium Obmutum/02 - Somnium Obmutum.mp3");
+    f.open(QIODevice::ReadOnly);
+    clientT.sendData(f.readAll(), host, 40000);
+    f.close();
 }
 
 void MainWindow::log(QString text)
@@ -108,5 +111,9 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::on_dataReceived(QByteArray data, QHostAddress address, int port)
 {
-    log(QString("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
+    QFile f ("D:/1.mp3");
+    f.open(QIODevice::WriteOnly);
+    f.write(data.data(), data.size());
+    f.close();
+   // log(QString("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
 }

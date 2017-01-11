@@ -4,6 +4,8 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QMap>
+#include <QThread>
+#include <QDataStream>
 
 #include "networkexception.h"
 
@@ -13,7 +15,6 @@ class NetworkTransmitter: public QObject
 
 public:
     NetworkTransmitter();
-
     void init(int serverPort);
 
     void sendData (QByteArray data, QHostAddress address, int port);
@@ -24,6 +25,8 @@ signals:
 private:
     QTcpServer* server;
     QMap <int, QTcpSocket*> sockets;
+
+    qint64 size = 0;
 
     void sendData (QTcpSocket *socket, QByteArray data);
 
