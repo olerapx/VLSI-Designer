@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     clientT.init(40001);
     serverT.init(40000);
 
-    connect(&serverT, SIGNAL(dataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
+    connect(&serverT, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
 }
 
 void MainWindow::on_sendLog(QString data)

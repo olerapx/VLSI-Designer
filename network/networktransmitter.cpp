@@ -17,49 +17,22 @@ void NetworkTransmitter::init(int serverPort)
 
 void NetworkTransmitter::on_newConnection()
 {
-    QTcpSocket* socket = server->nextPendingConnection();
-    sockets.insert(socket->socketDescriptor(), socket);
+    TcpSocket* socket = new TcpSocket(server->nextPendingConnection());
+    sockets.insert(socket->getSocket()->socketDescriptor(), socket);
 
-    connect (socket, SIGNAL(readyRead()), this, SLOT(on_socketReadyRead()));
-    connect (socket, SIGNAL(disconnected()), this, SLOT(on_socketDisconnected()));
+    connect (socket, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)));
+    connect (socket, SIGNAL(sendDisconnected(int)), this, SLOT(on_socketDisconnected(int)));
 }
 
-void NetworkTransmitter::on_socketDisconnected()
+void NetworkTransmitter::on_socketDisconnected(int descriptor)
 {
-    QTcpSocket* socket = static_cast<QTcpSocket*> (sender());
+    TcpSocket* socket = sockets[descriptor];
+    delete socket;
 
-    sockets.remove(socket->socketDescriptor());
-    disconnect (socket, SIGNAL(readyRead()), this, SLOT(on_socketReadyRead()));
-    disconnect (socket, SIGNAL(disconnected()), this, SLOT(on_socketDisconnected()));
-
-    socket->deleteLater();
+    sockets.remove(descriptor);
 }
 
-void NetworkTransmitter::on_socketReadyRead()
-{
-    QTcpSocket* socket = static_cast<QTcpSocket*> (sender());
-
-    QDataStream in(socket);
-
-    if (size == 0)
-    {
-        if (socket->bytesAvailable() < (qint64) sizeof(qint64))
-            return;
-        in >> size;
-    }
-
-    if (socket->bytesAvailable() < size)
-        return;
-
-    QByteArray data;
-    data.resize(size);
-    in.readRawData(data.data(), size);
-
-    dataReceived(data, socket->peerAddress(), socket->peerPort());
-
-    size = 0;
-}
-
+// TODO: don't use temp sockets
 void NetworkTransmitter::sendData(QByteArray data, QHostAddress address, int port)
 {
     QTcpSocket* socket = new QTcpSocket(this);

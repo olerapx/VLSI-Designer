@@ -2,12 +2,12 @@
 #define NETWORKTRANSMITTER_H
 
 #include <QTcpServer>
-#include <QTcpSocket>
 #include <QMap>
 #include <QThread>
 #include <QDataStream>
 
 #include "networkexception.h"
+#include "tcpsocket.h"
 
 class NetworkTransmitter: public QObject
 {
@@ -20,21 +20,18 @@ public:
     void sendData (QByteArray data, QHostAddress address, int port);
 
 signals:
-    void dataReceived(QByteArray data, QHostAddress address, int port);
+    void sendDataReceived(QByteArray data, QHostAddress address, int port);
 
 private:
     QTcpServer* server;
-    QMap <int, QTcpSocket*> sockets;
-
-    qint64 size = 0;
+    QMap <int, TcpSocket*> sockets;
 
     void sendData (QTcpSocket *socket, QByteArray data);
 
 private slots:
     void on_newConnection();
 
-    void on_socketReadyRead();
-    void on_socketDisconnected();
+    void on_socketDisconnected(int descriptor);
 };
 
 #endif // NETWORKTRANSMITTER_H

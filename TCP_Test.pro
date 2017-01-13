@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     network/networkscanner.cpp \
     network/networkexception.cpp \
-    network/networktransmitter.cpp
+    network/networktransmitter.cpp \
+    network/tcpsocket.cpp
 
 HEADERS  += mainwindow.h \
     network/networkscanner.h \
     network/networkexception.h \
-    network/networktransmitter.h
+    network/networktransmitter.h \
+    network/tcpsocket.h
 
 FORMS    += mainwindow.ui
