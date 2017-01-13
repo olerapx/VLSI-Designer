@@ -16,9 +16,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect (&scanner, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
     connect (&scanner, SIGNAL(sendAddress(QHostAddress, QString)), this, SLOT(on_sendAddress(QHostAddress, QString)));
+    connect (&clientT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
+    connect (&serverT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
 
     clientT.init(40001);
     serverT.init(40000);
+
+    clientT.connectToHost(QHostAddress("127.0.0.1"), 40000);
 
     connect(&serverT, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
 }
@@ -111,6 +115,8 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::on_dataReceived(QByteArray data, QHostAddress address, int port)
 {
+    log (QString("Receiving data from %1:%2...").arg(address.toString(), port));
+
     QFile f ("D:/1.mp3");
     f.open(QIODevice::WriteOnly);
     f.write(data.data(), data.size());

@@ -18,10 +18,10 @@ void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInt
 
     scanningUpstreamSocket->bind();
     if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
+        throw NetworkException(QString("Can not bind socket to port %1.").arg(scanningPort));
 
     if (!responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
+        throw NetworkException(QString("Can not bind socket to port %1.").arg(responsePort));
 
     scanningUpstreamSocket->setMulticastInterface(this->interface);
     scanningDownstreamSocket->joinMulticastGroup(this->scanningAddress, this->interface);

@@ -16,6 +16,9 @@ enum Mode
     None
 };
 
+/**
+ * @brief Scans for hosts in a given network using IPv4 broadcast or IPv6 multicast requests.
+ */
 class NetworkScanner: public QObject
 {
     Q_OBJECT

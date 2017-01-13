@@ -6,8 +6,7 @@
 #include <QHostAddress>
 
 /**
- * @brief The TcpSocket class
- * Wraps QTcpSocket and current block size to provide receiving full data.
+ * @brief Wraps QTcpSocket and current block size to provide receiving full data.
  */
 class TcpSocket: public QObject
 {
