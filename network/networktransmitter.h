@@ -2,7 +2,7 @@
 #define NETWORKTRANSMITTER_H
 
 #include <QTcpServer>
-#include <QMap>
+#include <QList>
 #include <QThread>
 #include <QDataStream>
 
@@ -10,7 +10,7 @@
 #include "tcpsocket.h"
 
 /**
- * @brief Manages incoming and outcoming TCP connections to a given port.
+ * @brief Manages incoming and outcoming TCP connections on a given port.
  */
 class NetworkTransmitter: public QObject
 {
@@ -20,7 +20,7 @@ public:
     NetworkTransmitter();
     void init(int serverPort);
 
-    int connectToHost (QHostAddress address, int port);
+    TcpSocket* connectToHost(QHostAddress address, int port);
     void disconnectFromHost (QHostAddress address, int port);
 
     void sendData (QByteArray data, QHostAddress address, int port);
@@ -31,10 +31,10 @@ signals:
 
 private:
     QTcpServer* server;
-    QMap <int, TcpSocket*> sockets;
+    QList <TcpSocket*> sockets;
 
-    void addTcpSocket(QTcpSocket* qsocket);
-    void removeTcpSocket (int descriptor);
+    TcpSocket* addTcpSocket(QTcpSocket* qsocket);
+    void removeTcpSocket (TcpSocket *socket);
 
     TcpSocket* findSocket (QHostAddress address, int port);
 
@@ -43,7 +43,7 @@ private:
 private slots:
     void on_newConnection();
 
-    void on_socketDisconnected(int descriptor);
+    void on_socketDisconnected(TcpSocket* socket);
 };
 
 #endif // NETWORKTRANSMITTER_H

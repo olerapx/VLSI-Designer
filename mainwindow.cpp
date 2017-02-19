@@ -79,7 +79,7 @@ void MainWindow::on_sendButton_clicked()
     QString ip = ui->nodeList->selectedItems()[1]->text();
     QHostAddress host(ip);
 
-    QFile f("D:/music/Estatic Fear/1996 - Somnium Obmutum/02 - Somnium Obmutum.mp3");
+    QFile f("ex");
     f.open(QIODevice::ReadOnly);
     clientT.sendData(f.readAll(), host, 40000);
     f.close();

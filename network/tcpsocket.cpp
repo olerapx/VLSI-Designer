@@ -39,7 +39,5 @@ void TcpSocket::on_disconnected()
     disconnect (socket, SIGNAL(readyRead()), this, SLOT(on_readyRead()));
     disconnect (socket, SIGNAL(disconnected()), this, SLOT(on_disconnected()));
 
-    socket->deleteLater();
-
-    sendDisconnected(socket->socketDescriptor());
+    sendDisconnected(this);
 }

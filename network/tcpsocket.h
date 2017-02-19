@@ -19,7 +19,7 @@ public:
 
 signals:
     void sendDataReceived(QByteArray data, QHostAddress address, int port);
-    void sendDisconnected(int desciptor);
+    void sendDisconnected(TcpSocket* socket);
 
 private:
     QTcpSocket* socket;
