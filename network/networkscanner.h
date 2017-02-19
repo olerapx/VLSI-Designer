@@ -25,6 +25,7 @@ class NetworkScanner: public QObject
 
 public:
     NetworkScanner();
+    ~NetworkScanner();
 
     void initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface, int scanningPort, int responsePort);
     void initIPv4Broadcast(QNetworkInterface interface, int scanningPort, int responsePort);

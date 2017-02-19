@@ -17,8 +17,8 @@ class NetworkTransmitter: public QObject
     Q_OBJECT
 
 public:
-    NetworkTransmitter();
-    void init(int serverPort);
+    NetworkTransmitter(int serverPort);
+    ~NetworkTransmitter();
 
     TcpSocket* connectToHost(QHostAddress address, int port);
     void disconnectFromHost (QHostAddress address, int port);

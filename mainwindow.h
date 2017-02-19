@@ -40,7 +40,7 @@ private:
     QList<QNetworkInterface> interfaces;
 
     NetworkScanner scanner;
-    NetworkTransmitter clientT, serverT;
+    NetworkTransmitter *clientT, *serverT;
 
     void showNetworkInterfaces();
 

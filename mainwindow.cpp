@@ -16,15 +16,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect (&scanner, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
     connect (&scanner, SIGNAL(sendAddress(QHostAddress, QString)), this, SLOT(on_sendAddress(QHostAddress, QString)));
-    connect (&clientT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
-    connect (&serverT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
 
-    clientT.init(40001);
-    serverT.init(40000);
+    clientT = new NetworkTransmitter(40001);
+    serverT = new NetworkTransmitter(40000);
 
-    clientT.connectToHost(QHostAddress("127.0.0.1"), 40000);
+    connect (clientT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
+    connect (serverT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
 
-    connect(&serverT, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
+    clientT->connectToHost(QHostAddress("127.0.0.1"), 40000);
+
+    connect(serverT, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
 }
 
 void MainWindow::on_sendLog(QString data)
@@ -79,9 +80,9 @@ void MainWindow::on_sendButton_clicked()
     QString ip = ui->nodeList->selectedItems()[1]->text();
     QHostAddress host(ip);
 
-    QFile f("ex");
+    QFile f("D:/music/DevilDriver - Knee Deep.mp3");
     f.open(QIODevice::ReadOnly);
-    clientT.sendData(f.readAll(), host, 40000);
+    clientT->sendData(f.readAll(), host, 40000);
     f.close();
 }
 
