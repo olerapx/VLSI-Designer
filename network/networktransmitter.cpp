@@ -3,7 +3,7 @@
 NetworkTransmitter::NetworkTransmitter(int serverPort)
 {
     server = new QTcpServer(this);
-    connect (server, SIGNAL(newConnection()), this, SLOT(on_newConnection()));
+    connect (server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
 
     if (!server->listen(QHostAddress::Any, serverPort))
         throw NetworkException (QString("Cannot listen to port %1.").arg(serverPort));
@@ -11,7 +11,7 @@ NetworkTransmitter::NetworkTransmitter(int serverPort)
 
 NetworkTransmitter::~NetworkTransmitter()
 {
-    disconnect (server, SIGNAL(newConnection()), this, SLOT(on_newConnection()));
+    disconnect (server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
     delete server;
 }
 
@@ -28,8 +28,8 @@ TcpSocket* NetworkTransmitter::addTcpSocket(QTcpSocket *qsocket)
     TcpSocket* socket = new TcpSocket(qsocket);
     sockets.append(socket);
 
-    connect (socket, SIGNAL(sendDataReceived(QByteArray, QHostAddress, int)), this, SIGNAL(sendDataReceived(QByteArray, QHostAddress, int)));
-    connect (socket, SIGNAL(sendDisconnected(TcpSocket*)), this, SLOT(on_socketDisconnected(TcpSocket*)));
+    connect (socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
+    connect (socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::on_socketDisconnected);
 
     return socket;
 }
@@ -41,10 +41,11 @@ void NetworkTransmitter::on_socketDisconnected(TcpSocket* socket)
 
 void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
 {
-    sendLog (QString("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(), socket->getSocket()->peerName()));
+    sendLog (QString("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(),
+                                                     socket->getSocket()->peerName()));
 
-    disconnect (socket, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)));
-    disconnect (socket, SIGNAL(sendDisconnected(TcpSocket*)), this, SLOT(on_socketDisconnected(TcpSocket*)));
+    connect (socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
+    connect (socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::on_socketDisconnected);
 
     delete socket->getSocket();
     delete socket;

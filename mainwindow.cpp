@@ -11,21 +11,22 @@ MainWindow::MainWindow(QWidget *parent) :
     interfaces = QNetworkInterface::allInterfaces();
     showNetworkInterfaces();
 
-    scanner.initIPv6Multicast(QHostAddress(ui->scanningAddressText->text()), interfaces.at(ui->interfacesBox->currentIndex()),
+    scanner.initIPv6Multicast(QHostAddress(ui->scanningAddressText->text()),
+                              interfaces.at(ui->interfacesBox->currentIndex()),
                               ui->scanningPortText->text().toInt(), ui->responsePortText->text().toInt());
 
-    connect (&scanner, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
-    connect (&scanner, SIGNAL(sendAddress(QHostAddress, QString)), this, SLOT(on_sendAddress(QHostAddress, QString)));
+    connect (&scanner, &NetworkScanner::sendLog, this, &MainWindow::on_sendLog);
+    connect (&scanner, &NetworkScanner::sendAddress, this, &MainWindow::on_sendAddress);
 
     clientT = new NetworkTransmitter(40001);
     serverT = new NetworkTransmitter(40000);
 
-    connect (clientT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
-    connect (serverT, SIGNAL(sendLog(QString)), this, SLOT(on_sendLog(QString)));
+    connect (clientT, &NetworkTransmitter::sendLog, this, &MainWindow::on_sendLog);
+    connect (serverT, &NetworkTransmitter::sendLog, this, &MainWindow::on_sendLog);
 
     clientT->connectToHost(QHostAddress("127.0.0.1"), 40000);
 
-    connect(serverT, SIGNAL(sendDataReceived(QByteArray,QHostAddress,int)), this, SLOT(on_dataReceived(QByteArray,QHostAddress,int)));
+    connect(serverT, &NetworkTransmitter::sendDataReceived, this, &MainWindow::on_dataReceived);
 }
 
 void MainWindow::on_sendLog(QString data)
@@ -80,10 +81,7 @@ void MainWindow::on_sendButton_clicked()
     QString ip = ui->nodeList->selectedItems()[1]->text();
     QHostAddress host(ip);
 
-    QFile f("D:/music/DevilDriver - Knee Deep.mp3");
-    f.open(QIODevice::ReadOnly);
-    clientT->sendData(f.readAll(), host, 40000);
-    f.close();
+    clientT->sendData(ui->sendText->text().toUtf8(), host, 40000);
 }
 
 void MainWindow::log(QString text)
@@ -100,7 +98,8 @@ void MainWindow::on_saveButton_clicked()
     }
 
     if (ui->ipv6Button->isChecked())
-        scanner.initIPv6Multicast(QHostAddress(ui->scanningAddressText->text()), interfaces.at(ui->interfacesBox->currentIndex()),
+        scanner.initIPv6Multicast(QHostAddress(ui->scanningAddressText->text()),
+                                  interfaces.at(ui->interfacesBox->currentIndex()),
                                   ui->scanningPortText->text().toInt(), ui->responsePortText->text().toInt());
     else
         try
@@ -116,11 +115,6 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::on_dataReceived(QByteArray data, QHostAddress address, int port)
 {
-    log (QString("Receiving data from %1:%2...").arg(address.toString(), port));
-
-    QFile f ("D:/1.mp3");
-    f.open(QIODevice::WriteOnly);
-    f.write(data.data(), data.size());
-    f.close();
-   // log(QString("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
+    log(QString("Receiving data from %1:%2...").arg(address.toString(), port));
+    log(QString("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
 }

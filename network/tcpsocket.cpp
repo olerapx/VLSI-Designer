@@ -6,8 +6,8 @@ TcpSocket::TcpSocket(QTcpSocket *socket)
 
     blockSize = 0;
 
-    connect (socket, SIGNAL(readyRead()), this, SLOT(on_readyRead()));
-    connect (socket, SIGNAL(disconnected()), this, SLOT(on_disconnected()));
+    connect (socket, &QTcpSocket::readyRead, this, &TcpSocket::on_readyRead);
+    connect (socket, &QTcpSocket::disconnected, this, &TcpSocket::on_disconnected);
 }
 
 void TcpSocket::on_readyRead()
@@ -36,8 +36,8 @@ void TcpSocket::on_readyRead()
 
 void TcpSocket::on_disconnected()
 {
-    disconnect (socket, SIGNAL(readyRead()), this, SLOT(on_readyRead()));
-    disconnect (socket, SIGNAL(disconnected()), this, SLOT(on_disconnected()));
+    connect (socket, &QTcpSocket::readyRead, this, &TcpSocket::on_readyRead);
+    connect (socket, &QTcpSocket::disconnected, this, &TcpSocket::on_disconnected);
 
     sendDisconnected(this);
 }

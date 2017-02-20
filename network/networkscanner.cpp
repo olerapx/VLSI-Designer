@@ -10,7 +10,8 @@ NetworkScanner::~NetworkScanner()
     if (mode != None) deleteSockets();
 }
 
-void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface, int scanningPort, int responsePort)
+void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface,
+                                       int scanningPort, int responsePort)
 {
     stopScanning();
 
@@ -22,10 +23,12 @@ void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInt
     initScanningSockets();
 
     scanningUpstreamSocket->bind();
-    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort,
+                                        QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
 
-    if (!responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+    if (!responseDownstreamSocket->bind(this->responsePort,
+                                        QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
 
     scanningUpstreamSocket->setMulticastInterface(this->interface);
@@ -52,10 +55,12 @@ void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanning
 
     scanningUpstreamSocket->bind();
 
-    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort,
+                                        QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
 
-    if (!responseDownstreamSocket->bind(this->responsePort, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+    if (!responseDownstreamSocket->bind(this->responsePort,
+                                        QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
 
     mode = IPv4;
@@ -83,8 +88,8 @@ void NetworkScanner::initScanningSockets()
     scanningDownstreamSocket = new QUdpSocket(this);
     responseDownstreamSocket = new QUdpSocket(this);
 
-    connect(scanningDownstreamSocket, SIGNAL(readyRead()), this, SLOT(processScanningDatagrams()));
-    connect(responseDownstreamSocket, SIGNAL(readyRead()), this, SLOT(processResponseDatagrams()));
+    connect(scanningDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processScanningDatagrams);
+    connect(responseDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processResponseDatagrams);
 }
 
 void NetworkScanner::deleteSockets()
@@ -93,8 +98,8 @@ void NetworkScanner::deleteSockets()
     scanningDownstreamSocket->close();
     responseDownstreamSocket->close();
 
-    disconnect(scanningDownstreamSocket, SIGNAL(readyRead()), this, SLOT(processScanningDatagrams()));
-    disconnect(responseDownstreamSocket, SIGNAL(readyRead()), this, SLOT(processResponseDatagrams()));
+    disconnect(scanningDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processScanningDatagrams);
+    disconnect(responseDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processResponseDatagrams);
 
     delete scanningUpstreamSocket;
     delete scanningDownstreamSocket;

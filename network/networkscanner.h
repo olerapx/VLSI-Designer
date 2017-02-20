@@ -18,6 +18,15 @@ enum Mode
 
 /**
  * @brief Scans for hosts in a given network using IPv4 broadcast or IPv6 multicast requests.
+ *
+ * This class represents a UDP listener and transciever and is used to obtain all active hosts in a given network.
+ * All hosts' scanners should be initialized identically to the server's scanner.
+ * In order to use the scanner, you should call initIPv6Multicast() or initIPv4Broadcast() to initialize it.
+ * After that, you can call scanNetwork() to start scanning. The scanner will send an authorization request with
+ * a randomly generated UUID to a chosen network and will be awaiting for responses until stopScanning() is called.
+ * Each initialized scanner will constantly listen to a given scanning port. When an auth request is read, it will
+ * send a response to a specified response port.
+ * Each response will be classified as a new host by the server.
  */
 class NetworkScanner: public QObject
 {
@@ -37,6 +46,12 @@ public:
 
 signals:
     void sendLog (QString data);
+
+    /**
+     * @brief Emits when a new host is discovered.
+     * @param senderHost - an address and port.
+     * @param hostName - a human readable name.
+     */
     void sendAddress(QHostAddress senderHost, QString hostName);
 
 private:
