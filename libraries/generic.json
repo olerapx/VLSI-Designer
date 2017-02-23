@@ -1,0 +1,150 @@
+/*
+	The generic stantard cell library.
+	
+	library fields:
+	- id: unique id
+	- version: library version represented by a double value
+	- name: human-readable name
+	- cells: array
+
+	cell fields:
+	- id: unique id. All cell ids in a given library must be unique.
+	- name: human-readable name
+	- model: human-readable model
+	- width
+	- height
+	- pins: array
+
+	pin fields:
+	- id: unique id. All pin ids in a given cell must be unique.
+	- x: x-coodrinate of the pin. (0,0) is the top-left corner.
+	- y: y-coordinate of the pin
+	- type: input or output
+*/
+
+{"library": {
+	"id": "generic",
+	"version": 0.1,
+	"name": "Generic Standard Cell Library",
+	"cells": [
+	{
+		"id": "an2", 
+		"name": "2-I/P AND gate", 
+		"model": "Generic", 
+		"height": 4, 
+		"width": 2, 
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "an3",
+		"name": "3-I/P AND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "an4",
+		"name": "4-I/P AND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "d", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "aoi112",
+		"name": "2-AND into 3-NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "c2", "x": 0, "y": 2, "type": "input"},
+			{"id": "c1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 0, "type": "output"},
+			{"id": "b", "x": 1, "y": 1, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi21",
+		"name": "2-AND into 2-NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "b", "x": 1, "y": 2, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi21a2",
+		"name": "2-AND with one inverted input into 2-NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 0, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 2, "type": "output"},
+			{"id": "b", "x": 1, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi21a2b",
+		"name": "2-AND with one inverted input into 2-NOR with inverted input gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 0, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 2, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi21b",
+		"name": "2-AND into 2-NOR with inverted input gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 2, "type": "output"},
+			{"id": "b", "x": 1, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi211",
+		"name": "2-AND into 3-NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "b", "x": 0, "y": 0, "type": "input"},
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "c", "x": 1, "y": 2, "type": "input"}
+		]
+	},
+	]
+}}
