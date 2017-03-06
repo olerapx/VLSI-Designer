@@ -1,0 +1,52 @@
+/*
+	The grid or grid part example.
+
+	grid fields:
+	- cells: 2D array of cells
+	- routed-wires: array of routed wires' ids on this grid
+	- initial-level: client's initial level
+
+	cell fields:
+	- type: cell type. Can be: 
+		- empty 
+		- pin
+		- element
+		- UD: vertical wire (up-down)
+		- LR: horizontal wire (left-right)
+		- UL, UR, DL, DR: corner wires
+		- UDL, UDR, LRU, LRD: crossing corner wires
+		- UDLR: crossing wires
+	- index: only if type is element or pin
+	- pin-id: only if type is pin
+*/
+
+{"grid": {
+	"cells": [
+		[
+			{"type": "empty"},
+		 	{"type": "element", "index": 0},
+		 	{"type": "pin", "index": 0, "pin-id": "z"},
+		 	{"type": "empty"}
+		], 
+		[
+			{"type": "empty"}, 
+			{"type": "DR"}, 
+			{"type": "UDL"}, 
+			{"type": "empty"}
+		], 
+		[
+			{"type": "empty"}, 
+			{"type": "UD"}, 
+			{"type": "pin", "index": 1, "pin-id": "a1"}, 
+			{"type": "element", "index": 1}
+		],
+		[
+			{"type": "empty"}, 
+			{"type": "UR"}, 
+			{"type": "pin", "index": 1, "pin-id": "a2"}, 
+			{"type": "element", "index": 1}
+		]
+	],
+	"routed-wires": [0, 1],
+	"initial-level": 1
+}}

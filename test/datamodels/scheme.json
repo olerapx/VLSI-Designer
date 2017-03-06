@@ -1,0 +1,33 @@
+/*
+	The generated scheme example.
+
+	scheme fields:
+	- elements: array of elements
+	- wires: array of connections
+
+	element fields:
+	- library-id: id of a library the element belongs to
+	- element-id: id of the element in the library
+	- index: an ordinal representing the element's index
+
+	wire fields:
+	- src_index: source element's index
+	- src_pin_id: source pin's id
+	- dest_index: destination element's index
+	- dest_pin_id: destination pin's id
+	- type: inner or outer
+	- index: an ordinal representing the wire's index
+*/
+
+{"scheme": {
+	"elements": [
+		{"library-id": "generic", "element-id": "an2", "index": 0},
+		{"library-id": "generic", "element-id": "an2", "index": 1},
+		{"library-id": "generic", "element-id": "aoi21", "index": 2}
+	],
+	"wires": [
+		{"src_index": 0, "src_pin_id": "z", "dest_index": 1, "dest_pin_id": "a", "type": "inner", "index": 0},
+		{"src_index": 0, "src_pin_id": "z", "dest_index": 2, "dest_pin_id": "a2", "type": "outer", "index": 1},
+		{"src_index": 1, "src_pin_id": "a", "dest_index": 1, "dest_pin_id": "b", "type": "inner", "index": 2}
+	]
+}}
