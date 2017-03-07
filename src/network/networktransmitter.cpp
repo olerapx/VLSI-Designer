@@ -6,7 +6,10 @@ NetworkTransmitter::NetworkTransmitter(int serverPort)
     connect (server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
 
     if (!server->listen(QHostAddress::Any, serverPort))
+    {
+        delete server;
         throw NetworkException (QString("Cannot listen to port %1.").arg(serverPort));
+    }
 }
 
 NetworkTransmitter::~NetworkTransmitter()
