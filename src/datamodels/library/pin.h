@@ -3,15 +3,15 @@
 
 #include "src/datamodels/serializable.h"
 
-enum PinType
+enum class PinType
 {
-    Inner,
-    Outer
+    Input,
+    Output,
 };
 
 /**
  * @brief The Pin class
- * Represents a scheme element's pin.
+ * Represents a library element pin.
  */
 class Pin : public Serializable
 {
