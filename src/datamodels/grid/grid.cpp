@@ -11,6 +11,7 @@ Grid::~Grid()
     {
         foreach (Cell* cell, list)
             delete cell;
+
         list.clear();
     }
     cells.clear();

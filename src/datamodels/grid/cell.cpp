@@ -9,19 +9,24 @@ void Cell::setType (CellType type, qint64 index, QString pinId)
 {
     setType(type);
 
-    if (type != CellType::Element && index == 0)
-        throw IllegalArgumentException ("Cant create element cell without index");
-    if (type != CellType::Pin && pinId == "")
-        throw IllegalArgumentException ("Cant create pin cell without pinId");
-
     if (type == CellType::Element)
     {
+        if (index == 0)
+            throw IllegalArgumentException ("Cant create element cell without index");
+
         setIndex(index);
+
+        return;
     }
-    else if (type == CellType::Pin)
+    if (type == CellType::Pin)
     {
+        if (pinId == "")
+            throw IllegalArgumentException ("Cant create pin cell without pinId");
+
         setIndex(index);
         setPinId(pinId);
+
+        return;
     }
 }
 
