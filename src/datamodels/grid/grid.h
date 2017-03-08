@@ -6,6 +6,7 @@
 
 /**
  * @brief The Grid class
+ * Note that an instance of this class will delete all contained cells in destructor.
  */
 class Grid: public Serializable
 {
@@ -16,6 +17,7 @@ protected:
 
 public:
     Grid(int initialLevel);
+    ~Grid();
 
     void setInitialLevel(int initialLevel);
 
