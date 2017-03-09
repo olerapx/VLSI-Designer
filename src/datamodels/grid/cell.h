@@ -9,23 +9,23 @@ enum class CellType
     Empty,
     Pin,
     Element,
-    UD,
-    LR,
-    UL, UR, DL, DR,
-    UDL, UDR, LRU, LRD,
-    UDLR
+    UD, /// Vertical wire.
+    LR, /// Horizontal wire.
+    UL, UR, DL, DR, /// Corner wires.
+    UDL, UDR, LRU, LRD, /// Crossing corner wires.
+    UDLR /// Crossing wires.
 };
 
 /**
  * @brief The Cell class
- * Represents a grid cell.
+ * Represents a grid's cell.
  */
 class Cell: public Serializable
 {
 protected:
     CellType type;
-    qint64 index;
-    QString pinId;
+    qint64 index; /// Applies only on an element or a pin.
+    QString pinId; /// Applies only on a pin cell.
 
 public:
     Cell (CellType type, qint64 index = 0, QString pinId = "");
@@ -34,9 +34,9 @@ public:
     void setIndex (qint64 index);
     void setPinId (QString pinId);
 
-    CellType getType() {return this->type;}
-    qint64 getIndex() {return this->index;}
-    QString getPinId() {return this->pinId;}
+    CellType getType() {return type;}
+    qint64 getIndex() {return index;}
+    QString getPinId() {return pinId;}
 };
 
 #endif // CELL_H

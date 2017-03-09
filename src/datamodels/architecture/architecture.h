@@ -19,16 +19,16 @@ enum class DistributionType
 class Architecture: public Serializable
 {
 protected:
-    QList<int> model;
-    DistributionType type;
+    QList<int> model; /// Array of each server's clients number on each level start from 1.
+    DistributionType type; /// Type of distribution algorithm.
 
 public:
     Architecture(DistributionType type);
 
     void setDistributionType (DistributionType type);
 
-    QList<int>& getModel() {return this->model;}
-    DistributionType getDistributionType() {return this->type;}
+    QList<int>& getModel() {return model;}
+    DistributionType getDistributionType() {return type;}
 };
 
 #endif // ARCHITECTURE_H

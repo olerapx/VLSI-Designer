@@ -6,7 +6,7 @@
 enum class PinType
 {
     Input,
-    Output,
+    Output
 };
 
 /**
@@ -16,8 +16,8 @@ enum class PinType
 class Pin : public Serializable
 {
 protected:
-    QString id;
-    int x, y;
+    QString id; /// Should be unique across the given element.
+    int x, y; /// Coordinates of a pin. (0,0) is the top-left corner and x is horizontal axis.
     PinType type;
 
 public:

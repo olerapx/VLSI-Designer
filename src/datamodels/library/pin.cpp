@@ -2,10 +2,10 @@
 
 Pin::Pin(QString id, int x, int y, PinType type)
 {
-    setId (id);
-    setX (x);
-    setY (y);
-    setType (type);
+    setId(id);
+    setX(x);
+    setY(y);
+    setType(type);
 }
 
 void Pin::setId (QString id)

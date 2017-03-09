@@ -12,7 +12,7 @@
 class Element : public Serializable
 {
 protected:
-    QString id;
+    QString id; /// Should be unique across the given library.
     QString name, model;
     int height, width;
     QList <Pin*> pins;
@@ -27,12 +27,12 @@ public:
     void setHeight (int height);
     void setWidth (int width);
 
-    QString getId() {return this->id;}
-    QString getName() {return this->name;}
-    QString getModel() {return this->model;}
-    int getHeight() {return this->height;}
-    int getWidth() {return this->width;}
-    QList <Pin*>& getPins() {return this->pins;}
+    QString getId() {return id;}
+    QString getName() {return name;}
+    QString getModel() {return model;}
+    int getHeight() {return height;}
+    int getWidth() {return width;}
+    QList <Pin*>& getPins() {return pins;}
 };
 
 #endif // ELEMENT_H

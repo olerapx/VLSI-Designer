@@ -39,14 +39,14 @@ public:
     void setIndex(qint64 index);
 
 
-    qint64 getSrcIndex() {return this->srcIndex;}
-    QString getSrcPinId() {return this->srcPinId;}
+    qint64 getSrcIndex() {return srcIndex;}
+    QString getSrcPinId() {return srcPinId;}
 
-    qint64 getDestIndex() {return this->destIndex;}
-    QString getDestPinId() {return this->destPinId;}
+    qint64 getDestIndex() {return destIndex;}
+    QString getDestPinId() {return destPinId;}
 
-    WireType getType() {return this->type;}
-    qint64 getIndex() {return this->index;}
+    WireType getType() {return type;}
+    qint64 getIndex() {return index;}
 };
 
 #endif // WIRE_H

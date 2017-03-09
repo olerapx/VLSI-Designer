@@ -1,11 +1,3 @@
-/*
-	The used architecture example.
-
-	architecture fields:
-	- model: array of each server's clients number on each level start from 1
-	- distribution-type: type of distribution algorithm. Can be default or greedy.
-*/
-
 {"architecture": {
 	"model": [2, 3, 2],
 	"distribution-type": "greedy"

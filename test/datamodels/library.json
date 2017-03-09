@@ -1,27 +1,3 @@
-/*
-	The library example.
-	
-	library fields:
-	- id: unique id
-	- version: library version represented by a double value
-	- name: human-readable name
-	- elements: array
-
-	element fields:
-	- id: unique id. All element ids in a given library must be unique.
-	- name: human-readable name
-	- model: human-readable model
-	- width: an int value
-	- height: an int value
-	- pins: array
-
-	pin fields:
-	- id: unique id. All pin ids in a given element must be unique.
-	- x: x-coodrinate of the pin. (0,0) is the top-left corner, x is horizontal axis.
-	- y: y-coordinate of the pin
-	- type: input or output
-*/
-
 {"library": {
 	"id": "generic",
 	"version": 0.1,

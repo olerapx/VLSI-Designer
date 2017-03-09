@@ -28,7 +28,8 @@ SOURCES += src/main.cpp\
     src/datamodels/grid/cell.cpp \
     src/datamodels/architecture/architecture.cpp \
     src/exception/exception.cpp \
-    src/exception/illegalargumentexception.cpp
+    src/exception/illegalargumentexception.cpp \
+    src/util/jsonserializer.cpp
 
 HEADERS  += \
     src/gui/mainwindow.h \
@@ -47,6 +48,7 @@ HEADERS  += \
     src/datamodels/grid/cell.h \
     src/datamodels/architecture/architecture.h \
     src/exception/exception.h \
-    src/exception/illegalargumentexception.h
+    src/exception/illegalargumentexception.h \
+    src/util/jsonserializer.h
 
 FORMS    += src/gui/mainwindow.ui

@@ -22,9 +22,9 @@ public:
     void setElementId(QString elementId);
     void setIndex(qint64 index);
 
-    QString getLibraryId() {return this->libraryId;}
-    QString getElementId() {return this->elementId;}
-    qint64 getIndex() {return this->index;}
+    QString getLibraryId() {return libraryId;}
+    QString getElementId() {return elementId;}
+    qint64 getIndex() {return index;}
 };
 
 #endif // SCHEMEELEMENT_H

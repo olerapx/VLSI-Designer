@@ -7,7 +7,7 @@ Cell::Cell(CellType type, qint64 index, QString pinId)
 
 void Cell::setType (CellType type, qint64 index, QString pinId)
 {
-    setType(type);
+    this->type = type;
 
     if (type == CellType::Element)
     {

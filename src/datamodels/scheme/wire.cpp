@@ -4,8 +4,10 @@ Wire::Wire(int srcIndex, QString srcPinId, int destIndex, QString destPinId, Wir
 {
     setSrcIndex(srcIndex);
     setSrcPinId(srcPinId);
+
     setDestIndex(destIndex);
     setDestPinId(destPinId);
+
     setType(type);
     setIndex(index);
 }
