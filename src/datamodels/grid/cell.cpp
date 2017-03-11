@@ -11,7 +11,7 @@ void Cell::setType (CellType type, qint64 index, QString pinId)
 
     if (type == CellType::Element)
     {
-        if (index == 0)
+        if (index == -1)
             throw IllegalArgumentException ("Cant create element cell without index");
 
         setIndex(index);

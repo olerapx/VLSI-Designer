@@ -27,7 +27,7 @@ protected:
     qint64 index;
 
 public:
-    Wire(int srcIndex, QString srcPinId, int destIndex, QString destPinId, WireType type, int index);
+    Wire(qint64 srcIndex, QString srcPinId, qint64 destIndex, QString destPinId, WireType type, qint64 index);
 
     void setSrcIndex(qint64 srcIndex);
     void setSrcPinId(QString srcPinId);

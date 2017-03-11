@@ -28,9 +28,9 @@ protected:
     QString pinId; /// Applies only on a pin cell.
 
 public:
-    Cell (CellType type, qint64 index = 0, QString pinId = "");
+    Cell (CellType type, qint64 index = -1, QString pinId = "");
 
-    void setType (CellType type, qint64 index = 0, QString pinId = "");
+    void setType (CellType type, qint64 index = -1, QString pinId = "");
     void setIndex (qint64 index);
     void setPinId (QString pinId);
 

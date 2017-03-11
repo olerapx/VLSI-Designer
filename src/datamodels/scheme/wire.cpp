@@ -1,6 +1,6 @@
 #include "wire.h"
 
-Wire::Wire(int srcIndex, QString srcPinId, int destIndex, QString destPinId, WireType type, int index)
+Wire::Wire(qint64 srcIndex, QString srcPinId, qint64 destIndex, QString destPinId, WireType type, qint64 index)
 {
     setSrcIndex(srcIndex);
     setSrcPinId(srcPinId);
