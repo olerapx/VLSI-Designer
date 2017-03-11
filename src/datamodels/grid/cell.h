@@ -1,8 +1,8 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "datamodels/serializable.h"
-#include "exception/illegalargumentexception.h"
+#include "src/datamodels/serializable.h"
+#include "src/exception/illegalargumentexception.h"
 
 enum class CellType
 {

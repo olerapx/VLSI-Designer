@@ -1,7 +1,7 @@
 #ifndef PIN_H
 #define PIN_H
 
-#include "datamodels/serializable.h"
+#include "src/datamodels/serializable.h"
 
 enum class PinType
 {

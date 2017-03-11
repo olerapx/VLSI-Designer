@@ -1,7 +1,7 @@
 #ifndef NETWORKEXCEPTION_H
 #define NETWORKEXCEPTION_H
 
-#include "exception/exception.h"
+#include "src/exception/exception.h"
 
 /**
  * @brief The NetworkException class
