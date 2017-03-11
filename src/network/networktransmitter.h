@@ -6,7 +6,7 @@
 #include <QThread>
 #include <QDataStream>
 
-#include "src/network/networkexception.h"
+#include "network/networkexception.h"
 #include "tcpsocket.h"
 
 /**

@@ -5,10 +5,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "src/datamodels/architecture/architecture.h"
-#include "src/datamodels/grid/grid.h"
-#include "src/datamodels/library/library.h"
-#include "src/datamodels/scheme/scheme.h"
+#include "datamodels/architecture/architecture.h"
+#include "datamodels/grid/grid.h"
+#include "datamodels/library/library.h"
+#include "datamodels/scheme/scheme.h"
 
 /**
  * @brief The JsonSerializer class
