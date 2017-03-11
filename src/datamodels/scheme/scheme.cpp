@@ -7,11 +7,11 @@ Scheme::Scheme()
 
 Scheme::~Scheme()
 {
-    foreach(SchemeElement* element, elements)
+    for(SchemeElement* element: elements)
         delete element;
     elements.clear();
 
-    foreach(Wire* wire, wires)
+    for(Wire* wire: wires)
         delete wire;
     wires.clear();
 }

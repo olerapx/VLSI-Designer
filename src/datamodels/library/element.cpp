@@ -12,7 +12,7 @@ Element::Element(QString id, int height, int width)
 
 Element::~Element()
 {
-    foreach (Pin* pin, pins)
+    for (Pin* pin: pins)
         delete pin;
     pins.clear();
 }

@@ -87,7 +87,7 @@ void NetworkTransmitter::disconnectFromHost (QHostAddress address, int port)
 
 TcpSocket* NetworkTransmitter::findSocket(QHostAddress address, int port)
 {
-    foreach (TcpSocket* socket, sockets)
+    for (TcpSocket* socket: sockets)
     {
         QTcpSocket* qsocket = socket->getSocket();
         if (qsocket->peerAddress() == address && qsocket->peerPort() == port)

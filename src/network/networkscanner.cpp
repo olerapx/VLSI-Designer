@@ -70,7 +70,7 @@ QHostAddress NetworkScanner::findAnyBroadcastAddress()
 {
     QList<QNetworkAddressEntry> nets = interface.addressEntries();
 
-    foreach(QNetworkAddressEntry entry, nets)
+    for(QNetworkAddressEntry entry: nets)
     {
         if (!entry.broadcast().isNull())
             return entry.broadcast();

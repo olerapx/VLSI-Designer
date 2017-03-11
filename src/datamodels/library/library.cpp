@@ -10,7 +10,7 @@ Library::Library(QString id, double version)
 
 Library::~Library()
 {
-    foreach (Element* element, elements)
+    for (Element* element: elements)
         delete element;
     elements.clear();
 }

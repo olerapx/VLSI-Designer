@@ -47,7 +47,7 @@ void MainWindow::on_sendAddress(QHostAddress senderHost, QString hostName)
 void MainWindow::showNetworkInterfaces()
 {
     ui->interfacesBox->clear();
-    foreach (QNetworkInterface i, interfaces)
+    for (QNetworkInterface i: interfaces)
     {
         ui->interfacesBox->addItem(i.humanReadableName());
     }

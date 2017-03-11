@@ -29,7 +29,7 @@ Library JsonSerializer::deserializeLibrary (QJsonObject obj)
     library.setName(obj.value("name").toString());
 
     QJsonArray elements = obj.value("elements").toArray();
-    foreach(QJsonValue val, elements)
+    for(QJsonValue val: elements)
         library.getElements().append(deserializeElement(val.toObject()));
 
     return library;
@@ -47,7 +47,7 @@ Element* JsonSerializer::deserializeElement (QJsonObject obj)
     element->setModel(obj.value("model").toString());
 
     QJsonArray pins = obj.value("pins").toArray();
-    foreach (QJsonValue val, pins)
+    for (QJsonValue val: pins)
         element->getPins().append(deserializePin(val.toObject()));
 
     return element;

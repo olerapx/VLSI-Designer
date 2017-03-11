@@ -7,9 +7,9 @@ Grid::Grid(int initialLevel)
 
 Grid::~Grid()
 {
-    foreach(QList<Cell*> list, cells)
+    for(QList<Cell*> list: cells)
     {
-        foreach (Cell* cell, list)
+        for (Cell* cell: list)
             delete cell;
 
         list.clear();
