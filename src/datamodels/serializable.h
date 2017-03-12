@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "src/exception/illegalargumentexception.h"
+#include "exception/illegalargumentexception.h"
 
 /**
  * @brief The Serializable class

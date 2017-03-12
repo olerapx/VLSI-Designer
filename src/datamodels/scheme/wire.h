@@ -1,8 +1,8 @@
 #ifndef WIRE_H
 #define WIRE_H
 
-#include "src/datamodels/serializable.h"
-#include "src/exception/illegalargumentexception.h"
+#include "datamodels/serializable.h"
+#include "exception/illegalargumentexception.h"
 
 enum class WireType
 {

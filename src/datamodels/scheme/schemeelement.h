@@ -1,8 +1,8 @@
 #ifndef SCHEMEELEMENT_H
 #define SCHEMEELEMENT_H
 
-#include "src/datamodels/serializable.h"
-#include "src/exception/illegalargumentexception.h"
+#include "datamodels/serializable.h"
+#include "exception/illegalargumentexception.h"
 
 /**
  * @brief The SchemeElement class

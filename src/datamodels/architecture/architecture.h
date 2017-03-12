@@ -3,8 +3,8 @@
 
 #include <QList>
 
-#include "src/datamodels/serializable.h"
-#include "src/exception/illegalargumentexception.h"
+#include "datamodels/serializable.h"
+#include "exception/illegalargumentexception.h"
 
 enum class DistributionType
 {

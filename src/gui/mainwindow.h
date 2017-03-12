@@ -6,8 +6,8 @@
 #include <QNetworkAddressEntry>
 #include <QMessageBox>
 
-#include "src/network/networkscanner.h"
-#include "src/network/networktransmitter.h"
+#include "network/networkscanner.h"
+#include "network/networktransmitter.h"
 
 namespace Ui
 {
