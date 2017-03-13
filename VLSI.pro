@@ -6,4 +6,3 @@ CONFIG(debug, debug|release) {
     SUBDIRS += tests
     tests.depends = src
 }
-
