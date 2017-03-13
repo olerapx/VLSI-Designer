@@ -1,0 +1,30 @@
+{"grid": {
+	"cells": [
+		[
+			{"type": "empty"},
+		 	{"type": "element2242", "index": "0"},
+		 	{"type": "pin", "index": "0", "pin-id": "z"},
+		 	{"type": "empty"}
+		], 
+		[
+			{"type": "empty"}, 
+			{"type": "DR"}, 
+			{"type": "UDL"}, 
+			{"type": "empty"}
+		], 
+		[
+			{"type": "empty"}, 
+			{"type": "UD"}, 
+			{"type": "pin", "index": "1", "pin-id": "a1"}, 
+			{"type": "element", "index": "1"}
+		],
+		[
+			{"type": "empty"}, 
+			{"type": "UR"}, 
+			{"type": "pin", "index": "1", "pin-id": "a2"}, 
+			{"type": "element", "index": "1"}
+		]
+	],
+	"routed-wires": ["0", "1"],
+	"initial-level": 1
+}}

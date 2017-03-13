@@ -1,0 +1,19 @@
+{"library": {
+	"id": "generic",
+	"version": 0.1,
+	"name": "Generic Standard Element Library",
+	"elements": [
+	{
+		"id": "an2", 
+		"name": "2-I/P AND gate", 
+		"model": "Generic", 
+		"height": 4, 
+		"width": 2, 
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "dummy"},
+			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	}
+	]
+}}
