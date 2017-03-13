@@ -1,8 +1,7 @@
-
 TEMPLATE = subdirs
 
 SUBDIRS += util
-copydata.commands = $(COPY_DIR) $$PWD/datamodels $$OUT_PWD
+copydata.commands = $(COPY_DIR) $$shell_path($$PWD/datamodels) $$shell_path($$OUT_PWD/datamodels)
 first.depends = $(first) copydata
 export(first.depends)
 export(copydata.commands)

@@ -1,3 +1,5 @@
+CONFIG -= debug_and_release debug_and_release_target
+
 QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
