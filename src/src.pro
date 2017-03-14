@@ -4,10 +4,27 @@
 #
 #-------------------------------------------------
 
-TARGET = VLSI
-TEMPLATE = app
+TARGET = vlsi
+TEMPLATE = lib
 
 INCLUDEPATH += $$PWD
 include (src.pri)
 
-SOURCES += main.cpp
+SOURCES += \
+    network/networkscanner.cpp \
+    network/networkexception.cpp \
+    network/networktransmitter.cpp \
+    network/tcpsocket.cpp \
+    datamodels/serializable.cpp \
+    datamodels/library/pin.cpp \
+    datamodels/library/element.cpp \
+    datamodels/library/library.cpp \
+    datamodels/scheme/schemeelement.cpp \
+    datamodels/scheme/wire.cpp \
+    datamodels/scheme/scheme.cpp \
+    datamodels/grid/grid.cpp \
+    datamodels/grid/cell.cpp \
+    datamodels/architecture/architecture.cpp \
+    exception/exception.cpp \
+    exception/illegalargumentexception.cpp \
+    util/jsonserializer.cpp

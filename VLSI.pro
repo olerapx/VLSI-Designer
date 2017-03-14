@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += src
+CONFIG += ordered
+SUBDIRS += src app
 
 CONFIG(debug, debug|release) {
     SUBDIRS += tests
