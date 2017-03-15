@@ -1,6 +1,7 @@
 #ifndef JSONSERIALIZER_H
 #define JSONSERIALIZER_H
 
+#include <typeinfo>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -54,6 +55,15 @@ static QMap<QString, CellType> cellTypeMap
 class JsonSerializer
 {
 protected:
+    QByteArray serializeLibrary(Library* l);
+    QJsonObject serializeElement(Element* el);
+    QJsonObject serializePin(Pin* p);
+
+    QByteArray serializeScheme(Scheme* s);
+    QJsonObject serializeSchemeElement(SchemeElement* el);
+    QJsonObject serializeWire(Wire* w);
+
+
     Library* deserializeLibrary (QJsonObject obj);
     Element* deserializeElement (QJsonObject obj);
     Pin* deserializePin (QJsonObject obj);
@@ -70,6 +80,7 @@ protected:
 public:
     JsonSerializer();
 
+    QByteArray serialize(Serializable* s);
     Serializable* deserialize (QByteArray jsonData);
 };
 

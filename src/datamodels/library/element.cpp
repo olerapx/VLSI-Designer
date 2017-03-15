@@ -36,14 +36,14 @@ void Element::setModel (QString model)
 
 void Element::setHeight (int height)
 {
-    if (height < 0)
-        throw IllegalArgumentException("Element height cannot be negative");
+    if (height <= 0)
+        throw IllegalArgumentException("Element height must be positive");
     this->height = height;
 }
 
 void Element::setWidth (int width)
 {
-    if (width < 0)
-        throw IllegalArgumentException ("Element width cannot be negative");
+    if (width <= 0)
+        throw IllegalArgumentException ("Element width must be positive");
     this->width = width;
 }

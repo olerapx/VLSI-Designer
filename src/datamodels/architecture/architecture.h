@@ -24,6 +24,7 @@ protected:
 
 public:
     Architecture(DistributionType type);
+    virtual ~Architecture(){}
 
     void setDistributionType (DistributionType type);
 

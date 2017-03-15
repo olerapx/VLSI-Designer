@@ -29,6 +29,7 @@ protected:
 
 public:
     Cell (CellType type, qint64 index = -1, QString pinId = "");
+    virtual ~Cell() {}
 
     void setType (CellType type, qint64 index = -1, QString pinId = "");
     void setIndex (qint64 index);

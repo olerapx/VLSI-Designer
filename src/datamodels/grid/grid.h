@@ -17,7 +17,7 @@ protected:
 
 public:
     Grid(int initialLevel);
-    ~Grid();
+    virtual ~Grid();
 
     void setInitialLevel(int initialLevel);
 

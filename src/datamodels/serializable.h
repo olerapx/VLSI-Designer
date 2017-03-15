@@ -13,6 +13,8 @@ class Serializable
 {
 public:
     Serializable();
+
+    virtual void foo(){}
 };
 
 #endif // SERIALIZABLE_H

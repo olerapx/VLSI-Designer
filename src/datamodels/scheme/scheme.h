@@ -19,7 +19,7 @@ protected:
 
 public:
     Scheme();
-    ~Scheme();
+    virtual ~Scheme();
 
     QList<SchemeElement*>& getElements() {return elements;}
     QList<Wire*>& getWires() {return wires;}

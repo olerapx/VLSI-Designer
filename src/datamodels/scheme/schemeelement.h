@@ -17,6 +17,7 @@ protected:
 
 public:
     SchemeElement(QString libraryId, QString elementId, qint64 index);
+    virtual ~SchemeElement(){}
 
     void setLibraryId(QString libraryId);
     void setElementId(QString elementId);

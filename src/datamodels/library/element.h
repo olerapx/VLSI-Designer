@@ -19,7 +19,7 @@ protected:
 
 public:
     Element(QString id, int height, int width);
-    ~Element();
+    virtual ~Element();
 
     void setId (QString id);
     void setName (QString name);

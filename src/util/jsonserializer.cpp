@@ -5,6 +5,118 @@ JsonSerializer::JsonSerializer()
 
 }
 
+QByteArray JsonSerializer::serialize(Serializable* s)
+{
+    const std::type_info& info = typeid(*s);
+    if (info == typeid(Library))
+        return serializeLibrary(static_cast<Library*>(s));
+    else if (info == typeid(Scheme))
+        return serializeScheme(static_cast<Scheme*>(s));
+    else
+        throw IllegalArgumentException(QString("This type is not supported: %1").arg(typeid(*s).name()));
+}
+
+QByteArray JsonSerializer::serializeLibrary(Library* l)
+{
+    QJsonObject json;
+
+    json["id"] = l->getId();
+    json["version"] = l->getVersion();
+    json["name"] = l->getName();
+
+    QJsonArray elements;
+    for(Element* el: l->getElements())
+        elements.append(serializeElement(el));
+    json["elements"] = elements;
+
+    QJsonObject res;
+    res["library"] = json;
+
+    QJsonDocument doc(res);
+    return doc.toJson();
+}
+
+QJsonObject JsonSerializer::serializeElement(Element* el)
+{
+    QJsonObject json;
+
+    json["id"] = el->getId();
+    json["name"] = el->getName();
+    json["model"] = el->getModel();
+    json["height"] = el->getHeight();
+    json["width"] = el->getWidth();
+
+    QJsonArray pins;
+    for(Pin* pin: el->getPins())
+        pins.append(serializePin(pin));
+
+    json["pins"] = pins;
+
+    return json;
+}
+
+QJsonObject JsonSerializer::serializePin(Pin* p)
+{
+    QJsonObject json;
+
+    json["id"] = p->getId();
+    json["x"] = p->getX();
+    json["y"] = p->getY();
+    QString type = pinTypeMap.key(p->getType());
+    json["type"] = type;
+
+    return json;
+}
+
+QByteArray JsonSerializer::serializeScheme(Scheme* s)
+{
+    QJsonObject json;
+
+    QJsonArray elements, wires;
+
+    for(SchemeElement* el: s->getElements())
+        elements.append(serializeSchemeElement(el));
+
+    for(Wire* w: s->getWires())
+        wires.append(serializeWire(w));
+
+    json["elements"] = elements;
+    json["wires"] = wires;
+
+    QJsonObject res;
+    res["scheme"] = json;
+
+    QJsonDocument doc(res);
+    return doc.toJson();
+}
+
+QJsonObject JsonSerializer::serializeSchemeElement(SchemeElement* el)
+{
+    QJsonObject json;
+
+    json["library-id"] = el->getLibraryId();
+    json["element-id"] = el->getElementId();
+    json["index"] = QString::number(el->getIndex());
+
+    return json;
+}
+
+QJsonObject JsonSerializer::serializeWire(Wire* w)
+{
+    QJsonObject json;
+
+    json["src-index"] = QString::number(w->getSrcIndex());
+    json["src-pin-id"] = w->getSrcPinId();
+    json["dest-index"] = QString::number(w->getDestIndex());
+    json["dest-pin-id"] = w->getDestPinId();
+
+    QString type = wireTypeMap.key(w->getType());
+    json["type"] = type;
+    json["index"] = QString::number(w->getIndex());
+
+    return json;
+}
+
 Serializable* JsonSerializer::deserialize(QByteArray jsonData)
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);

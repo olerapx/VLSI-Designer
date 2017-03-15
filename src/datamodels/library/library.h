@@ -19,7 +19,7 @@ protected:
 
 public:
     Library(QString id, double version);
-    ~Library();
+    virtual ~Library();
 
     void setId(QString id);
     void setVersion(double version);

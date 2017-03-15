@@ -4,6 +4,12 @@
 
 #include <util/jsonserializer.h>
 
+class UnsupportedSerializable: public Serializable
+{
+public:
+    virtual ~UnsupportedSerializable(){}
+};
+
 class JsonSerializerTest : public QObject
 {
     Q_OBJECT
@@ -15,6 +21,12 @@ public:
     ~JsonSerializerTest();
 
 private slots:
+    void serializeTest();
+
+    void serializeLibraryTest();
+    void serializeSchemeTest();
+
+
     void deserializeTest();
 
     void deserializeLibraryTest();
@@ -25,7 +37,6 @@ private slots:
 
 JsonSerializerTest::JsonSerializerTest()
 {
-
     QDir dir (QApplication::applicationDirPath());
     dir.cdUp();
     dir.cdUp();
@@ -36,6 +47,109 @@ JsonSerializerTest::JsonSerializerTest()
 JsonSerializerTest::~JsonSerializerTest()
 {
 
+}
+
+void JsonSerializerTest::serializeTest()
+{
+    JsonSerializer json;
+
+    Library* l = new Library("test_id", 10.0);
+    json.serialize(l);
+    delete l;
+
+    UnsupportedSerializable* d = new UnsupportedSerializable();
+    QVERIFY_EXCEPTION_THROWN(json.serialize(d), IllegalArgumentException);
+    delete d;
+}
+
+void JsonSerializerTest::serializeLibraryTest()
+{
+    Library* l = new Library("test_id", 10.001);
+    l->setName("Test standard cell library с кириллическими знаками");
+
+    Element* el = new Element("el", 10, 100);
+    el->setModel("el model");
+    el->setName("el name");
+
+    Pin* pin = new Pin("pin id", 1, 0, PinType::Input);
+    el->getPins().append(pin);
+    l->getElements().append(el);
+
+    Element* el2 = new Element("el2", 1, 1);
+    l->getElements().append(el2);
+
+    JsonSerializer json;
+    QByteArray arr = json.serialize(l);
+    QJsonDocument j = QJsonDocument::fromJson(arr);
+    QJsonObject obj = j.object().value("library").toObject();
+
+    QVERIFY(obj.value("id").toString() == l->getId());
+    QVERIFY (obj.value("version").toDouble() == l->getVersion());
+    QVERIFY(obj.value("name").toString() == l->getName());
+    QVERIFY(obj.value("elements").toArray().size() == 2);
+
+    QJsonObject elJson = obj.value("elements").toArray().at(0).toObject();
+    QVERIFY(elJson.value("id").toString() == el->getId());
+    QVERIFY(elJson.value("height").toInt() == el->getHeight());
+    QVERIFY(elJson.value("width").toInt() == el->getWidth());
+    QVERIFY(elJson.value("model").toString() == el->getModel());
+    QVERIFY(elJson.value("name").toString() == el->getName());
+    QVERIFY(elJson.value("pins").toArray().size() == 1);
+
+    QJsonObject pinJson = elJson.value("pins").toArray().at(0).toObject();
+    QVERIFY(pinJson.value("id").toString() == pin->getId());
+    QVERIFY(pinJson.value("x").toInt() == pin->getX());
+    QVERIFY(pinJson.value("y").toInt() == pin->getY());
+    QVERIFY(pinJson.value("type").toString() == "input");
+
+    elJson = obj.value("elements").toArray().at(1).toObject();
+    QVERIFY(elJson.value("pins").toArray().size() == 0);
+
+    delete l;
+}
+
+void JsonSerializerTest::serializeSchemeTest()
+{
+    Scheme* s = new Scheme();
+
+    SchemeElement* el1 = new SchemeElement("library id", "aoi43242", Q_UINT64_C(9223372036854775807));
+    SchemeElement* el2 = new SchemeElement("23123", "NOR", 2);
+    s->getElements().append(el1);
+    s->getElements().append(el2);
+
+    Wire* w = new Wire(Q_UINT64_C(9223372036854775807), "a", Q_UINT64_C(2), "z", WireType::Outer, Q_UINT64_C(0));
+    s->getWires().append(w);
+
+    JsonSerializer json;
+    QByteArray arr = json.serialize(s);
+    QJsonDocument j = QJsonDocument::fromJson(arr);
+    QJsonObject obj = j.object().value("scheme").toObject();
+
+    QVERIFY(obj.value("elements").toArray().size() == 2);
+    QVERIFY(obj.value("wires").toArray().size() == 1);
+
+    QJsonObject element = obj.value("elements").toArray().at(0).toObject();
+    QVERIFY(element.value("library-id").toString() == el1->getLibraryId());
+    QVERIFY(element.value("element-id").toString() == el1->getElementId());
+
+    qint64 index = element.value("index").toString().toLongLong();
+    QVERIFY(index == el1->getIndex());
+
+    QJsonObject wire = obj.value("wires").toArray().at(0).toObject();
+
+    index = wire.value("src-index").toString().toLongLong();
+    QVERIFY(index == w->getSrcIndex());
+    QVERIFY(wire.value("src-pin-id").toString() == w->getSrcPinId());
+
+    index = wire.value("dest-index").toString().toLongLong();
+    QVERIFY(index == w->getDestIndex());
+    QVERIFY(wire.value("dest-pin-id").toString() == w->getDestPinId());
+    QVERIFY(wire.value("type").toString() == "outer");
+
+    index = wire.value("index").toString().toLongLong();
+    QVERIFY(index == w->getIndex());
+
+    delete s;
 }
 
 void JsonSerializerTest::deserializeTest()

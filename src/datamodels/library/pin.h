@@ -22,6 +22,7 @@ protected:
 
 public:
     Pin(QString id, int x, int y, PinType type);
+    virtual ~Pin(){}
 
     void setId (QString id);
     void setX (int x);
