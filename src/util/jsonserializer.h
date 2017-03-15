@@ -26,34 +26,58 @@ static QMap<QString, DistributionType> distributionTypeMap
 
 static QMap<QString, WireType> wireTypeMap
 {
-  {"inner", WireType::Inner},
-  {"outer", WireType::Outer}
+    {"inner", WireType::Inner},
+    {"outer", WireType::Outer}
 };
 
 static QMap<QString, CellType> cellTypeMap
 {
-  {"empty", CellType::Empty},
-  {"pin", CellType::Pin},
-  {"element", CellType::Element},
-  {"UD", CellType::UD},
-  {"LR", CellType::LR},
-  {"UL", CellType::UL},
-  {"UR", CellType::UR},
-  {"DL", CellType::DL},
-  {"DR", CellType::DR},
-  {"UDL", CellType::UDL},
-  {"UDR", CellType::UDR},
-  {"LRU", CellType::LRU},
-  {"LRD", CellType::LRD},
-  {"UDLR", CellType::UDLR},
+    {"empty", CellType::Empty},
+    {"pin", CellType::Pin},
+    {"element", CellType::Element},
+    {"UD", CellType::UD},
+    {"LR", CellType::LR},
+    {"UL", CellType::UL},
+    {"UR", CellType::UR},
+    {"DL", CellType::DL},
+    {"DR", CellType::DR},
+    {"UDL", CellType::UDL},
+    {"UDR", CellType::UDR},
+    {"LRU", CellType::LRU},
+    {"LRD", CellType::LRD},
+    {"UDLR", CellType::UDLR},
 };
 
 /**
  * @brief The JsonSerializer class
  *
+ * Implements a JSON serialization and deserialization of of objects.
+ * The object you need to be serialized or deserialized must be inherited from Serializable.
+ * If the object's type is not supported, an IllegalArgumentException will be thrown.
  */
 class JsonSerializer
 {
+public:
+    JsonSerializer();
+
+    /**
+     * @brief serialize
+     * Performs a serializing of the object inherited from Serializable.
+     * @param s - the object.
+     * @throw IllegalArgumentException
+     * @return the byte array represents the created JSON document.
+     */
+    QByteArray serialize(Serializable* s);
+
+    /**
+     * @brief deserialize
+     * Performs a deserializing of the object inherited from Serializable.
+     * @param jsonData - the byte array contains the JSON document.
+     * @throw IllegalArgumentException
+     * @return the pointer on the deserialized object.
+     */
+    Serializable* deserialize (QByteArray jsonData);
+
 protected:
     QByteArray serializeLibrary(Library* l);
     QJsonObject serializeElement(Element* el);
@@ -76,12 +100,6 @@ protected:
     Cell* deserializeCell (QJsonObject obj);
 
     Architecture* deserializeArchitecture (QJsonObject obj);
-
-public:
-    JsonSerializer();
-
-    QByteArray serialize(Serializable* s);
-    Serializable* deserialize (QByteArray jsonData);
 };
 
 #endif // JSONSERIALIZER_H

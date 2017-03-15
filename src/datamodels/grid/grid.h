@@ -23,7 +23,7 @@ public:
 
     QList< QList<Cell*> >& getCells() {return cells;}
     QList <qint64>& getRoutedWires() {return routedWires;}
-    int getInitialLevel() {return initialLevel;}
+    int getInitialLevel() const {return initialLevel;}
 };
 
 #endif // GRID_H

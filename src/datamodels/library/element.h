@@ -27,11 +27,11 @@ public:
     void setHeight (int height);
     void setWidth (int width);
 
-    QString getId() {return id;}
-    QString getName() {return name;}
-    QString getModel() {return model;}
-    int getHeight() {return height;}
-    int getWidth() {return width;}
+    QString getId() const {return id;}
+    QString getName() const {return name;}
+    QString getModel() const {return model;}
+    int getHeight() const {return height;}
+    int getWidth() const {return width;}
     QList <Pin*>& getPins() {return pins;}
 };
 

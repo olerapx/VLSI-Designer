@@ -23,6 +23,11 @@ class NetworkTransmitter: public QObject
     Q_OBJECT
 
 public:
+    /**
+     * @brief NetworkTransmitter
+     * @param serverPort - the port the transmitter will be listen to.
+     * @throw NetworkException
+     */
     NetworkTransmitter(int serverPort);
     ~NetworkTransmitter();
 
@@ -30,14 +35,22 @@ public:
      * @brief Connects to the specified host. Called automatically by sendData() if needed.
      * @param address
      * @param port
-     * @return a created socket.
+     * @return the created socket.
+     * @throw NetworkException
      */
     TcpSocket* connectToHost(QHostAddress address, int port);
+
+    /**
+     * @brief disconnectFromHost
+     * Disconnects the transmitter from the specified host.
+     * @param address
+     * @param port
+     * @throws NetworkException
+     */
     void disconnectFromHost (QHostAddress address, int port);
 
     /**
      * @brief Sends the specified byte array to the host.
-     *
      * The data is placed to TCP buffer almost immediately and transmitted asyncronously.
      * @param data
      * @param address
@@ -48,9 +61,9 @@ public:
 signals:
     /**
      * @brief Emits when a full data is received.
-     * @param data - a received data.
-     * @param address - a sender address.
-     * @param port - a sender port.
+     * @param data - the received data.
+     * @param address - the sender's address.
+     * @param port - the sender's port.
      */
     void sendDataReceived(QByteArray data, QHostAddress address, int port);
     void sendLog (QString log);
@@ -68,7 +81,6 @@ private:
 
 private slots:
     void on_newConnection();
-
     void on_socketDisconnected(TcpSocket* socket);
 };
 

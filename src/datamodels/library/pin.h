@@ -29,10 +29,10 @@ public:
     void setY (int y);
     void setType (PinType type);
 
-    QString getId() {return id;}
-    int getX() {return x;}
-    int getY() {return y;}
-    PinType getType() {return type;}
+    QString getId() const {return id;}
+    int getX() const {return x;}
+    int getY() const {return y;}
+    PinType getType() const {return type;}
 };
 
 #endif // PIN_H

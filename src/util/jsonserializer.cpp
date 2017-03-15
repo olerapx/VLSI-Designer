@@ -13,7 +13,7 @@ QByteArray JsonSerializer::serialize(Serializable* s)
     else if (info == typeid(Scheme))
         return serializeScheme(static_cast<Scheme*>(s));
     else
-        throw IllegalArgumentException(QString("This type is not supported: %1").arg(typeid(*s).name()));
+        throw IllegalArgumentException("The passed object's type is not supported.");
 }
 
 QByteArray JsonSerializer::serializeLibrary(Library* l)

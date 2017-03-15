@@ -7,7 +7,8 @@ NetworkScanner::NetworkScanner()
 
 NetworkScanner::~NetworkScanner()
 {
-    if (mode != None) deleteSockets();
+    if (mode != Mode::None)
+        deleteSockets();
 }
 
 void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface,
@@ -37,7 +38,7 @@ void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInt
     scanningUpstreamSocket->setSocketOption(QAbstractSocket::MulticastLoopbackOption, QVariant(1));
     scanningDownstreamSocket->setSocketOption(QAbstractSocket::MulticastLoopbackOption, QVariant(1));
 
-    mode = IPv6;
+    mode = Mode::IPv6;
 }
 
 void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanningPort, int responsePort)
@@ -63,7 +64,7 @@ void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanning
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
 
-    mode = IPv4;
+    mode = Mode::IPv4;
 }
 
 QHostAddress NetworkScanner::findAnyBroadcastAddress()
@@ -81,8 +82,9 @@ QHostAddress NetworkScanner::findAnyBroadcastAddress()
 
 void NetworkScanner::initScanningSockets()
 {
-    if (mode != None) deleteSockets();
-    mode = None;
+    if (mode != Mode::None)
+        deleteSockets();
+    mode = Mode::None;
 
     scanningUpstreamSocket = new QUdpSocket(this);
     scanningDownstreamSocket = new QUdpSocket(this);
@@ -152,7 +154,7 @@ void NetworkScanner::processResponseDatagrams()
         {
             QString hostName = datagramString.section("@", 1);
 
-            sendLog ("[Server] Auth confirmed.");
+            sendLog (QString("[Server] Auth confirmed: %1").arg(hostName));
             sendAddress(senderHost, hostName);
         }
         else sendLog ("[Server] Wrong auth token, ignored.");
@@ -161,7 +163,7 @@ void NetworkScanner::processResponseDatagrams()
 
 void NetworkScanner::scanNetwork()
 {
-    if (mode == None)
+    if (mode == Mode::None)
         throw NetworkException ("Scanner is not initialized");
 
     if (!stopped)

@@ -25,9 +25,9 @@ public:
     void setVersion(double version);
     void setName (QString name);
 
-    QString getId() {return id;}
-    double getVersion() {return version;}
-    QString getName() {return name;}
+    QString getId() const {return id;}
+    double getVersion() const {return version;}
+    QString getName() const {return name;}
     QList<Element*>& getElements() {return elements;}
 };
 

@@ -29,7 +29,7 @@ public:
     void setDistributionType (DistributionType type);
 
     QList<int>& getModel() {return model;}
-    DistributionType getDistributionType() {return type;}
+    DistributionType getDistributionType() const {return type;}
 };
 
 #endif // ARCHITECTURE_H

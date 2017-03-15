@@ -9,7 +9,7 @@
 
 #include "networkexception.h"
 
-enum Mode
+enum class Mode
 {
     IPv4,
     IPv6,
@@ -36,21 +36,49 @@ public:
     NetworkScanner();
     ~NetworkScanner();
 
+    /**
+     * @brief initIPv6Multicast
+     * Initializes NetworkScanner to use IPv6 multicast requests.
+     * @param scanningAddress - the IPv6 multicast address
+     * @param interface
+     * @param scanningPort
+     * @param responsePort
+     * @throw NetworkException
+     */
     void initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface, int scanningPort, int responsePort);
+
+    /**
+     * @brief initIPv4Broadcast
+     * Initializes the scanner to use IPv4 broadcast requests.
+     * @param interface
+     * @param scanningPort
+     * @param responsePort
+     */
     void initIPv4Broadcast(QNetworkInterface interface, int scanningPort, int responsePort);
 
+    /**
+     * @brief scanNetwork
+     * Starts stanning the network.
+     * The scanner must be initialized and not active before calling.
+     * @throw NetworkException
+     */
     void scanNetwork();
+
+    /**
+     * @brief stopScanning
+     * Stops scanning the network.
+     */
     void stopScanning();
 
-    bool isStopped() { return this->stopped; }
+    bool isStopped() const { return this->stopped; }
 
 signals:
     void sendLog (QString data);
 
     /**
      * @brief Emits when a new host is discovered.
-     * @param senderHost - an address and port.
-     * @param hostName - a human readable name.
+     * @param senderHost - the address and port.
+     * @param hostName - the human readable name.
      */
     void sendAddress(QHostAddress senderHost, QString hostName);
 
@@ -66,7 +94,7 @@ private:
     int responsePort;
 
     bool stopped = true;
-    Mode mode = None;
+    Mode mode = Mode::None;
 
     QString currentScanToken;
 

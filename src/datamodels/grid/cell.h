@@ -35,9 +35,9 @@ public:
     void setIndex (qint64 index);
     void setPinId (QString pinId);
 
-    CellType getType() {return type;}
-    qint64 getIndex() {return index;}
-    QString getPinId() {return pinId;}
+    CellType getType() const {return type;}
+    qint64 getIndex() const {return index;}
+    QString getPinId() const {return pinId;}
 };
 
 #endif // CELL_H

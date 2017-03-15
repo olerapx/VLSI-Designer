@@ -40,14 +40,14 @@ public:
     void setIndex(qint64 index);
 
 
-    qint64 getSrcIndex() {return srcIndex;}
-    QString getSrcPinId() {return srcPinId;}
+    qint64 getSrcIndex() const {return srcIndex;}
+    QString getSrcPinId() const {return srcPinId;}
 
-    qint64 getDestIndex() {return destIndex;}
-    QString getDestPinId() {return destPinId;}
+    qint64 getDestIndex() const {return destIndex;}
+    QString getDestPinId() const {return destPinId;}
 
-    WireType getType() {return type;}
-    qint64 getIndex() {return index;}
+    WireType getType() const {return type;}
+    qint64 getIndex() const {return index;}
 };
 
 #endif // WIRE_H
