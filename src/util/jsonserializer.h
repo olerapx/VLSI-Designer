@@ -87,6 +87,11 @@ protected:
     QJsonObject serializeSchemeElement(SchemeElement* el);
     QJsonObject serializeWire(Wire* w);
 
+    QByteArray serializeGrid(Grid* g);
+    QJsonObject serializeCell(Cell* c);
+
+    QByteArray serializeArchitecture(Architecture* a);
+
 
     Library* deserializeLibrary (QJsonObject obj);
     Element* deserializeElement (QJsonObject obj);

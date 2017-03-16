@@ -12,6 +12,10 @@ QByteArray JsonSerializer::serialize(Serializable* s)
         return serializeLibrary(static_cast<Library*>(s));
     else if (info == typeid(Scheme))
         return serializeScheme(static_cast<Scheme*>(s));
+    else if (info == typeid(Grid))
+        return serializeGrid(static_cast<Grid*>(s));
+    else if (info == typeid(Architecture))
+        return serializeArchitecture(static_cast<Architecture*>(s));
     else
         throw IllegalArgumentException("The passed object's type is not supported.");
 }
@@ -115,6 +119,68 @@ QJsonObject JsonSerializer::serializeWire(Wire* w)
     json["index"] = QString::number(w->getIndex());
 
     return json;
+}
+
+QByteArray JsonSerializer::serializeGrid(Grid* g)
+{
+    QJsonObject json;
+    QJsonArray jsonCells;
+
+    for (QList<Cell*> row: g->getCells())
+    {
+        QJsonArray jsonRow;
+        for(Cell* c: row)
+            jsonRow.append(serializeCell(c));
+        jsonCells.append(jsonRow);
+    }
+    json["cells"] = jsonCells;
+
+    QJsonArray routedWires;
+
+    for (qint64 i: g->getRoutedWires())
+        routedWires.append(QString::number(i));
+
+    json["routed-wires"] = routedWires;
+    json["initial-level"] = g->getInitialLevel();
+
+    QJsonObject res;
+    res["grid"] = json;
+
+    QJsonDocument doc(res);
+    return doc.toJson();
+}
+
+QJsonObject JsonSerializer::serializeCell(Cell* c)
+{
+    QJsonObject json;
+
+    json["type"] = cellTypeMap.key(c->getType());
+
+    if (c->getType() == CellType::Element || c->getType() == CellType::Pin)
+        json["index"] = QString::number(c->getIndex());
+
+    if (c->getType() == CellType::Pin)
+        json["pin-id"] = c->getPinId();
+
+    return json;
+}
+
+QByteArray JsonSerializer::serializeArchitecture(Architecture *a)
+{
+    QJsonObject json;
+
+    QJsonArray model;
+    for (int i: a->getModel())
+        model.append(i);
+
+    json["model"] = model;
+    json["distribution-type"] = distributionTypeMap.key(a->getDistributionType());
+
+    QJsonObject res;
+    res["architecture"] = json;
+
+    QJsonDocument doc(res);
+    return doc.toJson();
 }
 
 Serializable* JsonSerializer::deserialize(QByteArray jsonData)
@@ -260,7 +326,7 @@ Grid* JsonSerializer::deserializeGrid (QJsonObject obj)
     for(QJsonValue val: routedWires)
     {
         bool ok;
-        qint64 index =val.toString().toLongLong(&ok);
+        qint64 index = val.toString().toLongLong(&ok);
         if (!ok)
             throw IllegalArgumentException("Invalid routed wire index");
 

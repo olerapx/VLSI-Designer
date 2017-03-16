@@ -25,6 +25,8 @@ private slots:
 
     void serializeLibraryTest();
     void serializeSchemeTest();
+    void serializeGridTest();
+    void serializeArchitectureTest();
 
 
     void deserializeTest();
@@ -151,6 +153,90 @@ void JsonSerializerTest::serializeSchemeTest()
 
     delete s;
 }
+
+void JsonSerializerTest::serializeGridTest()
+{
+    Grid* g = new Grid(10);
+
+    g->getRoutedWires().append(1);
+    g->getRoutedWires().append(0);
+    g->getRoutedWires().append(Q_UINT64_C(9223372036854775807));
+
+    QList<Cell*> firstRow, secondRow;
+
+    Cell* c1 = new Cell(CellType::Empty);
+    firstRow.append(c1);
+    Cell* c2 = new Cell(CellType::LRU);
+    firstRow.append(c2);
+
+    Cell* c3 = new Cell(CellType::Element, Q_UINT64_C(34535345345343));
+    secondRow.append(c3);
+    Cell* c4 = new Cell(CellType::Pin, Q_UINT64_C(1), "z");
+    secondRow.append(c4);
+
+    g->getCells().append(firstRow);
+    g->getCells().append(secondRow);
+
+    JsonSerializer json;
+    QByteArray arr = json.serialize(g);
+    QJsonDocument j = QJsonDocument::fromJson(arr);
+    QJsonObject obj = j.object().value("grid").toObject();
+
+    QVERIFY(obj.value("cells").toArray().size() == 2);
+    QVERIFY(obj.value("routed-wires").toArray().size() == 3);
+
+    qint64 index = obj.value("routed-wires").toArray().at(2).toString().toLongLong();
+    QVERIFY(index == Q_UINT64_C(9223372036854775807));
+
+    QVERIFY(obj.value("initial-level").toInt() == 10);
+
+    QJsonArray row1 = obj.value("cells").toArray().at(0).toArray();
+    QJsonArray row2 = obj.value("cells").toArray().at(1).toArray();
+
+    QJsonObject cell = row1.at(0).toObject();
+    QVERIFY(cell.value("type").toString() == "empty");
+    QVERIFY(!cell.contains("index"));
+    QVERIFY(!cell.contains("pin-id"));
+
+    cell = row1.at(1).toObject();
+    QVERIFY(cell.value("type").toString() == "LRU");
+
+    cell = row2.at(0).toObject();
+    QVERIFY(cell.value("type").toString() == "element");
+
+    index = cell.value("index").toString().toLongLong();
+    QVERIFY(index == c3->getIndex());
+    QVERIFY(!cell.contains("pin-id"));
+
+    cell = row2.at(1).toObject();
+    QVERIFY(cell.value("type").toString() == "pin");
+
+    index = cell.value("index").toString().toLongLong();
+    QVERIFY(index == c4->getIndex());
+    QVERIFY(cell.value("pin-id").toString() == c4->getPinId());
+
+    delete g;
+}
+
+void JsonSerializerTest::serializeArchitectureTest()
+{
+    Architecture* a = new Architecture(DistributionType::Default);
+    a->getModel().append(1);
+    a->getModel().append(2);
+    a->getModel().append(4);
+
+    JsonSerializer json;
+    QByteArray arr = json.serialize(a);
+    QJsonDocument j = QJsonDocument::fromJson(arr);
+    QJsonObject obj = j.object().value("architecture").toObject();
+
+    QVERIFY(obj.value("model").toArray().size() == 3);
+    QVERIFY(obj.value("model").toArray().at(1) == 2);
+    QVERIFY(obj.value("distribution-type").toString() == "default");
+
+    delete a;
+}
+
 
 void JsonSerializerTest::deserializeTest()
 {
