@@ -5,6 +5,7 @@
 
 #include "datamodels/serializable.h"
 #include "exception/illegalargumentexception.h"
+#include "clientsnumber.h"
 
 enum class DistributionType
 {
@@ -19,7 +20,7 @@ enum class DistributionType
 class Architecture: public Serializable
 {
 protected:
-    QList<int> model; /// Array of each server's clients number on each level start from 1.
+    QList<ClientsNumber> model; /// List of each server's clients number on each level start from 1.
     DistributionType type; /// Type of distribution algorithm.
 
 public:
@@ -28,7 +29,7 @@ public:
 
     void setDistributionType (DistributionType type);
 
-    QList<int>& getModel() {return model;}
+    QList<ClientsNumber>& getModel() {return model;}
     DistributionType getDistributionType() const {return type;}
 };
 

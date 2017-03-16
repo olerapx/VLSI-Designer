@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "cell.h"
+#include "routedwireindex.h"
 
 /**
  * @brief The Grid class
@@ -12,7 +13,7 @@ class Grid: public Serializable
 {
 protected:
     QList< QList<Cell*> > cells;
-    QList <qint64> routedWires; /// Routed wires' indexes.
+    QList <RoutedWireIndex> routedWires; /// Routed wires' indexes.
     int initialLevel; /// Client's initial level.
 
 public:
@@ -22,7 +23,7 @@ public:
     void setInitialLevel(int initialLevel);
 
     QList< QList<Cell*> >& getCells() {return cells;}
-    QList <qint64>& getRoutedWires() {return routedWires;}
+    QList <RoutedWireIndex>& getRoutedWires() {return routedWires;}
     int getInitialLevel() const {return initialLevel;}
 };
 

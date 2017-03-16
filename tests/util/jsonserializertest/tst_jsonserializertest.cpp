@@ -185,7 +185,7 @@ void JsonSerializerTest::serializeGridTest()
     QVERIFY(obj.value("cells").toArray().size() == 2);
     QVERIFY(obj.value("routed-wires").toArray().size() == 3);
 
-    qint64 index = obj.value("routed-wires").toArray().at(2).toString().toLongLong();
+    RoutedWireIndex index = obj.value("routed-wires").toArray().at(2).toString().toLongLong();
     QVERIFY(index == Q_UINT64_C(9223372036854775807));
 
     QVERIFY(obj.value("initial-level").toInt() == 10);
@@ -347,7 +347,7 @@ void JsonSerializerTest::deserializeGridTest()
     QList<Cell*> list = g->getCells().at(0);
     QVERIFY(list.size() == 4);
 
-    QList<qint64> routedWires = {0, 1};
+    QList<RoutedWireIndex> routedWires = {0, 1};
     QVERIFY(g->getRoutedWires() == routedWires);
     QVERIFY(g->getInitialLevel() == 1);
 
@@ -385,7 +385,7 @@ void JsonSerializerTest::deserializeArchitectureTest()
         f.close();
     }
 
-    QList<int> model = {2, 3, 2};
+    QList<ClientsNumber> model = {2, 3, 2};
 
     QVERIFY(a->getModel() == model);
     QVERIFY(a->getDistributionType() == DistributionType::Greedy);

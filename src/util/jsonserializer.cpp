@@ -137,8 +137,8 @@ QByteArray JsonSerializer::serializeGrid(Grid* g)
 
     QJsonArray routedWires;
 
-    for (qint64 i: g->getRoutedWires())
-        routedWires.append(QString::number(i));
+    for (RoutedWireIndex i: g->getRoutedWires())
+        routedWires.append(QString::number(i.getValue()));
 
     json["routed-wires"] = routedWires;
     json["initial-level"] = g->getInitialLevel();
