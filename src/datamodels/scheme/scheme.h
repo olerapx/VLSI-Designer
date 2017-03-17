@@ -21,8 +21,8 @@ public:
     Scheme();
     virtual ~Scheme();
 
-    QList<SchemeElement*>& getElements() {return elements;}
-    QList<Wire*>& getWires() {return wires;}
+    QList<SchemeElement*>& getElements() { return elements; }
+    QList<Wire*>& getWires() { return wires; }
 };
 
 #endif // SCHEME_H

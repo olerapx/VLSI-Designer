@@ -21,7 +21,7 @@ void Cell::setType (CellType type, qint64 index, QString pinId)
     }
     if (type == CellType::Pin)
     {
-        if (pinId == "")
+        if (pinId.isEmpty())
             throw IllegalArgumentException ("Cant create pin cell without pinId");
 
         setIndex(index);

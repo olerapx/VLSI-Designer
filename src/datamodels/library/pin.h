@@ -22,17 +22,17 @@ protected:
 
 public:
     Pin(QString id, int x, int y, PinType type);
-    virtual ~Pin(){}
+    virtual ~Pin() {}
 
     void setId (QString id);
     void setX (int x);
     void setY (int y);
     void setType (PinType type);
 
-    QString getId() const {return id;}
-    int getX() const {return x;}
-    int getY() const {return y;}
-    PinType getType() const {return type;}
+    QString getId() const { return id; }
+    int getX() const { return x; }
+    int getY() const { return y; }
+    PinType getType() const { return type; }
 };
 
 #endif // PIN_H

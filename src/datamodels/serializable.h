@@ -13,8 +13,7 @@ class Serializable
 {
 public:
     Serializable();
-
-    virtual void foo(){}
+    virtual ~Serializable() = 0;
 };
 
 #endif // SERIALIZABLE_H

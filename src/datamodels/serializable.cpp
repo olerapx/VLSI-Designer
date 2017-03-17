@@ -4,3 +4,8 @@ Serializable::Serializable()
 {
 
 }
+
+Serializable::~Serializable()
+{
+
+}

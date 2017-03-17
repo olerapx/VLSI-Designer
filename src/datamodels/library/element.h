@@ -22,17 +22,23 @@ public:
     virtual ~Element();
 
     void setId (QString id);
+
     void setName (QString name);
     void setModel (QString model);
+
     void setHeight (int height);
     void setWidth (int width);
 
-    QString getId() const {return id;}
-    QString getName() const {return name;}
-    QString getModel() const {return model;}
-    int getHeight() const {return height;}
-    int getWidth() const {return width;}
-    QList <Pin*>& getPins() {return pins;}
+
+    QString getId() const { return id; }
+
+    QString getName() const { return name; }
+    QString getModel() const { return model; }
+
+    int getHeight() const { return height; }
+    int getWidth() const { return width; }
+
+    QList <Pin*>& getPins() { return pins; }
 };
 
 #endif // ELEMENT_H

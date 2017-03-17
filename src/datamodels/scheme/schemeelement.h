@@ -17,15 +17,15 @@ protected:
 
 public:
     SchemeElement(QString libraryId, QString elementId, qint64 index);
-    virtual ~SchemeElement(){}
+    virtual ~SchemeElement() {}
 
     void setLibraryId(QString libraryId);
     void setElementId(QString elementId);
     void setIndex(qint64 index);
 
-    QString getLibraryId() const {return libraryId;}
-    QString getElementId() const {return elementId;}
-    qint64 getIndex() const {return index;}
+    QString getLibraryId() const { return libraryId; }
+    QString getElementId() const { return elementId; }
+    qint64 getIndex() const { return index; }
 };
 
 #endif // SCHEMEELEMENT_H

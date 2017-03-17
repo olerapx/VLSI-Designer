@@ -50,8 +50,8 @@ static QMap<QString, CellType> cellTypeMap
 
 /**
  * @brief The JsonSerializer class
- *
  * Implements a JSON serialization and deserialization of of objects.
+ *
  * The object you need to be serialized or deserialized must be inherited from Serializable.
  * If the object's type is not supported, an IllegalArgumentException will be thrown.
  */

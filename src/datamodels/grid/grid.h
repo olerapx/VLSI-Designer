@@ -13,7 +13,7 @@ class Grid: public Serializable
 {
 protected:
     QList< QList<Cell*> > cells;
-    QList <RoutedWireIndex> routedWires; /// Routed wires' indexes.
+    QList <RoutedWireIndex> routedWires;
     int initialLevel; /// Client's initial level.
 
 public:
@@ -22,9 +22,9 @@ public:
 
     void setInitialLevel(int initialLevel);
 
-    QList< QList<Cell*> >& getCells() {return cells;}
-    QList <RoutedWireIndex>& getRoutedWires() {return routedWires;}
-    int getInitialLevel() const {return initialLevel;}
+    QList< QList<Cell*> >& getCells() { return cells; }
+    QList <RoutedWireIndex>& getRoutedWires() { return routedWires; }
+    int getInitialLevel() const { return initialLevel; }
 };
 
 #endif // GRID_H

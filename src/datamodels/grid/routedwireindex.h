@@ -11,15 +11,16 @@
  */
 class RoutedWireIndex
 {
+public:
+    RoutedWireIndex(qint64 index);
+
+    operator qint64() const { return value; }
+    qint64 getValue() const { return value; }
+
 private:
     qint64 value;
 
     void setValue (qint64 index);
-public:
-    RoutedWireIndex(qint64 index);
-
-    operator qint64() const {return this->value;}
-    qint64 getValue() const {return this->value;}
 };
 
 #endif // ROUTEDWIREINDEX_H

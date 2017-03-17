@@ -114,12 +114,12 @@ void JsonSerializerTest::serializeSchemeTest()
 {
     Scheme* s = new Scheme();
 
-    SchemeElement* el1 = new SchemeElement("library id", "aoi43242", Q_UINT64_C(9223372036854775807));
+    SchemeElement* el1 = new SchemeElement("library id", "aoi43242", Q_INT64_C(9223372036854775807));
     SchemeElement* el2 = new SchemeElement("23123", "NOR", 2);
     s->getElements().append(el1);
     s->getElements().append(el2);
 
-    Wire* w = new Wire(Q_UINT64_C(9223372036854775807), "a", Q_UINT64_C(2), "z", WireType::Outer, Q_UINT64_C(0));
+    Wire* w = new Wire(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::Outer, Q_INT64_C(0));
     s->getWires().append(w);
 
     JsonSerializer json;
@@ -160,7 +160,7 @@ void JsonSerializerTest::serializeGridTest()
 
     g->getRoutedWires().append(1);
     g->getRoutedWires().append(0);
-    g->getRoutedWires().append(Q_UINT64_C(9223372036854775807));
+    g->getRoutedWires().append(Q_INT64_C(9223372036854775807));
 
     QList<Cell*> firstRow, secondRow;
 
@@ -169,9 +169,9 @@ void JsonSerializerTest::serializeGridTest()
     Cell* c2 = new Cell(CellType::LRU);
     firstRow.append(c2);
 
-    Cell* c3 = new Cell(CellType::Element, Q_UINT64_C(34535345345343));
+    Cell* c3 = new Cell(CellType::Element, Q_INT64_C(34535345345343));
     secondRow.append(c3);
-    Cell* c4 = new Cell(CellType::Pin, Q_UINT64_C(1), "z");
+    Cell* c4 = new Cell(CellType::Pin, Q_INT64_C(1), "z");
     secondRow.append(c4);
 
     g->getCells().append(firstRow);
@@ -186,7 +186,7 @@ void JsonSerializerTest::serializeGridTest()
     QVERIFY(obj.value("routed-wires").toArray().size() == 3);
 
     RoutedWireIndex index = obj.value("routed-wires").toArray().at(2).toString().toLongLong();
-    QVERIFY(index == Q_UINT64_C(9223372036854775807));
+    QVERIFY(index == Q_INT64_C(9223372036854775807));
 
     QVERIFY(obj.value("initial-level").toInt() == 10);
 
@@ -360,7 +360,7 @@ void JsonSerializerTest::deserializeGridTest()
 
     Cell* pinCell = g->getCells().at(0).at(2);
     QVERIFY(pinCell->getType() == CellType::Pin);
-    QVERIFY (pinCell->getIndex() == 0);
+    QVERIFY(pinCell->getIndex() == 0);
     QVERIFY(pinCell->getPinId() == "z");
 
     {

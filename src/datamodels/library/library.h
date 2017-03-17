@@ -25,10 +25,10 @@ public:
     void setVersion(double version);
     void setName (QString name);
 
-    QString getId() const {return id;}
-    double getVersion() const {return version;}
-    QString getName() const {return name;}
-    QList<Element*>& getElements() {return elements;}
+    QString getId() const { return id; }
+    double getVersion() const { return version; }
+    QString getName() const { return name; }
+    QList<Element*>& getElements() { return elements; }
 };
 
 #endif // LIBRARY_H

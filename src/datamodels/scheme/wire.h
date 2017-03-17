@@ -28,7 +28,7 @@ protected:
 
 public:
     Wire(qint64 srcIndex, QString srcPinId, qint64 destIndex, QString destPinId, WireType type, qint64 index);
-    virtual ~Wire(){}
+    virtual ~Wire() {}
 
     void setSrcIndex(qint64 srcIndex);
     void setSrcPinId(QString srcPinId);
@@ -40,14 +40,14 @@ public:
     void setIndex(qint64 index);
 
 
-    qint64 getSrcIndex() const {return srcIndex;}
-    QString getSrcPinId() const {return srcPinId;}
+    qint64 getSrcIndex() const { return srcIndex; }
+    QString getSrcPinId() const { return srcPinId; }
 
-    qint64 getDestIndex() const {return destIndex;}
-    QString getDestPinId() const {return destPinId;}
+    qint64 getDestIndex() const { return destIndex; }
+    QString getDestPinId() const { return destPinId; }
 
-    WireType getType() const {return type;}
-    qint64 getIndex() const {return index;}
+    WireType getType() const { return type; }
+    qint64 getIndex() const { return index; }
 };
 
 #endif // WIRE_H
