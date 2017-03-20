@@ -10,8 +10,8 @@
 		"height": 4, 
 		"width": 2, 
 		"pins": [
-			{"id": "a", "x": 0, "y": 0, "type": "input"},
-			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
 			{"id": "z", "x": 1, "y": 1, "type": "output"}
 		]
 	},
@@ -120,6 +120,686 @@
 			{"id": "a1", "x": 0, "y": 3, "type": "input"},
 			{"id": "z", "x": 1, "y": 1, "type": "output"},
 			{"id": "c", "x": 1, "y": 2, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi22",
+		"name": "2x 2-AND into 2-NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "b2", "x": 1, "y": 2, "type": "input"},
+			{"id": "b1", "x": 1, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "aoi31",
+		"name": "3-AND into 2-NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a3", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "b", "x": 1, "y": 2, "type": "input"}
+		]
+	},
+	{
+		"id": "aon21",
+		"name": "2-AND into 2-OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 2, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 2, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "aon21b",
+		"name": "2-AND into 2-OR gate, inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a2", "x": 0, "y": 0, "type": "input"},
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "bf1",
+		"name": "non-inverting buffer",
+		"model": "Generic",
+		"height": 4,
+		"width": 1,
+		"pins": [
+			{"id": "a", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 0, "y": 3, "type": "output"}
+		]
+	},
+	{
+		"id": "bsi2",
+		"name": "2 bit inverting barrel shifter",
+		"model": "Generic",
+		"height": 4,
+		"width": 5,
+		"pins": [
+			{"id": "s", "x": 0, "y": 0, "type": "input"},
+			{"id": "a0", "x": 0, "y": 1, "type": "input"},
+			{"id": "z0", "x": 2, "y": 3, "type": "output"},
+			{"id": "z1", "x": 3, "y": 3, "type": "output"},
+			{"id": "a1", "x": 4, "y": 1, "type": "input"},
+		]
+	},
+	{
+		"id": "cgi2",
+		"name": "carry generator inverting",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "b", "x": 0, "y": 0, "type": "input"},
+			{"id": "c", "x": 0, "y": 1, "type": "input"},
+			{"id": "a", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "cgi2ab",
+		"name": "carry generator inverting with 2 inverted inputs",
+		"model": "Generic",
+		"height": 4,
+		"width": 4,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "c", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 3, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "cgi2b",
+		"name": "carry generator inverting with 1 inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "c", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "cgi2c",
+		"name": "carry generator inverting with 1 inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "c", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "dfnt1",
+		"name": "rising clock edge D flip-flop",
+		"model": "Generic",
+		"height": 4,
+		"width": 6,
+		"pins": [
+			{"id": "d", "x": 0, "y": 1, "type": "input"},
+			{"id": "cp", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 5, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "dly1",
+		"name": "non-inverting delay cells",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 2, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "dly2",
+		"name": "non-inverting delay cells",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "ha2",
+		"name": "2-I/P half adder",
+		"model": "Generic",
+		"height": 4,
+		"width": 4,
+		"pins": [
+			{"id": "so", "x": 0, "y": 1, "type": "output"},
+			{"id": "a", "x": 1, "y": 3, "type": "input"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"},
+			{"id": "co", "x": 3, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "iv1",
+		"name": "inverter",
+		"model": "Generic",
+		"height": 4,
+		"width": 1,
+		"pins": [
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "z", "x": 0, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "lant1",
+		"name": "rising clock edge D flip-flop",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "e", "x": 0, "y": 1, "type": "input"},
+			{"id": "d", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 2, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "mxi2v2x05",
+		"name": "inverting 2-way multiplexers",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "s", "x": 0, "y": 0, "type": "input"},
+			{"id": "a0", "x": 0, "y": 1, "type": "input"},
+			{"id": "z", "x": 1, "y": 3, "type": "output"},
+			{"id": "a1", "x": 2, "y": 1, "type": "input"}
+		]
+	},
+	{
+		"id": "mxn2",
+		"name": "2-way multiplexers",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "s", "x": 0, "y": 0, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "a0", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "nd2",
+		"name": "2-I/P NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 1,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 0, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nd2a",
+		"name": "2-I/P NAND gate with inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "b", "x": 0, "y": 0, "type": "input"},
+			{"id": "a", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nd2ab",
+		"name": "2-I/P OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nd3",
+		"name": "3-I/P NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nd3a",
+		"name": "3-I/P NAND gate with inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nd3ab",
+		"name": "3-I/P NAND gate with two inverted inputs",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nd4",
+		"name": "4-I/P NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "d", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nr2",
+		"name": "2-I/P NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 1,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 0, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nr2a",
+		"name": "2-I/P NOR gate with inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nr3",
+		"name": "3-I/P NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nr3a",
+		"name": "3-I/P NOR gate with inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nr3ab",
+		"name": "3-I/P NOR gate with two inverted inputs",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "nr4",
+		"name": "4-I/P NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "d", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "oai21",
+		"name": "2-OR into 2-NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "b", "x": 1, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oai21a2",
+		"name": "2-OR with one inverted input into 2-NAND",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oai21a2b",
+		"name": "2-OR with one inverted input into 2-NAND with inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oai21b",
+		"name": "2-OR into 2-NAND with inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oai211",
+		"name": "2-OR into 3-NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 0, "type": "output"},
+			{"id": "c", "x": 1, "y": 1, "type": "input"}
+		]
+	},
+	{
+		"id": "oai22",
+		"name": "2x 2-OR into 2-NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "b2", "x": 1, "y": 2, "type": "input"},
+			{"id": "b1", "x": 1, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oai23a",
+		"name": "2-OR and 3-OR into 2-NAND with inverted and shared inputs",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a3", "x": 0, "y": 2, "type": "input"},
+			{"id": "b2", "x": 2, "y": 0, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b1", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oai31",
+		"name": "3-OR into 2-NAND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a3", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"},
+			{"id": "b", "x": 1, "y": 2, "type": "input"}
+		]
+	},
+	{
+		"id": "oan21",
+		"name": "2-OR into 2-AND gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 1, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "oan21b",
+		"name": "2-OR into 2-AND gate, inverted input",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 0, "type": "input"},
+			{"id": "a2", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "or2",
+		"name": "2-I/P OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "or3",
+		"name": "3-I/P OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "c", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 2, "type": "output"}
+		]
+	},
+	{
+		"id": "or4",
+		"name": "4-I/P OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "d", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "xaoi21",
+		"name": "2-I/P exclusive NOR gate with 2-AND input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 0, "type": "output"},
+			{"id": "b", "x": 2, "y": 1, "type": "input"}
+		]
+	},
+	{
+		"id": "xaon21",
+		"name": "2-I/P exclusive OR gate with 2-AND input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a2", "x": 0, "y": 2, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 0, "type": "output"},
+			{"id": "b", "x": 2, "y": 1, "type": "input"}
+		]
+	},
+	{
+		"id": "xnai21",
+		"name": "2-XNOR into 2-NAND",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "a1", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "a2", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "xnr2",
+		"name": "2-I/P exclusive NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}
+		]
+	},
+	{
+		"id": "xnr3",
+		"name": "3-I/P exclusive NOR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 5,
+		"pins": [
+			{"id": "a", "x": 0, "y": 3, "type": "input"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"},
+			{"id": "c", "x": 4, "y": 3, "type": "input"},
+			{"id": "z", "x": 4, "y": 1, "type": "output"}			
+		]
+	},
+	{
+		"id": "xooi21",
+		"name": "2-I/P exclusive NOR gate with 2-OR input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 2, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}		
+		]
+	},
+	{
+		"id": "xoon21",
+		"name": "2-I/P exclusive OR gate with 2-OR input",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a1", "x": 0, "y": 2, "type": "input"},
+			{"id": "a2", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}		
+		]
+	},
+	{
+		"id": "xor2",
+		"name": "2-I/P exclusive OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 3,
+		"pins": [
+			{"id": "a", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 2, "y": 1, "type": "output"},
+			{"id": "b", "x": 2, "y": 3, "type": "input"}		
+		]
+	},
+	{
+		"id": "xor3",
+		"name": "3-I/P exclusive OR gate",
+		"model": "Generic",
+		"height": 4,
+		"width": 7,
+		"pins": [
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
+			{"id": "b", "x": 0, "y": 2, "type": "input"},
+			{"id": "c", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 6, "y": 1, "type": "output"}		
 		]
 	}
 	]
