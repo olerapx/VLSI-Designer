@@ -76,35 +76,35 @@ public:
      * @throw IllegalArgumentException
      * @return the pointer on the deserialized object.
      */
-    Serializable* deserialize (QByteArray jsonData);
+    Serializable* deserialize(QByteArray jsonData);
 
 protected:
     QByteArray serializeLibrary(Library* l);
-    QJsonObject serializeElement(Element* el);
-    QJsonObject serializePin(Pin* p);
+    QJsonObject serializeLibraryElement(LibraryElement el);
+    QJsonObject serializePin(Pin p);
 
     QByteArray serializeScheme(Scheme* s);
-    QJsonObject serializeSchemeElement(SchemeElement* el);
-    QJsonObject serializeWire(Wire* w);
+    QJsonObject serializeSchemeElement(SchemeElement el);
+    QJsonObject serializeWire(Wire w);
 
     QByteArray serializeGrid(Grid* g);
-    QJsonObject serializeCell(Cell* c);
+    QJsonObject serializeCell(Cell c);
 
     QByteArray serializeArchitecture(Architecture* a);
 
 
-    Library* deserializeLibrary (QJsonObject obj);
-    Element* deserializeElement (QJsonObject obj);
-    Pin* deserializePin (QJsonObject obj);
+    Library* deserializeLibrary(QJsonObject obj);
+    LibraryElement deserializeLibraryElement(QJsonObject obj);
+    Pin deserializePin(QJsonObject obj);
 
-    Scheme* deserializeScheme (QJsonObject obj);
-    SchemeElement* deserializeSchemeElement (QJsonObject obj);
-    Wire* deserializeWire (QJsonObject obj);
+    Scheme* deserializeScheme(QJsonObject obj);
+    SchemeElement deserializeSchemeElement(QJsonObject obj);
+    Wire deserializeWire(QJsonObject obj);
 
-    Grid* deserializeGrid (QJsonObject obj);
-    Cell* deserializeCell (QJsonObject obj);
+    Grid* deserializeGrid(QJsonObject obj);
+    Cell deserializeCell(QJsonObject obj);
 
-    Architecture* deserializeArchitecture (QJsonObject obj);
+    Architecture* deserializeArchitecture(QJsonObject obj);
 };
 
 #endif // JSONSERIALIZER_H

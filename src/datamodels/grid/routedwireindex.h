@@ -20,7 +20,7 @@ public:
 private:
     qint64 value;
 
-    void setValue (qint64 index);
+    void setValue(qint64 index);
 };
 
 #endif // ROUTEDWIREINDEX_H

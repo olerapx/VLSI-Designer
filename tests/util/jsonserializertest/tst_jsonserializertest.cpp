@@ -69,15 +69,15 @@ void JsonSerializerTest::serializeLibraryTest()
     Library* l = new Library("test_id", 10.001);
     l->setName("Test standard cell library с кириллическими знаками");
 
-    Element* el = new Element("el", 10, 100);
-    el->setModel("el model");
-    el->setName("el name");
+    LibraryElement el("el", 10, 100);
+    el.setModel("el model");
+    el.setName("el name");
 
-    Pin* pin = new Pin("pin id", 1, 0, PinType::Input);
-    el->getPins().append(pin);
+    Pin pin("pin id", 1, 0, PinType::Input);
+    el.getPins().append(pin);
     l->getElements().append(el);
 
-    Element* el2 = new Element("el2", 1, 1);
+    LibraryElement el2("el2", 1, 1);
     l->getElements().append(el2);
 
     JsonSerializer json;
@@ -91,17 +91,17 @@ void JsonSerializerTest::serializeLibraryTest()
     QVERIFY(obj.value("elements").toArray().size() == 2);
 
     QJsonObject elJson = obj.value("elements").toArray().at(0).toObject();
-    QVERIFY(elJson.value("id").toString() == el->getId());
-    QVERIFY(elJson.value("height").toInt() == el->getHeight());
-    QVERIFY(elJson.value("width").toInt() == el->getWidth());
-    QVERIFY(elJson.value("model").toString() == el->getModel());
-    QVERIFY(elJson.value("name").toString() == el->getName());
+    QVERIFY(elJson.value("id").toString() == el.getId());
+    QVERIFY(elJson.value("height").toInt() == el.getHeight());
+    QVERIFY(elJson.value("width").toInt() == el.getWidth());
+    QVERIFY(elJson.value("model").toString() == el.getModel());
+    QVERIFY(elJson.value("name").toString() == el.getName());
     QVERIFY(elJson.value("pins").toArray().size() == 1);
 
     QJsonObject pinJson = elJson.value("pins").toArray().at(0).toObject();
-    QVERIFY(pinJson.value("id").toString() == pin->getId());
-    QVERIFY(pinJson.value("x").toInt() == pin->getX());
-    QVERIFY(pinJson.value("y").toInt() == pin->getY());
+    QVERIFY(pinJson.value("id").toString() == pin.getId());
+    QVERIFY(pinJson.value("x").toInt() == pin.getX());
+    QVERIFY(pinJson.value("y").toInt() == pin.getY());
     QVERIFY(pinJson.value("type").toString() == "input");
 
     elJson = obj.value("elements").toArray().at(1).toObject();
@@ -114,12 +114,12 @@ void JsonSerializerTest::serializeSchemeTest()
 {
     Scheme* s = new Scheme();
 
-    SchemeElement* el1 = new SchemeElement("library id", "aoi43242", Q_INT64_C(9223372036854775807));
-    SchemeElement* el2 = new SchemeElement("23123", "NOR", 2);
+    SchemeElement el1("library id", "aoi43242", Q_INT64_C(9223372036854775807));
+    SchemeElement el2("23123", "NOR", 2);
     s->getElements().append(el1);
     s->getElements().append(el2);
 
-    Wire* w = new Wire(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::Outer, Q_INT64_C(0));
+    Wire w(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::Outer, Q_INT64_C(0));
     s->getWires().append(w);
 
     JsonSerializer json;
@@ -131,25 +131,25 @@ void JsonSerializerTest::serializeSchemeTest()
     QVERIFY(obj.value("wires").toArray().size() == 1);
 
     QJsonObject element = obj.value("elements").toArray().at(0).toObject();
-    QVERIFY(element.value("library-id").toString() == el1->getLibraryId());
-    QVERIFY(element.value("element-id").toString() == el1->getElementId());
+    QVERIFY(element.value("library-id").toString() == el1.getLibraryId());
+    QVERIFY(element.value("element-id").toString() == el1.getElementId());
 
     qint64 index = element.value("index").toString().toLongLong();
-    QVERIFY(index == el1->getIndex());
+    QVERIFY(index == el1.getIndex());
 
     QJsonObject wire = obj.value("wires").toArray().at(0).toObject();
 
     index = wire.value("src-index").toString().toLongLong();
-    QVERIFY(index == w->getSrcIndex());
-    QVERIFY(wire.value("src-pin-id").toString() == w->getSrcPinId());
+    QVERIFY(index == w.getSrcIndex());
+    QVERIFY(wire.value("src-pin-id").toString() == w.getSrcPinId());
 
     index = wire.value("dest-index").toString().toLongLong();
-    QVERIFY(index == w->getDestIndex());
-    QVERIFY(wire.value("dest-pin-id").toString() == w->getDestPinId());
+    QVERIFY(index == w.getDestIndex());
+    QVERIFY(wire.value("dest-pin-id").toString() == w.getDestPinId());
     QVERIFY(wire.value("type").toString() == "outer");
 
     index = wire.value("index").toString().toLongLong();
-    QVERIFY(index == w->getIndex());
+    QVERIFY(index == w.getIndex());
 
     delete s;
 }
@@ -162,16 +162,16 @@ void JsonSerializerTest::serializeGridTest()
     g->getRoutedWires().append(0);
     g->getRoutedWires().append(Q_INT64_C(9223372036854775807));
 
-    QList<Cell*> firstRow, secondRow;
+    QList<Cell> firstRow, secondRow;
 
-    Cell* c1 = new Cell(CellType::Empty);
+    Cell c1(CellType::Empty);
     firstRow.append(c1);
-    Cell* c2 = new Cell(CellType::LRU);
+    Cell c2(CellType::LRU);
     firstRow.append(c2);
 
-    Cell* c3 = new Cell(CellType::Element, Q_INT64_C(34535345345343));
+    Cell c3(CellType::Element, Q_INT64_C(34535345345343));
     secondRow.append(c3);
-    Cell* c4 = new Cell(CellType::Pin, Q_INT64_C(1), "z");
+    Cell c4(CellType::Pin, Q_INT64_C(1), "z");
     secondRow.append(c4);
 
     g->getCells().append(firstRow);
@@ -205,15 +205,15 @@ void JsonSerializerTest::serializeGridTest()
     QVERIFY(cell.value("type").toString() == "element");
 
     index = cell.value("index").toString().toLongLong();
-    QVERIFY(index == c3->getIndex());
+    QVERIFY(index == c3.getIndex());
     QVERIFY(!cell.contains("pin-id"));
 
     cell = row2.at(1).toObject();
     QVERIFY(cell.value("type").toString() == "pin");
 
     index = cell.value("index").toString().toLongLong();
-    QVERIFY(index == c4->getIndex());
-    QVERIFY(cell.value("pin-id").toString() == c4->getPinId());
+    QVERIFY(index == c4.getIndex());
+    QVERIFY(cell.value("pin-id").toString() == c4.getPinId());
 
     delete g;
 }
@@ -269,18 +269,18 @@ void JsonSerializerTest::deserializeLibraryTest()
     QVERIFY(l->getId() == "generic");
     QVERIFY(l->getElements().size() == 9);
 
-    Element* el = l->getElements().at(0);
-    QVERIFY(el->getId()=="an2");
-    QVERIFY(el->getModel()=="Generic");
-    QVERIFY(el->getHeight() == 4);
-    QVERIFY(el->getWidth() == 2);
-    QVERIFY(el->getPins().size() == 3);
+    LibraryElement el = l->getElements().at(0);
+    QVERIFY(el.getId()=="an2");
+    QVERIFY(el.getModel()=="Generic");
+    QVERIFY(el.getHeight() == 4);
+    QVERIFY(el.getWidth() == 2);
+    QVERIFY(el.getPins().size() == 3);
 
-    Pin* p = el->getPins().at(0);
-    QVERIFY(p->getId()=="a");
-    QVERIFY(p->getType() == PinType::Input);
-    QVERIFY(p->getX()==0);
-    QVERIFY(p->getY()==0);
+    Pin p = el.getPins().at(0);
+    QVERIFY(p.getId()=="a");
+    QVERIFY(p.getType() == PinType::Input);
+    QVERIFY(p.getX()==0);
+    QVERIFY(p.getY()==0);
 
     delete l;
 
@@ -307,18 +307,18 @@ void JsonSerializerTest::deserializeSchemeTest()
     QVERIFY(s->getElements().size() == 3);
     QVERIFY(s->getWires().size() == 3);
 
-    SchemeElement* el = s->getElements().at(0);
-    QVERIFY(el->getLibraryId() == "generic");
-    QVERIFY(el->getElementId() == "an2");
-    QVERIFY(el->getIndex() == 9223372036854775807);
+    SchemeElement el = s->getElements().at(0);
+    QVERIFY(el.getLibraryId() == "generic");
+    QVERIFY(el.getElementId() == "an2");
+    QVERIFY(el.getIndex() == 9223372036854775807);
 
-    Wire* w = s->getWires().at(0);
-    QVERIFY(w->getSrcIndex() == 9223372036854775807);
-    QVERIFY(w->getSrcPinId() == "z");
-    QVERIFY(w->getDestIndex() == 1);
-    QVERIFY(w->getDestPinId() == "a");
-    QVERIFY(w->getType() == WireType::Inner);
-    QVERIFY(w->getIndex() == 0);
+    Wire w = s->getWires().at(0);
+    QVERIFY(w.getSrcIndex() == 9223372036854775807);
+    QVERIFY(w.getSrcPinId() == "z");
+    QVERIFY(w.getDestIndex() == 1);
+    QVERIFY(w.getDestPinId() == "a");
+    QVERIFY(w.getType() == WireType::Inner);
+    QVERIFY(w.getIndex() == 0);
 
     delete s;
 
@@ -344,24 +344,24 @@ void JsonSerializerTest::deserializeGridTest()
 
     QVERIFY(g->getCells().size() == 4);
 
-    QList<Cell*> list = g->getCells().at(0);
+    QList<Cell> list = g->getCells().at(0);
     QVERIFY(list.size() == 4);
 
     QList<RoutedWireIndex> routedWires = {0, 1};
     QVERIFY(g->getRoutedWires() == routedWires);
     QVERIFY(g->getInitialLevel() == 1);
 
-    Cell* emptyCell = g->getCells().at(0).at(0);
-    QVERIFY(emptyCell->getType() == CellType::Empty);
+    Cell emptyCell = g->getCells().at(0).at(0);
+    QVERIFY(emptyCell.getType() == CellType::Empty);
 
-    Cell* elementCell = g->getCells().at(0).at(1);
-    QVERIFY(elementCell->getType() == CellType::Element);
-    QVERIFY(elementCell->getIndex() == 0);
+    Cell elementCell = g->getCells().at(0).at(1);
+    QVERIFY(elementCell.getType() == CellType::Element);
+    QVERIFY(elementCell.getIndex() == 0);
 
-    Cell* pinCell = g->getCells().at(0).at(2);
-    QVERIFY(pinCell->getType() == CellType::Pin);
-    QVERIFY(pinCell->getIndex() == 0);
-    QVERIFY(pinCell->getPinId() == "z");
+    Cell pinCell = g->getCells().at(0).at(2);
+    QVERIFY(pinCell.getType() == CellType::Pin);
+    QVERIFY(pinCell.getIndex() == 0);
+    QVERIFY(pinCell.getPinId() == "z");
 
     {
         QFile f(datamodelsDir+"/datamodels/grid_invalid_cell_type.json");

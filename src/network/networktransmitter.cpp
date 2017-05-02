@@ -76,7 +76,7 @@ TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)
     return addTcpSocket(qsocket);
 }
 
-void NetworkTransmitter::disconnectFromHost (QHostAddress address, int port)
+void NetworkTransmitter::disconnectFromHost(QHostAddress address, int port)
 {
     TcpSocket* socket = findSocket (address, port);
     if (socket == nullptr)

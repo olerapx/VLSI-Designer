@@ -7,12 +7,11 @@
 
 /**
  * @brief The Grid class
- * Note that an instance of this class will delete all contained cells in destructor.
  */
 class Grid: public Serializable
 {
 protected:
-    QList< QList<Cell*> > cells;
+    QList<QList<Cell>> cells;
     QList <RoutedWireIndex> routedWires;
     int initialLevel; /// Client's initial level.
 
@@ -22,7 +21,7 @@ public:
 
     void setInitialLevel(int initialLevel);
 
-    QList< QList<Cell*> >& getCells() { return cells; }
+    QList<QList<Cell>>& getCells() { return cells; }
     QList <RoutedWireIndex>& getRoutedWires() { return routedWires; }
     int getInitialLevel() const { return initialLevel; }
 };

@@ -28,12 +28,12 @@ protected:
     QString pinId; /// Applies only on a pin cell.
 
 public:
-    Cell (CellType type, qint64 index = -1, QString pinId = "");
+    Cell(CellType type, qint64 index = -1, QString pinId = "");
     virtual ~Cell() {}
 
-    void setType (CellType type, qint64 index = -1, QString pinId = "");
-    void setIndex (qint64 index);
-    void setPinId (QString pinId);
+    void setType(CellType type, qint64 index = -1, QString pinId = "");
+    void setIndex(qint64 index);
+    void setPinId(QString pinId);
 
     CellType getType() const { return type; }
     qint64 getIndex() const { return index; }

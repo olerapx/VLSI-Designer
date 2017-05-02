@@ -27,7 +27,7 @@ public:
     Architecture(DistributionType type);
     virtual ~Architecture() {}
 
-    void setDistributionType (DistributionType type);
+    void setDistributionType(DistributionType type);
 
     QList<ClientsNumber>& getModel() { return model; }
     DistributionType getDistributionType() const { return type; }

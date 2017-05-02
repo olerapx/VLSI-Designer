@@ -24,10 +24,10 @@ public:
     Pin(QString id, int x, int y, PinType type);
     virtual ~Pin() {}
 
-    void setId (QString id);
-    void setX (int x);
-    void setY (int y);
-    void setType (PinType type);
+    void setId(QString id);
+    void setX(int x);
+    void setY(int y);
+    void setType(PinType type);
 
     QString getId() const { return id; }
     int getX() const { return x; }

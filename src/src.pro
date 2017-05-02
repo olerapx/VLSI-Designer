@@ -17,7 +17,6 @@ SOURCES += \
     network/tcpsocket.cpp \
     datamodels/serializable.cpp \
     datamodels/library/pin.cpp \
-    datamodels/library/element.cpp \
     datamodels/library/library.cpp \
     datamodels/scheme/schemeelement.cpp \
     datamodels/scheme/wire.cpp \
@@ -29,4 +28,5 @@ SOURCES += \
     datamodels/architecture/clientsnumber.cpp \
     exception/exception.cpp \
     exception/illegalargumentexception.cpp \
-    util/jsonserializer.cpp
+    util/jsonserializer.cpp \
+    datamodels/library/libraryelement.cpp

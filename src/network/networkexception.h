@@ -10,7 +10,7 @@
 class NetworkException: public Exception
 {
 public:
-    NetworkException (QString what): Exception (what) {}
+    NetworkException(QString what): Exception(what) {}
 };
 
 #endif // NETWORKEXCEPTION_H

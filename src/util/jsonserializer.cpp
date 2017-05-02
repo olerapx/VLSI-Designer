@@ -29,8 +29,8 @@ QByteArray JsonSerializer::serializeLibrary(Library* l)
     json["name"] = l->getName();
 
     QJsonArray elements;
-    for(Element* el: l->getElements())
-        elements.append(serializeElement(el));
+    for(LibraryElement el: l->getElements())
+        elements.append(serializeLibraryElement(el));
     json["elements"] = elements;
 
     QJsonObject res;
@@ -40,18 +40,18 @@ QByteArray JsonSerializer::serializeLibrary(Library* l)
     return doc.toJson();
 }
 
-QJsonObject JsonSerializer::serializeElement(Element* el)
+QJsonObject JsonSerializer::serializeLibraryElement(LibraryElement el)
 {
     QJsonObject json;
 
-    json["id"] = el->getId();
-    json["name"] = el->getName();
-    json["model"] = el->getModel();
-    json["height"] = el->getHeight();
-    json["width"] = el->getWidth();
+    json["id"] = el.getId();
+    json["name"] = el.getName();
+    json["model"] = el.getModel();
+    json["height"] = el.getHeight();
+    json["width"] = el.getWidth();
 
     QJsonArray pins;
-    for(Pin* pin: el->getPins())
+    for(Pin pin: el.getPins())
         pins.append(serializePin(pin));
 
     json["pins"] = pins;
@@ -59,14 +59,14 @@ QJsonObject JsonSerializer::serializeElement(Element* el)
     return json;
 }
 
-QJsonObject JsonSerializer::serializePin(Pin* p)
+QJsonObject JsonSerializer::serializePin(Pin p)
 {
     QJsonObject json;
 
-    json["id"] = p->getId();
-    json["x"] = p->getX();
-    json["y"] = p->getY();
-    QString type = pinTypeMap.key(p->getType());
+    json["id"] = p.getId();
+    json["x"] = p.getX();
+    json["y"] = p.getY();
+    QString type = pinTypeMap.key(p.getType());
     json["type"] = type;
 
     return json;
@@ -78,10 +78,10 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
 
     QJsonArray elements, wires;
 
-    for(SchemeElement* el: s->getElements())
+    for(SchemeElement el: s->getElements())
         elements.append(serializeSchemeElement(el));
 
-    for(Wire* w: s->getWires())
+    for(Wire w: s->getWires())
         wires.append(serializeWire(w));
 
     json["elements"] = elements;
@@ -94,29 +94,29 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
     return doc.toJson();
 }
 
-QJsonObject JsonSerializer::serializeSchemeElement(SchemeElement* el)
+QJsonObject JsonSerializer::serializeSchemeElement(SchemeElement el)
 {
     QJsonObject json;
 
-    json["library-id"] = el->getLibraryId();
-    json["element-id"] = el->getElementId();
-    json["index"] = QString::number(el->getIndex());
+    json["library-id"] = el.getLibraryId();
+    json["element-id"] = el.getElementId();
+    json["index"] = QString::number(el.getIndex());
 
     return json;
 }
 
-QJsonObject JsonSerializer::serializeWire(Wire* w)
+QJsonObject JsonSerializer::serializeWire(Wire w)
 {
     QJsonObject json;
 
-    json["src-index"] = QString::number(w->getSrcIndex());
-    json["src-pin-id"] = w->getSrcPinId();
-    json["dest-index"] = QString::number(w->getDestIndex());
-    json["dest-pin-id"] = w->getDestPinId();
+    json["src-index"] = QString::number(w.getSrcIndex());
+    json["src-pin-id"] = w.getSrcPinId();
+    json["dest-index"] = QString::number(w.getDestIndex());
+    json["dest-pin-id"] = w.getDestPinId();
 
-    QString type = wireTypeMap.key(w->getType());
+    QString type = wireTypeMap.key(w.getType());
     json["type"] = type;
-    json["index"] = QString::number(w->getIndex());
+    json["index"] = QString::number(w.getIndex());
 
     return json;
 }
@@ -126,10 +126,10 @@ QByteArray JsonSerializer::serializeGrid(Grid* g)
     QJsonObject json;
     QJsonArray jsonCells;
 
-    for (QList<Cell*> row: g->getCells())
+    for (QList<Cell> row: g->getCells())
     {
         QJsonArray jsonRow;
-        for(Cell* c: row)
+        for(Cell c: row)
             jsonRow.append(serializeCell(c));
         jsonCells.append(jsonRow);
     }
@@ -150,17 +150,17 @@ QByteArray JsonSerializer::serializeGrid(Grid* g)
     return doc.toJson();
 }
 
-QJsonObject JsonSerializer::serializeCell(Cell* c)
+QJsonObject JsonSerializer::serializeCell(Cell c)
 {
     QJsonObject json;
 
-    json["type"] = cellTypeMap.key(c->getType());
+    json["type"] = cellTypeMap.key(c.getType());
 
-    if (c->getType() == CellType::Element || c->getType() == CellType::Pin)
-        json["index"] = QString::number(c->getIndex());
+    if (c.getType() == CellType::Element || c.getType() == CellType::Pin)
+        json["index"] = QString::number(c.getIndex());
 
-    if (c->getType() == CellType::Pin)
-        json["pin-id"] = c->getPinId();
+    if (c.getType() == CellType::Pin)
+        json["pin-id"] = c.getPinId();
 
     return json;
 }
@@ -204,7 +204,7 @@ Serializable* JsonSerializer::deserialize(QByteArray jsonData)
         throw IllegalArgumentException ("The contained JSON object is not supported or cannot be deserialized directly");
 }
 
-Library* JsonSerializer::deserializeLibrary (QJsonObject obj)
+Library* JsonSerializer::deserializeLibrary(QJsonObject obj)
 {
     QString id = obj.value("id").toString();
     double version = obj.value("version").toDouble(-1.0);
@@ -214,30 +214,30 @@ Library* JsonSerializer::deserializeLibrary (QJsonObject obj)
 
     QJsonArray elements = obj.value("elements").toArray();
     for(QJsonValue val: elements)
-        library->getElements().append(deserializeElement(val.toObject()));
+        library->getElements().append(deserializeLibraryElement(val.toObject()));
 
     return library;
 }
 
-Element* JsonSerializer::deserializeElement (QJsonObject obj)
+LibraryElement JsonSerializer::deserializeLibraryElement(QJsonObject obj)
 {
     QString id = obj.value("id").toString();
 
     int height = obj.value("height").toInt(-1);
     int width = obj.value("width").toInt(-1);
 
-    Element* element = new Element(id, height, width);
-    element->setName(obj.value("name").toString());
-    element->setModel(obj.value("model").toString());
+    LibraryElement element(id, height, width);
+    element.setName(obj.value("name").toString());
+    element.setModel(obj.value("model").toString());
 
     QJsonArray pins = obj.value("pins").toArray();
     for (QJsonValue val: pins)
-        element->getPins().append(deserializePin(val.toObject()));
+        element.getPins().append(deserializePin(val.toObject()));
 
     return element;
 }
 
-Pin* JsonSerializer::deserializePin (QJsonObject obj)
+Pin JsonSerializer::deserializePin(QJsonObject obj)
 {
     QString id = obj.value("id").toString();
 
@@ -251,10 +251,10 @@ Pin* JsonSerializer::deserializePin (QJsonObject obj)
     else
         throw IllegalArgumentException("Invalid pin type specified");
 
-    return new Pin (id, x, y, type);
+    return Pin(id, x, y, type);
 }
 
-Scheme* JsonSerializer::deserializeScheme (QJsonObject obj)
+Scheme* JsonSerializer::deserializeScheme(QJsonObject obj)
 {
     Scheme* scheme = new Scheme();
 
@@ -269,7 +269,7 @@ Scheme* JsonSerializer::deserializeScheme (QJsonObject obj)
     return scheme;
 }
 
-SchemeElement* JsonSerializer::deserializeSchemeElement (QJsonObject obj)
+SchemeElement JsonSerializer::deserializeSchemeElement(QJsonObject obj)
 {
     QString libraryId = obj.value("library-id").toString();
     QString elementId = obj.value("element-id").toString();
@@ -278,10 +278,10 @@ SchemeElement* JsonSerializer::deserializeSchemeElement (QJsonObject obj)
     qint64 index = obj.value("index").toString().toLongLong(&ok);
     if (!ok) index = -1;
 
-    return new SchemeElement(libraryId, elementId, index);
+    return SchemeElement(libraryId, elementId, index);
 }
 
-Wire* JsonSerializer::deserializeWire (QJsonObject obj)
+Wire JsonSerializer::deserializeWire(QJsonObject obj)
 {
     bool ok;
     qint64 srcIndex = obj.value("src-index").toString().toLongLong(&ok);
@@ -302,10 +302,10 @@ Wire* JsonSerializer::deserializeWire (QJsonObject obj)
     qint64 index = obj.value("index").toString().toLongLong(&ok);
     if (!ok) index = -1;
 
-    return new Wire (srcIndex, srcPinId, destIndex, destPinId, type, index);
+    return Wire(srcIndex, srcPinId, destIndex, destPinId, type, index);
 }
 
-Grid* JsonSerializer::deserializeGrid (QJsonObject obj)
+Grid* JsonSerializer::deserializeGrid(QJsonObject obj)
 {
     int initialLevel = obj.value("initial-level").toInt();
     Grid* grid = new Grid(initialLevel);
@@ -313,7 +313,7 @@ Grid* JsonSerializer::deserializeGrid (QJsonObject obj)
     QJsonArray cells = obj.value("cells").toArray();
     for (QJsonValue val: cells)
     {
-        QList<Cell*> rowList;
+        QList<Cell> rowList;
         QJsonArray row = val.toArray();
         for(QJsonValue cell: row)
         {
@@ -336,7 +336,7 @@ Grid* JsonSerializer::deserializeGrid (QJsonObject obj)
     return grid;
 }
 
-Cell* JsonSerializer::deserializeCell (QJsonObject obj)
+Cell JsonSerializer::deserializeCell(QJsonObject obj)
 {
     QString t = obj.value("type").toString();
     CellType type;
@@ -351,7 +351,7 @@ Cell* JsonSerializer::deserializeCell (QJsonObject obj)
 
     QString pinId = obj.value("pin-id").toString();
 
-    return new Cell(type, index, pinId);
+    return Cell(type, index, pinId);
 }
 
 Architecture* JsonSerializer::deserializeArchitecture(QJsonObject obj)

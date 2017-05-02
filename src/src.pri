@@ -10,7 +10,6 @@ HEADERS  += \
     $$PWD/network/tcpsocket.h \
     $$PWD/datamodels/serializable.h \
     $$PWD/datamodels/library/pin.h \
-    $$PWD/datamodels/library/element.h \
     $$PWD/datamodels/library/library.h \
     $$PWD/datamodels/scheme/schemeelement.h \
     $$PWD/datamodels/scheme/wire.h \
@@ -22,4 +21,5 @@ HEADERS  += \
     $$PWD/exception/illegalargumentexception.h \
     $$PWD/util/jsonserializer.h \
     $$PWD/datamodels/grid/routedwireindex.h \
-    $$PWD/datamodels/architecture/clientsnumber.h
+    $$PWD/datamodels/architecture/clientsnumber.h \
+    $$PWD/datamodels/library/libraryelement.h

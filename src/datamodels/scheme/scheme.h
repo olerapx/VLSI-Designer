@@ -9,20 +9,19 @@
 /**
  * @brief The Scheme class
  * Represents a generated scheme.
- * Note that an instance of this class will delete all contained elements and wires in destructor.
  */
 class Scheme: public Serializable
 {
 protected:
-    QList<SchemeElement*> elements;
-    QList<Wire*> wires;
+    QList<SchemeElement> elements;
+    QList<Wire> wires;
 
 public:
     Scheme();
     virtual ~Scheme();
 
-    QList<SchemeElement*>& getElements() { return elements; }
-    QList<Wire*>& getWires() { return wires; }
+    QList<SchemeElement>& getElements() { return elements; }
+    QList<Wire>& getWires() { return wires; }
 };
 
 #endif // SCHEME_H

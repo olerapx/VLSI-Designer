@@ -5,7 +5,7 @@ Architecture::Architecture(DistributionType type)
     setDistributionType(type);
 }
 
-void Architecture::setDistributionType (DistributionType type)
+void Architecture::setDistributionType(DistributionType type)
 {
     this->type = type;
 }

@@ -1,6 +1,6 @@
-#include "element.h"
+#include "libraryelement.h"
 
-Element::Element(QString id, int height, int width)
+LibraryElement::LibraryElement(QString id, int height, int width)
 {
     setId(id);
     setHeight(height);
@@ -10,40 +10,38 @@ Element::Element(QString id, int height, int width)
     model = "";
 }
 
-Element::~Element()
+LibraryElement::~LibraryElement()
 {
-    for (Pin* pin: pins)
-        delete pin;
-    pins.clear();
+
 }
 
-void Element::setId (QString id)
+void LibraryElement::setId(QString id)
 {
     if (id.isEmpty())
        throw IllegalArgumentException("Element id cannot be empty");
     this->id = id;
 }
 
-void Element::setName (QString name)
+void LibraryElement::setName(QString name)
 {
     this->name = name;
 }
 
-void Element::setModel (QString model)
+void LibraryElement::setModel(QString model)
 {
     this->model = model;
 }
 
-void Element::setHeight (int height)
+void LibraryElement::setHeight(int height)
 {
     if (height <= 0)
         throw IllegalArgumentException("Element height must be positive");
     this->height = height;
 }
 
-void Element::setWidth (int width)
+void LibraryElement::setWidth(int width)
 {
     if (width <= 0)
-        throw IllegalArgumentException ("Element width must be positive");
+        throw IllegalArgumentException("Element width must be positive");
     this->width = width;
 }

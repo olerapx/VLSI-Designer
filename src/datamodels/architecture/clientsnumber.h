@@ -9,16 +9,16 @@
  */
 class ClientsNumber
 {
+private:
+    int value;
+
+    void setValue(int number);
+
 public:
     ClientsNumber(int number);
 
     operator int() const { return value; }
     int getValue() const { return value; }
-
-private:
-    int value;
-
-    void setValue (int number);
 };
 
 #endif // CLIENTSNUMBER_H

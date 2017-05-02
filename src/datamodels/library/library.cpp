@@ -10,9 +10,7 @@ Library::Library(QString id, double version)
 
 Library::~Library()
 {
-    for (Element* element: elements)
-        delete element;
-    elements.clear();
+
 }
 
 void Library::setId(QString id)
@@ -29,7 +27,7 @@ void Library::setVersion(double version)
     this->version = version;
 }
 
-void Library::setName (QString name)
+void Library::setName(QString name)
 {
     this->name = name;
 }

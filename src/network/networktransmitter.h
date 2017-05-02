@@ -47,7 +47,7 @@ public:
      * @param port
      * @throws NetworkException
      */
-    void disconnectFromHost (QHostAddress address, int port);
+    void disconnectFromHost(QHostAddress address, int port);
 
     /**
      * @brief Sends the specified byte array to the host.
@@ -56,7 +56,7 @@ public:
      * @param address
      * @param port
      */
-    void sendData (QByteArray data, QHostAddress address, int port);
+    void sendData(QByteArray data, QHostAddress address, int port);
 
 signals:
     /**
@@ -66,18 +66,18 @@ signals:
      * @param port - the sender's port.
      */
     void sendDataReceived(QByteArray data, QHostAddress address, int port);
-    void sendLog (QString log);
+    void sendLog(QString log);
 
 private:
     QTcpServer* server;
     QList <TcpSocket*> sockets;
 
     TcpSocket* addTcpSocket(QTcpSocket* qsocket);
-    void removeTcpSocket (TcpSocket *socket);
+    void removeTcpSocket(TcpSocket *socket);
 
-    TcpSocket* findSocket (QHostAddress address, int port);
+    TcpSocket* findSocket(QHostAddress address, int port);
 
-    void sendData (TcpSocket* socket, QByteArray data);
+    void sendData(TcpSocket* socket, QByteArray data);
 
 private slots:
     void on_newConnection();
