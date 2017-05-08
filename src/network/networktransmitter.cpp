@@ -47,8 +47,8 @@ void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
     sendLog (QString("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(),
                                                      socket->getSocket()->peerName()));
 
-    connect (socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
-    connect (socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::on_socketDisconnected);
+    disconnect (socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
+    disconnect (socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::on_socketDisconnected);
 
     delete socket->getSocket();
     delete socket;
