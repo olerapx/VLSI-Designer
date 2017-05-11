@@ -3,7 +3,7 @@
 GeneratorParameters::GeneratorParameters(QList<Library*> libraries)
 {
     if(libraries.empty())
-        throw IllegalArgumentException("A library cannot be empty.");
+        throw IllegalArgumentException("Library cannot be empty.");
 
     this->libraries = libraries;
 
@@ -27,8 +27,8 @@ void GeneratorParameters::setNodeCapacity(int mean, double sigma, int leftRange,
 
     nodeCapacityMean = mean;
     nodeCapacitySigma = sigma;
-    nodeCapacityLeftRange = leftRange;
-    nodeCapacityRightRange = rightRange;
+    nodeCapacityLeftLimit = leftRange;
+    nodeCapacityRightLimit = rightRange;
 }
 
 void GeneratorParameters::setBranching(int mean, double sigma, int leftRange, int rightRange)
@@ -37,8 +37,8 @@ void GeneratorParameters::setBranching(int mean, double sigma, int leftRange, in
 
     branchingMean = mean;
     branchingSigma = sigma;
-    branchingLeftRange = leftRange;
-    branchingRightRange = rightRange;
+    branchingLeftLimit = leftRange;
+    branchingRightLimit = rightRange;
 }
 
 void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int leftRange, int rightRange)

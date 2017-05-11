@@ -12,25 +12,25 @@
 #include "datamodels/library/library.h"
 #include "datamodels/scheme/scheme.h"
 
-static QMap<QString, PinType> pinTypeMap
+static const QMap<QString, PinType> pinTypeMap
 {
     {"input", PinType::Input},
     {"output", PinType::Output}
 };
 
-static QMap<QString, DistributionType> distributionTypeMap
+static const QMap<QString, DistributionType> distributionTypeMap
 {
     {"default", DistributionType::Default},
     {"greedy", DistributionType::Greedy}
 };
 
-static QMap<QString, WireType> wireTypeMap
+static const QMap<QString, WireType> wireTypeMap
 {
     {"inner", WireType::Inner},
     {"outer", WireType::Outer}
 };
 
-static QMap<QString, CellType> cellTypeMap
+static const QMap<QString, CellType> cellTypeMap
 {
     {"empty", CellType::Empty},
     {"pin", CellType::Pin},

@@ -6,6 +6,10 @@
 #include "datamodels/scheme/scheme.h"
 #include "exception/illegalargumentexception.h"
 
+/**
+ * @brief The GeneratorParameters class
+ * Encapsulates the parameters for scheme generator.
+ */
 class GeneratorParameters
 {
 private:
@@ -13,13 +17,13 @@ private:
 
     int nodeCapacityMean;
     double nodeCapacitySigma;
-    int nodeCapacityLeftRange;
-    int nodeCapacityRightRange;
+    int nodeCapacityLeftLimit;
+    int nodeCapacityRightLimit;
 
     int branchingMean;
     double branchingSigma;
-    int branchingLeftRange;
-    int branchingRightRange;
+    int branchingLeftLimit;
+    int branchingRightLimit;
 
     QList<Library*> libraries;
 
@@ -37,14 +41,14 @@ public:
     int getElementsNumber() const { return elementsNumber; }
 
     int getNodeCapacityMean() const { return nodeCapacityMean; }
-    int getNodeCapacitySigma() const { return nodeCapacitySigma; }
-    int getNodeCapacityLeftRange() const { return nodeCapacityLeftRange; }
-    int getNodeCapacityRightRange() const { return nodeCapacityRightRange; }
+    double getNodeCapacitySigma() const { return nodeCapacitySigma; }
+    int getNodeCapacityLeftLimit() const { return nodeCapacityLeftLimit; }
+    int getNodeCapacityRightLimit() const { return nodeCapacityRightLimit; }
 
     int getBranchingMean() const { return branchingMean; }
-    int getBranchingSigma() const { return branchingSigma; }
-    int getBranchingLeftRange() const { return branchingLeftRange; }
-    int getBranchingRightRange() const { return branchingRightRange; }
+    double getBranchingSigma() const { return branchingSigma; }
+    int getBranchingLeftLimit() const { return branchingLeftLimit; }
+    int getBranchingRightLimit() const { return branchingRightLimit; }
 
     QList<Library*>& getLibraries() { return libraries; }
 };

@@ -23,4 +23,6 @@ HEADERS  += \
     $$PWD/datamodels/grid/routedwireindex.h \
     $$PWD/datamodels/architecture/clientsnumber.h \
     $$PWD/datamodels/library/libraryelement.h \
-    $$PWD/generator/generatorparameters.h
+    $$PWD/generator/generatorparameters.h \
+    $$PWD/generator/generator.h \
+    $$PWD/generator/nodeelement.h
