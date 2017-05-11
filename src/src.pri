@@ -22,4 +22,5 @@ HEADERS  += \
     $$PWD/util/jsonserializer.h \
     $$PWD/datamodels/grid/routedwireindex.h \
     $$PWD/datamodels/architecture/clientsnumber.h \
-    $$PWD/datamodels/library/libraryelement.h
+    $$PWD/datamodels/library/libraryelement.h \
+    $$PWD/generator/generatorparameters.h

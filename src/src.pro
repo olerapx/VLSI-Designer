@@ -29,4 +29,5 @@ SOURCES += \
     exception/exception.cpp \
     exception/illegalargumentexception.cpp \
     util/jsonserializer.cpp \
-    datamodels/library/libraryelement.cpp
+    datamodels/library/libraryelement.cpp \
+    generator/generatorparameters.cpp
