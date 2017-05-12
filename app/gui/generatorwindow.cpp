@@ -6,6 +6,7 @@ GeneratorWindow::GeneratorWindow(QWidget *parent) :
     ui(new Ui::GeneratorWindow)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->sizeHint());
 
     setValidators();
 }
@@ -62,16 +63,14 @@ void GeneratorWindow::on_generateButton_clicked()
 {
     try
     {
-       GeneratorParameters param = buildParameters();
+        GeneratorParameters param = buildParameters();
 
-       generator = new Generator(param); //TODO: delete, threading
-       Scheme s = generator->generate();
+        generator = new Generator(param); //TODO: threading
+        Scheme s = generator->generate();
 
-       delete generator;
+        delete generator;
 
-       QString file = saveScheme(s);
-
-       QDesktopServices::openUrl(QUrl(file));
+        saveScheme(s);
     }
     catch(Exception ex)
     {
@@ -110,21 +109,24 @@ GeneratorParameters GeneratorWindow::buildParameters()
     return param;
 }
 
-QString GeneratorWindow::saveScheme(Scheme s)
+void GeneratorWindow::saveScheme(Scheme s)
 {
+    JsonSerializer json;
+    QByteArray array = json.serialize(&s);
+
     QDir dir = QDir::currentPath();
     dir.cdUp();
 
     QString file = QFileDialog::getSaveFileName(this, "Сохранение схемы", dir.absolutePath(), "JSON (*.json)");
+    if(file.isEmpty())
+        return;
+
     QFile f(file);
     f.open(QIODevice::WriteOnly);
 
-    JsonSerializer json;
-    f.write(json.serialize(&s));
+    f.write(array);
 
     f.close();
-
-    return file;
 }
 
 void GeneratorWindow::on_closeButton_clicked()

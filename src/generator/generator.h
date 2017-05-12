@@ -14,6 +14,7 @@ class Generator
 {
 public:
     Generator(GeneratorParameters param);
+    ~Generator();
 
     Scheme generate();
 

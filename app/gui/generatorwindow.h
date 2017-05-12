@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QDesktopServices>
 
 #include "generator/generator.h"
 #include "util/jsonserializer.h"
@@ -38,7 +37,7 @@ private:
 
     GeneratorParameters buildParameters();
 
-    QString saveScheme(Scheme s);
+    void saveScheme(Scheme s);
 };
 
 #endif // GENERATORWINDOW_H

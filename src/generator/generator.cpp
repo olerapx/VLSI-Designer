@@ -11,6 +11,12 @@ Generator::Generator(GeneratorParameters param):
     mt.discard(1000);
 }
 
+Generator::~Generator()
+{
+    for(Library* l: param.getLibraries())
+        delete l;
+}
+
 Scheme Generator::generate()
 {
     stopped = false;
