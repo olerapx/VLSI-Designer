@@ -34,8 +34,8 @@ public:
 
     void setElementsNumber(int number);
 
-    void setNodeCapacity(int mean, double sigma, int leftRange, int rightRange);
-    void setBranching(int mean, double sigma, int leftRange, int rightRange);
+    void setNodeCapacity(int mean, double sigma, int leftLimit, int rightLimit);
+    void setBranching(int mean, double sigma, int leftLimit, int rightLimit);
 
 
     int getElementsNumber() const { return elementsNumber; }

@@ -2,12 +2,13 @@
 
 Generator::Generator(GeneratorParameters param):
     param(param),
-    mt(device()),
+    mt{static_cast<long unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count())},
     nodeCapacityDistribution(param.getNodeCapacityMean(), param.getNodeCapacitySigma()),
     branchingDistribution(param.getBranchingMean(), param.getBranchingSigma()),
     libraryRandom(0, param.getLibraries().size() - 1)
 {
     stopped = true;
+    mt.discard(1000);
 }
 
 Scheme Generator::generate()
@@ -45,7 +46,17 @@ QList<NodeElement> Generator::generateElements()
         SchemeElement element = getRandomElement();
 
         for(int i=0; i<capacity; i++)
-            elements.append(NodeElement(element, currentNodeNumber));
+        {
+            SchemeElement el (element);
+
+            if (i > 0)
+            {
+                el.setIndex(currentIndex);
+                currentIndex ++;
+            }
+
+            elements.append(NodeElement(el, currentNodeNumber));
+        }
 
         currentNodeNumber ++;
 

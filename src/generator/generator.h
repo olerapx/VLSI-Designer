@@ -2,6 +2,7 @@
 #define GENERATOR_H
 
 #include <random>
+#include <chrono>
 #include "generatorparameters.h"
 #include "nodeelement.h"
 
@@ -19,7 +20,6 @@ public:
 private:
     GeneratorParameters param;
 
-    std::random_device device;
     std::mt19937 mt;
 
     std::normal_distribution<> nodeCapacityDistribution;

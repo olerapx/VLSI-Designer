@@ -17,8 +17,12 @@ LIBS += -L../src -lvlsi
 
 HEADERS += \
     gui/mainwindow.h \
+    gui/generatorwindow.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow.cpp \
+    gui/generatorwindow.cpp
 
-FORMS    += gui/mainwindow.ui
+FORMS    +=  \
+    gui/mainwindow.ui \
+    gui/generatorwindow.ui

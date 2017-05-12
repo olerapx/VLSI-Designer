@@ -21,24 +21,24 @@ void GeneratorParameters::setElementsNumber(int number)
     this->elementsNumber = number;
 }
 
-void GeneratorParameters::setNodeCapacity(int mean, double sigma, int leftRange, int rightRange)
+void GeneratorParameters::setNodeCapacity(int mean, double sigma, int leftLimit, int rightLimit)
 {
-    validateDistributionParameters(mean, sigma, leftRange, rightRange);
+    validateDistributionParameters(mean, sigma, leftLimit, rightLimit);
 
     nodeCapacityMean = mean;
     nodeCapacitySigma = sigma;
-    nodeCapacityLeftLimit = leftRange;
-    nodeCapacityRightLimit = rightRange;
+    nodeCapacityLeftLimit = leftLimit;
+    nodeCapacityRightLimit = rightLimit;
 }
 
-void GeneratorParameters::setBranching(int mean, double sigma, int leftRange, int rightRange)
+void GeneratorParameters::setBranching(int mean, double sigma, int leftLimit, int rightLimit)
 {
-    validateDistributionParameters(mean, sigma, leftRange, rightRange);
+    validateDistributionParameters(mean, sigma, leftLimit, rightLimit);
 
     branchingMean = mean;
     branchingSigma = sigma;
-    branchingLeftLimit = leftRange;
-    branchingRightLimit = rightRange;
+    branchingLeftLimit = leftLimit;
+    branchingRightLimit = rightLimit;
 }
 
 void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int leftRange, int rightRange)

@@ -6,6 +6,7 @@
 #include <QNetworkAddressEntry>
 #include <QMessageBox>
 
+#include "generatorwindow.h"
 #include "network/networkscanner.h"
 #include "network/networktransmitter.h"
 
@@ -27,6 +28,8 @@ private slots:
     void on_sendButton_clicked();
 
     void on_saveButton_clicked();
+
+    void on_generatorAction_triggered();
 
     void on_sendLog(QString data);
     void on_sendAddress(QHostAddress senderHost, QString hostName);
