@@ -166,8 +166,7 @@ void Generator::generateWires()
         {
             if(p.getType() == PinType::Output)
             {
-                if(stopped)
-                    return;
+                if(stopped) return;
                 generateWiresForOutput(elements[i], p);
             }
         }
@@ -230,7 +229,7 @@ LibraryElement Generator::getCorrespondingElement(SchemeElement element)
     throw Exception("Corresponding library element cannot be found.");
 }
 
-void Generator::generateWiresForOutput(NodeElement element, Pin p)
+void Generator::generateWiresForOutput(NodeElement& element, Pin p)
 {
     std::uniform_real_distribution<double> wireRandom(0, 1);
 
@@ -252,17 +251,20 @@ void Generator::generateWiresForOutput(NodeElement element, Pin p)
     }
 }
 
-void Generator::generateOuterWire(NodeElement element, Pin p)
+void Generator::generateOuterWire(NodeElement& element, Pin p)
 {
     std::pair<NodeElement, Pin> pair = getRandomPin();
 
     while(isWireExist(element, p, pair.first, pair.second))
       pair = getRandomPin();
 
-    wires.append(buildWire(element, p, pair.first, pair.second, WireType::Outer));
+    Wire w(buildWire(element, p, pair.first, pair.second, WireType::Outer));
+
+    wires.append(w);
+    element.getGeneratedWires().append(w);
 }
 
-bool Generator::generateInnerWire(NodeElement element, Pin p, int attempts)
+bool Generator::generateInnerWire(NodeElement& element, Pin p, int attempts)
 {
     std::pair<NodeElement, Pin> pair(getRandomPin(element.getNodeNumber()));
 
@@ -278,7 +280,10 @@ bool Generator::generateInnerWire(NodeElement element, Pin p, int attempts)
     if(isWireExist(element, p, pair.first, pair.second))
         return false;
 
-    wires.append(buildWire(element, p, pair.first, pair.second, WireType::Inner));
+    Wire w(buildWire(element, p, pair.first, pair.second, WireType::Inner));
+
+    wires.append(w);
+    element.getGeneratedWires().append(w);
 
     return true;
 }
@@ -310,10 +315,10 @@ std::pair<NodeElement, Pin> Generator::getRandomPin(int node)
 
 bool Generator::isWireExist(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin)
 {
-    for(Wire w: wires)
+    for(Wire w: sourceElement.getGeneratedWires())
     {
-        if(w.getSrcIndex() == sourceElement.getElement().getIndex() && w.getSrcPinId() == sourcePin.getId()
-           && w.getDestIndex() == destElement.getElement().getIndex() && w.getDestPinId() == destPin.getId())
+        if(w.getSrcPinId() == sourcePin.getId() &&
+           w.getDestIndex() == destElement.getElement().getIndex() && w.getDestPinId() == destPin.getId())
             return true;
     }
 

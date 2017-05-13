@@ -171,6 +171,8 @@ GeneratorParameters GeneratorWindow::buildParameters()
 
 void GeneratorWindow::saveScheme(Scheme s)
 {
+    onSendLog("Сериализация...");
+
     JsonSerializer json;
     QByteArray array = json.serialize(&s);
 
