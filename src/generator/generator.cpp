@@ -8,7 +8,7 @@ Generator::Generator(GeneratorParameters param):
     libraryRandom(0, param.getLibraries().size() - 1)
 {
     stopped = true;
-    mt.discard(1000);
+    mt.discard(numbersToDiscard);
 }
 
 Generator::~Generator()
@@ -21,8 +21,8 @@ Scheme Generator::generate()
 {
     stopped = false;
 
-    QList<NodeElement> elements = generateElements();
-    QList<Wire> wires = generateWires(elements);
+    generateElements();
+    generateWires();
 
     Scheme scheme;
 
@@ -36,11 +36,13 @@ Scheme Generator::generate()
     return scheme;
 }
 
-QList<NodeElement> Generator::generateElements()
+void Generator::generateElements()
 {
-    QList<NodeElement> elements;
+    elements.clear();
+    groupedElements.clear();
+    groupedElements.append(QList<NodeElement>());
 
-    currentIndex = 0;
+    currentElementIndex = 0;
 
     int capacity = 0;
     int elapsedElements = param.getElementsNumber();
@@ -51,17 +53,22 @@ QList<NodeElement> Generator::generateElements()
     {
         SchemeElement element = getRandomElement();
 
+        groupedElements.append(QList<NodeElement>());
+
         for(int i=0; i<capacity; i++)
         {
             SchemeElement el (element);
 
             if (i > 0)
             {
-                el.setIndex(currentIndex);
-                currentIndex ++;
+                el.setIndex(currentElementIndex);
+                currentElementIndex ++;
             }
 
-            elements.append(NodeElement(el, currentNodeNumber));
+            NodeElement element(el, currentNodeNumber);
+
+            elements.append(element);
+            groupedElements[groupedElements.size() - 1].append(element);
         }
 
         currentNodeNumber ++;
@@ -70,9 +77,12 @@ QList<NodeElement> Generator::generateElements()
     }
 
     for(int i=0; i<elapsedElements; i++)
-        elements.append(NodeElement(getRandomElement(), 0));
+    {
+        NodeElement element = NodeElement(getRandomElement(), freeNodeElementIndex);
 
-    return elements;
+        elements.append(element);
+        groupedElements[0].append(element);
+    }
 }
 
 int Generator::getTruncatedDistributedValue(std::normal_distribution<>& dist, int leftRange, int rightRange)
@@ -92,15 +102,18 @@ SchemeElement Generator::getRandomElement()
     std::uniform_int_distribution<int> libraryElementRandom(0, library->getElements().size() - 1);
     LibraryElement element = library->getElements()[libraryElementRandom(mt)];
 
-    SchemeElement res(library->getId(), element.getId(), currentIndex);
-    currentIndex ++;
+    SchemeElement res(library->getId(), element.getId(), currentElementIndex);
+    currentElementIndex ++;
 
     return res;
 }
 
-QList<Wire> Generator::generateWires(QList<NodeElement> elements)
+void Generator::generateWires()
 {
-    QList<Wire> res;
+    wires.clear();
+    currentWireIndex = 0;
+
+    checkBranching();
 
     for(int i=0; i<elements.size(); i++)
     {
@@ -110,9 +123,42 @@ QList<Wire> Generator::generateWires(QList<NodeElement> elements)
         {
             if(p.getType() == PinType::Output)
             {
-                generateWiresForOutput(elements[i], el, p, res);
+                generateWiresForOutput(elements[i], p);
             }
         }
+    }
+}
+
+void Generator::checkBranching()
+{
+    qint64 inputPins = countAllInputPins();
+
+    if(inputPins < param.getBranchingRightLimit())
+    {
+        int rightLimit = inputPins;
+        int leftLimit = param.getBranchingLeftLimit();
+        int mean = param.getBranchingMean();
+
+        if(leftLimit > rightLimit)
+            leftLimit = rightLimit;
+
+        if(mean < leftLimit || mean > rightLimit)
+            mean = (leftLimit + rightLimit) / 2;
+
+        param.setBranching(mean, param.getBranchingSigma(), leftLimit, rightLimit);
+    }
+    //TODO: log this
+}
+
+qint64 Generator::countAllInputPins()
+{
+    qint64 res = 0;
+    for(NodeElement element: elements)
+    {
+        LibraryElement el = getCorrespondingElement(element.getElement());
+        for(Pin p: el.getPins())
+            if(p.getType() == PinType::Input)
+                res ++;
     }
 
     return res;
@@ -135,7 +181,98 @@ LibraryElement Generator::getCorrespondingElement(SchemeElement element)
     throw Exception("Corresponding library element cannot be found.");
 }
 
-void Generator::generateWiresForOutput(NodeElement element, LibraryElement el, Pin p, QList<Wire>& wires)
+void Generator::generateWiresForOutput(NodeElement element, Pin p)
 {
+    std::uniform_real_distribution<double> wireRandom(0, 1);
 
+    int branching = branchingDistribution(mt);
+
+    for(int i=0; i<branching; i++)
+    {
+        double chance = wireRandom(mt);
+        if(element.getNodeNumber() == freeNodeElementIndex || chance <= chanceForOuterWire)
+        {
+            generateOuterWire(element, p);
+            continue;
+        }
+
+        if (!generateInnerWire(element, p, branching))
+            generateOuterWire(element, p);
+    }
+}
+
+void Generator::generateOuterWire(NodeElement element, Pin p)
+{
+    std::pair<NodeElement, Pin> pair = getRandomPin();
+
+    while(isWireExist(element, p, pair.first, pair.second))
+      pair = getRandomPin();
+
+    wires.append(buildWire(element, p, pair.first, pair.second, WireType::Outer));
+}
+
+bool Generator::generateInnerWire(NodeElement element, Pin p, int attempts)
+{
+    std::pair<NodeElement, Pin> pair(getRandomPin(element.getNodeNumber()));
+
+    for(int i=0; i<attempts; i++)
+    {
+        if(isWireExist(element, p, pair.first, pair.second))
+        {
+            pair = getRandomPin(element.getNodeNumber());
+        }
+        else break;
+    }
+
+    if(isWireExist(element, p, pair.first, pair.second))
+        return false;
+
+    wires.append(buildWire(element, p, pair.first, pair.second, WireType::Inner));
+
+    return true;
+}
+
+std::pair<NodeElement, Pin> Generator::getRandomPin(int node)
+{
+    QList<NodeElement> chosenElements;
+
+    if(node == freeNodeElementIndex)
+        chosenElements = elements;
+    else
+        chosenElements = groupedElements.at(node);
+
+    std::uniform_int_distribution<int> elementRandom(0, chosenElements.size() - 1);
+
+    while(true)
+    {
+        NodeElement element(chosenElements[elementRandom(mt)]);
+
+        LibraryElement libElement(getCorrespondingElement(element.getElement()));
+
+        std::uniform_int_distribution<int> pinRandom(0, libElement.getPins().size() - 1);
+        Pin pin(libElement.getPins()[pinRandom(mt)]);
+
+        if(pin.getType() == PinType::Input)
+            return std::make_pair(element, pin);
+    }
+}
+
+bool Generator::isWireExist(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin)
+{
+    for(Wire w: wires)
+    {
+        if(w.getSrcIndex() == sourceElement.getElement().getIndex() && w.getSrcPinId() == sourcePin.getId()
+           && w.getDestIndex() == destElement.getElement().getIndex() && w.getDestPinId() == destPin.getId())
+            return true;
+    }
+
+    return false;
+}
+
+Wire Generator::buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type)
+{
+    Wire wire(sourceElement.getElement().getIndex(), sourcePin.getId(), destElement.getElement().getIndex(), destPin.getId(), type, currentWireIndex);
+    currentWireIndex ++;
+
+    return wire;
 }

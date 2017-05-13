@@ -19,8 +19,6 @@ public:
     SchemeElement(QString libraryId, QString elementId, qint64 index);
     virtual ~SchemeElement() {}
 
-    SchemeElement& operator =(const SchemeElement&);
-
     void setLibraryId(QString libraryId);
     void setElementId(QString elementId);
     void setIndex(qint64 index);

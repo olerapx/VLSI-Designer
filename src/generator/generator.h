@@ -10,8 +10,10 @@
  * @brief The Generator class
  * Generates a scheme using the given parameters.
  */
-class Generator
+class Generator: public QObject
 {
+    Q_OBJECT
+
 public:
     Generator(GeneratorParameters param);
     ~Generator();
@@ -19,6 +21,10 @@ public:
     Scheme generate();
 
 private:
+    static constexpr int numbersToDiscard = 1000;
+    static constexpr int freeNodeElementIndex = 0;
+    static constexpr double chanceForOuterWire = 0.25;
+
     GeneratorParameters param;
 
     std::mt19937 mt;
@@ -28,18 +34,34 @@ private:
     std::uniform_int_distribution<int> libraryRandom;
 
     bool stopped;
-    qint64 currentIndex;
+    qint64 currentElementIndex;
+    qint64 currentWireIndex;
 
-    QList<NodeElement> generateElements();
+    QList<NodeElement> elements;
+    QList<QList<NodeElement>> groupedElements;
+    QList<Wire> wires;
+
+    void generateElements();
 
     int getTruncatedDistributedValue(std::normal_distribution<> &dist, int leftRange, int rightRange);
     SchemeElement getRandomElement();
 
-    QList<Wire> generateWires(QList<NodeElement> elements);
+    void generateWires();
+
+    void checkBranching();
+    qint64 countAllInputPins();
 
     LibraryElement getCorrespondingElement(SchemeElement element);
 
-    void generateWiresForOutput(NodeElement element, LibraryElement el, Pin p, QList<Wire> &wires);
+    void generateWiresForOutput(NodeElement element, Pin p);
+
+    void generateOuterWire(NodeElement element, Pin p);
+    bool generateInnerWire(NodeElement element, Pin p, int attempts);
+
+    std::pair<NodeElement, Pin> getRandomPin(int node = freeNodeElementIndex);
+
+    bool isWireExist(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin);
+    Wire buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type);
 };
 
 #endif // GENERATOR_H
