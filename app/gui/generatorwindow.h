@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QThread>
+#include <QTime>
 
 #include "generator/generator.h"
 #include "util/jsonserializer.h"
@@ -20,6 +22,9 @@ public:
     explicit GeneratorWindow(QWidget *parent = 0);
     ~GeneratorWindow();
 
+protected:
+     void closeEvent(QCloseEvent *event);
+
 private slots:
     void on_librariesButton_clicked();
 
@@ -27,11 +32,23 @@ private slots:
 
     void on_closeButton_clicked();
 
+    void onSendScheme(Scheme* s);
+    void onSendError(QString error);
+    void onSendLog(QString log);
+    void onSendFinish();
+
+    void on_stopButton_clicked();
+
+signals:
+    void sendStop();
+
 private:
     Ui::GeneratorWindow *ui;
 
     QStringList libraryFiles;
     Generator* generator;
+
+    QThread generatorThread;
 
     void setValidators();
 

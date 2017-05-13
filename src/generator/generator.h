@@ -16,9 +16,21 @@ class Generator: public QObject
 
 public:
     Generator(GeneratorParameters param);
-    ~Generator();
+    virtual ~Generator();
 
-    Scheme generate();
+    void generate();
+
+    bool isStopped() { return actuallyStopped; }
+
+signals:
+    void sendScheme(Scheme* s);
+    void sendFinish();
+    void sendError(QString error);
+    void sendLog(QString log);
+
+public slots:
+    void onStart();
+    void onStop();
 
 private:
     static constexpr int numbersToDiscard = 1000;
@@ -34,6 +46,7 @@ private:
     std::uniform_int_distribution<int> libraryRandom;
 
     bool stopped;
+    bool actuallyStopped;
     qint64 currentElementIndex;
     qint64 currentWireIndex;
 

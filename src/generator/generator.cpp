@@ -17,23 +17,54 @@ Generator::~Generator()
         delete l;
 }
 
-Scheme Generator::generate()
+void Generator::onStart()
+{
+    generate();
+}
+
+void Generator::onStop()
+{
+    stopped = true;
+}
+
+void Generator::generate()
 {
     stopped = false;
+    actuallyStopped = false;
 
-    generateElements();
-    generateWires();
+    try
+    {
+        generateElements();
+        generateWires();
 
-    Scheme scheme;
+        if(stopped)
+        {
+            sendFinish();
+            actuallyStopped = true;
+            return;
+        }
 
-    for(NodeElement el: elements)
-        scheme.getElements().append(el.getElement());
+        Scheme* scheme = new Scheme();
 
-    scheme.getWires().append(wires);
+        for(NodeElement el: elements)
+            scheme->getElements().append(el.getElement());
 
-    stopped = true;
+        scheme->getWires().append(wires);
 
-    return scheme;
+        stopped = true;
+        actuallyStopped = true;
+
+        sendScheme(scheme);
+        sendFinish();
+    }
+    catch(Exception e)
+    {
+        stopped = true;
+        actuallyStopped = true;
+
+        sendError(e.what());
+        sendFinish();
+    }
 }
 
 void Generator::generateElements()
@@ -41,6 +72,8 @@ void Generator::generateElements()
     elements.clear();
     groupedElements.clear();
     groupedElements.append(QList<NodeElement>());
+
+    sendLog("Генерация функциональных узлов");
 
     currentElementIndex = 0;
 
@@ -57,6 +90,8 @@ void Generator::generateElements()
 
         for(int i=0; i<capacity; i++)
         {
+            if(stopped) return;
+
             SchemeElement el (element);
 
             if (i > 0)
@@ -75,6 +110,8 @@ void Generator::generateElements()
 
         elapsedElements -= capacity;
     }
+
+    sendLog("Генерация свободных элементов");
 
     for(int i=0; i<elapsedElements; i++)
     {
@@ -115,14 +152,22 @@ void Generator::generateWires()
 
     checkBranching();
 
-    for(int i=0; i<elements.size(); i++)
+    sendLog("Генерация связей:");
+
+    int size = elements.size();
+
+    for(int i=0; i<size; i++)
     {
+        sendLog(QString("Элемент №%1 из %2").arg(QString::number(i), QString::number(size)));
+
         LibraryElement el = getCorrespondingElement(elements[i].getElement());
 
         for(Pin p: el.getPins())
         {
             if(p.getType() == PinType::Output)
             {
+                if(stopped)
+                    return;
                 generateWiresForOutput(elements[i], p);
             }
         }
@@ -131,6 +176,8 @@ void Generator::generateWires()
 
 void Generator::checkBranching()
 {
+    if(stopped) return;
+
     qint64 inputPins = countAllInputPins();
 
     if(inputPins < param.getBranchingRightLimit())
@@ -146,8 +193,10 @@ void Generator::checkBranching()
             mean = (leftLimit + rightLimit) / 2;
 
         param.setBranching(mean, param.getBranchingSigma(), leftLimit, rightLimit);
+
+        sendLog("Смена параметров ветвления:");
+        sendLog(QString("Медиана = %1, Левая граница = %2, Правая граница = %3").arg(mean, leftLimit, rightLimit));
     }
-    //TODO: log this
 }
 
 qint64 Generator::countAllInputPins()
@@ -189,6 +238,8 @@ void Generator::generateWiresForOutput(NodeElement element, Pin p)
 
     for(int i=0; i<branching; i++)
     {
+        if(stopped) return;
+
         double chance = wireRandom(mt);
         if(element.getNodeNumber() == freeNodeElementIndex || chance <= chanceForOuterWire)
         {

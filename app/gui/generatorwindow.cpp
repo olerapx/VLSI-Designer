@@ -7,6 +7,7 @@ GeneratorWindow::GeneratorWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(this->sizeHint());
+    generator = nullptr;
 
     setValidators();
 }
@@ -14,6 +15,53 @@ GeneratorWindow::GeneratorWindow(QWidget *parent) :
 GeneratorWindow::~GeneratorWindow()
 {
     delete ui;
+}
+
+void GeneratorWindow::closeEvent(QCloseEvent* event)
+{
+    onSendLog("Остановка...");
+    sendStop();
+
+    generatorThread.quit();
+    generatorThread.wait();
+
+    QMainWindow::closeEvent(event);
+}
+
+void GeneratorWindow::onSendScheme(Scheme* s)
+{
+    saveScheme(*s);
+
+    delete s;
+}
+
+void GeneratorWindow::onSendError(QString error)
+{
+    QMessageBox::critical(this, "Ошибка", error);
+}
+
+void GeneratorWindow::onSendLog(QString log)
+{
+    ui->textBrowser->append(QString("[%1] %2").arg(QTime::currentTime().toString(), log));
+}
+
+void GeneratorWindow::onSendFinish()
+{
+    disconnect(&generatorThread, &QThread::started, generator, &Generator::onStart);
+    disconnect(this, &GeneratorWindow::sendStop, generator, &Generator::onStop);
+
+    disconnect(generator, &Generator::sendScheme, this, &GeneratorWindow::onSendScheme);
+    disconnect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
+    disconnect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
+    disconnect(generator, &Generator::sendFinish, this, &GeneratorWindow::onSendFinish);
+    disconnect(generator, &Generator::sendFinish, &generatorThread, &QThread::quit);
+
+    delete generator;
+    generator = nullptr;
+
+    onSendLog("Работа завершена");
+
+    ui->generateButton->setEnabled(true);
 }
 
 void GeneratorWindow::setValidators()
@@ -61,20 +109,32 @@ void GeneratorWindow::on_librariesButton_clicked()
 
 void GeneratorWindow::on_generateButton_clicked()
 {
+    ui->generateButton->setEnabled(false);
+    ui->textBrowser->clear();
+
     try
     {
         GeneratorParameters param = buildParameters();
 
-        generator = new Generator(param); //TODO: threading
-        Scheme s = generator->generate();
+        generator = new Generator(param);
 
-        delete generator;
+        connect(&generatorThread, &QThread::started, generator, &Generator::onStart);
+        connect(this, &GeneratorWindow::sendStop, generator, &Generator::onStop, Qt::DirectConnection);
 
-        saveScheme(s);
+        connect(generator, &Generator::sendScheme, this, &GeneratorWindow::onSendScheme);
+        connect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
+        connect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
+        connect(generator, &Generator::sendFinish, this, &GeneratorWindow::onSendFinish);
+        connect(generator, &Generator::sendFinish, &generatorThread, &QThread::quit);
+
+        generator->moveToThread(&generatorThread);
+
+        generatorThread.start();
     }
-    catch(Exception ex)
+    catch(Exception e)
     {
-        QMessageBox::critical(this, "Ошибка", ex.what());
+        onSendError(e.what());
+        ui->generateButton->setEnabled(true);
     }
 }
 
@@ -132,4 +192,10 @@ void GeneratorWindow::saveScheme(Scheme s)
 void GeneratorWindow::on_closeButton_clicked()
 {
     this->close();
+}
+
+void GeneratorWindow::on_stopButton_clicked()
+{
+    onSendLog("Остановка...");
+    sendStop();
 }
