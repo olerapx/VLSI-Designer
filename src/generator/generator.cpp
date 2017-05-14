@@ -8,6 +8,7 @@ Generator::Generator(GeneratorParameters param):
     libraryRandom(0, param.getLibraries().size() - 1)
 {
     stopped = true;
+    actuallyStopped = true;
     mt.discard(numbersToDiscard);
 }
 
@@ -29,6 +30,8 @@ void Generator::onStop()
 
 void Generator::generate()
 {
+    if(!actuallyStopped) return;
+
     stopped = false;
     actuallyStopped = false;
 
@@ -39,8 +42,8 @@ void Generator::generate()
 
         if(stopped)
         {
-            sendFinish();
             actuallyStopped = true;
+            sendFinish();
             return;
         }
 

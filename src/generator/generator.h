@@ -18,18 +18,60 @@ public:
     Generator(GeneratorParameters param);
     virtual ~Generator();
 
+    /**
+     * @brief generate
+     * Starts the process of generation. Can run in separate thread.
+     * When the scheme will be generated, the sendScheme signal will be emitted.
+     */
     void generate();
 
+    /**
+     * @brief isStopped
+     * Use this to safely dispose the working thread.
+     * @return whether the generator is stopped or not.
+     */
     bool isStopped() { return actuallyStopped; }
 
 signals:
+    /**
+     * @brief sendScheme
+     * Emits when the generated scheme is ready.
+     * @param s - the generated scheme.
+     */
     void sendScheme(Scheme* s);
+
+    /**
+     * @brief sendFinish
+     * Emits when the generation is finished or interrupted because of any reason.
+     * From that moment on, the generator will be stopped.
+     */
     void sendFinish();
+
+    /**
+     * @brief sendError
+     * Emits when an exception is occurred.
+     * @param error - the exception text.
+     */
     void sendError(QString error);
+
+    /**
+     * @brief sendLog
+     * @param log
+     */
     void sendLog(QString log);
 
 public slots:
+
+    /**
+     * @brief onStart
+     * Starts the generator. An alternate way is to call generate().
+     */
     void onStart();
+
+    /**
+     * @brief onStop
+     * Requests the generator to stop. When the generator will be stopped, a sendFinish will be emitted.
+     */
     void onStop();
 
 private:
