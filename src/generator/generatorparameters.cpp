@@ -21,6 +21,14 @@ void GeneratorParameters::setElementsNumber(int number)
     this->elementsNumber = number;
 }
 
+void GeneratorParameters::setInnerWireChance(double chance)
+{
+    if(chance <= 0.0 || chance >= 1.0)
+        throw IllegalArgumentException("Invalid chance value");
+
+    this->innerWireChance = chance;
+}
+
 void GeneratorParameters::setNodeCapacity(int mean, double sigma, int leftLimit, int rightLimit)
 {
     validateDistributionParameters(mean, sigma, leftLimit, rightLimit);

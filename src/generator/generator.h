@@ -35,7 +35,6 @@ public slots:
 private:
     static constexpr int numbersToDiscard = 1000;
     static constexpr int freeNodeElementIndex = 0;
-    static constexpr double chanceForOuterWire = 0.25;
 
     GeneratorParameters param;
 

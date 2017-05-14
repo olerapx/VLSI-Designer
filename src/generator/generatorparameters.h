@@ -15,6 +15,8 @@ class GeneratorParameters
 private:
     int elementsNumber;
 
+    double innerWireChance;
+
     int nodeCapacityMean;
     double nodeCapacitySigma;
     int nodeCapacityLeftLimit;
@@ -34,11 +36,15 @@ public:
 
     void setElementsNumber(int number);
 
+    void setInnerWireChance(double chance);
+
     void setNodeCapacity(int mean, double sigma, int leftLimit, int rightLimit);
     void setBranching(int mean, double sigma, int leftLimit, int rightLimit);
 
 
     int getElementsNumber() const { return elementsNumber; }
+
+    double getInnerWireChance() { return innerWireChance; }
 
     int getNodeCapacityMean() const { return nodeCapacityMean; }
     double getNodeCapacitySigma() const { return nodeCapacitySigma; }

@@ -240,7 +240,7 @@ void Generator::generateWiresForOutput(NodeElement& element, Pin p)
         if(stopped) return;
 
         double chance = wireRandom(mt);
-        if(element.getNodeNumber() == freeNodeElementIndex || chance <= chanceForOuterWire)
+        if(element.getNodeNumber() == freeNodeElementIndex || chance > param.getInnerWireChance())
         {
             generateOuterWire(element, p);
             continue;

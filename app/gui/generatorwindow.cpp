@@ -86,6 +86,7 @@ void GeneratorWindow::setValidators()
     doubleValidator->setBottom(0.0);
     doubleValidator->setNotation(QDoubleValidator::StandardNotation);
 
+    ui->innerWireChanceText->setValidator(doubleValidator);
     ui->nodeCapacitySigmaText->setValidator(doubleValidator);
     ui->branchingSigmaText->setValidator(doubleValidator);
 }
@@ -155,6 +156,7 @@ GeneratorParameters GeneratorWindow::buildParameters()
 
     GeneratorParameters param(libraries);
     param.setElementsNumber(ui->elementsNumberText->text().toInt());
+    param.setInnerWireChance(ui->innerWireChanceText->text().toDouble());
 
     param.setNodeCapacity(ui->nodeCapacityMeanText->text().toInt(),
                           ui->nodeCapacitySigmaText->text().toDouble(),
