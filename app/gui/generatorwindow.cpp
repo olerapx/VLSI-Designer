@@ -95,7 +95,7 @@ void GeneratorWindow::on_librariesButton_clicked()
 {
     QDir dir = QDir::currentPath();
     dir.cdUp();
-    libraryFiles = QFileDialog::getOpenFileNames(this, "Выбор библиотек", dir.absolutePath(), "JSON (*.json);;Все файлы (*.*)");
+    libraryFiles = QFileDialog::getOpenFileNames(this, "Выбор библиотек", dir.absolutePath(), "JSON (*.json);;Бинарный(*.bin)");
 
     QString files = "";
 
@@ -142,13 +142,23 @@ void GeneratorWindow::on_generateButton_clicked()
 GeneratorParameters GeneratorWindow::buildParameters()
 {
     QList<Library*> libraries;
-    JsonSerializer json;
+    JsonSerializer jsonSerializer;
+    BinarySerializer binarySerializer;
 
     for(QString file: libraryFiles)
     {
         QFile f(file);
         f.open(QIODevice::ReadOnly);
-        Library* l = static_cast<Library*>(json.deserialize(f.readAll()));
+
+        QFileInfo info(f);
+        Library* l;
+
+
+        if(info.suffix() == "bin")
+            l = static_cast<Library*>(binarySerializer.deserialize(f.readAll()));
+        else
+            l = static_cast<Library*>(jsonSerializer.deserialize(f.readAll()));
+
         f.close();
 
         libraries.append(l);
@@ -175,18 +185,25 @@ void GeneratorWindow::saveScheme(Scheme s)
 {
     onSendLog("Сериализация...");
 
-    JsonSerializer json;
-    QByteArray array = json.serialize(&s);
+    JsonSerializer jsonSerializer;
+    BinarySerializer binarySerializer;
+    QByteArray array;
 
     QDir dir = QDir::currentPath();
     dir.cdUp();
 
-    QString file = QFileDialog::getSaveFileName(this, "Сохранение схемы", dir.absolutePath(), "JSON (*.json)");
+    QString file = QFileDialog::getSaveFileName(this, "Сохранение схемы", dir.absolutePath(), "JSON (*.json);;Бинарный(*.bin)");
     if(file.isEmpty())
         return;
 
     QFile f(file);
     f.open(QIODevice::WriteOnly);
+
+    QFileInfo info(f);
+    if(info.suffix() == "bin")
+        array = binarySerializer.serialize(&s);
+    else
+        array = jsonSerializer.serialize(&s);
 
     f.write(array);
 

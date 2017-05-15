@@ -8,6 +8,7 @@
 #include <QTime>
 
 #include "generator/generator.h"
+#include "util/serializer/binaryserializer.h"
 #include "util/serializer/jsonserializer.h"
 
 namespace Ui {
