@@ -10,6 +10,7 @@ class BinarySerializer: public Serializer
 {
 public:
     BinarySerializer();
+    virtual ~BinarySerializer() {}
 
     QByteArray serialize(Serializable* s);
 

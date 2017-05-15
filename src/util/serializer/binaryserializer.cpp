@@ -23,7 +23,7 @@ QByteArray BinarySerializer::serialize(Serializable *s)
 QByteArray BinarySerializer::serializeLibrary(Library* l)
 {
     QByteArray array;
-    QDataStream stream(array);
+    QDataStream stream(&array, QIODevice::WriteOnly);
 
     stream << QString("library");
 
@@ -63,7 +63,7 @@ QDataStream& BinarySerializer::serializePin(Pin p, QDataStream& stream)
 QByteArray BinarySerializer::serializeScheme(Scheme* s)
 {
     QByteArray array;
-    QDataStream stream(array);
+    QDataStream stream(&array, QIODevice::WriteOnly);
 
     stream << QString("scheme");
 
@@ -104,7 +104,7 @@ QDataStream& BinarySerializer::serializeWire(Wire w, QDataStream& stream)
 QByteArray BinarySerializer::serializeGrid(Grid* g)
 {
     QByteArray array;
-    QDataStream stream(array);
+    QDataStream stream(&array, QIODevice::WriteOnly);
 
     stream << QString("grid");
 
@@ -137,7 +137,7 @@ QDataStream& BinarySerializer::serializeCell(Cell c, QDataStream& stream)
 QByteArray BinarySerializer::serializeArchitecture(Architecture *a)
 {
     QByteArray array;
-    QDataStream stream(array);
+    QDataStream stream(&array, QIODevice::WriteOnly);
 
     stream << QString("architecture");
 
@@ -152,7 +152,7 @@ QByteArray BinarySerializer::serializeArchitecture(Architecture *a)
 
 Serializable* BinarySerializer::deserialize(QByteArray binaryData)
 {
-    QDataStream stream(binaryData);
+    QDataStream stream(&binaryData, QIODevice::ReadOnly);
 
     QString key;
     stream >> key;

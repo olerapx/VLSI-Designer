@@ -23,6 +23,7 @@ class JsonSerializer: public Serializer
 {
 public:
     JsonSerializer();
+    virtual ~JsonSerializer() {}
 
     /**
      * @brief serialize

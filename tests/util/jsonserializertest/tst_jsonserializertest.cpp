@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 #include <QFile>
 
-#include <util/jsonserializer.h>
+#include <util/serializer/jsonserializer.h>
 
 class UnsupportedSerializable: public Serializable
 {
