@@ -28,7 +28,9 @@ SOURCES += \
     datamodels/architecture/clientsnumber.cpp \
     exception/exception.cpp \
     exception/illegalargumentexception.cpp \
-    util/jsonserializer.cpp \
+    util/serializer/serializer.cpp \
+    util/serializer/jsonserializer.cpp \
+    util/serializer/binaryserializer.cpp \
     datamodels/library/libraryelement.cpp \
     generator/generatorparameters.cpp \
     generator/generator.cpp \

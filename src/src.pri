@@ -19,7 +19,9 @@ HEADERS  += \
     $$PWD/datamodels/architecture/architecture.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \
-    $$PWD/util/jsonserializer.h \
+    $$PWD/util/serializer/serializer.h \
+    $$PWD/util/serializer/jsonserializer.h \
+    $$PWD/util/serializer/binaryserializer.h \
     $$PWD/datamodels/grid/routedwireindex.h \
     $$PWD/datamodels/architecture/clientsnumber.h \
     $$PWD/datamodels/library/libraryelement.h \

@@ -8,7 +8,7 @@
 #include <QTime>
 
 #include "generator/generator.h"
-#include "util/jsonserializer.h"
+#include "util/serializer/jsonserializer.h"
 
 namespace Ui {
 class GeneratorWindow;
