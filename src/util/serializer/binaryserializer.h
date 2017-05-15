@@ -30,18 +30,18 @@ protected:
     QByteArray serializeArchitecture(Architecture* a);
 
 
-    Library* deserializeLibrary(QByteArray array);
+    Library* deserializeLibrary(QDataStream& stream);
     LibraryElement deserializeLibraryElement(QDataStream& stream);
     Pin deserializePin(QDataStream& stream);
 
-    Scheme* deserializeScheme(QByteArray array);
+    Scheme* deserializeScheme(QDataStream& stream);
     SchemeElement deserializeSchemeElement(QDataStream& stream);
     Wire deserializeWire(QDataStream& stream);
 
-    Grid* deserializeGrid(QByteArray array);
+    Grid* deserializeGrid(QDataStream& stream);
     Cell deserializeCell(QDataStream& stream);
 
-    Architecture* deserializeArchitecture(QByteArray array);
+    Architecture* deserializeArchitecture(QDataStream& stream);
 };
 
 #endif // BINARYSERIALIZER_H

@@ -158,24 +158,19 @@ Serializable* BinarySerializer::deserialize(QByteArray binaryData)
     stream >> key;
 
     if (key == "library")
-        return deserializeLibrary(binaryData);
+        return deserializeLibrary(stream);
     else if (key == "scheme")
-        return deserializeScheme(binaryData);
+        return deserializeScheme(stream);
     else if (key == "grid")
-        return deserializeGrid(binaryData);
+        return deserializeGrid(stream);
     else if (key == "architecture")
-        return deserializeArchitecture(binaryData);
+        return deserializeArchitecture(stream);
     else
         throw IllegalArgumentException ("The contained object is not supported or cannot be deserialized");
 }
 
-Library* BinarySerializer::deserializeLibrary(QByteArray array)
+Library* BinarySerializer::deserializeLibrary(QDataStream &stream)
 {
-    QDataStream stream(array);
-
-    QString obj;
-    stream >> obj;
-
     QString id;
     double version;
     QString name;
@@ -230,13 +225,8 @@ Pin BinarySerializer::deserializePin(QDataStream& stream)
     return Pin(id, (int)x, (int)y, (PinType)type);
 }
 
-Scheme* BinarySerializer::deserializeScheme(QByteArray array)
+Scheme* BinarySerializer::deserializeScheme(QDataStream& stream)
 {
-    QDataStream stream(array);
-
-    QString obj;
-    stream >> obj;
-
     Scheme* s = new Scheme();
 
     qint32 size;
@@ -282,13 +272,8 @@ Wire BinarySerializer::deserializeWire(QDataStream& stream)
     return Wire(srcIndex, srcPinId, destIndex, destPinId, (WireType)type, index);
 }
 
-Grid* BinarySerializer::deserializeGrid(QByteArray array)
+Grid* BinarySerializer::deserializeGrid(QDataStream &stream)
 {
-    QDataStream stream(array);
-
-    QString obj;
-    stream >> obj;
-
     qint32 initialLevel;
     stream >> initialLevel;
 
@@ -333,13 +318,8 @@ Cell BinarySerializer::deserializeCell(QDataStream& stream)
     return Cell((CellType)type, index, pinId);
 }
 
-Architecture* BinarySerializer::deserializeArchitecture(QByteArray array)
+Architecture* BinarySerializer::deserializeArchitecture(QDataStream &stream)
 {
-    QDataStream stream(array);
-
-    QString obj;
-    stream >> obj;
-
     qint32 type;
     stream >> type;
 
