@@ -38,6 +38,8 @@ public:
     CellType getType() const { return type; }
     qint64 getIndex() const { return index; }
     QString getPinId() const { return pinId; }
+
+    bool operator ==(const Cell& other);
 };
 
 #endif // CELL_H

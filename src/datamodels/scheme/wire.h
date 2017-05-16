@@ -39,7 +39,6 @@ public:
     void setType(WireType type);
     void setIndex(qint64 index);
 
-
     qint64 getSrcIndex() const { return srcIndex; }
     QString getSrcPinId() const { return srcPinId; }
 
@@ -48,6 +47,13 @@ public:
 
     WireType getType() const { return type; }
     qint64 getIndex() const { return index; }
+
+    /**
+     * @brief operator ==
+     * @param other
+     * @return true if wires are equal regardless to their indexes, false otherwise.
+     */
+    bool operator ==(const Wire& other);
 };
 
 #endif // WIRE_H

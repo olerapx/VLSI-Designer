@@ -1,11 +1,9 @@
 #include "scheme.h"
 
-Scheme::Scheme()
+bool Scheme::operator ==(const Scheme& other)
 {
+    if(elements == other.elements && wires == other.wires)
+        return true;
 
-}
-
-Scheme::~Scheme()
-{
-
+    return false;
 }

@@ -33,6 +33,8 @@ public:
     int getX() const { return x; }
     int getY() const { return y; }
     PinType getType() const { return type; }
+
+    bool operator ==(const Pin& other);
 };
 
 #endif // PIN_H

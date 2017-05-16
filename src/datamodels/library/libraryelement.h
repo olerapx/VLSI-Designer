@@ -18,7 +18,7 @@ protected:
 
 public:
     LibraryElement(QString id, int height, int width);
-    virtual ~LibraryElement();
+    virtual ~LibraryElement() {}
 
     void setId(QString id);
 
@@ -38,6 +38,8 @@ public:
     int getWidth() const { return width; }
 
     QList <Pin>& getPins() { return pins; }
+
+    bool operator ==(const LibraryElement& other);
 };
 
 #endif // ELEMENT_H

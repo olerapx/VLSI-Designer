@@ -114,7 +114,7 @@ private:
 
     std::pair<NodeElement, Pin> getRandomPin(int node = freeNodeElementIndex);
 
-    bool isWireExist(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin);
+    bool isWireExist(NodeElement sourceElement, Wire other);
     Wire buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type);
 };
 

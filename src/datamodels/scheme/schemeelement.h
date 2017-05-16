@@ -26,6 +26,13 @@ public:
     QString getLibraryId() const { return libraryId; }
     QString getElementId() const { return elementId; }
     qint64 getIndex() const { return index; }
+
+    /**
+     * @brief operator ==
+     * @param other
+     * @return true if elements are equal regardless of their indexes, false otherwise.
+     */
+    bool operator ==(const SchemeElement& other);
 };
 
 #endif // SCHEMEELEMENT_H

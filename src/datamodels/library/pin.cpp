@@ -33,3 +33,11 @@ void Pin::setType(PinType type)
 {
     this->type = type;
 }
+
+bool Pin::operator ==(const Pin& other)
+{
+    if(id == other.id && x == other.x && y == other.y && type == other.type)
+        return true;
+
+    return false;
+}

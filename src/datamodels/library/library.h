@@ -18,7 +18,7 @@ protected:
 
 public:
     Library(QString id, double version);
-    virtual ~Library();
+    virtual ~Library() {}
 
     void setId(QString id);
     void setVersion(double version);
@@ -28,6 +28,8 @@ public:
     double getVersion() const { return version; }
     QString getName() const { return name; }
     QList<LibraryElement>& getElements() { return elements; }
+
+    bool operator ==(const Library& other);
 };
 
 #endif // LIBRARY_H

@@ -17,13 +17,15 @@ protected:
 
 public:
     Grid(int initialLevel);
-    virtual ~Grid();
+    virtual ~Grid() {}
 
     void setInitialLevel(int initialLevel);
 
     QList<QList<Cell>>& getCells() { return cells; }
     QList <RoutedWireIndex>& getRoutedWires() { return routedWires; }
     int getInitialLevel() const { return initialLevel; }
+
+    bool operator ==(const Grid& other);
 };
 
 #endif // GRID_H

@@ -44,3 +44,23 @@ void Cell::setPinId(QString pinId)
         throw IllegalArgumentException("Pin id cannot be empty");
     this->pinId = pinId;
 }
+
+bool Cell::operator ==(const Cell& other)
+{
+    if(type != other.type)
+        return false;
+
+    if(type == CellType::Element)
+    {
+        if(index == other.index) return true;
+        else return false;
+    }
+
+    if(type == CellType::Pin)
+    {
+        if(index == other.index && pinId == other.pinId) return true;
+        else return false;
+    }
+
+    return true;
+}

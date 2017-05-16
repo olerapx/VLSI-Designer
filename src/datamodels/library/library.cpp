@@ -8,11 +8,6 @@ Library::Library(QString id, double version)
     name = "";
 }
 
-Library::~Library()
-{
-
-}
-
 void Library::setId(QString id)
 {
     if (id.isEmpty())
@@ -30,4 +25,13 @@ void Library::setVersion(double version)
 void Library::setName(QString name)
 {
     this->name = name;
+}
+
+bool Library::operator ==(const Library& other)
+{
+    if(id == other.id && version == other.version &&
+            name == other.name && elements == other.elements)
+        return true;
+
+    return false;
 }

@@ -10,11 +10,6 @@ LibraryElement::LibraryElement(QString id, int height, int width)
     model = "";
 }
 
-LibraryElement::~LibraryElement()
-{
-
-}
-
 void LibraryElement::setId(QString id)
 {
     if (id.isEmpty())
@@ -44,4 +39,14 @@ void LibraryElement::setWidth(int width)
     if (width <= 0)
         throw IllegalArgumentException("Element width must be positive");
     this->width = width;
+}
+
+bool LibraryElement::operator ==(const LibraryElement& other)
+{
+    if(id == other.id && name == other.name && model == other.model &&
+            height == other.height && width == other.width &&
+            pins == other.pins)
+        return true;
+
+    return false;
 }

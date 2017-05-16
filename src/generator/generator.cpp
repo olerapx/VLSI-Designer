@@ -95,7 +95,7 @@ void Generator::generateElements()
         {
             if(stopped) return;
 
-            SchemeElement el (element);
+            SchemeElement el(element);
 
             if (i > 0)
             {
@@ -103,10 +103,10 @@ void Generator::generateElements()
                 currentElementIndex ++;
             }
 
-            NodeElement element(el, currentNodeNumber);
+            NodeElement nodeElement(el, currentNodeNumber);
 
-            elements.append(element);
-            groupedElements[groupedElements.size() - 1].append(element);
+            elements.append(nodeElement);
+            groupedElements[groupedElements.size() - 1].append(nodeElement);
         }
 
         currentNodeNumber ++;
@@ -118,10 +118,10 @@ void Generator::generateElements()
 
     for(int i=0; i<elapsedElements; i++)
     {
-        NodeElement element = NodeElement(getRandomElement(), freeNodeElementIndex);
+        NodeElement nodeElement(getRandomElement(), freeNodeElementIndex);
 
-        elements.append(element);
-        groupedElements[0].append(element);
+        elements.append(nodeElement);
+        groupedElements[0].append(nodeElement);
     }
 }
 
@@ -257,11 +257,13 @@ void Generator::generateWiresForOutput(NodeElement& element, Pin p)
 void Generator::generateOuterWire(NodeElement& element, Pin p)
 {
     std::pair<NodeElement, Pin> pair = getRandomPin();
+    Wire w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
 
-    while(isWireExist(element, p, pair.first, pair.second))
-      pair = getRandomPin();
-
-    Wire w(buildWire(element, p, pair.first, pair.second, WireType::Outer));
+    while(isWireExist(element, w))
+    {
+        pair = getRandomPin();
+        w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
+    }
 
     wires.append(w);
     element.getGeneratedWires().append(w);
@@ -270,20 +272,20 @@ void Generator::generateOuterWire(NodeElement& element, Pin p)
 bool Generator::generateInnerWire(NodeElement& element, Pin p, int attempts)
 {
     std::pair<NodeElement, Pin> pair(getRandomPin(element.getNodeNumber()));
+    Wire w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
 
     for(int i=0; i<attempts; i++)
     {
-        if(isWireExist(element, p, pair.first, pair.second))
+        if(isWireExist(element, w))
         {
             pair = getRandomPin(element.getNodeNumber());
+            w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
         }
         else break;
     }
 
-    if(isWireExist(element, p, pair.first, pair.second))
+    if(isWireExist(element, w))
         return false;
-
-    Wire w(buildWire(element, p, pair.first, pair.second, WireType::Inner));
 
     wires.append(w);
     element.getGeneratedWires().append(w);
@@ -316,12 +318,12 @@ std::pair<NodeElement, Pin> Generator::getRandomPin(int node)
     }
 }
 
-bool Generator::isWireExist(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin)
+bool Generator::isWireExist(NodeElement sourceElement, Wire other)
 {
     for(Wire w: sourceElement.getGeneratedWires())
     {
-        if(w.getSrcPinId() == sourcePin.getId() &&
-           w.getDestIndex() == destElement.getElement().getIndex() && w.getDestPinId() == destPin.getId())
+        if(w.getSrcIndex() == other.getSrcIndex() && w.getSrcPinId() == other.getSrcPinId() &&
+                w.getDestIndex() == other.getDestIndex() && w.getDestPinId() == other.getDestPinId())
             return true;
     }
 

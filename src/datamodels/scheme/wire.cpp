@@ -51,3 +51,13 @@ void Wire::setIndex(qint64 index)
         throw IllegalArgumentException("Wire index cannot be negative");
     this->index = index;
 }
+
+bool Wire::operator ==(const Wire& other)
+{
+    if(srcIndex == other.srcIndex && srcPinId == other.srcPinId &&
+            destIndex == other.getDestIndex() && destPinId == other.getDestPinId() &&
+            type == other.getType())
+        return true;
+
+    return false;
+}

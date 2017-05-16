@@ -17,11 +17,13 @@ protected:
     QList<Wire> wires;
 
 public:
-    Scheme();
-    virtual ~Scheme();
+    Scheme() {}
+    virtual ~Scheme() {}
 
     QList<SchemeElement>& getElements() { return elements; }
     QList<Wire>& getWires() { return wires; }
+
+    bool operator ==(const Scheme& other);
 };
 
 #endif // SCHEME_H

@@ -31,6 +31,8 @@ public:
 
     QList<ClientsNumber>& getModel() { return model; }
     DistributionType getDistributionType() const { return type; }
+
+    bool operator ==(const Architecture& other);
 };
 
 #endif // ARCHITECTURE_H

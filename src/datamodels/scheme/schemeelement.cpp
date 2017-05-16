@@ -27,3 +27,11 @@ void SchemeElement::setIndex(qint64 index)
         throw IllegalArgumentException ("Element index cannot be negative");
     this->index = index;
 }
+
+bool SchemeElement::operator ==(const SchemeElement& other)
+{
+    if(libraryId == other.libraryId && elementId == other.elementId)
+        return true;
+
+    return false;
+}
