@@ -1,7 +1,7 @@
 CONFIG -= debug_and_release debug_and_release_target
 QT       += core network
 
-QMAKE_LFLAGS += -Wl,--large-address-aware
+win32: QMAKE_LFLAGS += -Wl,--large-address-aware
 
 INCLUDEPATH += $$PWD
 

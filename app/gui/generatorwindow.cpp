@@ -95,7 +95,7 @@ void GeneratorWindow::on_librariesButton_clicked()
 {
     QDir dir = QDir::currentPath();
     dir.cdUp();
-    libraryFiles = QFileDialog::getOpenFileNames(this, "Выбор библиотек", dir.absolutePath(), "JSON (*.json);;Бинарный(*.bin)");
+    libraryFiles = QFileDialog::getOpenFileNames(this, "Выбор библиотек", dir.absolutePath(), "JSON (*.json);;Бинарный (*.bin)");
 
     QString files = "";
 
@@ -192,7 +192,7 @@ void GeneratorWindow::saveScheme(Scheme s)
     QDir dir = QDir::currentPath();
     dir.cdUp();
 
-    QString file = QFileDialog::getSaveFileName(this, "Сохранение схемы", dir.absolutePath(), "JSON (*.json);;Бинарный(*.bin)");
+    QString file = QFileDialog::getSaveFileName(this, "Сохранение схемы", dir.absolutePath(), "JSON (*.json);;Бинарный (*.bin)");
     if(file.isEmpty())
         return;
 
