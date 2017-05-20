@@ -28,9 +28,9 @@ void Generator::onStop()
     stopped = true;
 }
 
-void Generator::generate()
+Scheme* Generator::generate()
 {
-    if(!actuallyStopped) return;
+    if(!actuallyStopped) return new Scheme();
 
     stopped = false;
     actuallyStopped = false;
@@ -44,7 +44,7 @@ void Generator::generate()
         {
             actuallyStopped = true;
             sendFinish();
-            return;
+            return new Scheme();
         }
 
         Scheme* scheme = new Scheme();
@@ -59,6 +59,8 @@ void Generator::generate()
 
         sendScheme(scheme);
         sendFinish();
+
+        return scheme;
     }
     catch(Exception e)
     {
@@ -67,6 +69,7 @@ void Generator::generate()
 
         sendError(e.what());
         sendFinish();
+        return new Scheme();
     }
 }
 
@@ -95,7 +98,7 @@ void Generator::generateElements()
         {
             if(stopped) return;
 
-            SchemeElement el(element);
+            SchemeElement el = element;
 
             if (i > 0)
             {
@@ -235,8 +238,7 @@ LibraryElement Generator::getCorrespondingElement(SchemeElement element)
 void Generator::generateWiresForOutput(NodeElement& element, Pin p)
 {
     std::uniform_real_distribution<double> wireRandom(0, 1);
-
-    int branching = branchingDistribution(mt);
+    int branching = getTruncatedDistributedValue(branchingDistribution, param.getBranchingLeftLimit(), param.getBranchingRightLimit());
 
     for(int i=0; i<branching; i++)
     {
@@ -267,6 +269,7 @@ void Generator::generateOuterWire(NodeElement& element, Pin p)
 
     wires.append(w);
     element.getGeneratedWires().append(w);
+    currentWireIndex ++;
 }
 
 bool Generator::generateInnerWire(NodeElement& element, Pin p, int attempts)
@@ -289,6 +292,7 @@ bool Generator::generateInnerWire(NodeElement& element, Pin p, int attempts)
 
     wires.append(w);
     element.getGeneratedWires().append(w);
+    currentWireIndex ++;
 
     return true;
 }
@@ -333,7 +337,6 @@ bool Generator::isWireExist(NodeElement sourceElement, Wire other)
 Wire Generator::buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type)
 {
     Wire wire(sourceElement.getElement().getIndex(), sourcePin.getId(), destElement.getElement().getIndex(), destPin.getId(), type, currentWireIndex);
-    currentWireIndex ++;
 
     return wire;
 }

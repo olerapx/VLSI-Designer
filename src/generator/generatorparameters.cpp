@@ -23,7 +23,7 @@ void GeneratorParameters::setElementsNumber(int number)
 
 void GeneratorParameters::setInnerWireChance(double chance)
 {
-    if(chance <= 0.0 || chance >= 1.0)
+    if(chance < 0.0 || chance > 1.0)
         throw IllegalArgumentException("Invalid chance value");
 
     this->innerWireChance = chance;

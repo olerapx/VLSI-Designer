@@ -23,7 +23,7 @@ public:
      * Starts the process of generation. Can run in separate thread.
      * When the scheme will be generated, the sendScheme signal will be emitted.
      */
-    void generate();
+    Scheme *generate();
 
     /**
      * @brief isStopped
@@ -31,6 +31,12 @@ public:
      * @return whether the generator is stopped or not.
      */
     bool isStopped() { return actuallyStopped; }
+
+    /**
+     * @brief getParam
+     * @return the parameters of this generator.
+     */
+    GeneratorParameters getParameters() { return param; }
 
 signals:
     /**

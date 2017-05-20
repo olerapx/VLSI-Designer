@@ -1,0 +1,32 @@
+{"library": {
+	"id": "generic",
+	"version": 0.1,
+	"name": "Generic Standard Element Library",
+	"elements": [
+	{
+		"id": "e1", 
+		"name": "name", 
+		"model": "Generic", 
+		"height": 4, 
+		"width": 2, 
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 3, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	},
+	{
+		"id": "e2",
+		"name": "name",
+		"model": "Generic",
+		"height": 4,
+		"width": 2,
+		"pins": [
+			{"id": "a", "x": 0, "y": 0, "type": "input"},
+			{"id": "b", "x": 0, "y": 1, "type": "input"},
+			{"id": "c", "x": 0, "y": 2, "type": "input"},
+			{"id": "z", "x": 1, "y": 1, "type": "output"}
+		]
+	}
+	]
+}}

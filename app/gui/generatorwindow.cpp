@@ -153,7 +153,6 @@ GeneratorParameters GeneratorWindow::buildParameters()
         QFileInfo info(f);
         Library* l;
 
-
         if(info.suffix() == "bin")
             l = static_cast<Library*>(binarySerializer.deserialize(f.readAll()));
         else
