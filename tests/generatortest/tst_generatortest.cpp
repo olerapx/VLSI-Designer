@@ -84,25 +84,6 @@ void GeneratorTest::generateTest()
 
     delete s;
     delete g;
-
-    readLibraries();
-    param = GeneratorParameters(libraries);
-
-    param.setElementsNumber(17);
-    param.setNodeCapacity(2, 0.1, 2, 2);
-
-    g = new Generator(param);
-    s = g->generate();
-
-    for(int i=0; i<16; i+=4)
-    {
-        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+1]));
-        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+2]));
-        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+3]));
-    }
-
-    delete s;
-    delete g;
 }
 
 void GeneratorTest::distributionTest()
@@ -110,16 +91,23 @@ void GeneratorTest::distributionTest()
     readLibraries();
     GeneratorParameters param(libraries);
 
-    param.setElementsNumber(50);
+    param.setElementsNumber(17);
 
-    param.setNodeCapacity(3, 0.1, 3, 3);
+    param.setNodeCapacity(2, 0.1, 2, 2);
     param.setBranching(4, 0.2, 4, 4);
 
     Generator* g = new Generator(param);
     Scheme* s = g->generate();
 
-    QVERIFY(s->getElements().size() == 50);
-    QVERIFY(s->getWires().size() == 200);
+    QVERIFY(s->getElements().size() == 17);
+    QVERIFY(s->getWires().size() == 17*4);
+
+    for(int i=0; i<16; i+=pow(2, 2))
+    {
+        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+1]));
+        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+2]));
+        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+3]));
+    }
 
     delete s;
     delete g;

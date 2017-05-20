@@ -251,7 +251,7 @@ void Generator::generateWiresForOutput(NodeElement& element, Pin p)
             continue;
         }
 
-        if (!generateInnerWire(element, p, branching))
+        if (!tryGenerateInnerWire(element, p, branching))
             generateOuterWire(element, p);
     }
 }
@@ -272,7 +272,7 @@ void Generator::generateOuterWire(NodeElement& element, Pin p)
     currentWireIndex ++;
 }
 
-bool Generator::generateInnerWire(NodeElement& element, Pin p, int attempts)
+bool Generator::tryGenerateInnerWire(NodeElement& element, Pin p, int attempts)
 {
     std::pair<NodeElement, Pin> pair(getRandomPin(element.getNodeNumber()));
     Wire w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
