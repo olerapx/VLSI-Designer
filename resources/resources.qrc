@@ -9,5 +9,7 @@
         <file>images/grid/pin.png</file>
         <file>images/grid/ud.png</file>
         <file>images/grid/ur.png</file>
+        <file>images/grid/element_border_2_corner.png</file>
+        <file>images/grid/element_border_3.png</file>
     </qresource>
 </RCC>

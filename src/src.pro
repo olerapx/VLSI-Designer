@@ -27,7 +27,6 @@ SOURCES += \
     datamodels/architecture/architecture.cpp \
     datamodels/architecture/clientsnumber.cpp \
     exception/exception.cpp \
-    exception/illegalargumentexception.cpp \
     util/serializer/serializer.cpp \
     util/serializer/jsonserializer.cpp \
     util/serializer/binaryserializer.cpp \
