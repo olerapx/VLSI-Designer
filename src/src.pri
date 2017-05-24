@@ -29,4 +29,8 @@ HEADERS  += \
     $$PWD/datamodels/library/libraryelement.h \
     $$PWD/generator/generatorparameters.h \
     $$PWD/generator/generator.h \
-    $$PWD/generator/nodeelement.h
+    $$PWD/generator/nodeelement.h \
+    $$PWD/util/renderer/gridrenderer.h
+
+RESOURCES += \
+    $$PWD/../resources/resources.qrc

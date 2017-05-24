@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>images/grid/udlr.png</file>
+        <file>images/grid/element_body.png</file>
+        <file>images/grid/element_border_1.png</file>
+        <file>images/grid/element_border_2.png</file>
+        <file>images/grid/element_border_4.png</file>
+        <file>images/grid/empty.png</file>
+        <file>images/grid/pin.png</file>
+        <file>images/grid/ud.png</file>
+        <file>images/grid/ur.png</file>
+    </qresource>
+</RCC>

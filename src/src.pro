@@ -34,4 +34,5 @@ SOURCES += \
     datamodels/library/libraryelement.cpp \
     generator/generatorparameters.cpp \
     generator/generator.cpp \
-    generator/nodeelement.cpp
+    generator/nodeelement.cpp \
+    util/renderer/gridrenderer.cpp
