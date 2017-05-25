@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += jsonserializertest binaryserializertest
+SUBDIRS += jsonserializertest binaryserializertest gridrenderertest

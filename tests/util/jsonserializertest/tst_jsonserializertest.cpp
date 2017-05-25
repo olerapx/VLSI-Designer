@@ -18,7 +18,7 @@ class JsonSerializerTest : public QObject
 
 public:
     JsonSerializerTest();
-    ~JsonSerializerTest();
+    ~JsonSerializerTest() {}
 
 private slots:
     void serializeTest();
@@ -44,11 +44,6 @@ JsonSerializerTest::JsonSerializerTest()
     dir.cdUp();
 
     datamodelsDir = dir.path();
-}
-
-JsonSerializerTest::~JsonSerializerTest()
-{
-
 }
 
 void JsonSerializerTest::serializeTest()

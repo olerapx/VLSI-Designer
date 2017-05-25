@@ -11,11 +11,10 @@ GridRenderer::GridRenderer()
 
 void GridRenderer::fillCache()
 {
-    for(const QString& str: QDir(":/resources").entryList())
+    for(QFileInfo& info: QDir(":/resources/images/grid").entryInfoList())
     {
-        QImage image = readImageFromFile(str);
-
-        QFileInfo info(str);
+        QImage image = readImageFromFile(info.absoluteFilePath());
+        //TODO: try-catch-log
 
         if(image.width() <= 0 || image.height() <= 0 || image.isNull())
             throw Exception(QString("The resource image is empty or corrupted: %1").arg(info.fileName()));
