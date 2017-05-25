@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QDir>
 #include <QPainter>
+#include <bitset>
 #include "datamodels/grid/grid.h"
 #include "exception/ioexception.h"
 
@@ -18,11 +19,13 @@ class GridRenderer
 public:
     GridRenderer();
 
-    QImage render(Grid g);
+    QImage render(Grid* g);
 
 private:
     int imageSize;
     QMap<QString, QImage> imageCache;
+
+    Grid* grid;
 
     int currentX;
     int currentY;
@@ -30,11 +33,11 @@ private:
     void fillCache();
     QImage readImageFromFile(const QString filePath);
 
-    void renderCell(QImage& image, Cell cell, Grid& g);
+    void renderCell(QImage& image, Cell cell);
     void renderEmpty(QImage& image);
-    void renderPin(QImage& image, Grid& g);
-    void renderElement(QImage& image, Grid& g);
-    void renderWire(QImage& image, Grid& g, CellType type);
+    void renderPin(QImage& image);
+    void renderElement(QImage& image);
+    void renderWire(QImage& image, CellType type);
 
     QImage getImageFromCache(QString key);
     void renderTileOnCurrentPosition(QImage& image, QImage tile);

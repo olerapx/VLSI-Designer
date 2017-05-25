@@ -49,19 +49,21 @@ QImage GridRenderer::readImageFromFile(const QString filePath)
     return image;
 }
 
-QImage GridRenderer::render(Grid g)
+QImage GridRenderer::render(Grid *g)
 {
-    if(g.getCells().size() == 0)
+    if(g->getCells().size() == 0)
         throw IllegalArgumentException("The grid is empty.");
 
-    QImage res(imageSize * g.getCells().at(0).size(), imageSize * g.getCells().size(), QImage::Format_ARGB32);
+    this->grid = g;
+
+    QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);
     res.fill(Qt::white);
 
-    for(QList<Cell> list: g.getCells())
+    for(QList<Cell> list: grid->getCells())
     {
         for(Cell cell: list)
         {
-            renderCell(res, cell, g);
+            renderCell(res, cell);
             currentX ++;
         }
 
@@ -72,7 +74,7 @@ QImage GridRenderer::render(Grid g)
     return res;
 }
 
-void GridRenderer::renderCell(QImage &image, Cell cell, Grid &g)
+void GridRenderer::renderCell(QImage &image, Cell cell)
 {
     switch(cell.getType())
     {
@@ -83,16 +85,16 @@ void GridRenderer::renderCell(QImage &image, Cell cell, Grid &g)
         }
         case CellType::Pin:
         {
-            renderPin(image, g);
+            renderPin(image);
             break;
         }
         case CellType::Element:
         {
-            renderElement(image, g);
+            renderElement(image);
             break;
         }
         default:
-            renderWire(image, g, cell.getType());
+            renderWire(image, cell.getType());
     }
 }
 
@@ -102,19 +104,206 @@ void GridRenderer::renderEmpty(QImage& image)
     renderTileOnCurrentPosition(image, tile);
 }
 
-void GridRenderer::renderPin(QImage& image, Grid& g)
+void GridRenderer::renderPin(QImage& image)
 {
+    QImage tile = getImageFromCache("pin");
 
+    if(currentY < grid->getCells().size()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
+        tile = rotateImage(tile, 90);
+    else if(currentX > 0 && grid->getCells()[currentY][currentX-1].getType() == CellType::Element)
+        tile = rotateImage(tile, 180);
+    else if(currentY > 0 && grid->getCells()[currentY-1][currentX].getType() == CellType::Element)
+        tile = rotateImage(tile, 270);
+
+    renderTileOnCurrentPosition(image, tile);
 }
 
-void GridRenderer::renderElement(QImage& image, Grid& g)
+void GridRenderer::renderElement(QImage& image)
 {
+    std::bitset<4> nearbyElements(0); // top, bottom, left, right
+    if(currentY > 0 && grid->getCells()[currentY-1][currentX].getType() == CellType::Element)
+        nearbyElements[3] = 1;
+    if(currentY < grid->getCells().size()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
+        nearbyElements[2] = 1;
+    if(currentX > 0 && grid->getCells()[currentY][currentX-1].getType() == CellType::Element)
+        nearbyElements[1] = 1;
+    if(currentX < grid->getCells()[0].size()-1 && grid->getCells()[currentY][currentX+1].getType() == CellType::Element)
+        nearbyElements[0] = 1;
 
+    ulong res = nearbyElements.to_ulong();
+
+    QImage tile;
+
+    switch(res)
+    {
+        case 0:
+        {
+            tile = getImageFromCache("element_border_4");
+            break;
+        }
+        case 1:
+        {
+            tile = getImageFromCache("element_border_3");
+            tile = rotateImage(tile, 180);
+            break;
+        }
+        case 2:
+        {
+            tile = getImageFromCache("element_border_3");
+            break;
+        }
+        case 3:
+        {
+            tile = getImageFromCache("element_border_2");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case 4:
+        {
+            tile = getImageFromCache("element_border_3");
+            tile = rotateImage(tile, -90);
+            break;
+        }
+        case 5:
+        {
+            tile = getImageFromCache("element_border_2_corner");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case 6:
+        {
+            tile = getImageFromCache("element_border_2_corner");
+            tile = rotateImage(tile, 180);
+            break;
+        }
+        case 7:
+        {
+            tile = getImageFromCache("element_border_1");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case 8:
+        {
+            tile = getImageFromCache("element_border_3");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case 9:
+        {
+            tile = getImageFromCache("element_border_2_corner");
+            break;
+        }
+        case 10:
+        {
+            tile = getImageFromCache("element_border_2_corner");
+            tile = rotateImage(tile, -90);
+            break;
+        }
+        case 11:
+        {
+            tile = getImageFromCache("element_border_1");
+            tile = rotateImage(tile, -90);
+            break;
+        }
+        case 12:
+        {
+            tile = getImageFromCache("element_border_2");
+            break;
+        }
+        case 13:
+        {
+            tile = getImageFromCache("element_border_1");
+            break;
+        }
+        case 14:
+        {
+            tile = getImageFromCache("element_border_1");
+            tile = rotateImage(tile, 180);
+            break;
+        }
+        case 15:
+        {
+            tile = getImageFromCache("element_body");
+            break;
+        }
+    }
+
+    renderTileOnCurrentPosition(image, tile);
 }
 
-void GridRenderer::renderWire(QImage& image, Grid& g, CellType type)
+void GridRenderer::renderWire(QImage& image, CellType type)
 {
+    QImage tile;
 
+    switch(type)
+    {
+        case CellType::UD:
+        {
+            tile = getImageFromCache("ud");
+            break;
+        }
+        case CellType::LR:
+        {
+            tile = getImageFromCache("ud");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case CellType::UL:
+        {
+            tile = getImageFromCache("ur");
+            tile = rotateImage(tile, -90);
+            break;
+        }
+        case CellType::UR:
+        {
+            tile = getImageFromCache("ur");
+            break;
+        }
+        case CellType::DL:
+        {
+            tile = getImageFromCache("ur");
+            tile = rotateImage(tile, 180);
+            break;
+        }
+        case CellType::DR:
+        {
+            tile = getImageFromCache("ur");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case CellType::UDL:
+        {
+            tile = getImageFromCache("udl");
+            break;
+        }
+        case CellType::UDR:
+        {
+            tile = getImageFromCache("udl");
+            tile = rotateImage(tile, 180);
+            break;
+        }
+        case CellType::LRU:
+        {
+            tile = getImageFromCache("udl");
+            tile = rotateImage(tile, 90);
+            break;
+        }
+        case CellType::LRD:
+        {
+            tile = getImageFromCache("udl");
+            tile = rotateImage(tile, -90);
+            break;
+        }
+        case CellType::UDLR:
+        {
+            tile = getImageFromCache("udlr");
+            break;
+        }
+        default:
+            return;
+    }
+
+    renderTileOnCurrentPosition(image, tile);
 }
 
 QImage GridRenderer::getImageFromCache(QString key)
