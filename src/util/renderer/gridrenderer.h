@@ -4,6 +4,7 @@
 #include <QImage>
 #include <QMap>
 #include <QDir>
+#include <QPainter>
 #include "datamodels/grid/grid.h"
 #include "exception/ioexception.h"
 
@@ -30,12 +31,13 @@ private:
     QImage readImageFromFile(const QString filePath);
 
     void renderCell(QImage& image, Cell cell, Grid& g);
-    void renderEmpty(QImage& image, Grid& g);
+    void renderEmpty(QImage& image);
     void renderPin(QImage& image, Grid& g);
     void renderElement(QImage& image, Grid& g);
-    void renderWire(QImage& image, Grid& g);
+    void renderWire(QImage& image, Grid& g, CellType type);
 
     QImage getImageFromCache(QString key);
+    void renderTileOnCurrentPosition(QImage& image, QImage tile);
     QImage rotateImage(QImage image, int degrees);
 };
 

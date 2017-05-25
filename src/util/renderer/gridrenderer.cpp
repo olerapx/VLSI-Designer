@@ -28,7 +28,7 @@ void GridRenderer::fillCache()
         else if(image.width() != imageSize)
             throw Exception(QString("All resource images must have the same size: %1.").arg(info.fileName()));
 
-        imageCache.insert(info.fileName(), image);
+        imageCache.insert(info.completeBaseName(), image);
     }
 }
 
@@ -78,7 +78,7 @@ void GridRenderer::renderCell(QImage &image, Cell cell, Grid &g)
     {
         case CellType::Empty:
         {
-            renderEmpty(image, g);
+            renderEmpty(image);
             break;
         }
         case CellType::Pin:
@@ -92,26 +92,27 @@ void GridRenderer::renderCell(QImage &image, Cell cell, Grid &g)
             break;
         }
         default:
-            renderWire(image, g);
+            renderWire(image, g, cell.getType());
     }
 }
 
-void renderEmpty(QImage& image, Grid& g)
+void GridRenderer::renderEmpty(QImage& image)
+{
+    QImage tile = getImageFromCache("empty");
+    renderTileOnCurrentPosition(image, tile);
+}
+
+void GridRenderer::renderPin(QImage& image, Grid& g)
 {
 
 }
 
-void renderPin(QImage& image, Grid& g)
+void GridRenderer::renderElement(QImage& image, Grid& g)
 {
 
 }
 
-void renderElement(QImage& image, Grid& g)
-{
-
-}
-
-void renderWire(QImage& image, Grid& g)
+void GridRenderer::renderWire(QImage& image, Grid& g, CellType type)
 {
 
 }
@@ -122,6 +123,15 @@ QImage GridRenderer::getImageFromCache(QString key)
         throw Exception(QString("Missing cache image: %1").arg(key));
 
     return imageCache.value(key);
+}
+
+void GridRenderer::renderTileOnCurrentPosition(QImage& image, QImage tile)
+{
+    QPoint position(currentX * imageSize, currentY * imageSize);
+
+    QPainter painter(&image);
+    painter.drawImage(position, tile);
+    painter.end();
 }
 
 QImage GridRenderer::rotateImage(QImage image, int degrees)

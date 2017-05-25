@@ -36,7 +36,7 @@ public:
      * @brief getParam
      * @return the parameters of this generator.
      */
-    GeneratorParameters getParameters() { return param; }
+    GeneratorParameters getParameters() const { return param; }
 
 signals:
     /**
