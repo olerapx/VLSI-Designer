@@ -53,6 +53,11 @@ QImage GridRenderer::render(Grid *g)
     if(g->getCells().size() == 0)
         throw IllegalArgumentException("The grid is empty.");
 
+    int size = g->getCells()[0].size();
+    for(QList<Cell> list: g->getCells())
+        if(list.size() != size)
+            throw IllegalArgumentException("The grid is not rectangular.");
+
     this->grid = g;
 
     QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);

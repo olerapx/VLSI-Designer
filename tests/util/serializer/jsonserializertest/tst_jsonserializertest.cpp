@@ -42,8 +42,9 @@ JsonSerializerTest::JsonSerializerTest()
     QDir dir (QApplication::applicationDirPath());
     dir.cdUp();
     dir.cdUp();
+    dir.cdUp();
 
-    datamodelsDir = dir.path();
+    datamodelsDir = dir.path() + "/datamodels";
 }
 
 void JsonSerializerTest::serializeTest()
@@ -252,7 +253,7 @@ void JsonSerializerTest::deserializeLibraryTest()
     JsonSerializer json;
     Library* l;
     {
-        QFile f(datamodelsDir+"/datamodels/library.json");
+        QFile f(datamodelsDir+"/library.json");
         f.open(QIODevice::ReadOnly);
 
         l = static_cast<Library*>(json.deserialize(f.readAll()));
@@ -280,7 +281,7 @@ void JsonSerializerTest::deserializeLibraryTest()
     delete l;
 
     {
-        QFile f (datamodelsDir+"/datamodels/library_invalid_pin_type.json");
+        QFile f (datamodelsDir+"/library_invalid_pin_type.json");
         f.open(QIODevice::ReadOnly);
         QVERIFY_EXCEPTION_THROWN(json.deserialize(f.readAll()), IllegalArgumentException);
         f.close();
@@ -292,7 +293,7 @@ void JsonSerializerTest::deserializeSchemeTest()
     JsonSerializer json;
     Scheme* s;
     {
-        QFile f(datamodelsDir+"/datamodels/scheme.json");
+        QFile f(datamodelsDir+"/scheme.json");
         f.open(QIODevice::ReadOnly);
 
         s = static_cast<Scheme*>(json.deserialize(f.readAll()));
@@ -318,7 +319,7 @@ void JsonSerializerTest::deserializeSchemeTest()
     delete s;
 
     {
-        QFile f(datamodelsDir+"/datamodels/scheme_invalid_wire_type.json");
+        QFile f(datamodelsDir+"/scheme_invalid_wire_type.json");
         f.open(QIODevice::ReadOnly);
         QVERIFY_EXCEPTION_THROWN(json.deserialize(f.readAll()), IllegalArgumentException);
         f.close();
@@ -330,7 +331,7 @@ void JsonSerializerTest::deserializeGridTest()
     JsonSerializer json;
     Grid* g;
     {
-        QFile f(datamodelsDir+"/datamodels/grid.json");
+        QFile f(datamodelsDir+"/grid.json");
         f.open(QIODevice::ReadOnly);
 
         g = static_cast<Grid*>(json.deserialize(f.readAll()));
@@ -359,7 +360,7 @@ void JsonSerializerTest::deserializeGridTest()
     QVERIFY(pinCell.getPinId() == "z");
 
     {
-        QFile f(datamodelsDir+"/datamodels/grid_invalid_cell_type.json");
+        QFile f(datamodelsDir+"/grid_invalid_cell_type.json");
         f.open(QIODevice::ReadOnly);
         QVERIFY_EXCEPTION_THROWN(json.deserialize(f.readAll()), IllegalArgumentException);
         f.close();
@@ -373,7 +374,7 @@ void JsonSerializerTest::deserializeArchitectureTest()
     JsonSerializer json;
     Architecture* a;
     {
-        QFile f(datamodelsDir+"/datamodels/architecture.json");
+        QFile f(datamodelsDir+"/architecture.json");
         f.open(QIODevice::ReadOnly);
 
         a = static_cast<Architecture*>(json.deserialize(f.readAll()));
@@ -386,7 +387,7 @@ void JsonSerializerTest::deserializeArchitectureTest()
     QVERIFY(a->getDistributionType() == DistributionType::Greedy);
 
     {
-       QFile f(datamodelsDir+"/datamodels/architecture_invalid_distribution_type.json");
+       QFile f(datamodelsDir+"/architecture_invalid_distribution_type.json");
        f.open(QIODevice::ReadOnly);
        QVERIFY_EXCEPTION_THROWN(json.deserialize(f.readAll()), IllegalArgumentException);
        f.close();
