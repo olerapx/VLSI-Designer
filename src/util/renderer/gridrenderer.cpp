@@ -13,19 +13,28 @@ void GridRenderer::fillCache()
 {
     for(QFileInfo& info: QDir(":/resources/images/grid").entryInfoList())
     {
-        QImage image = readImageFromFile(info.absoluteFilePath());
-        //TODO: try-catch-log
+        QImage image;
+
+        try
+        {
+            image = readImageFromFile(info.absoluteFilePath());
+        }
+        catch(Exception ex)
+        {
+            sendLog(QString("Image %1 cannot be read.").arg(info.fileName()));
+            continue;
+        }
 
         if(image.width() <= 0 || image.height() <= 0 || image.isNull())
-            throw Exception(QString("The resource image is empty or corrupted: %1").arg(info.fileName()));
+            throw Exception(QString("The resource image is empty or corrupted: %1. Contact the developers to resolve this.").arg(info.fileName()));
 
         if(image.width() != image.height())
-            throw Exception(QString("The resource image must be rectangular: %1.").arg(info.fileName()));
+            throw Exception(QString("The resource image must be rectangular: %1. Contact the developers to resolve this.").arg(info.fileName()));
 
         if(imageSize == 0)
             imageSize = image.width();
         else if(image.width() != imageSize)
-            throw Exception(QString("All resource images must have the same size: %1.").arg(info.fileName()));
+            throw Exception(QString("All resource images must have the same size: %1. Contact the developers to resolve this.").arg(info.fileName()));
 
         imageCache.insert(info.completeBaseName(), image);
     }
@@ -50,7 +59,9 @@ QImage GridRenderer::readImageFromFile(const QString filePath)
 
 QImage GridRenderer::render(Grid *g)
 {
-    if(g->getCells().size() == 0)
+    int gridSize = g->getCells().size();
+
+    if(gridSize == 0)
         throw IllegalArgumentException("The grid is empty.");
 
     int size = g->getCells()[0].size();
@@ -60,13 +71,22 @@ QImage GridRenderer::render(Grid *g)
 
     this->grid = g;
 
+    sendLog("Preparing the canvas for rendering.");
+
     QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);
     res.fill(Qt::white);
+
+    sendLog("Starting.");
+
+    int totalSize = gridSize * size;
+    int i = 0;
 
     for(QList<Cell> list: grid->getCells())
     {
         for(Cell cell: list)
         {
+            i++;
+            sendLog(QString("Rendering cell %1 of %2.").arg(i, totalSize));
             renderCell(res, cell);
             currentX ++;
         }

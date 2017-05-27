@@ -14,12 +14,18 @@
  * Constructs an image of a grid using the image resources.
  * Each cell in the grid is associated with one of the images, so the resulting image is composed of them.
  */
-class GridRenderer
+class GridRenderer: public QObject
 {
+    Q_OBJECT
+
 public:
     GridRenderer();
+    virtual ~GridRenderer() {}
 
     QImage render(Grid* g);
+
+signals:
+    void sendLog(QString log);
 
 private:
     int imageSize;
