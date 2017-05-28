@@ -1,10 +1,5 @@
 #include "jsonserializer.h"
 
-JsonSerializer::JsonSerializer()
-{
-
-}
-
 QByteArray JsonSerializer::serialize(Serializable* s)
 {
     const std::type_info& info = typeid(*s);
@@ -17,7 +12,7 @@ QByteArray JsonSerializer::serialize(Serializable* s)
     else if (info == typeid(Architecture))
         return serializeArchitecture(static_cast<Architecture*>(s));
     else
-        throw IllegalArgumentException("The passed object's type is not supported.");
+        throw IllegalArgumentException(QObject::tr("The passed object's type is not supported: %1.").arg(info.name()));
 }
 
 QByteArray JsonSerializer::serializeLibrary(Library* l)
@@ -187,7 +182,7 @@ Serializable* JsonSerializer::deserialize(QByteArray jsonData)
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     if(!doc.isObject())
-        throw IllegalArgumentException ("Invalid JSON");
+        throw IllegalArgumentException(QObject::tr("Invalid JSON."));
 
     QJsonObject obj = doc.object();
     QString key = obj.keys()[0];
@@ -201,7 +196,7 @@ Serializable* JsonSerializer::deserialize(QByteArray jsonData)
     else if (key == "architecture")
         return deserializeArchitecture(obj.value("architecture").toObject());
     else
-        throw IllegalArgumentException ("The contained JSON object is not supported or cannot be deserialized directly");
+        throw IllegalArgumentException(QObject::tr("The contained JSON object is not supported or cannot be deserialized directly."));
 }
 
 Library* JsonSerializer::deserializeLibrary(QJsonObject obj)
@@ -249,7 +244,7 @@ Pin JsonSerializer::deserializePin(QJsonObject obj)
     if (pinTypeMap.contains(t))
         type = pinTypeMap[t];
     else
-        throw IllegalArgumentException("Invalid pin type specified");
+        throw IllegalArgumentException(QObject::tr("Invalid pin type specified, got: %1.").arg(t));
 
     return Pin(id, x, y, type);
 }
@@ -297,7 +292,7 @@ Wire JsonSerializer::deserializeWire(QJsonObject obj)
     if (wireTypeMap.contains(t))
         type = wireTypeMap[t];
     else
-        throw IllegalArgumentException("Invalid wire type specified");
+        throw IllegalArgumentException(QObject::tr("Invalid wire type specified, got: %1.").arg(t));
 
     qint64 index = obj.value("index").toString().toLongLong(&ok);
     if (!ok) index = -1;
@@ -328,7 +323,7 @@ Grid* JsonSerializer::deserializeGrid(QJsonObject obj)
         bool ok;
         qint64 index = val.toString().toLongLong(&ok);
         if (!ok)
-            throw IllegalArgumentException("Invalid routed wire index");
+            throw IllegalArgumentException(QObject::tr("Invalid routed wire index, got: %1.").arg(QString::number(index)));
 
         grid->getRoutedWires().append(index);
     }
@@ -343,7 +338,7 @@ Cell JsonSerializer::deserializeCell(QJsonObject obj)
     if (cellTypeMap.contains(t))
         type = cellTypeMap[t];
     else
-        throw IllegalArgumentException("Invalid cell type specified");
+        throw IllegalArgumentException(QObject::tr("Invalid cell type specified, got: %1.").arg(t));
 
     bool ok;
     qint64 index = obj.value("index").toString().toLongLong(&ok);
@@ -361,7 +356,7 @@ Architecture* JsonSerializer::deserializeArchitecture(QJsonObject obj)
     if (distributionTypeMap.contains(t))
         type = distributionTypeMap[t];
     else
-        throw IllegalArgumentException("Invalid distribution type specified");
+        throw IllegalArgumentException(QObject::tr("Invalid distribution type specified, got: %1.").arg(t));
 
     Architecture* architecture = new Architecture(type);
 

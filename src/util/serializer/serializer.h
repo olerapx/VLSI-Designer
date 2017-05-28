@@ -2,6 +2,7 @@
 #define SERIALIZER_H
 
 #include <QMap>
+
 #include "datamodels/architecture/architecture.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/library/library.h"

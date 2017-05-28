@@ -12,5 +12,9 @@
         <file>images/grid/element_border_2_corner.png</file>
         <file>images/grid/element_border_3.png</file>
         <file>images/grid/udl.png</file>
+        <file>localization/app_en_US.qm</file>
+        <file>localization/app_ru_RU.qm</file>
+        <file>localization/src_en_US.qm</file>
+        <file>localization/src_ru_RU.qm</file>
     </qresource>
 </RCC>

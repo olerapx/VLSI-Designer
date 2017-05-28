@@ -8,7 +8,7 @@ Grid::Grid(int initialLevel)
 void Grid::setInitialLevel(int initialLevel)
 {
     if (initialLevel < 0)
-        throw IllegalArgumentException("Client initial level cannot be negative");
+        throw IllegalArgumentException(QObject::tr("Client initial level cannot be negative, passed: %1.").arg(QString::number(initialLevel)));
 
     this->initialLevel = initialLevel;
 }

@@ -19,7 +19,7 @@ GeneratorWindow::~GeneratorWindow()
 
 void GeneratorWindow::closeEvent(QCloseEvent* event)
 {
-    onSendLog("Остановка...");
+    onSendLog(tr("Stopping..."));
     sendStop();
 
     generatorThread.quit();
@@ -37,7 +37,7 @@ void GeneratorWindow::onSendScheme(Scheme* s)
 
 void GeneratorWindow::onSendError(QString error)
 {
-    QMessageBox::critical(this, "Ошибка", error);
+    QMessageBox::critical(this, tr("Error"), error);
 }
 
 void GeneratorWindow::onSendLog(QString log)
@@ -59,7 +59,7 @@ void GeneratorWindow::onSendFinish()
     delete generator;
     generator = nullptr;
 
-    onSendLog("Работа завершена");
+    onSendLog(tr("Generation is finished."));
 
     ui->generateButton->setEnabled(true);
 }
@@ -95,7 +95,7 @@ void GeneratorWindow::on_librariesButton_clicked()
 {
     QDir dir = QDir::currentPath();
     dir.cdUp();
-    libraryFiles = QFileDialog::getOpenFileNames(this, "Выбор библиотек", dir.absolutePath(), "JSON (*.json);;Бинарный (*.bin)");
+    libraryFiles = QFileDialog::getOpenFileNames(this, tr("Libraries choosing"), dir.absolutePath(), tr("JSON (*.json);;Binary (*.bin)"));
 
     QString files = "";
 
@@ -182,7 +182,7 @@ GeneratorParameters GeneratorWindow::buildParameters()
 
 void GeneratorWindow::saveScheme(Scheme s)
 {
-    onSendLog("Сериализация...");
+    onSendLog(tr("Serialization..."));
 
     JsonSerializer jsonSerializer;
     BinarySerializer binarySerializer;
@@ -191,7 +191,7 @@ void GeneratorWindow::saveScheme(Scheme s)
     QDir dir = QDir::currentPath();
     dir.cdUp();
 
-    QString file = QFileDialog::getSaveFileName(this, "Сохранение схемы", dir.absolutePath(), "JSON (*.json);;Бинарный (*.bin)");
+    QString file = QFileDialog::getSaveFileName(this, tr("Scheme saving"), dir.absolutePath(), tr("JSON (*.json);;Binary (*.bin)"));
     if(file.isEmpty())
         return;
 
@@ -216,6 +216,6 @@ void GeneratorWindow::on_closeButton_clicked()
 
 void GeneratorWindow::on_stopButton_clicked()
 {
-    onSendLog("Остановка...");
+    onSendLog(tr("Stopping..."));
     sendStop();
 }

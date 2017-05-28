@@ -11,14 +11,15 @@ Library::Library(QString id, double version)
 void Library::setId(QString id)
 {
     if (id.isEmpty())
-        throw IllegalArgumentException("Library id cannot be empty");
+        throw IllegalArgumentException(QObject::tr("Library id cannot be empty."));
     this->id = id;
 }
 
 void Library::setVersion(double version)
 {
     if (version < 0.0)
-        throw IllegalArgumentException ("Library version cannot be negative");
+        throw IllegalArgumentException (QObject::tr("Library version cannot be negative, passed: %1.")
+                                        .arg(QString::number(version)));
     this->version = version;
 }
 

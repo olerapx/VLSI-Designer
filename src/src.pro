@@ -12,7 +12,6 @@ include (src.pri)
 
 SOURCES += \
     network/networkscanner.cpp \
-    network/networkexception.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \
     datamodels/serializable.cpp \
@@ -35,3 +34,7 @@ SOURCES += \
     generator/generator.cpp \
     generator/nodeelement.cpp \
     util/renderer/gridrenderer.cpp
+
+TRANSLATIONS = \
+    ../resources/localization/src_en_US.ts  \
+    ../resources/localization/src_ru_RU.ts

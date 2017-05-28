@@ -13,7 +13,7 @@ void Cell::setType(CellType type, qint64 index, QString pinId)
     if (type == CellType::Element)
     {
         if (index == -1)
-            throw IllegalArgumentException("Cant create element cell without index");
+            throw IllegalArgumentException(QObject::tr("Cannot create element cell without index."));
 
         setIndex(index);
 
@@ -22,7 +22,7 @@ void Cell::setType(CellType type, qint64 index, QString pinId)
     if (type == CellType::Pin)
     {
         if (pinId.isEmpty())
-            throw IllegalArgumentException("Cant create pin cell without pinId");
+            throw IllegalArgumentException(QObject::tr("Cannot create pin cell without pinId."));
 
         setIndex(index);
         setPinId(pinId);
@@ -34,14 +34,14 @@ void Cell::setType(CellType type, qint64 index, QString pinId)
 void Cell::setIndex(qint64 index)
 {
     if (index < 0)
-        throw IllegalArgumentException("Element index cannot be negative");
+        throw IllegalArgumentException(QObject::tr("Element index cannot be negative, passed: %1.").arg(QString::number(index)));
     this->index = index;
 }
 
 void Cell::setPinId(QString pinId)
 {
     if (pinId.isEmpty())
-        throw IllegalArgumentException("Pin id cannot be empty");
+        throw IllegalArgumentException(QObject::tr("Pin id cannot be empty."));
     this->pinId = pinId;
 }
 

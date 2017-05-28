@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QPainter>
 #include <bitset>
+
 #include "datamodels/grid/grid.h"
 #include "exception/ioexception.h"
 

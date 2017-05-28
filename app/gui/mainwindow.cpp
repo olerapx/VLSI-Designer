@@ -115,8 +115,8 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::on_dataReceived(QByteArray data, QHostAddress address, int port)
 {
-    log(QString("Receiving data from %1:%2...").arg(address.toString(), port));
-    log(QString("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
+    log(tr("Receiving data from %1:%2...").arg(address.toString(), port));
+    log(tr("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
 }
 
 void MainWindow::on_generatorAction_triggered()

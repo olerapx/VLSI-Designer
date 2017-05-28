@@ -1,10 +1,5 @@
 #include "networkscanner.h"
 
-NetworkScanner::NetworkScanner()
-{
-
-}
-
 NetworkScanner::~NetworkScanner()
 {
     if (mode != Mode::None)
@@ -26,11 +21,11 @@ void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInt
     scanningUpstreamSocket->bind();
     if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
+        throw NetworkException(tr("Cannot bind socket to port %1.").arg(scanningPort));
 
     if (!responseDownstreamSocket->bind(this->responsePort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
+        throw NetworkException(tr("Cannot bind socket to port %1.").arg(responsePort));
 
     scanningUpstreamSocket->setMulticastInterface(this->interface);
     scanningDownstreamSocket->joinMulticastGroup(this->scanningAddress, this->interface);
@@ -52,17 +47,18 @@ void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanning
     initScanningSockets();
 
     scanningAddress = findAnyBroadcastAddress();
-    if (scanningAddress == QHostAddress::Null) throw NetworkException ("No broadcast address found.");
+    if (scanningAddress == QHostAddress::Null) throw NetworkException(tr("No broadcast address found for interface: %1.")
+                                                                      .arg(interface.humanReadableName()));
 
     scanningUpstreamSocket->bind();
 
     if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(QString("Cannot bind socket to port %1.").arg(scanningPort));
+        throw NetworkException(tr("Cannot bind socket to port %1.").arg(scanningPort));
 
     if (!responseDownstreamSocket->bind(this->responsePort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(QString("Cannot bind socket to port %1.").arg(responsePort));
+        throw NetworkException(tr("Cannot bind socket to port %1.").arg(responsePort));
 
     mode = Mode::IPv4;
 }
@@ -119,8 +115,8 @@ void NetworkScanner::processScanningDatagrams()
 
         scanningDownstreamSocket->readDatagram(datagram.data(), datagram.size(), &senderHost);
 
-        sendLog(QString("[Client] Got request: ") + datagram);
-        sendLog("[Client] Sending response to " + senderHost.toString());
+        sendLog(tr("[Client] Got request: %1.").arg(QString::fromUtf8(datagram)));
+        sendLog(tr("[Client] Sending response to %1.").arg(senderHost.toString()));
 
         datagram.append("@"+QHostInfo::localHostName());
 
@@ -144,7 +140,7 @@ void NetworkScanner::processResponseDatagrams()
 
         responseDownstreamSocket->readDatagram(datagram.data(), datagram.size(), &senderHost);
 
-        sendLog("[Server] Got response from " + senderHost.toString() + ":" + datagram);
+        sendLog(tr("[Server] Got response from %1:%2.").arg(senderHost.toString(), QString::fromUtf8(datagram)));
 
         QString datagramString = QString(datagram);
 
@@ -154,26 +150,26 @@ void NetworkScanner::processResponseDatagrams()
         {
             QString hostName = datagramString.section("@", 1);
 
-            sendLog (QString("[Server] Auth confirmed: %1").arg(hostName));
+            sendLog(tr("[Server] Auth confirmed: %1.").arg(hostName));
             sendAddress(senderHost, hostName);
         }
-        else sendLog ("[Server] Wrong auth token, ignored.");
+        else sendLog(tr("[Server] Wrong auth token, ignored."));
     }
 }
 
 void NetworkScanner::scanNetwork()
 {
     if (mode == Mode::None)
-        throw NetworkException ("Scanner is not initialized");
+        throw NetworkException(tr("Scanner is not initialized."));
 
     if (!stopped)
-        throw NetworkException ("Already scanning.");
+        throw NetworkException(tr("Already scanning."));
 
     stopped = false;
 
     currentScanToken = QUuid::createUuid().toString();
 
-    sendLog("[Server] Sending auth request with token: " + currentScanToken);
+    sendLog(tr("[Server] Sending auth request with token: %1.").arg(currentScanToken));
 
     QByteArray data = currentScanToken.toUtf8();
     scanningUpstreamSocket->writeDatagram(data.data(), data.size(), scanningAddress, scanningPort);

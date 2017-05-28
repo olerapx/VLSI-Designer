@@ -21,20 +21,20 @@ void GridRenderer::fillCache()
         }
         catch(Exception ex)
         {
-            sendLog(QString("Image %1 cannot be read.").arg(info.fileName()));
+            sendLog(tr("Image %1 cannot be read.").arg(info.fileName()));
             continue;
         }
 
         if(image.width() <= 0 || image.height() <= 0 || image.isNull())
-            throw Exception(QString("The resource image is empty or corrupted: %1. Contact the developers to resolve this.").arg(info.fileName()));
+            throw Exception(tr("The resource image is empty or corrupted: %1. Contact the developers to resolve this.").arg(info.fileName()));
 
         if(image.width() != image.height())
-            throw Exception(QString("The resource image must be rectangular: %1. Contact the developers to resolve this.").arg(info.fileName()));
+            throw Exception(tr("The resource image must be rectangular: %1. Contact the developers to resolve this.").arg(info.fileName()));
 
         if(imageSize == 0)
             imageSize = image.width();
         else if(image.width() != imageSize)
-            throw Exception(QString("All resource images must have the same size: %1. Contact the developers to resolve this.").arg(info.fileName()));
+            throw Exception(tr("All resource images must have the same size: %1. Contact the developers to resolve this.").arg(info.fileName()));
 
         imageCache.insert(info.completeBaseName(), image);
     }
@@ -46,13 +46,13 @@ QImage GridRenderer::readImageFromFile(const QString filePath)
     QFileInfo info(filePath);
 
     if(!f.open(QIODevice::ReadOnly))
-        throw IOException(QString("The resource image file cannot be found or opened: %1").arg(info.fileName()));
+        throw IOException(tr("The resource image file cannot be found or opened: %1").arg(info.fileName()));
 
     QImage image = QImage::fromData(f.readAll(), info.suffix().toLocal8Bit());
     f.close();
 
     if(image.isNull())
-        throw Exception(QString("The resource image is not supported or corrupted.").arg(info.fileName()));
+        throw Exception(tr("The resource image is not supported or corrupted.").arg(info.fileName()));
 
     return image;
 }
@@ -62,21 +62,21 @@ QImage GridRenderer::render(Grid *g)
     int gridSize = g->getCells().size();
 
     if(gridSize == 0)
-        throw IllegalArgumentException("The grid is empty.");
+        throw IllegalArgumentException(tr("The grid is empty."));
 
     int size = g->getCells()[0].size();
     for(QList<Cell> list: g->getCells())
         if(list.size() != size)
-            throw IllegalArgumentException("The grid is not rectangular.");
+            throw IllegalArgumentException(tr("The grid is not rectangular."));
 
     this->grid = g;
 
-    sendLog("Preparing the canvas for rendering.");
+    sendLog(tr("Preparing the canvas for rendering."));
 
     QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);
     res.fill(Qt::white);
 
-    sendLog("Starting.");
+    sendLog(tr("Starting."));
 
     int totalSize = gridSize * size;
     int i = 0;
@@ -86,7 +86,7 @@ QImage GridRenderer::render(Grid *g)
         for(Cell cell: list)
         {
             i++;
-            sendLog(QString("Rendering cell %1 of %2.").arg(i, totalSize));
+            sendLog(tr("Rendering cell %1 of %2.").arg(i, totalSize));
             renderCell(res, cell);
             currentX ++;
         }
@@ -333,7 +333,7 @@ void GridRenderer::renderWire(QImage& image, CellType type)
 QImage GridRenderer::getImageFromCache(QString key)
 {
     if(!imageCache.contains(key))
-        throw Exception(QString("Missing cache image: %1").arg(key));
+        throw Exception(tr("Missing cache image: %1.").arg(key));
 
     return imageCache.value(key);
 }
@@ -350,7 +350,7 @@ void GridRenderer::renderTileOnCurrentPosition(QImage& image, QImage tile)
 QImage GridRenderer::rotateImage(QImage image, int degrees)
 {
     if(degrees % 90 != 0)
-        throw IllegalArgumentException("Degrees value must be multiple of 90.");
+        throw IllegalArgumentException(tr("Degrees value must be multiple of 90, passed: %1.").arg(QString::number(degrees)));
 
     QTransform transform;
     transform.rotate(degrees);

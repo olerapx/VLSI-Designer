@@ -9,7 +9,7 @@
 class BinarySerializer: public Serializer
 {
 public:
-    BinarySerializer();
+    BinarySerializer() {}
     virtual ~BinarySerializer() {}
 
     QByteArray serialize(Serializable* s);

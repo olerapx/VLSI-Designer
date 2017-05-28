@@ -13,7 +13,7 @@ LibraryElement::LibraryElement(QString id, int height, int width)
 void LibraryElement::setId(QString id)
 {
     if (id.isEmpty())
-       throw IllegalArgumentException("Element id cannot be empty");
+       throw IllegalArgumentException(QObject::tr("Element id cannot be empty."));
     this->id = id;
 }
 
@@ -30,14 +30,14 @@ void LibraryElement::setModel(QString model)
 void LibraryElement::setHeight(int height)
 {
     if (height <= 0)
-        throw IllegalArgumentException("Element height must be positive");
+        throw IllegalArgumentException(QObject::tr("Element height must be positive, passed: %1.").arg(QString::number(height)));
     this->height = height;
 }
 
 void LibraryElement::setWidth(int width)
 {
     if (width <= 0)
-        throw IllegalArgumentException("Element width must be positive");
+        throw IllegalArgumentException(QObject::tr("Element width must be positive, passed: %1.").arg(QString::number(width)));
     this->width = width;
 }
 

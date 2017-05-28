@@ -3,7 +3,7 @@
 GeneratorParameters::GeneratorParameters(QList<Library*> libraries)
 {
     if(libraries.empty())
-        throw IllegalArgumentException("Library cannot be empty.");
+        throw IllegalArgumentException(QObject::tr("Library cannot be empty."));
 
     this->libraries = libraries;
 
@@ -16,7 +16,8 @@ GeneratorParameters::GeneratorParameters(QList<Library*> libraries)
 void GeneratorParameters::setElementsNumber(int number)
 {
     if (number <= 0)
-        throw IllegalArgumentException("Number of elements must be positive.");
+        throw IllegalArgumentException(QObject::tr("Number of elements must be positive, passed: %1.")
+                                       .arg(QString::number(number)));
 
     this->elementsNumber = number;
 }
@@ -24,7 +25,8 @@ void GeneratorParameters::setElementsNumber(int number)
 void GeneratorParameters::setInnerWireChance(double chance)
 {
     if(chance < 0.0 || chance > 1.0)
-        throw IllegalArgumentException("Invalid chance value");
+        throw IllegalArgumentException(QObject::tr("Chance value must be in range from 0 to 1, passed: %1.")
+                                       .arg(QString::number(chance)));
 
     this->innerWireChance = chance;
 }
@@ -49,14 +51,14 @@ void GeneratorParameters::setBranching(int mean, double sigma, int leftLimit, in
     branchingRightLimit = rightLimit;
 }
 
-void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int leftRange, int rightRange)
+void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int leftLimit, int rightLimit)
 {
-    if(mean <= 0 || sigma <= 0 || leftRange <= 0 || rightRange <= 0)
-        throw IllegalArgumentException("Distribution parameters must be positive.");
+    if(mean <= 0 || sigma <= 0 || leftLimit <= 0 || rightLimit <= 0)
+        throw IllegalArgumentException(QObject::tr("Distribution parameters must be positive."));
 
-    if (rightRange < leftRange)
-        throw IllegalArgumentException("Right range must be bigger or equal than left range");
+    if (rightLimit < leftLimit)
+        throw IllegalArgumentException(QObject::tr("Right limit must be bigger or equal than left limit."));
 
-    if(mean < leftRange || mean > rightRange)
-        throw IllegalArgumentException("Mean must be in ranges.");
+    if(mean < leftLimit || mean > rightLimit)
+        throw IllegalArgumentException(QObject::tr("Mean must be in limits."));
 }

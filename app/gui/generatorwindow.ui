@@ -59,7 +59,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string/>
+         <string>Choose libraries</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -81,7 +81,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Обзор...</string>
+         <string>Browse...</string>
         </property>
        </widget>
       </item>
@@ -110,7 +110,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Медиана</string>
+            <string>Mean</string>
            </property>
           </widget>
          </item>
@@ -133,7 +133,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Отклонение</string>
+            <string>Sigma</string>
            </property>
           </widget>
          </item>
@@ -156,7 +156,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Левая граница</string>
+            <string>Left limit</string>
            </property>
           </widget>
          </item>
@@ -179,7 +179,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Правая граница</string>
+            <string>Right limit</string>
            </property>
           </widget>
          </item>
@@ -208,7 +208,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Значения указываются в степенях двойки</string>
+            <string>The values are entered in powers of two</string>
            </property>
           </widget>
          </item>
@@ -238,7 +238,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Генерировать</string>
+           <string>Generate</string>
           </property>
          </widget>
         </item>
@@ -251,7 +251,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Стоп</string>
+           <string>Stop</string>
           </property>
          </widget>
         </item>
@@ -281,7 +281,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Закрыть</string>
+           <string>Close</string>
           </property>
          </widget>
         </item>
@@ -298,7 +298,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Число элементов</string>
+           <string>Elements number</string>
           </property>
          </widget>
         </item>
@@ -331,7 +331,7 @@
         <item>
          <widget class="QLabel" name="innerWireChanceLabel">
           <property name="text">
-           <string>Вероятность внутренней связи</string>
+           <string>Inner wire chance</string>
           </property>
          </widget>
         </item>
@@ -368,13 +368,13 @@
          </sizepolicy>
         </property>
         <property name="title">
-         <string>Разветвленность</string>
+         <string>Branching</string>
         </property>
         <layout class="QFormLayout" name="formLayout_2">
          <item row="0" column="0">
           <widget class="QLabel" name="branchingMeanLabel">
            <property name="text">
-            <string>Медиана</string>
+            <string>Mean</string>
            </property>
           </widget>
          </item>
@@ -391,7 +391,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="branchingSigmaLabel">
            <property name="text">
-            <string>Отклонение</string>
+            <string>Sigma</string>
            </property>
           </widget>
          </item>
@@ -408,7 +408,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="branchingLeftLimitLabel">
            <property name="text">
-            <string>Левая граница</string>
+            <string>Left limit</string>
            </property>
           </widget>
          </item>
@@ -425,7 +425,7 @@
          <item row="3" column="0">
           <widget class="QLabel" name="branchingRightLimitLabel">
            <property name="text">
-            <string>Правая граница</string>
+            <string>Right limit</string>
            </property>
           </widget>
          </item>

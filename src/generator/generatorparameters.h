@@ -2,6 +2,7 @@
 #define GENERATORPARAMETERS_H
 
 #include <QList>
+
 #include "datamodels/library/library.h"
 #include "datamodels/scheme/scheme.h"
 #include "exception/illegalargumentexception.h"
@@ -29,7 +30,7 @@ private:
 
     QList<Library*> libraries;
 
-    void validateDistributionParameters(int mean, double sigma, int leftRange, int rightRange);
+    void validateDistributionParameters(int mean, double sigma, int leftLimit, int rightLimit);
 
 public:
     GeneratorParameters(QList<Library*> libraries);

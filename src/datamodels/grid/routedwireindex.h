@@ -2,6 +2,7 @@
 #define ROUTEDWIREINDEX_H
 
 #include <QtGlobal>
+#include <QObject>
 
 #include "exception/illegalargumentexception.h"
 

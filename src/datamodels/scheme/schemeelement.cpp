@@ -10,21 +10,22 @@ SchemeElement::SchemeElement(QString libraryId, QString elementId, qint64 index)
 void SchemeElement::setLibraryId(QString libraryId)
 {
     if (libraryId.isEmpty())
-        throw IllegalArgumentException ("Library id cannot be empty");
+        throw IllegalArgumentException (QObject::tr("Library id cannot be empty."));
     this->libraryId = libraryId;
 }
 
 void SchemeElement::setElementId(QString elementId)
 {
     if (elementId.isEmpty())
-        throw IllegalArgumentException ("Element id cannot be empty");
+        throw IllegalArgumentException (QObject::tr("Element id cannot be empty."));
     this->elementId = elementId;
 }
 
 void SchemeElement::setIndex(qint64 index)
 {
     if (index < 0)
-        throw IllegalArgumentException ("Element index cannot be negative");
+        throw IllegalArgumentException (QObject::tr("Element index cannot be negative, passed: %1.")
+                                        .arg(QString::number(index)));
     this->index = index;
 }
 

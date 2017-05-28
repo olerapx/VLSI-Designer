@@ -1,10 +1,5 @@
 #include "binaryserializer.h"
 
-BinarySerializer::BinarySerializer()
-{
-
-}
-
 QByteArray BinarySerializer::serialize(Serializable *s)
 {
     const std::type_info& info = typeid(*s);
@@ -17,7 +12,7 @@ QByteArray BinarySerializer::serialize(Serializable *s)
     else if (info == typeid(Architecture))
         return serializeArchitecture(static_cast<Architecture*>(s));
     else
-        throw IllegalArgumentException("The passed object's type is not supported.");
+        throw IllegalArgumentException(QObject::tr("The passed object's type is not supported: %1.").arg(info.name()));
 }
 
 QByteArray BinarySerializer::serializeLibrary(Library* l)
@@ -166,7 +161,7 @@ Serializable* BinarySerializer::deserialize(QByteArray binaryData)
     else if (key == "architecture")
         return deserializeArchitecture(stream);
     else
-        throw IllegalArgumentException ("The contained object is not supported or cannot be deserialized");
+        throw IllegalArgumentException(QObject::tr("The contained object is not supported or cannot be deserialized."));
 }
 
 Library* BinarySerializer::deserializeLibrary(QDataStream &stream)

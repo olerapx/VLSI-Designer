@@ -79,7 +79,7 @@ void Generator::generateElements()
     groupedElements.clear();
     groupedElements.append(QList<NodeElement>());
 
-    sendLog("Генерация функциональных узлов");
+    sendLog(tr("Functional nodes generation."));
 
     currentElementIndex = 0;
 
@@ -117,7 +117,7 @@ void Generator::generateElements()
         elapsedElements -= capacity;
     }
 
-    sendLog("Генерация свободных элементов");
+    sendLog(tr("Free elements generation."));
 
     for(int i=0; i<elapsedElements; i++)
     {
@@ -158,13 +158,13 @@ void Generator::generateWires()
 
     checkBranching();
 
-    sendLog("Генерация связей:");
+    sendLog(tr("Wires generation:"));
 
     int size = elements.size();
 
     for(int i=0; i<size; i++)
     {
-        sendLog(QString("Элемент №%1 из %2").arg(QString::number(i), QString::number(size)));
+        sendLog(tr("Element #%1 of %2").arg(QString::number(i), QString::number(size)));
 
         LibraryElement el = getCorrespondingElement(elements[i].getElement());
 
@@ -199,8 +199,8 @@ void Generator::checkBranching()
 
         param.setBranching(mean, param.getBranchingSigma(), leftLimit, rightLimit);
 
-        sendLog("Смена параметров ветвления:");
-        sendLog(QString("Медиана = %1, Левая граница = %2, Правая граница = %3").arg(mean, leftLimit, rightLimit));
+        sendLog(tr("Branching parameters changing:"));
+        sendLog(tr("Mean = %1, left limit = %2, right limit = %3.").arg(mean, leftLimit, rightLimit));
     }
 }
 
@@ -232,7 +232,8 @@ LibraryElement Generator::getCorrespondingElement(SchemeElement element)
         }
     }
 
-    throw Exception("Corresponding library element cannot be found.");
+    throw Exception(tr("Corresponding library element cannot be found, passed element with id: %1.")
+                    .arg(element.getElementId()));
 }
 
 void Generator::generateWiresForOutput(NodeElement& element, Pin p)

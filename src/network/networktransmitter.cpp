@@ -3,12 +3,12 @@
 NetworkTransmitter::NetworkTransmitter(int serverPort)
 {
     server = new QTcpServer(this);
-    connect (server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
+    connect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
 
     if (!server->listen(QHostAddress::Any, serverPort))
     {
         delete server;
-        throw NetworkException (QString("Cannot listen to port %1.").arg(serverPort));
+        throw NetworkException(tr("Cannot listen to port %1.").arg(serverPort));
     }
 }
 
@@ -23,7 +23,7 @@ void NetworkTransmitter::on_newConnection()
     QTcpSocket* qsocket = server->nextPendingConnection();
     addTcpSocket(qsocket);
 
-    sendLog (QString("Got a new connection from %1:%2.").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
+    sendLog(tr("Got a new connection from %1:%2.").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
 }
 
 TcpSocket* NetworkTransmitter::addTcpSocket(QTcpSocket *qsocket)
@@ -44,7 +44,7 @@ void NetworkTransmitter::on_socketDisconnected(TcpSocket* socket)
 
 void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
 {
-    sendLog (QString("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(),
+    sendLog(tr("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(),
                                                      socket->getSocket()->peerName()));
 
     disconnect (socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
@@ -59,7 +59,7 @@ void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
 TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)
 {
     if (findSocket(address, port) != nullptr)
-        throw NetworkException (QString("Already connected to %1:%2.").arg(address.toString(), port));
+        throw NetworkException(tr("Already connected to %1:%2.").arg(address.toString(), port));
 
     QTcpSocket* qsocket = new QTcpSocket(this);
     qsocket->connectToHost(address, port);
@@ -68,10 +68,10 @@ TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)
     if (qsocket->state() != QAbstractSocket::ConnectedState)
     {
         delete qsocket;
-        throw NetworkException (QString("Cannot connect to %1:%2.").arg(address.toString(), port));
+        throw NetworkException(tr("Cannot connect to %1:%2.").arg(address.toString(), port));
     }
 
-    sendLog (QString("Connected to %1:%2.").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
+    sendLog(tr("Connected to %1:%2.").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
 
     return addTcpSocket(qsocket);
 }
@@ -80,7 +80,7 @@ void NetworkTransmitter::disconnectFromHost(QHostAddress address, int port)
 {
     TcpSocket* socket = findSocket (address, port);
     if (socket == nullptr)
-        throw NetworkException (QString("Cannot disconnect from %1:%2: no socket found.").arg(address.toString(), port));
+        throw NetworkException(tr("Cannot disconnect from %1:%2: no socket found.").arg(address.toString(), port));
 
     socket->getSocket()->disconnectFromHost();
 }
@@ -109,7 +109,7 @@ void NetworkTransmitter::sendData(TcpSocket* socket, QByteArray data)
 {
     QTcpSocket* qsocket = socket->getSocket();
 
-    sendLog (QString("Sending data to %1:%2...").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
+    sendLog(tr("Sending data to %1:%2...").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
 
     qint64 size = data.size();
     data.prepend(sizeof(qint64), ' ');
@@ -121,5 +121,5 @@ void NetworkTransmitter::sendData(TcpSocket* socket, QByteArray data)
     qsocket->write(data.data(), data.size());
     qsocket->waitForBytesWritten();
 
-    sendLog (QString("Data has been written to the buffer."));
+    sendLog(tr("Data has been written to the buffer."));
 }

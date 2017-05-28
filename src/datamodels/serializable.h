@@ -2,6 +2,7 @@
 #define SERIALIZABLE_H
 
 #include <QString>
+#include <QObject>
 
 #include "exception/illegalargumentexception.h"
 

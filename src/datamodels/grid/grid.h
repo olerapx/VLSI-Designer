@@ -2,6 +2,7 @@
 #define GRID_H
 
 #include <QList>
+
 #include "cell.h"
 #include "routedwireindex.h"
 

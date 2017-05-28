@@ -26,3 +26,7 @@ SOURCES +=  main.cpp \
 FORMS    +=  \
     gui/mainwindow.ui \
     gui/generatorwindow.ui
+
+TRANSLATIONS = \
+    ../resources/localization/app_en_US.ts  \
+    ../resources/localization/app_ru_RU.ts

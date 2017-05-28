@@ -2,6 +2,7 @@
 #define LIBRARY_H
 
 #include <QList>
+
 #include "libraryelement.h"
 
 /**

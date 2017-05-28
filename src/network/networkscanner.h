@@ -33,7 +33,7 @@ class NetworkScanner: public QObject
     Q_OBJECT
 
 public:
-    NetworkScanner();
+    NetworkScanner() {}
     ~NetworkScanner();
 
     /**

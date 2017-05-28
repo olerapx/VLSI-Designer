@@ -1,6 +1,8 @@
 #ifndef CLIENTSNUMBER_H
 #define CLIENTSNUMBER_H
 
+#include <QObject>
+
 #include "exception/illegalargumentexception.h"
 
 /**
