@@ -23,9 +23,20 @@ public:
     GridRenderer();
     virtual ~GridRenderer() {}
 
+    /**
+     * @brief render
+     * Renders the given grid.
+     * @param g - grid.
+     * @return image.
+     */
     QImage render(Grid* g);
 
 signals:
+
+    /**
+     * @brief sendLog
+     * @param log
+     */
     void sendLog(QString log);
 
 private:
