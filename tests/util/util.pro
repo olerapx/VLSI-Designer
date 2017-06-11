@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += serializer renderer
+SUBDIRS += aliaser serializer renderer

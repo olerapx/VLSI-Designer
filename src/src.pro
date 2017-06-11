@@ -33,7 +33,8 @@ SOURCES += \
     generator/generatorparameters.cpp \
     generator/generator.cpp \
     generator/nodeelement.cpp \
-    util/renderer/gridrenderer.cpp
+    util/renderer/gridrenderer.cpp \
+    util/aliaser/aliaser.cpp
 
 TRANSLATIONS = \
     ../resources/localization/src_en_US.ts  \

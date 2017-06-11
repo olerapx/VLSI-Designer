@@ -65,7 +65,7 @@ QImage GridRenderer::render(Grid *g)
         throw IllegalArgumentException(tr("The grid is empty."));
 
     int size = g->getCells()[0].size();
-    for(QList<Cell> list: g->getCells())
+    for(QList<Cell>& list: g->getCells())
         if(list.size() != size)
             throw IllegalArgumentException(tr("The grid is not rectangular."));
 
@@ -81,7 +81,7 @@ QImage GridRenderer::render(Grid *g)
     int totalSize = gridSize * size;
     int i = 0;
 
-    for(QList<Cell> list: grid->getCells())
+    for(QList<Cell>& list: grid->getCells())
     {
         for(Cell cell: list)
         {

@@ -29,6 +29,11 @@ void SchemeElement::setIndex(qint64 index)
     this->index = index;
 }
 
+void SchemeElement::setAlias(QString alias)
+{
+    this->alias = alias;
+}
+
 bool SchemeElement::operator ==(const SchemeElement& other)
 {
     if(libraryId == other.libraryId && elementId == other.elementId)

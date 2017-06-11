@@ -111,6 +111,8 @@ void JsonSerializerTest::serializeSchemeTest()
     Scheme* s = new Scheme();
 
     SchemeElement el1("library id", "aoi43242", Q_INT64_C(9223372036854775807));
+    el1.setAlias("GFA");
+
     SchemeElement el2("23123", "NOR", 2);
     s->getElements().append(el1);
     s->getElements().append(el2);
@@ -129,6 +131,7 @@ void JsonSerializerTest::serializeSchemeTest()
     QJsonObject element = obj.value("elements").toArray().at(0).toObject();
     QVERIFY(element.value("library-id").toString() == el1.getLibraryId());
     QVERIFY(element.value("element-id").toString() == el1.getElementId());
+    QVERIFY(element.value("alias").toString() == el1.getAlias());
 
     qint64 index = element.value("index").toString().toLongLong();
     QVERIFY(index == el1.getIndex());
@@ -307,6 +310,7 @@ void JsonSerializerTest::deserializeSchemeTest()
     QVERIFY(el.getLibraryId() == "generic");
     QVERIFY(el.getElementId() == "an2");
     QVERIFY(el.getIndex() == 9223372036854775807);
+    QVERIFY(el.getAlias() == "");
 
     Wire w = s->getWires().at(0);
     QVERIFY(w.getSrcIndex() == 9223372036854775807);

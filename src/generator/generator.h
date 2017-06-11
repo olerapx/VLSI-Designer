@@ -6,6 +6,7 @@
 
 #include "generatorparameters.h"
 #include "nodeelement.h"
+#include "util/aliaser/aliaser.h"
 
 /**
  * @brief The Generator class
@@ -123,6 +124,8 @@ private:
 
     bool isWireExist(NodeElement sourceElement, Wire other);
     Wire buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type);
+
+    void generateAliases(Scheme* scheme);
 };
 
 #endif // GENERATOR_H

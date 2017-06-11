@@ -54,6 +54,8 @@ Scheme* Generator::generate()
 
         scheme->getWires().append(wires);
 
+        generateAliases(scheme);
+
         stopped = true;
         actuallyStopped = true;
 
@@ -340,4 +342,12 @@ Wire Generator::buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement 
     Wire wire(sourceElement.getElement().getIndex(), sourcePin.getId(), destElement.getElement().getIndex(), destPin.getId(), type, currentWireIndex);
 
     return wire;
+}
+
+void Generator::generateAliases(Scheme *scheme)
+{
+    sendLog(tr("Aliases generation."));
+
+    Aliaser aliaser(3);
+    aliaser.generate(scheme);
 }

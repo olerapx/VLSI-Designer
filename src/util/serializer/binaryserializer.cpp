@@ -78,6 +78,7 @@ QDataStream& BinarySerializer::serializeSchemeElement(SchemeElement el, QDataStr
     stream << el.getLibraryId();
     stream << el.getElementId();
     stream << el.getIndex();
+    stream << el.getAlias();
 
     return stream;
 }
@@ -245,10 +246,14 @@ SchemeElement BinarySerializer::deserializeSchemeElement(QDataStream& stream)
     QString libraryId;
     QString elementId;
     qint64 index;
+    QString alias;
 
-    stream >> libraryId >> elementId >> index;
+    stream >> libraryId >> elementId >> index >> alias;
 
-    return SchemeElement(libraryId, elementId, index);
+    SchemeElement element(libraryId, elementId, index);
+    element.setAlias(alias);
+
+    return element;
 }
 
 Wire BinarySerializer::deserializeWire(QDataStream& stream)

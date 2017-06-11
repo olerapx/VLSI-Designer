@@ -88,6 +88,8 @@ void BinarySerializerTest::schemeTest()
     Scheme* s = new Scheme();
 
     SchemeElement el1("library id", "aoi43242", Q_INT64_C(9223372036854775807));
+    el1.setAlias("FV2");
+
     SchemeElement el2("23123", "NOR", 2);
     s->getElements().append(el1);
     s->getElements().append(el2);
@@ -106,6 +108,7 @@ void BinarySerializerTest::schemeTest()
     QVERIFY(deserializedElement.getElementId() == el1.getElementId());
     QVERIFY(deserializedElement.getLibraryId() == el1.getLibraryId());
     QVERIFY(deserializedElement.getIndex() == el1.getIndex());
+    QVERIFY(deserializedElement.getAlias() == el1.getAlias());
 
     Wire deserializedWire(deserializedScheme->getWires()[0]);
     QVERIFY(deserializedWire.getSrcIndex() == w.getSrcIndex());

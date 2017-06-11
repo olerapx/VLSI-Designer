@@ -14,6 +14,7 @@ protected:
     QString libraryId;
     QString elementId;
     qint64 index;
+    QString alias;
 
 public:
     SchemeElement(QString libraryId, QString elementId, qint64 index);
@@ -22,10 +23,12 @@ public:
     void setLibraryId(QString libraryId);
     void setElementId(QString elementId);
     void setIndex(qint64 index);
+    void setAlias(QString alias);
 
     QString getLibraryId() const { return libraryId; }
     QString getElementId() const { return elementId; }
     qint64 getIndex() const { return index; }
+    QString getAlias() const { return alias; }
 
     /**
      * @brief operator ==

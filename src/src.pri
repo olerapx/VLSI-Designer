@@ -31,7 +31,8 @@ HEADERS  += \
     $$PWD/generator/generatorparameters.h \
     $$PWD/generator/generator.h \
     $$PWD/generator/nodeelement.h \
-    $$PWD/util/renderer/gridrenderer.h
+    $$PWD/util/renderer/gridrenderer.h \
+    $$PWD/util/aliaser/aliaser.h
 
 RESOURCES += \
     $$PWD/../resources/resources.qrc

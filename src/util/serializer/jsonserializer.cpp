@@ -96,6 +96,7 @@ QJsonObject JsonSerializer::serializeSchemeElement(SchemeElement el)
     json["library-id"] = el.getLibraryId();
     json["element-id"] = el.getElementId();
     json["index"] = QString::number(el.getIndex());
+    json["alias"] = el.getAlias();
 
     return json;
 }
@@ -273,7 +274,15 @@ SchemeElement JsonSerializer::deserializeSchemeElement(QJsonObject obj)
     qint64 index = obj.value("index").toString().toLongLong(&ok);
     if (!ok) index = -1;
 
-    return SchemeElement(libraryId, elementId, index);
+    SchemeElement element(libraryId, elementId, index);
+
+    if(obj.contains("alias"))
+    {
+        QString alias = obj.value("alias").toString();
+        element.setAlias(alias);
+    }
+
+    return element;
 }
 
 Wire JsonSerializer::deserializeWire(QJsonObject obj)
