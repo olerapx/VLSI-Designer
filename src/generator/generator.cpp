@@ -87,7 +87,7 @@ void Generator::generateElements()
     int elapsedElements = param.getElementsNumber();
     int currentNodeNumber = 1;
 
-    while((capacity = pow(2, getTruncatedDistributedValue(nodeCapacityDistribution, param.getNodeCapacityLeftLimit(), param.getNodeCapacityRightLimit())))
+    while((capacity = pow(2, getTruncatedDistributedValue(nodeCapacityDistribution, param.getNodeCapacityLowerLimit(), param.getNodeCapacityUpperLimit())))
           <= elapsedElements)
     {
         SchemeElement element = getRandomElement();
@@ -128,12 +128,12 @@ void Generator::generateElements()
     }
 }
 
-int Generator::getTruncatedDistributedValue(std::normal_distribution<>& dist, int leftRange, int rightRange)
+int Generator::getTruncatedDistributedValue(std::normal_distribution<>& dist, int lowerLimit, int upperLimit)
 {
     while(true)
     {
         int value = round(dist(mt));
-        if (value >= leftRange && value <= rightRange)
+        if (value >= lowerLimit && value <= upperLimit)
             return value;
     }
 }
@@ -185,22 +185,22 @@ void Generator::checkBranching()
 
     qint64 inputPins = countAllInputPins();
 
-    if(inputPins < param.getBranchingRightLimit())
+    if(inputPins < param.getBranchingUpperLimit())
     {
-        int rightLimit = inputPins;
-        int leftLimit = param.getBranchingLeftLimit();
+        int upperLimit = inputPins;
+        int lowerLimit = param.getBranchingLowerLimit();
         int mean = param.getBranchingMean();
 
-        if(leftLimit > rightLimit)
-            leftLimit = rightLimit;
+        if(lowerLimit > upperLimit)
+            lowerLimit = upperLimit;
 
-        if(mean < leftLimit || mean > rightLimit)
-            mean = (leftLimit + rightLimit) / 2;
+        if(mean < lowerLimit || mean > upperLimit)
+            mean = (lowerLimit + upperLimit) / 2;
 
-        param.setBranching(mean, param.getBranchingSigma(), leftLimit, rightLimit);
+        param.setBranching(mean, param.getBranchingSigma(), lowerLimit, upperLimit);
 
         sendLog(tr("Branching parameters changing:"));
-        sendLog(tr("Mean = %1, left limit = %2, right limit = %3.").arg(mean, leftLimit, rightLimit));
+        sendLog(tr("Mean = %1, lower limit = %2, upper limit = %3.").arg(mean, lowerLimit, upperLimit));
     }
 }
 
@@ -239,7 +239,7 @@ LibraryElement Generator::getCorrespondingElement(SchemeElement element)
 void Generator::generateWiresForOutput(NodeElement& element, Pin p)
 {
     std::uniform_real_distribution<double> wireRandom(0, 1);
-    int branching = getTruncatedDistributedValue(branchingDistribution, param.getBranchingLeftLimit(), param.getBranchingRightLimit());
+    int branching = getTruncatedDistributedValue(branchingDistribution, param.getBranchingLowerLimit(), param.getBranchingUpperLimit());
 
     for(int i=0; i<branching; i++)
     {

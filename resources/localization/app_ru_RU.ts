@@ -36,16 +36,24 @@
         <translation>Отклонение</translation>
     </message>
     <message>
+        <source>Left limit</source>
+        <translation type="vanished">Левая граница</translation>
+    </message>
+    <message>
+        <source>Right limit</source>
+        <translation type="vanished">Правая граница</translation>
+    </message>
+    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="159"/>
         <location filename="../../app/gui/generatorwindow.ui" line="411"/>
-        <source>Left limit</source>
-        <translation>Левая граница</translation>
+        <source>Lower limit</source>
+        <translation>Нижняя граница</translation>
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.ui" line="182"/>
         <location filename="../../app/gui/generatorwindow.ui" line="428"/>
-        <source>Right limit</source>
-        <translation>Правая граница</translation>
+        <source>Upper limit</source>
+        <translation>Верхняя граница</translation>
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.ui" line="211"/>
@@ -179,7 +187,7 @@
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.cpp" line="22"/>
-        <location filename="../../app/gui/generatorwindow.cpp" line="219"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="218"/>
         <source>Stopping...</source>
         <translation>Остановка...</translation>
     </message>
@@ -194,23 +202,23 @@
         <translation>Генерация завершена.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="98"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="97"/>
         <source>Libraries choosing</source>
         <translation>Выбор библиотек</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="98"/>
-        <location filename="../../app/gui/generatorwindow.cpp" line="194"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="97"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="193"/>
         <source>JSON (*.json);;Binary (*.bin)</source>
         <translation>JSON (*.json);;Бинарный (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="185"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="184"/>
         <source>Serialization...</source>
         <translation>Сериализация...</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="194"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="193"/>
         <source>Scheme saving</source>
         <translation>Сохранение схемы</translation>
     </message>

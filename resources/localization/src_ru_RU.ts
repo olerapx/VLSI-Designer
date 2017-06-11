@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Mean = %1, left limit = %2, right limit = %3.</source>
-        <translation>Медиана = %1,левая граница = %2, правая граница = %3.</translation>
+        <translation type="vanished">Медиана = %1,левая граница = %2, правая граница = %3.</translation>
     </message>
     <message>
         <source>Corresponding library element cannot be found, passed element with id: %1.</source>
         <translation>Не удается найти библиотечный элемент, соответствующий данному элементу с id %1.</translation>
+    </message>
+    <message>
+        <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
+        <translation>Медиана = %1,нижняя граница = %2, верхняя граница = %3.</translation>
     </message>
 </context>
 <context>
@@ -261,7 +265,7 @@
     </message>
     <message>
         <source>Right limit must be bigger or equal than left limit.</source>
-        <translation>Правая граница должна быть больше или равна левой границе.</translation>
+        <translation type="vanished">Правая граница должна быть больше или равна левой границе.</translation>
     </message>
     <message>
         <source>Mean must be in limits.</source>
@@ -302,6 +306,10 @@
     <message>
         <source>Invalid distribution type specified, got: %1.</source>
         <translation>Указан некорректный тип распределения, получено: %1.</translation>
+    </message>
+    <message>
+        <source>Upper limit must be bigger or equal than lower limit.</source>
+        <translation>Верхняя граница должна быть больше или равна нижней границе.</translation>
     </message>
 </context>
 </TS>

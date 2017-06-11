@@ -31,34 +31,34 @@ void GeneratorParameters::setInnerWireChance(double chance)
     this->innerWireChance = chance;
 }
 
-void GeneratorParameters::setNodeCapacity(int mean, double sigma, int leftLimit, int rightLimit)
+void GeneratorParameters::setNodeCapacity(int mean, double sigma, int lowerLimit, int upperLimit)
 {
-    validateDistributionParameters(mean, sigma, leftLimit, rightLimit);
+    validateDistributionParameters(mean, sigma, lowerLimit, upperLimit);
 
     nodeCapacityMean = mean;
     nodeCapacitySigma = sigma;
-    nodeCapacityLeftLimit = leftLimit;
-    nodeCapacityRightLimit = rightLimit;
+    nodeCapacityLowerLimit = lowerLimit;
+    nodeCapacityUpperLimit = upperLimit;
 }
 
-void GeneratorParameters::setBranching(int mean, double sigma, int leftLimit, int rightLimit)
+void GeneratorParameters::setBranching(int mean, double sigma, int lowerLimit, int upperLimit)
 {
-    validateDistributionParameters(mean, sigma, leftLimit, rightLimit);
+    validateDistributionParameters(mean, sigma, lowerLimit, upperLimit);
 
     branchingMean = mean;
     branchingSigma = sigma;
-    branchingLeftLimit = leftLimit;
-    branchingRightLimit = rightLimit;
+    branchingLowerLimit = lowerLimit;
+    branchingUpperLimit = upperLimit;
 }
 
-void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int leftLimit, int rightLimit)
+void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int lowerLimit, int upperLimit)
 {
-    if(mean <= 0 || sigma <= 0 || leftLimit <= 0 || rightLimit <= 0)
+    if(mean <= 0 || sigma <= 0 || lowerLimit <= 0 || upperLimit <= 0)
         throw IllegalArgumentException(QObject::tr("Distribution parameters must be positive."));
 
-    if (rightLimit < leftLimit)
-        throw IllegalArgumentException(QObject::tr("Right limit must be bigger or equal than left limit."));
+    if (upperLimit < lowerLimit)
+        throw IllegalArgumentException(QObject::tr("Upper limit must be bigger or equal than lower limit."));
 
-    if(mean < leftLimit || mean > rightLimit)
+    if(mean < lowerLimit || mean > upperLimit)
         throw IllegalArgumentException(QObject::tr("Mean must be in limits."));
 }

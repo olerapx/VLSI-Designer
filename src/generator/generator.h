@@ -104,7 +104,7 @@ private:
 
     void generateElements();
 
-    int getTruncatedDistributedValue(std::normal_distribution<> &dist, int leftRange, int rightRange);
+    int getTruncatedDistributedValue(std::normal_distribution<> &dist, int lowerLimit, int upperLimit);
     SchemeElement getRandomElement();
 
     void generateWires();

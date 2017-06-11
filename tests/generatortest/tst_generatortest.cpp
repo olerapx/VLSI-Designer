@@ -157,8 +157,8 @@ void GeneratorTest::changeBranchingTest()
     Generator* g = new Generator(param);
     Scheme* s = g->generate();
     QVERIFY(g->getParameters().getBranchingMean() == 6);
-    QVERIFY(g->getParameters().getBranchingLeftLimit() == 6);
-    QVERIFY(g->getParameters().getBranchingRightLimit() == 6);
+    QVERIFY(g->getParameters().getBranchingLowerLimit() == 6);
+    QVERIFY(g->getParameters().getBranchingUpperLimit() == 6);
 
     delete s;
     delete g;

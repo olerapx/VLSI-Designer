@@ -20,17 +20,17 @@ private:
 
     int nodeCapacityMean;
     double nodeCapacitySigma;
-    int nodeCapacityLeftLimit;
-    int nodeCapacityRightLimit;
+    int nodeCapacityLowerLimit;
+    int nodeCapacityUpperLimit;
 
     int branchingMean;
     double branchingSigma;
-    int branchingLeftLimit;
-    int branchingRightLimit;
+    int branchingLowerLimit;
+    int branchingUpperLimit;
 
     QList<Library*> libraries;
 
-    void validateDistributionParameters(int mean, double sigma, int leftLimit, int rightLimit);
+    void validateDistributionParameters(int mean, double sigma, int lowerLimit, int upperLimit);
 
 public:
     GeneratorParameters(QList<Library*> libraries);
@@ -39,8 +39,8 @@ public:
 
     void setInnerWireChance(double chance);
 
-    void setNodeCapacity(int mean, double sigma, int leftLimit, int rightLimit);
-    void setBranching(int mean, double sigma, int leftLimit, int rightLimit);
+    void setNodeCapacity(int mean, double sigma, int lowerLimit, int upperLimit);
+    void setBranching(int mean, double sigma, int lowerLimit, int upperLimit);
 
 
     int getElementsNumber() const { return elementsNumber; }
@@ -49,13 +49,13 @@ public:
 
     int getNodeCapacityMean() const { return nodeCapacityMean; }
     double getNodeCapacitySigma() const { return nodeCapacitySigma; }
-    int getNodeCapacityLeftLimit() const { return nodeCapacityLeftLimit; }
-    int getNodeCapacityRightLimit() const { return nodeCapacityRightLimit; }
+    int getNodeCapacityLowerLimit() const { return nodeCapacityLowerLimit; }
+    int getNodeCapacityUpperLimit() const { return nodeCapacityUpperLimit; }
 
     int getBranchingMean() const { return branchingMean; }
     double getBranchingSigma() const { return branchingSigma; }
-    int getBranchingLeftLimit() const { return branchingLeftLimit; }
-    int getBranchingRightLimit() const { return branchingRightLimit; }
+    int getBranchingLowerLimit() const { return branchingLowerLimit; }
+    int getBranchingUpperLimit() const { return branchingUpperLimit; }
 
     QList<Library*>& getLibraries() { return libraries; }
 };

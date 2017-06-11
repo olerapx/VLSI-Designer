@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Mean = %1, left limit = %2, right limit = %3.</source>
-        <translation>Mean = %1, left limit = %2, right limit = %3.</translation>
+        <translation type="vanished">Mean = %1, left limit = %2, right limit = %3.</translation>
     </message>
     <message>
         <source>Corresponding library element cannot be found, passed element with id: %1.</source>
         <translation>Corresponding library element cannot be found, passed element with id: %1.</translation>
+    </message>
+    <message>
+        <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
+        <translation>Mean = %1, lower limit = %2, upper limit = %3.</translation>
     </message>
 </context>
 <context>
@@ -261,7 +265,7 @@
     </message>
     <message>
         <source>Right limit must be bigger or equal than left limit.</source>
-        <translation>Right limit must be bigger or equal than left limit.</translation>
+        <translation type="vanished">Right limit must be bigger or equal than left limit.</translation>
     </message>
     <message>
         <source>Mean must be in limits.</source>
@@ -302,6 +306,10 @@
     <message>
         <source>Invalid distribution type specified, got: %1.</source>
         <translation>Invalid distribution type specified, got: %1.</translation>
+    </message>
+    <message>
+        <source>Upper limit must be bigger or equal than lower limit.</source>
+        <translation>Upper limit must be bigger or equal than lower limit.</translation>
     </message>
 </context>
 </TS>
