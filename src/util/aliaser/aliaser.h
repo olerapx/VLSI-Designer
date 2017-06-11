@@ -7,12 +7,23 @@
 
 /**
  * @brief The Aliaser class
- * Generates three-letter aliases for elements in the given scheme for rendering.
+ * Generates short aliases for elements in the given scheme for rendering.
  */
 class Aliaser
 {
 public:
+
+    /**
+     * @brief Aliaser
+     * @param length - the number of letters in each alias.
+     */
     Aliaser(int length);
+
+    /**
+     * @brief generate
+     * Performs the generation.
+     * @param scheme - the given scheme.
+     */
     void generate(Scheme* scheme);
 
 private:
@@ -21,7 +32,6 @@ private:
 
     int length;
 
-    QMap<QString, QString> generatedAliases;
     QString lastGeneratedAlias;
     bool hasAvailableAlias;
 

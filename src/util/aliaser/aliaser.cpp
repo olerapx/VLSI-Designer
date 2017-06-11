@@ -9,6 +9,8 @@ Aliaser::Aliaser(int length)
 
 void Aliaser::generate(Scheme *scheme)
 {
+    QMap<QString, QString> generatedAliases;
+
     for(SchemeElement& element: scheme->getElements())
     {
         QString key = element.getLibraryId() + ":" + element.getElementId();
