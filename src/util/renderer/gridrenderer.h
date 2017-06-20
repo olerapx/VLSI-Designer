@@ -3,11 +3,13 @@
 
 #include <QImage>
 #include <QMap>
+#include <QList>
 #include <QDir>
 #include <QPainter>
 #include <bitset>
 
 #include "datamodels/grid/grid.h"
+#include "datamodels/scheme/scheme.h"
 #include "exception/ioexception.h"
 
 /**
@@ -29,7 +31,7 @@ public:
      * @param g - grid.
      * @return image.
      */
-    QImage render(Grid* g);
+    QImage render(Grid* g, Scheme *s);
 
 signals:
 
@@ -42,20 +44,26 @@ signals:
 private:
     int imageSize;
     QMap<QString, QImage> imageCache;
+    QList<qint64> renderedIndexes;
 
     Grid* grid;
+    Scheme* scheme;
 
     int currentX;
     int currentY;
 
     void fillCache();
+    void fillCacheFromPath(QString path);
     QImage readImageFromFile(const QString filePath);
 
     void renderCell(QImage& image, Cell cell);
     void renderEmpty(QImage& image);
     void renderPin(QImage& image);
-    void renderElement(QImage& image);
-    void renderWire(QImage& image, CellType type);
+    void renderElement(QImage& image, Cell cell);
+    void renderAlias(QImage& image, Cell cell);
+    QString lookupAlias(qint64 index);
+
+    void renderWire(QImage& image, CellType type);    
 
     QImage getImageFromCache(QString key);
     void renderTileOnCurrentPosition(QImage& image, QImage tile);

@@ -11,7 +11,12 @@ GridRenderer::GridRenderer()
 
 void GridRenderer::fillCache()
 {
-    for(QFileInfo& info: QDir(":/resources/images/grid").entryInfoList())
+    fillCacheFromPath(":/resources/images/grid");
+}
+
+void GridRenderer::fillCacheFromPath(QString path)
+{
+    for(QFileInfo& info: QDir(path).entryInfoList())
     {
         QImage image;
 
@@ -57,8 +62,10 @@ QImage GridRenderer::readImageFromFile(const QString filePath)
     return image;
 }
 
-QImage GridRenderer::render(Grid *g)
+QImage GridRenderer::render(Grid *g, Scheme *s)
 {
+    renderedIndexes.clear();
+
     int gridSize = g->getCells().size();
 
     if(gridSize == 0)
@@ -70,6 +77,7 @@ QImage GridRenderer::render(Grid *g)
             throw IllegalArgumentException(tr("The grid is not rectangular."));
 
     this->grid = g;
+    this->scheme = s;
 
     sendLog(tr("Preparing the canvas for rendering."));
 
@@ -114,7 +122,7 @@ void GridRenderer::renderCell(QImage &image, Cell cell)
         }
         case CellType::Element:
         {
-            renderElement(image);
+            renderElement(image, cell);
             break;
         }
         default:
@@ -142,7 +150,7 @@ void GridRenderer::renderPin(QImage& image)
     renderTileOnCurrentPosition(image, tile);
 }
 
-void GridRenderer::renderElement(QImage& image)
+void GridRenderer::renderElement(QImage& image, Cell cell)
 {
     std::bitset<4> nearbyElements(0); // top, bottom, left, right
     if(currentY > 0 && grid->getCells()[currentY-1][currentX].getType() == CellType::Element)
@@ -155,6 +163,9 @@ void GridRenderer::renderElement(QImage& image)
         nearbyElements[0] = 1;
 
     ulong res = nearbyElements.to_ulong();
+
+    if(!renderedIndexes.contains(cell.getIndex()))
+        renderAlias(image, cell);
 
     QImage tile;
 
@@ -253,6 +264,38 @@ void GridRenderer::renderElement(QImage& image)
     }
 
     renderTileOnCurrentPosition(image, tile);
+}
+
+void GridRenderer::renderAlias(QImage& image, Cell cell)
+{
+    if(currentX <= 0 || currentY <= 0)
+        return;
+
+    QString alias = lookupAlias(cell.getIndex());
+
+    if(alias.isEmpty())
+        return;
+
+    QPoint position((currentX-1) * imageSize, (currentY-1) * imageSize);
+    QPainter painter(&image);
+
+    // HERE
+    painter.end();
+
+    renderedIndexes.append(cell.getIndex());
+}
+
+QString GridRenderer::lookupAlias(qint64 index)
+{
+    for(SchemeElement el: scheme->getElements())
+    {
+        if(el.getIndex() == index)
+        {
+           return el.getAlias();
+        }
+    }
+
+    return "";
 }
 
 void GridRenderer::renderWire(QImage& image, CellType type)
