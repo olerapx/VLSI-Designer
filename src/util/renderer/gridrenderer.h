@@ -67,6 +67,7 @@ private:
 
     QImage getImageFromCache(QString key);
     void renderTileOnCurrentPosition(QImage& image, QImage tile);
+    void renderTileOnPosition(QImage& image, QImage tile, QPoint position);
     QImage rotateImage(QImage image, int degrees);
 };
 

@@ -12,6 +12,9 @@ GridRenderer::GridRenderer()
 void GridRenderer::fillCache()
 {
     fillCacheFromPath(":/resources/images/grid");
+    fillCacheFromPath(":/resources/images/alias/digits");
+    fillCacheFromPath(":/resources/images/alias/lower");
+    fillCacheFromPath(":/resources/images/alias/upper");
 }
 
 void GridRenderer::fillCacheFromPath(QString path)
@@ -276,11 +279,24 @@ void GridRenderer::renderAlias(QImage& image, Cell cell)
     if(alias.isEmpty())
         return;
 
-    QPoint position((currentX-1) * imageSize, (currentY-1) * imageSize);
-    QPainter painter(&image);
+    for(int i=0; i<alias.length(); i++)
+    {
+        QPoint position((currentX-1 + i) * imageSize, (currentY - 1) * imageSize);
+        QString tileName;
 
-    // HERE
-    painter.end();
+        QChar c = alias[i];
+
+        if(c.isDigit())
+            tileName = QString("digit_%1").arg(c);
+        else if(c.isLower())
+            tileName = QString("lower_%1").arg(c);
+        else
+            tileName = QString("upper_%1").arg(c);
+
+        QImage tile = getImageFromCache(tileName);
+
+        renderTileOnPosition(image, tile, position);
+    }
 
     renderedIndexes.append(cell.getIndex());
 }
@@ -384,7 +400,11 @@ QImage GridRenderer::getImageFromCache(QString key)
 void GridRenderer::renderTileOnCurrentPosition(QImage& image, QImage tile)
 {
     QPoint position(currentX * imageSize, currentY * imageSize);
+    renderTileOnPosition(image, tile, position);
+}
 
+void GridRenderer::renderTileOnPosition(QImage &image, QImage tile, QPoint position)
+{
     QPainter painter(&image);
     painter.drawImage(position, tile);
     painter.end();

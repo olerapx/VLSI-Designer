@@ -16,5 +16,67 @@
         <file>localization/app_ru_RU.qm</file>
         <file>localization/src_en_US.qm</file>
         <file>localization/src_ru_RU.qm</file>
+        <file>images/alias/digits/digit_0.png</file>
+        <file>images/alias/digits/digit_1.png</file>
+        <file>images/alias/digits/digit_2.png</file>
+        <file>images/alias/digits/digit_3.png</file>
+        <file>images/alias/digits/digit_4.png</file>
+        <file>images/alias/digits/digit_5.png</file>
+        <file>images/alias/digits/digit_6.png</file>
+        <file>images/alias/digits/digit_7.png</file>
+        <file>images/alias/digits/digit_8.png</file>
+        <file>images/alias/digits/digit_9.png</file>
+        <file>images/alias/lower/lower_a.png</file>
+        <file>images/alias/lower/lower_b.png</file>
+        <file>images/alias/lower/lower_c.png</file>
+        <file>images/alias/lower/lower_d.png</file>
+        <file>images/alias/lower/lower_e.png</file>
+        <file>images/alias/lower/lower_f.png</file>
+        <file>images/alias/lower/lower_g.png</file>
+        <file>images/alias/lower/lower_h.png</file>
+        <file>images/alias/lower/lower_i.png</file>
+        <file>images/alias/lower/lower_j.png</file>
+        <file>images/alias/lower/lower_k.png</file>
+        <file>images/alias/lower/lower_l.png</file>
+        <file>images/alias/lower/lower_m.png</file>
+        <file>images/alias/lower/lower_n.png</file>
+        <file>images/alias/lower/lower_o.png</file>
+        <file>images/alias/lower/lower_p.png</file>
+        <file>images/alias/lower/lower_q.png</file>
+        <file>images/alias/lower/lower_r.png</file>
+        <file>images/alias/lower/lower_s.png</file>
+        <file>images/alias/lower/lower_t.png</file>
+        <file>images/alias/lower/lower_u.png</file>
+        <file>images/alias/lower/lower_v.png</file>
+        <file>images/alias/lower/lower_w.png</file>
+        <file>images/alias/lower/lower_x.png</file>
+        <file>images/alias/lower/lower_y.png</file>
+        <file>images/alias/lower/lower_z.png</file>
+        <file>images/alias/upper/upper_a.png</file>
+        <file>images/alias/upper/upper_b.png</file>
+        <file>images/alias/upper/upper_c.png</file>
+        <file>images/alias/upper/upper_d.png</file>
+        <file>images/alias/upper/upper_e.png</file>
+        <file>images/alias/upper/upper_f.png</file>
+        <file>images/alias/upper/upper_g.png</file>
+        <file>images/alias/upper/upper_h.png</file>
+        <file>images/alias/upper/upper_i.png</file>
+        <file>images/alias/upper/upper_j.png</file>
+        <file>images/alias/upper/upper_k.png</file>
+        <file>images/alias/upper/upper_l.png</file>
+        <file>images/alias/upper/upper_m.png</file>
+        <file>images/alias/upper/upper_n.png</file>
+        <file>images/alias/upper/upper_o.png</file>
+        <file>images/alias/upper/upper_p.png</file>
+        <file>images/alias/upper/upper_q.png</file>
+        <file>images/alias/upper/upper_r.png</file>
+        <file>images/alias/upper/upper_s.png</file>
+        <file>images/alias/upper/upper_t.png</file>
+        <file>images/alias/upper/upper_u.png</file>
+        <file>images/alias/upper/upper_v.png</file>
+        <file>images/alias/upper/upper_w.png</file>
+        <file>images/alias/upper/upper_x.png</file>
+        <file>images/alias/upper/upper_y.png</file>
+        <file>images/alias/upper/upper_z.png</file>
     </qresource>
 </RCC>
