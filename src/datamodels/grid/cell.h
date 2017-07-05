@@ -13,7 +13,8 @@ enum class CellType
     LR, /// Horizontal wire.
     UL, UR, DL, DR, /// Corner wires.
     UDL, UDR, LRU, LRD, /// Crossing corner wires.
-    UDLR /// Crossing wires.
+    UDLR, /// Crossing wires.
+    UDLRI /// Crossing wires with intersection.
 };
 
 /**

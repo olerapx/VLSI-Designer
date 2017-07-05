@@ -141,14 +141,16 @@ void GridRenderer::renderEmpty(QImage& image)
 
 void GridRenderer::renderPin(QImage& image)
 {
-    QImage tile = getImageFromCache("pin");
+    QImage tile;
 
     if(currentY < grid->getCells().size()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
-        tile = rotateImage(tile, 90);
+        tile = getImageFromCache("pin_vertical");
     else if(currentX > 0 && grid->getCells()[currentY][currentX-1].getType() == CellType::Element)
-        tile = rotateImage(tile, 180);
+        tile = rotateImage(getImageFromCache("pin_horizontal"), 180);
     else if(currentY > 0 && grid->getCells()[currentY-1][currentX].getType() == CellType::Element)
-        tile = rotateImage(tile, 270);
+        tile = rotateImage(getImageFromCache("pin_vertical"), 180);
+    else
+        tile = getImageFromCache("pin_horizontal");
 
     renderTileOnCurrentPosition(image, tile);
 }
@@ -284,7 +286,7 @@ void GridRenderer::renderAlias(QImage& image, Cell cell)
         QPoint position((currentX-1 + i) * imageSize, (currentY - 1) * imageSize);
         QString tileName;
 
-        QChar c = alias[i];
+        QChar c = alias[i].toLower();
 
         if(c.isDigit())
             tileName = QString("digit_%1").arg(c);
@@ -327,14 +329,13 @@ void GridRenderer::renderWire(QImage& image, CellType type)
         }
         case CellType::LR:
         {
-            tile = getImageFromCache("ud");
-            tile = rotateImage(tile, 90);
+            tile = getImageFromCache("lr");
             break;
         }
         case CellType::UL:
         {
-            tile = getImageFromCache("ur");
-            tile = rotateImage(tile, -90);
+            tile = getImageFromCache("dr");
+            tile = rotateImage(tile, 180);
             break;
         }
         case CellType::UR:
@@ -350,8 +351,7 @@ void GridRenderer::renderWire(QImage& image, CellType type)
         }
         case CellType::DR:
         {
-            tile = getImageFromCache("ur");
-            tile = rotateImage(tile, 90);
+            tile = getImageFromCache("dr");
             break;
         }
         case CellType::UDL:
@@ -367,19 +367,23 @@ void GridRenderer::renderWire(QImage& image, CellType type)
         }
         case CellType::LRU:
         {
-            tile = getImageFromCache("udl");
-            tile = rotateImage(tile, 90);
+            tile = getImageFromCache("lru");
             break;
         }
         case CellType::LRD:
         {
-            tile = getImageFromCache("udl");
-            tile = rotateImage(tile, -90);
+            tile = getImageFromCache("lru");
+            tile = rotateImage(tile, 180);
             break;
         }
         case CellType::UDLR:
         {
             tile = getImageFromCache("udlr");
+            break;
+        }
+        case CellType::UDLRI:
+        {
+            tile = getImageFromCache("udlri");
             break;
         }
         default:

@@ -1,21 +1,5 @@
 <RCC>
     <qresource prefix="/resources">
-        <file>images/grid/udlr.png</file>
-        <file>images/grid/element_body.png</file>
-        <file>images/grid/element_border_1.png</file>
-        <file>images/grid/element_border_2.png</file>
-        <file>images/grid/element_border_4.png</file>
-        <file>images/grid/empty.png</file>
-        <file>images/grid/pin.png</file>
-        <file>images/grid/ud.png</file>
-        <file>images/grid/ur.png</file>
-        <file>images/grid/element_border_2_corner.png</file>
-        <file>images/grid/element_border_3.png</file>
-        <file>images/grid/udl.png</file>
-        <file>localization/app_en_US.qm</file>
-        <file>localization/app_ru_RU.qm</file>
-        <file>localization/src_en_US.qm</file>
-        <file>localization/src_ru_RU.qm</file>
         <file>images/alias/digits/digit_0.png</file>
         <file>images/alias/digits/digit_1.png</file>
         <file>images/alias/digits/digit_2.png</file>
@@ -78,5 +62,26 @@
         <file>images/alias/upper/upper_x.png</file>
         <file>images/alias/upper/upper_y.png</file>
         <file>images/alias/upper/upper_z.png</file>
+        <file>images/grid/udlr.png</file>
+        <file>images/grid/element_body.png</file>
+        <file>images/grid/element_border_1.png</file>
+        <file>images/grid/element_border_2.png</file>
+        <file>images/grid/element_border_4.png</file>
+        <file>images/grid/empty.png</file>
+        <file>images/grid/ud.png</file>
+        <file>images/grid/ur.png</file>
+        <file>images/grid/element_border_2_corner.png</file>
+        <file>images/grid/element_border_3.png</file>
+        <file>images/grid/udl.png</file>
+        <file>images/grid/pin_horizontal.png</file>
+        <file>images/grid/pin_vertical.png</file>
+        <file>images/grid/dr.png</file>
+        <file>images/grid/lr.png</file>
+        <file>images/grid/lru.png</file>
+        <file>images/grid/udlri.png</file>
+        <file>localization/app_en_US.qm</file>
+        <file>localization/app_ru_RU.qm</file>
+        <file>localization/src_en_US.qm</file>
+        <file>localization/src_ru_RU.qm</file>
     </qresource>
 </RCC>

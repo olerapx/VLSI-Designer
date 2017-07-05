@@ -42,6 +42,7 @@ static const QMap<QString, CellType> cellTypeMap
     {"LRU", CellType::LRU},
     {"LRD", CellType::LRD},
     {"UDLR", CellType::UDLR},
+    {"UDLRI", CellType::UDLRI}
 };
 
 /**
