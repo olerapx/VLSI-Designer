@@ -11,6 +11,10 @@ INCLUDEPATH += $$PWD
 include (src.pri)
 
 SOURCES += \
+    algorithms/decomposition/decompositionalgorithm.cpp \
+    algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \
+    algorithms/decomposition/serialdecomposition/schemevertex.cpp \
+    algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \

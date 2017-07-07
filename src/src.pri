@@ -6,6 +6,10 @@ QT       += core network
 INCLUDEPATH += $$PWD
 
 HEADERS  += \
+    $$PWD/algorithms/decomposition/decompositionalgorithm.h \
+    $$PWD/algorithms/decomposition/serialdecomposition/serialdecomposition.h \
+    $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \
+    $$PWD/algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \

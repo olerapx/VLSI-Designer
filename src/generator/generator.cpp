@@ -30,7 +30,11 @@ void Generator::onStop()
 
 Scheme* Generator::generate()
 {
-    if(!actuallyStopped) return new Scheme();
+    if(!actuallyStopped)
+    {
+        sendError(tr("The generator is already working."));
+        return new Scheme();
+    }
 
     stopped = false;
     actuallyStopped = false;

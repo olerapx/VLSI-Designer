@@ -69,7 +69,6 @@ signals:
     void sendLog(QString log);
 
 public slots:
-
     /**
      * @brief onStart
      * Starts the generator. An alternate way is to call generate().
@@ -78,7 +77,8 @@ public slots:
 
     /**
      * @brief onStop
-     * Requests the generator to stop. When the generator will be stopped, a sendFinish will be emitted.
+     * Requests the generator to stop.
+     * When the generator will be stopped, a sendFinish will be emitted.
      */
     void onStop();
 
