@@ -19,12 +19,6 @@ QList<Scheme*> SerialDecomposition::execute()
 
     try
     {
-        if(scheme->getElements().size() == 0)
-            throw IllegalArgumentException(tr("The scheme cannot contain 0 elements."));
-
-        if(scheme->getWires().size() == 0)
-            throw IllegalArgumentException(tr("The scheme cannot contain 0 wires."));
-
         clear();
         fillVertices();
         prepareSubschemes();
@@ -32,8 +26,7 @@ QList<Scheme*> SerialDecomposition::execute()
         for(QList<SchemeVertex*>& list: distributedVertices)
             fillSubscheme(list);
 
-        QList<Scheme*> list;
-        //fill
+        QList<Scheme*> list = buildSubschemes();
 
         stopped = true;
         actuallyStopped = true;
@@ -126,7 +119,7 @@ void SerialDecomposition::prepareSubschemes()
     }
 
     QList<SchemeVertex*> list;
-    for(int i=0; i< reminder; i++)
+    for(int i=0; i< quotient + reminder; i++)
         list.append(nullptr);
 
     distributedVertices.append(list);
@@ -134,7 +127,6 @@ void SerialDecomposition::prepareSubschemes()
 
 void SerialDecomposition::fillSubscheme(QList<SchemeVertex*>& list)
 {
-    outerConnectionsNumberComparator.setList(&list);
     placeFirstElement(list);
 
     for(int i=1; i<list.size(); i++)
@@ -160,7 +152,7 @@ bool SerialDecomposition::connectedElementsNumberComparator(SchemeVertex* v1, Sc
 void SerialDecomposition::placeNextElement(QList<SchemeVertex *> &list, int index)
 {
     QList<SchemeVertex*> selectableVertices = getSelectableVertices(list);
-    std::sort(list.begin(), list.end(), outerConnectionsNumberComparator);
+    std::sort(selectableVertices.begin(), selectableVertices.end(), OuterConnectionsNumberComparator(&list));
 
     SchemeVertex* vertex = selectableVertices[0];
     list[index] = vertex;
@@ -179,6 +171,9 @@ QList<SchemeVertex*> SerialDecomposition::getSelectableVertices(QList<SchemeVert
     QList<SchemeVertex*> selectableElements;
     for(SchemeVertex* vertex: list)
     {
+        if(vertex == nullptr)
+            break;
+
         for(std::pair<SchemeVertex*, WireType> connectedElement: vertex->getConnectedElements())
         {
             if(!connectedElement.first->isDistributed() && connectedElement.second == WireType::Inner)
@@ -190,4 +185,24 @@ QList<SchemeVertex*> SerialDecomposition::getSelectableVertices(QList<SchemeVert
         return undistributedVertices;
 
     return selectableElements;
+}
+
+QList<Scheme*> SerialDecomposition::buildSubschemes()
+{
+    QList<Scheme*> res;
+
+    for(QList<SchemeVertex*>& list: distributedVertices)
+    {
+        Scheme* s = new Scheme();
+
+        for(SchemeVertex* v: list)
+            s->getElements().append(*(v->getElement()));
+
+        for(Wire& w: scheme->getWires())
+            s->getWires().append(w);
+
+        res.append(s);
+    }
+
+    return res;
 }

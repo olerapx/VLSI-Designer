@@ -15,7 +15,6 @@ public:
 private:
     QList<SchemeVertex*> undistributedVertices;
     QList<QList<SchemeVertex*>> distributedVertices;
-    OuterConnectionsNumberComparator outerConnectionsNumberComparator;
 
     void clear();
 
@@ -30,7 +29,9 @@ private:
     static bool connectedElementsNumberComparator(SchemeVertex* v1, SchemeVertex* v2);
 
     void placeNextElement(QList<SchemeVertex*>& list, int index);
-    QList<SchemeVertex*> getSelectableVertices(QList<SchemeVertex*>& list);   
+    QList<SchemeVertex*> getSelectableVertices(QList<SchemeVertex*>& list);
+
+    QList<Scheme*> buildSubschemes();
 };
 
 #endif // SERIALDECOMPOSITION_H
