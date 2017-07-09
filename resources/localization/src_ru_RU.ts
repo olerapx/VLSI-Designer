@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>DecompositionAlgorithm</name>
+    <message>
+        <source>The scheme cannot contain 0 elements.</source>
+        <translation>Схема не может содержать 0 элементов.</translation>
+    </message>
+    <message>
+        <source>The scheme cannot contain 0 wires.</source>
+        <translation>Схема не может содержать 0 соединений.</translation>
+    </message>
+    <message>
+        <source>The number of scheme&apos;s elements (%1) is lower than number of subschemes (%2).</source>
+        <translation>Число элементов схемы (%1) меньше, чем число подсхем (%2).</translation>
+    </message>
+</context>
+<context>
     <name>Generator</name>
     <message>
         <source>Functional nodes generation.</source>
@@ -34,6 +49,14 @@
     <message>
         <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
         <translation>Медиана = %1,нижняя граница = %2, верхняя граница = %3.</translation>
+    </message>
+    <message>
+        <source>The generator is already working.</source>
+        <translation>Генератор уже работает.</translation>
+    </message>
+    <message>
+        <source>Aliases generation.</source>
+        <translation>Генерация псевдонимов.</translation>
     </message>
 </context>
 <context>
@@ -310,6 +333,21 @@
     <message>
         <source>Upper limit must be bigger or equal than lower limit.</source>
         <translation>Верхняя граница должна быть больше или равна нижней границе.</translation>
+    </message>
+</context>
+<context>
+    <name>SerialDecomposition</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>Алгоритм уже работает.</translation>
+    </message>
+    <message>
+        <source>Cannot find scheme element with index %1.</source>
+        <translation>Невозможно найти элемент схемы с индексом %1.</translation>
+    </message>
+    <message>
+        <source>The vertex with id %1 is already distributed or does not exist.</source>
+        <translation>Вершина с id %1 уже распределена или не существует.</translation>
     </message>
 </context>
 </TS>

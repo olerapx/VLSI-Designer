@@ -94,7 +94,7 @@ void GeneratorWindow::setValidators()
 void GeneratorWindow::on_librariesButton_clicked()
 {
     QDir dir = QDir::currentPath();
-    libraryFiles = QFileDialog::getOpenFileNames(this, tr("Libraries choosing"), dir.absolutePath(), tr("JSON (*.json);;Binary (*.bin)"));
+    libraryFiles = QFileDialog::getOpenFileNames(this, tr("Libraries choosing"), dir.absolutePath(), tr("All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)"));
 
     QString files = "";
 
@@ -152,7 +152,7 @@ GeneratorParameters GeneratorWindow::buildParameters()
         QFileInfo info(f);
         Library* l;
 
-        if(info.suffix() == "bin")
+        if(info.suffix().toLower() == "bin")
             l = static_cast<Library*>(binarySerializer.deserialize(f.readAll()));
         else
             l = static_cast<Library*>(jsonSerializer.deserialize(f.readAll()));
@@ -198,7 +198,7 @@ void GeneratorWindow::saveScheme(Scheme s)
     f.open(QIODevice::WriteOnly);
 
     QFileInfo info(f);
-    if(info.suffix() == "bin")
+    if(info.suffix().toLower() == "bin")
         array = binarySerializer.serialize(&s);
     else
         array = jsonSerializer.serialize(&s);

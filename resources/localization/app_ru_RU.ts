@@ -208,6 +208,10 @@
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.cpp" line="97"/>
+        <source>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</source>
+        <translation>Все поддерживаемые файлы (*.bin *.json);;JSON (*.json);;Бинарный (*.bin)</translation>
+    </message>
+    <message>
         <location filename="../../app/gui/generatorwindow.cpp" line="193"/>
         <source>JSON (*.json);;Binary (*.bin)</source>
         <translation>JSON (*.json);;Бинарный (*.bin)</translation>

@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>DecompositionAlgorithm</name>
+    <message>
+        <source>The scheme cannot contain 0 elements.</source>
+        <translation>The scheme cannot contain 0 elements.</translation>
+    </message>
+    <message>
+        <source>The scheme cannot contain 0 wires.</source>
+        <translation>The scheme cannot contain 0 wires.</translation>
+    </message>
+    <message>
+        <source>The number of scheme&apos;s elements (%1) is lower than number of subschemes (%2).</source>
+        <translation>The number of scheme&apos;s elements (%1) is lower than number of subschemes (%2).</translation>
+    </message>
+</context>
+<context>
     <name>Generator</name>
     <message>
         <source>Functional nodes generation.</source>
@@ -34,6 +49,14 @@
     <message>
         <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
         <translation>Mean = %1, lower limit = %2, upper limit = %3.</translation>
+    </message>
+    <message>
+        <source>The generator is already working.</source>
+        <translation>The generator is already working.</translation>
+    </message>
+    <message>
+        <source>Aliases generation.</source>
+        <translation>Aliases generation.</translation>
     </message>
 </context>
 <context>
@@ -310,6 +333,21 @@
     <message>
         <source>Upper limit must be bigger or equal than lower limit.</source>
         <translation>Upper limit must be bigger or equal than lower limit.</translation>
+    </message>
+</context>
+<context>
+    <name>SerialDecomposition</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>The algorithm is already working.</translation>
+    </message>
+    <message>
+        <source>Cannot find scheme element with index %1.</source>
+        <translation>Cannot find scheme element with index %1.</translation>
+    </message>
+    <message>
+        <source>The vertex with id %1 is already distributed or does not exist.</source>
+        <translation>The vertex with id %1 is already distributed or does not exist.</translation>
     </message>
 </context>
 </TS>
