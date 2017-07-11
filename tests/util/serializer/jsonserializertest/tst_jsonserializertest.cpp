@@ -155,7 +155,7 @@ void JsonSerializerTest::serializeSchemeTest()
 
 void JsonSerializerTest::serializeGridTest()
 {
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
 
     g->getRoutedWires().append(1);
     g->getRoutedWires().append(0);
@@ -186,8 +186,6 @@ void JsonSerializerTest::serializeGridTest()
 
     RoutedWireIndex index = obj.value("routed-wires").toArray().at(2).toString().toLongLong();
     QVERIFY(index == Q_INT64_C(9223372036854775807));
-
-    QVERIFY(obj.value("initial-level").toInt() == 10);
 
     QJsonArray row1 = obj.value("cells").toArray().at(0).toArray();
     QJsonArray row2 = obj.value("cells").toArray().at(1).toArray();
@@ -349,7 +347,6 @@ void JsonSerializerTest::deserializeGridTest()
 
     QList<RoutedWireIndex> routedWires = {0, 1};
     QVERIFY(g->getRoutedWires() == routedWires);
-    QVERIFY(g->getInitialLevel() == 1);
 
     Cell emptyCell = g->getCells().at(0).at(0);
     QVERIFY(emptyCell.getType() == CellType::Empty);

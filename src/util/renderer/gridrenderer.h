@@ -27,8 +27,9 @@ public:
 
     /**
      * @brief render
-     * Renders the given grid.
+     * Renders the given grid using the given scheme's aliases.
      * @param g - grid.
+     * @param s - scheme.
      * @return image.
      */
     QImage render(Grid* g, Scheme *s);

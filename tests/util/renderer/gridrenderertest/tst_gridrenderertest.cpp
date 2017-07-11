@@ -34,7 +34,7 @@ void GridRendererTest::renderTest()
 {
     GridRenderer renderer;
 
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
 
     QList<QList<Cell>> cells =
     {
@@ -94,7 +94,7 @@ void GridRendererTest::renderEmptyTest()
 {
     GridRenderer renderer;
 
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
 
     QList<Cell> list = {Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty)};
     g->getCells().append(list);
@@ -117,7 +117,7 @@ void GridRendererTest::renderPinTest()
 {
     GridRenderer renderer;
 
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
     Scheme* s = new Scheme();
 
     QList<QList<Cell>> cells =
@@ -163,7 +163,7 @@ void GridRendererTest::renderElementTest()
 {
     GridRenderer renderer;
 
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
 
     QList<QList<Cell>> cells =
     {
@@ -225,7 +225,7 @@ void GridRendererTest::renderWireTest()
 {
     GridRenderer renderer;
 
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
 
     QList<QList<Cell>> cells =
     {

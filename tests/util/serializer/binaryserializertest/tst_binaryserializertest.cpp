@@ -124,7 +124,7 @@ void BinarySerializerTest::schemeTest()
 
 void BinarySerializerTest::gridTest()
 {
-    Grid* g = new Grid(10);
+    Grid* g = new Grid();
 
     g->getRoutedWires().append(1);
     g->getRoutedWires().append(0);
@@ -148,8 +148,6 @@ void BinarySerializerTest::gridTest()
     BinarySerializer serializer;
     QByteArray array = serializer.serialize(g);
     Grid* deserializedGrid = static_cast<Grid*>(serializer.deserialize(array));
-
-    QVERIFY(deserializedGrid->getInitialLevel() == g->getInitialLevel());
 
     QVERIFY(deserializedGrid->getRoutedWires() == g->getRoutedWires());
     QVERIFY(deserializedGrid->getRoutedWires()[2] == g->getRoutedWires()[2]);

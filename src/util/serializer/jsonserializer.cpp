@@ -137,7 +137,6 @@ QByteArray JsonSerializer::serializeGrid(Grid* g)
         routedWires.append(QString::number(i.getValue()));
 
     json["routed-wires"] = routedWires;
-    json["initial-level"] = g->getInitialLevel();
 
     QJsonObject res;
     res["grid"] = json;
@@ -311,8 +310,7 @@ Wire JsonSerializer::deserializeWire(QJsonObject obj)
 
 Grid* JsonSerializer::deserializeGrid(QJsonObject obj)
 {
-    int initialLevel = obj.value("initial-level").toInt();
-    Grid* grid = new Grid(initialLevel);
+    Grid* grid = new Grid();
 
     QJsonArray cells = obj.value("cells").toArray();
     for (QJsonValue val: cells)

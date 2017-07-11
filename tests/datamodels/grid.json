@@ -25,6 +25,5 @@
 			{"type": "element", "index": "1"}
 		]
 	],
-	"routed-wires": ["0", "1"],
-	"initial-level": 1
+	"routed-wires": ["0", "1"]
 }}

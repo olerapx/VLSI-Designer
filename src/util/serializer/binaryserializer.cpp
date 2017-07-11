@@ -104,8 +104,6 @@ QByteArray BinarySerializer::serializeGrid(Grid* g)
 
     stream << QString("grid");
 
-    stream << (qint32)g->getInitialLevel();
-
     stream << (qint32)g->getCells().size();
     for(QList<Cell> list: g->getCells())
     {
@@ -274,10 +272,7 @@ Wire BinarySerializer::deserializeWire(QDataStream& stream)
 
 Grid* BinarySerializer::deserializeGrid(QDataStream &stream)
 {
-    qint32 initialLevel;
-    stream >> initialLevel;
-
-    Grid* g = new Grid((int)initialLevel);
+    Grid* g = new Grid();
 
     qint32 size;
     stream >> size;
