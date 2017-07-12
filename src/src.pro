@@ -15,6 +15,9 @@ SOURCES += \
     algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \
     algorithms/decomposition/serialdecomposition/schemevertex.cpp \
     algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
+    algorithms/placement/primaryplacementalgorithm.cpp \
+    algorithms/placement/placementresult.cpp \
+    algorithms/placement/rowwiseplacement/rowwiseplacement.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \

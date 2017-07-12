@@ -23,9 +23,15 @@ QList<Scheme*> SerialDecomposition::execute()
         fillVertices();
         prepareSubschemes();
 
+        sendLog(tr("Elements decomposition."));
+        int i = 1;
         for(QList<SchemeVertex*>& list: distributedVertices)
+        {
+            sendLog(tr("Filling subscheme %1 of %2:").arg(QString::number(i), QString::number(distributedVertices.size())));
             fillSubscheme(list);
+        }
 
+        sendLog(tr("Finishing."));
         QList<Scheme*> list = buildSubschemes();
 
         stopped = true;
@@ -66,6 +72,8 @@ void SerialDecomposition::clear()
 
 void SerialDecomposition::fillVertices()
 {
+    sendLog(tr("Preparing."));
+
     for(SchemeElement& el: scheme->getElements())
         undistributedVertices.append(new SchemeVertex(&el));
 
@@ -92,6 +100,8 @@ SchemeVertex* SerialDecomposition::findVertexByIndex(qint64 index)
 
 void SerialDecomposition::prepareSubschemes()
 {
+    sendLog(tr("Creating empty subschemes."));
+
     qint64 quotient = scheme->getElements().size() / number;
     qint64 reminder = scheme->getElements().size() % number;
 
@@ -137,6 +147,7 @@ void SerialDecomposition::fillSubscheme(QList<SchemeVertex*>& list)
 
 void SerialDecomposition::placeFirstElement(QList<SchemeVertex*> &list)
 {
+    sendLog(tr("First element placement."));
     std::sort(undistributedVertices.begin(), undistributedVertices.end(), SerialDecomposition::connectedElementsNumberComparator);
 
     list[0] = undistributedVertices[0];
@@ -151,6 +162,8 @@ bool SerialDecomposition::connectedElementsNumberComparator(SchemeVertex* v1, Sc
 
 void SerialDecomposition::placeNextElement(QList<SchemeVertex *> &list, int index)
 {
+    sendLog(tr("Placement of element %1 of %2.").arg(QString::number(index + 1), QString::number(list.size())));
+
     QList<SchemeVertex*> selectableVertices = getSelectableVertices(list);
     std::sort(selectableVertices.begin(), selectableVertices.end(), OuterConnectionsNumberComparator(&list));
 

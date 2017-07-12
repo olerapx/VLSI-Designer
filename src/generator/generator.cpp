@@ -33,7 +33,7 @@ Scheme* Generator::generate()
     if(!actuallyStopped)
     {
         sendError(tr("The generator is already working."));
-        return new Scheme();
+        return nullptr;
     }
 
     stopped = false;
@@ -48,7 +48,7 @@ Scheme* Generator::generate()
         {
             actuallyStopped = true;
             sendFinish();
-            return new Scheme();
+            return nullptr;
         }
 
         Scheme* scheme = new Scheme();
@@ -75,7 +75,7 @@ Scheme* Generator::generate()
 
         sendError(e.what());
         sendFinish();
-        return new Scheme();
+        return nullptr;
     }
 }
 

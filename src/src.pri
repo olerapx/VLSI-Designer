@@ -1,8 +1,6 @@
 CONFIG -= debug_and_release debug_and_release_target
 QT       += core network
 
-# win32: QMAKE_LFLAGS += -Wl,--large-address-aware
-
 INCLUDEPATH += $$PWD
 
 HEADERS  += \
@@ -10,6 +8,9 @@ HEADERS  += \
     $$PWD/algorithms/decomposition/serialdecomposition/serialdecomposition.h \
     $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \
     $$PWD/algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h \
+    $$PWD/algorithms/placement/primaryplacementalgorithm.h \
+    $$PWD/algorithms/placement/placementresult.h \
+    $$PWD/algorithms/placement/rowwiseplacement/rowwiseplacement.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \
