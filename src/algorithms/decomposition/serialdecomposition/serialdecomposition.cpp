@@ -32,7 +32,7 @@ QList<Scheme*> SerialDecomposition::execute()
         QList<Scheme*> list = buildSubschemes();
 
         if(stopped)
-            throw Exception(tr("Algorithm is stopped."));
+            throw ThreadStoppedException(tr("Algorithm is stopped."));
 
         stopped = true;
         actuallyStopped = true;

@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "exception/threadstoppedexception.h"
+
 class Threadable: public QObject
 {
     Q_OBJECT

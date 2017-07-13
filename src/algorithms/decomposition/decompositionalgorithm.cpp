@@ -32,6 +32,10 @@ void DecompositionAlgorithm::onStart()
         sendResult(list);
         sendFinish();
     }
+    catch(ThreadStoppedException tse)
+    {
+        sendFinish();
+    }
     catch(Exception e)
     {
         sendError(e.what());

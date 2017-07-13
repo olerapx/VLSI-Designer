@@ -25,6 +25,10 @@ void PrimaryPlacementAlgorithm::onStart()
         sendResult(result);
         sendFinish();
     }
+    catch(ThreadStoppedException tse)
+    {
+        sendFinish();
+    }
     catch(Exception e)
     {
         sendError(e.what());

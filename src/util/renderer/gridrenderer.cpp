@@ -84,6 +84,10 @@ void GridRenderer::onStart()
         sendResult(img);
         sendFinish();
     }
+    catch(ThreadStoppedException tse)
+    {
+        sendFinish();
+    }
     catch(Exception e)
     {
         sendError(e.what());
@@ -128,7 +132,7 @@ QImage GridRenderer::execute()
             for(Cell cell: list)
             {
                 if(stopped)
-                    throw Exception(tr("Renderer is stopped."));
+                    throw ThreadStoppedException(tr("Renderer is stopped."));
 
                 i++;
                 sendLog(tr("Rendering cell %1 of %2.").arg(i, totalSize));

@@ -27,6 +27,7 @@ HEADERS  += \
     $$PWD/datamodels/architecture/architecture.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \
+    $$PWD/exception/threadstoppedexception.h \
     $$PWD/exception/ioexception.h \
     $$PWD/util/serializer/serializer.h \
     $$PWD/util/serializer/jsonserializer.h \

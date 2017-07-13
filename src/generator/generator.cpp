@@ -32,6 +32,10 @@ void Generator::onStart()
         sendResult(s);
         sendFinish();
     }
+    catch(ThreadStoppedException tse)
+    {
+        sendFinish();
+    }
     catch(Exception e)
     {
         sendError(e.what());
@@ -53,7 +57,7 @@ Scheme* Generator::execute()
         generateWires();
 
         if(stopped)
-            throw Exception(tr("Generator is stopped."));
+            throw ThreadStoppedException(tr("Generator is stopped."));
 
         Scheme* scheme = new Scheme();
 
