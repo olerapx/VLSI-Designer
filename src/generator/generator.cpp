@@ -7,8 +7,6 @@ Generator::Generator(GeneratorParameters param):
     branchingDistribution(param.getBranchingMean(), param.getBranchingSigma()),
     libraryRandom(0, param.getLibraries().size() - 1)
 {
-    stopped = true;
-    actuallyStopped = true;
     mt.discard(numbersToDiscard);
 }
 
@@ -18,38 +16,44 @@ Generator::~Generator()
         delete l;
 }
 
+void Generator::setParameters(GeneratorParameters param)
+{
+    if(!stopped)
+        throw Exception(tr("Cannot change parameters while the generator is working."));
+
+    this->param = param;
+}
+
 void Generator::onStart()
 {
-    generate();
-}
-
-void Generator::onStop()
-{
-    stopped = true;
-}
-
-Scheme* Generator::generate()
-{
-    if(!actuallyStopped)
-    {
-        sendError(tr("The generator is already working."));
-        return nullptr;
-    }
-
-    stopped = false;
-    actuallyStopped = false;
-
     try
     {
+        Scheme* s = execute();
+        sendResult(s);
+        sendFinish();
+    }
+    catch(Exception e)
+    {
+        sendError(e.what());
+        sendFinish();
+    }
+}
+
+Scheme* Generator::execute()
+{
+    try
+    {
+        if(!actuallyStopped)
+            throw Exception(tr("The generator is already working."));
+
+        stopped = false;
+        actuallyStopped = false;
+
         generateElements();
         generateWires();
 
         if(stopped)
-        {
-            actuallyStopped = true;
-            sendFinish();
-            return nullptr;
-        }
+            throw Exception(tr("Generator is stopped."));
 
         Scheme* scheme = new Scheme();
 
@@ -63,9 +67,6 @@ Scheme* Generator::generate()
         stopped = true;
         actuallyStopped = true;
 
-        sendScheme(scheme);
-        sendFinish();
-
         return scheme;
     }
     catch(Exception e)
@@ -73,9 +74,7 @@ Scheme* Generator::generate()
         stopped = true;
         actuallyStopped = true;
 
-        sendError(e.what());
-        sendFinish();
-        return nullptr;
+        throw;
     }
 }
 

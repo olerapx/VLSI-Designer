@@ -59,7 +59,7 @@ void GeneratorTest::generateTest()
     param.setElementsNumber(5);
 
     Generator* g = new Generator(param);
-    Scheme* s = g->generate();
+    Scheme* s = g->execute();
 
     for(int i=0; i<s->getWires().size(); i++)
     {
@@ -97,7 +97,7 @@ void GeneratorTest::distributionTest()
     param.setBranching(4, 0.2, 4, 4);
 
     Generator* g = new Generator(param);
-    Scheme* s = g->generate();
+    Scheme* s = g->execute();
 
     QVERIFY(s->getElements().size() == 17);
     QVERIFY(s->getWires().size() == 17*4);
@@ -126,7 +126,7 @@ void GeneratorTest::outerIfUnableInnerTest()
     param.setInnerWireChance(1);
 
     Generator* g = new Generator(param);
-    Scheme* s = g->generate();
+    Scheme* s = g->execute();
 
     QVERIFY(containsOuter(s));
 
@@ -155,7 +155,7 @@ void GeneratorTest::changeBranchingTest()
     param.setBranching(7, 0.2, 7, 7);
 
     Generator* g = new Generator(param);
-    Scheme* s = g->generate();
+    Scheme* s = g->execute();
     QVERIFY(g->getParameters().getBranchingMean() == 6);
     QVERIFY(g->getParameters().getBranchingLowerLimit() == 6);
     QVERIFY(g->getParameters().getBranchingUpperLimit() == 6);

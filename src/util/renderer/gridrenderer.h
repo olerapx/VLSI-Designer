@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <bitset>
 
+#include "threadable.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
 #include "exception/ioexception.h"
@@ -17,30 +18,39 @@
  * Constructs an image of a grid using the image resources.
  * Each cell in the grid is associated with one of the images, so the resulting image is composed of them.
  */
-class GridRenderer: public QObject
+class GridRenderer: public Threadable
 {
     Q_OBJECT
 
 public:
-    GridRenderer();
+    GridRenderer(Grid* g, Scheme* s);
     virtual ~GridRenderer() {}
 
+    void setParameters(Grid* g, Scheme* s);
+
     /**
-     * @brief render
+     * @brief execute
      * Renders the given grid using the given scheme's aliases.
      * @param g - grid.
      * @param s - scheme.
      * @return image.
      */
-    QImage render(Grid* g, Scheme *s);
+    QImage execute();
 
 signals:
-
     /**
-     * @brief sendLog
-     * @param log
+     * @brief sendResult
+     * Emits when the image is ready.
+     * @param image - the generated image.
      */
-    void sendLog(QString log);
+    void sendResult(QImage image);
+
+public slots:
+    /**
+     * @brief onStart
+     * Starts the renderer. An alternate way is to call execute().
+     */
+    void onStart();
 
 private:
     int imageSize;

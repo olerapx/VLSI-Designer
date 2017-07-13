@@ -2,6 +2,14 @@
 
 DecompositionAlgorithm::DecompositionAlgorithm(Scheme *scheme, int number)
 {
+    setParameters(scheme, number);
+}
+
+void DecompositionAlgorithm::setParameters(Scheme *scheme, int number)
+{
+    if(!stopped)
+        throw Exception(tr("Cannot change parameters while the algorithm is working."));
+
     if(scheme->getElements().size() == 0)
         throw IllegalArgumentException(tr("The scheme cannot contain 0 elements."));
 
@@ -14,17 +22,19 @@ DecompositionAlgorithm::DecompositionAlgorithm(Scheme *scheme, int number)
 
     this->scheme = scheme;
     this->number = number;
-
-    stopped = true;
-    actuallyStopped = true;
 }
 
 void DecompositionAlgorithm::onStart()
 {
-    execute();
-}
-
-void DecompositionAlgorithm::onStop()
-{
-    stopped = true;
+    try
+    {
+        QList<Scheme*> list = execute();
+        sendResult(list);
+        sendFinish();
+    }
+    catch(Exception e)
+    {
+        sendError(e.what());
+        sendFinish();
+    }
 }

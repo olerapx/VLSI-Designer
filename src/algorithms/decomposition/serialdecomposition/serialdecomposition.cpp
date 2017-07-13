@@ -8,17 +8,14 @@ SerialDecomposition::SerialDecomposition(Scheme* scheme, int number):
 
 QList<Scheme*> SerialDecomposition::execute()
 {
-    if(!actuallyStopped)
-    {
-        sendError(tr("The algorithm is already working."));
-        return QList<Scheme*>();
-    }
-
-    stopped = false;
-    actuallyStopped = false;
-
     try
     {
+        if(!actuallyStopped)
+            throw Exception(tr("The algorithm is already working."));
+
+        stopped = false;
+        actuallyStopped = false;
+
         clear();
         fillVertices();
         prepareSubschemes();
@@ -27,18 +24,18 @@ QList<Scheme*> SerialDecomposition::execute()
         int i = 1;
         for(QList<SchemeVertex*>& list: distributedVertices)
         {
-            sendLog(tr("Filling subscheme %1 of %2:").arg(QString::number(i), QString::number(distributedVertices.size())));
+            sendLog(tr("Filling subscheme %1 of %2:").arg(QString::number(i++), QString::number(distributedVertices.size())));
             fillSubscheme(list);
         }
 
         sendLog(tr("Finishing."));
         QList<Scheme*> list = buildSubschemes();
 
+        if(stopped)
+            throw Exception(tr("Algorithm is stopped."));
+
         stopped = true;
         actuallyStopped = true;
-
-        sendSchemes(list);
-        sendFinish();
 
         return list;
     }
@@ -47,9 +44,7 @@ QList<Scheme*> SerialDecomposition::execute()
         stopped = true;
         actuallyStopped = true;
 
-        sendError(e.what());
-        sendFinish();
-        return QList<Scheme*>();
+        throw;
     }
 }
 
@@ -72,13 +67,17 @@ void SerialDecomposition::clear()
 
 void SerialDecomposition::fillVertices()
 {
-    sendLog(tr("Preparing."));
+    if(stopped) return;
+
+    sendLog(tr("Preparing."));    
 
     for(SchemeElement& el: scheme->getElements())
         undistributedVertices.append(new SchemeVertex(&el));
 
     for(Wire& w: scheme->getWires())
     {
+        if(stopped) return;
+
         SchemeVertex* srcVertex = findVertexByIndex(w.getSrcIndex());
         SchemeVertex* destVertex = findVertexByIndex(w.getDestIndex());
 
@@ -100,6 +99,8 @@ SchemeVertex* SerialDecomposition::findVertexByIndex(qint64 index)
 
 void SerialDecomposition::prepareSubschemes()
 {
+    if(stopped) return;
+
     sendLog(tr("Creating empty subschemes."));
 
     qint64 quotient = scheme->getElements().size() / number;
@@ -137,10 +138,13 @@ void SerialDecomposition::prepareSubschemes()
 
 void SerialDecomposition::fillSubscheme(QList<SchemeVertex*>& list)
 {
+    if(stopped) return;
     placeFirstElement(list);
 
     for(int i=1; i<list.size(); i++)
     {
+        if(stopped) return;
+
         placeNextElement(list, i);
     }
 }
@@ -206,6 +210,8 @@ QList<Scheme*> SerialDecomposition::buildSubschemes()
 
     for(QList<SchemeVertex*>& list: distributedVertices)
     {
+        if(stopped) return res;
+
         Scheme* s = new Scheme();
 
         for(SchemeVertex* v: list)

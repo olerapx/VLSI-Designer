@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 
+#include "threadable.h"
 #include "algorithms/placement/placementresult.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
@@ -12,12 +13,14 @@
  * @brief The PrimaryPlacementAlgorithm class
  * Base class for primary placement algorithms.
  */
-class PrimaryPlacementAlgorithm: public QObject
+class PrimaryPlacementAlgorithm: public Threadable
 {
     Q_OBJECT
 
 public:
     PrimaryPlacementAlgorithm(Scheme* scheme, double expandCoefficient);
+
+    void setParameters(Scheme* scheme, double expandCoefficient);
 
     /**
      * @brief execute
@@ -35,25 +38,6 @@ signals:
      */
     void sendResult(PlacementResult* result);
 
-    /**
-     * @brief sendFinish
-     * Emits when the process is finished or interrupted.
-     */
-    void sendFinish();
-
-    /**
-     * @brief sendError
-     * Emits when an exception is occurred.
-     * @param error - the exception text.
-     */
-    void sendError(QString error);
-
-    /**
-     * @brief sendLog
-     * @param log
-     */
-    void sendLog(QString log);
-
 public slots:
     /**
      * @brief onStart
@@ -61,19 +45,9 @@ public slots:
      */
     void onStart();
 
-    /**
-     * @brief onStop
-     * Requests the algorithm to stop.
-     * When the algorithm will be stopped, a sendFinish will be emitted.
-     */
-    void onStop();
-
 protected:
     Scheme* scheme;
     double expandCoefficient;
-
-    bool stopped;
-    bool actuallyStopped;
 };
 
 #endif // PRIMARYPLACEMENTALGORITHM_H

@@ -46,6 +46,17 @@ void SerialDecompositionTest::decompositionTest()
         delete scheme;
 
     delete s;
+
+    s = new Scheme();
+
+    for(int i=0; i<3; i++)
+        s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
+
+    s->getWires().append(Wire(0, "s", 1, "d", WireType::Inner, 0));
+
+    QVERIFY_EXCEPTION_THROWN(decomposition.setParameters(s, 4), IllegalArgumentException);
+
+    delete s;
 }
 
 void SerialDecompositionTest::minConnectionsPriorityTest()

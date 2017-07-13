@@ -50,7 +50,7 @@ void GeneratorWindow::onSendFinish()
     disconnect(&generatorThread, &QThread::started, generator, &Generator::onStart);
     disconnect(this, &GeneratorWindow::sendStop, generator, &Generator::onStop);
 
-    disconnect(generator, &Generator::sendScheme, this, &GeneratorWindow::onSendScheme);
+    disconnect(generator, &Generator::sendResult, this, &GeneratorWindow::onSendScheme);
     disconnect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
     disconnect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
     disconnect(generator, &Generator::sendFinish, this, &GeneratorWindow::onSendFinish);
@@ -121,7 +121,7 @@ void GeneratorWindow::on_generateButton_clicked()
         connect(&generatorThread, &QThread::started, generator, &Generator::onStart);
         connect(this, &GeneratorWindow::sendStop, generator, &Generator::onStop, Qt::DirectConnection);
 
-        connect(generator, &Generator::sendScheme, this, &GeneratorWindow::onSendScheme);
+        connect(generator, &Generator::sendResult, this, &GeneratorWindow::onSendScheme);
         connect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
         connect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
         connect(generator, &Generator::sendFinish, this, &GeneratorWindow::onSendFinish);

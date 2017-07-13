@@ -2,23 +2,32 @@
 
 PrimaryPlacementAlgorithm::PrimaryPlacementAlgorithm(Scheme* scheme, double expandCoefficient)
 {
-    this->scheme = scheme;
+    setParameters(scheme, expandCoefficient);
+}
+
+void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, double expandCoefficient)
+{
+    if(!stopped)
+        throw Exception(tr("Cannot change parameters while the algorithm is working."));
 
     if(expandCoefficient <= 1.0)
         throw IllegalArgumentException(tr("Expanding coefficient must be bigger than 1."));
 
+    this->scheme = scheme;
     this->expandCoefficient = expandCoefficient;
-
-    stopped = true;
-    actuallyStopped = true;
 }
 
 void PrimaryPlacementAlgorithm::onStart()
 {
-    execute();
-}
-
-void PrimaryPlacementAlgorithm::onStop()
-{
-    stopped = true;
+    try
+    {
+        PlacementResult* result = execute();
+        sendResult(result);
+        sendFinish();
+    }
+    catch(Exception e)
+    {
+        sendError(e.what());
+        sendFinish();
+    }
 }

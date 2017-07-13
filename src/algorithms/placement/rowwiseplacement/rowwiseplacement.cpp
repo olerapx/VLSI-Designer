@@ -8,24 +8,18 @@ RowWisePlacement::RowWisePlacement(Scheme *scheme, double expandCoefficient):
 
 PlacementResult* RowWisePlacement::execute()
 {
-    if(!actuallyStopped)
-    {
-        sendError(tr("The algorithm is already working."));
-        return nullptr;
-    }
-
-    stopped = false;
-    actuallyStopped = false;
-
     try
     {
+        if(!actuallyStopped)
+            throw Exception(tr("The algorithm is already working."));
+
+        stopped = false;
+        actuallyStopped = false;
+
         PlacementResult* res;
 
         stopped = true;
         actuallyStopped = true;
-
-        sendResult(res);
-        sendFinish();
 
         return res;
     }
@@ -34,8 +28,6 @@ PlacementResult* RowWisePlacement::execute()
         stopped = true;
         actuallyStopped = true;
 
-        sendError(e.what());
-        sendFinish();
-        return nullptr;
+        throw;
     }
 }

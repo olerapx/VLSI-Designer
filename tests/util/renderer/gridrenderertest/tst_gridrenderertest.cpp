@@ -32,8 +32,6 @@ GridRendererTest::GridRendererTest()
 
 void GridRendererTest::renderTest()
 {
-    GridRenderer renderer;
-
     Grid* g = new Grid();
 
     QList<QList<Cell>> cells =
@@ -73,7 +71,8 @@ void GridRendererTest::renderTest()
     s->getElements().append(el1);
     s->getElements().append(el2);
 
-    QImage img = renderer.render(g, s);
+    GridRenderer renderer(g, s);
+    QImage img = renderer.execute();
 
     // uncomment to get new sample images if the resource images is changed
     // img.save("grid.png");
@@ -81,10 +80,10 @@ void GridRendererTest::renderTest()
     QVERIFY(img == sample);
 
     g->getCells()[3].removeAt(3);
-    QVERIFY_EXCEPTION_THROWN(renderer.render(g, s), IllegalArgumentException);
+    QVERIFY_EXCEPTION_THROWN(renderer.execute(), IllegalArgumentException);
 
     g->getCells().clear();
-    QVERIFY_EXCEPTION_THROWN(renderer.render(g, s), IllegalArgumentException);
+    QVERIFY_EXCEPTION_THROWN(renderer.execute(), IllegalArgumentException);
 
     delete s;
     delete g;
@@ -92,8 +91,6 @@ void GridRendererTest::renderTest()
 
 void GridRendererTest::renderEmptyTest()
 {
-    GridRenderer renderer;
-
     Grid* g = new Grid();
 
     QList<Cell> list = {Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty)};
@@ -101,7 +98,8 @@ void GridRendererTest::renderEmptyTest()
 
     Scheme* s = new Scheme();
 
-    QImage img = renderer.render(g, s);
+    GridRenderer renderer(g, s);
+    QImage img = renderer.execute();
 
     // uncomment to get new sample images if the resource images is changed
     // img.save("grid_empty.png");
@@ -115,8 +113,6 @@ void GridRendererTest::renderEmptyTest()
 
 void GridRendererTest::renderPinTest()
 {
-    GridRenderer renderer;
-
     Grid* g = new Grid();
     Scheme* s = new Scheme();
 
@@ -147,7 +143,8 @@ void GridRendererTest::renderPinTest()
     for(QList<Cell> list: cells)
         g->getCells().append(list);
 
-    QImage img = renderer.render(g, s);
+    GridRenderer renderer(g, s);
+    QImage img = renderer.execute();
 
     // uncomment to get new sample images if the resource images is changed
     // img.save("grid_pins.png");
@@ -161,8 +158,6 @@ void GridRendererTest::renderPinTest()
 
 void GridRendererTest::renderElementTest()
 {
-    GridRenderer renderer;
-
     Grid* g = new Grid();
 
     QList<QList<Cell>> cells =
@@ -209,7 +204,8 @@ void GridRendererTest::renderElementTest()
     s->getElements().append(el3);
     s->getElements().append(el4);
 
-    QImage img = renderer.render(g, s);
+    GridRenderer renderer(g, s);
+    QImage img = renderer.execute();
 
     // uncomment to get new sample images if the resource images is changed
     // img.save("grid_elements.png");
@@ -223,8 +219,6 @@ void GridRendererTest::renderElementTest()
 
 void GridRendererTest::renderWireTest()
 {
-    GridRenderer renderer;
-
     Grid* g = new Grid();
 
     QList<QList<Cell>> cells =
@@ -241,7 +235,8 @@ void GridRendererTest::renderWireTest()
 
     Scheme* s = new Scheme();
 
-    QImage img = renderer.render(g, s);
+    GridRenderer renderer(g, s);
+    QImage img = renderer.execute();
 
     // uncomment to get new sample images if the resource images is changed
     // img.save("grid_wires.png");

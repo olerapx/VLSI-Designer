@@ -1,12 +1,23 @@
 #include "gridrenderer.h"
 
-GridRenderer::GridRenderer()
+GridRenderer::GridRenderer(Grid *g, Scheme *s)
 {
+    setParameters(g, s);
+
     imageSize = 0;
     currentX = 0;
     currentY = 0;
 
     fillCache();
+}
+
+void GridRenderer::setParameters(Grid *g, Scheme *s)
+{
+    if(!stopped)
+        throw Exception(tr("Cannot change parameters while the renderer is working."));
+
+    this->grid = g;
+    this->scheme = s;
 }
 
 void GridRenderer::fillCache()
@@ -65,48 +76,82 @@ QImage GridRenderer::readImageFromFile(const QString filePath)
     return image;
 }
 
-QImage GridRenderer::render(Grid *g, Scheme *s)
+void GridRenderer::onStart()
 {
-    renderedIndexes.clear();
-
-    int gridSize = g->getCells().size();
-
-    if(gridSize == 0)
-        throw IllegalArgumentException(tr("The grid is empty."));
-
-    int size = g->getCells()[0].size();
-    for(QList<Cell>& list: g->getCells())
-        if(list.size() != size)
-            throw IllegalArgumentException(tr("The grid is not rectangular."));
-
-    this->grid = g;
-    this->scheme = s;
-
-    sendLog(tr("Preparing the canvas for rendering."));
-
-    QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);
-    res.fill(Qt::white);
-
-    sendLog(tr("Starting."));
-
-    int totalSize = gridSize * size;
-    int i = 0;
-
-    for(QList<Cell>& list: grid->getCells())
+    try
     {
-        for(Cell cell: list)
+        QImage img = execute();
+        sendResult(img);
+        sendFinish();
+    }
+    catch(Exception e)
+    {
+        sendError(e.what());
+        sendFinish();
+    }
+}
+
+QImage GridRenderer::execute()
+{
+    try
+    {
+        if(!actuallyStopped)
+            throw Exception(tr("The renderer is already working."));
+
+        stopped = false;
+        actuallyStopped = false;
+
+        renderedIndexes.clear();
+
+        int gridSize = grid->getCells().size();
+
+        if(gridSize == 0)
+            throw IllegalArgumentException(tr("The grid is empty."));
+
+        int size = grid->getCells()[0].size();
+        for(QList<Cell>& list: grid->getCells())
+            if(list.size() != size)
+                throw IllegalArgumentException(tr("The grid is not rectangular."));
+
+        sendLog(tr("Preparing the canvas for rendering."));
+
+        QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);
+        res.fill(Qt::white);
+
+        sendLog(tr("Starting."));
+
+        int totalSize = gridSize * size;
+        int i = 0;
+
+        for(QList<Cell>& list: grid->getCells())
         {
-            i++;
-            sendLog(tr("Rendering cell %1 of %2.").arg(i, totalSize));
-            renderCell(res, cell);
-            currentX ++;
+            for(Cell cell: list)
+            {
+                if(stopped)
+                    throw Exception(tr("Renderer is stopped."));
+
+                i++;
+                sendLog(tr("Rendering cell %1 of %2.").arg(i, totalSize));
+                renderCell(res, cell);
+                currentX ++;
+            }
+
+            currentX = 0;
+            currentY ++;
         }
 
-        currentX = 0;
-        currentY ++;
-    }
+        stopped = true;
+        actuallyStopped = true;
 
-    return res;
+        return res;
+    }
+    catch(Exception e)
+    {
+        stopped = true;
+        actuallyStopped = true;
+
+        throw;
+    }
 }
 
 void GridRenderer::renderCell(QImage &image, Cell cell)

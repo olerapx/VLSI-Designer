@@ -11,6 +11,7 @@ INCLUDEPATH += $$PWD
 include (src.pri)
 
 SOURCES += \
+    threadable.cpp \
     algorithms/decomposition/decompositionalgorithm.cpp \
     algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \
     algorithms/decomposition/serialdecomposition/schemevertex.cpp \

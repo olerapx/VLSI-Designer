@@ -4,6 +4,7 @@ QT       += core network
 INCLUDEPATH += $$PWD
 
 HEADERS  += \
+    $$PWD/threadable.h \
     $$PWD/algorithms/decomposition/decompositionalgorithm.h \
     $$PWD/algorithms/decomposition/serialdecomposition/serialdecomposition.h \
     $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \

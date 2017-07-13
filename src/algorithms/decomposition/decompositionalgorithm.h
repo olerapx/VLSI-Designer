@@ -4,18 +4,21 @@
 #include <QObject>
 #include <QList>
 
+#include "threadable.h"
 #include "datamodels/scheme/scheme.h"
 
 /**
  * @brief The DecompositionAlgorithm class
  * Base class for decomposition algorithms.
  */
-class DecompositionAlgorithm: public QObject
+class DecompositionAlgorithm: public Threadable
 {
     Q_OBJECT
 
 public:
     DecompositionAlgorithm(Scheme* scheme, int number);
+
+    void setParameters(Scheme* scheme, int number);
 
     /**
      * @brief execute
@@ -26,30 +29,11 @@ public:
 
 signals:
     /**
-     * @brief sendSchemes
+     * @brief sendResult
      * Emits when the process is finished.
      * @param list - the list of schemes.
      */
-    void sendSchemes(QList<Scheme*> list);
-
-    /**
-     * @brief sendFinish
-     * Emits when the process is finished or interrupted.
-     */
-    void sendFinish();
-
-    /**
-     * @brief sendError
-     * Emits when an exception is occurred.
-     * @param error - the exception text.
-     */
-    void sendError(QString error);
-
-    /**
-     * @brief sendLog
-     * @param log
-     */
-    void sendLog(QString log);
+    void sendResult(QList<Scheme*> list);
 
 public slots:
     /**
@@ -58,19 +42,11 @@ public slots:
      */
     void onStart();
 
-    /**
-     * @brief onStop
-     * Requests the algorithm to stop.
-     * When the algorithm will be stopped, a sendFinish will be emitted.
-     */
-    void onStop();
-
 protected:
     Scheme* scheme;
     int number;
 
-    bool stopped;
-    bool actuallyStopped;
+    bool checkArguments();
 };
 
 #endif // DECOMPOSITIONALGORITHM_H
