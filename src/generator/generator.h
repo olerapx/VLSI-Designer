@@ -8,6 +8,7 @@
 #include "generatorparameters.h"
 #include "nodeelement.h"
 #include "util/aliaser/aliaser.h"
+#include "util/libraryutils.h"
 
 /**
  * @brief The Generator class
@@ -79,8 +80,6 @@ private:
 
     void checkBranching();
     qint64 countAllInputPins();
-
-    LibraryElement getCorrespondingElement(SchemeElement element);
 
     void generateWiresForOutput(NodeElement &element, Pin p);
 

@@ -19,6 +19,7 @@ SOURCES += \
     algorithms/placement/primaryplacementalgorithm.cpp \
     algorithms/placement/placementresult.cpp \
     algorithms/placement/rowwiseplacement/rowwiseplacement.cpp \
+    algorithms/placement/rowwiseplacement/elementheightcomparator.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
     util/serializer/serializer.cpp \
     util/serializer/jsonserializer.cpp \
     util/serializer/binaryserializer.cpp \
+    util/libraryutils.cpp \
     datamodels/library/libraryelement.cpp \
     generator/generatorparameters.cpp \
     generator/generator.cpp \

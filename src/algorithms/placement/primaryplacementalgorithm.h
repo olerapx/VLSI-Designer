@@ -8,6 +8,7 @@
 #include "algorithms/placement/placementresult.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
+#include "datamodels/library/library.h"
 
 /**
  * @brief The PrimaryPlacementAlgorithm class
@@ -18,9 +19,9 @@ class PrimaryPlacementAlgorithm: public Threadable
     Q_OBJECT
 
 public:
-    PrimaryPlacementAlgorithm(Scheme* scheme, double expandCoefficient);
+    PrimaryPlacementAlgorithm(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
 
-    void setParameters(Scheme* scheme, double expandCoefficient);
+    void setParameters(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
 
     /**
      * @brief execute
@@ -47,6 +48,7 @@ public slots:
 
 protected:
     Scheme* scheme;
+    QList<Library*> libraries;
     double expandCoefficient;
 };
 

@@ -14,16 +14,16 @@
 class PlacementResult
 {
 public:
-    PlacementResult(Grid* grid, QList<QPoint>& elementTopLeftCoords, QList<Wire*>& relatedWires);
+    PlacementResult(Grid* grid, QList<QPoint>& elementTopLeftCoords, QList<Wire>& relatedWires);
 
     Grid* getGrid() const { return grid; }
     QList<QPoint>& getElementTopLeftCoords() { return elementTopLeftCoords; }
-    QList<Wire*>& getRelatedWires() { return relatedWires; }
+    QList<Wire>& getRelatedWires() { return relatedWires; }
 
 private:
     Grid* grid;
     QList<QPoint> elementTopLeftCoords;
-    QList<Wire*> relatedWires;
+    QList<Wire> relatedWires;
 };
 
 #endif // PLACEMENTRESULT_H

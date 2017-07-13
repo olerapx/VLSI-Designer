@@ -1,11 +1,11 @@
 #include "primaryplacementalgorithm.h"
 
-PrimaryPlacementAlgorithm::PrimaryPlacementAlgorithm(Scheme* scheme, double expandCoefficient)
+PrimaryPlacementAlgorithm::PrimaryPlacementAlgorithm(Scheme* scheme, QList<Library*> libraries, double expandCoefficient)
 {
-    setParameters(scheme, expandCoefficient);
+    setParameters(scheme, libraries, expandCoefficient);
 }
 
-void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, double expandCoefficient)
+void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, QList<Library *> libraries, double expandCoefficient)
 {
     if(!stopped)
         throw Exception(tr("Cannot change parameters while the algorithm is working."));
@@ -13,8 +13,12 @@ void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, double expandCoeff
     if(expandCoefficient <= 1.0)
         throw IllegalArgumentException(tr("Expanding coefficient must be bigger than 1."));
 
+    if(libraries.empty())
+        throw IllegalArgumentException("Cannot perform the primary placement without any element library provided.");
+
     this->scheme = scheme;
     this->expandCoefficient = expandCoefficient;
+    this->libraries = libraries;
 }
 
 void PrimaryPlacementAlgorithm::onStart()

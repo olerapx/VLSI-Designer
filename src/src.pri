@@ -12,6 +12,7 @@ HEADERS  += \
     $$PWD/algorithms/placement/primaryplacementalgorithm.h \
     $$PWD/algorithms/placement/placementresult.h \
     $$PWD/algorithms/placement/rowwiseplacement/rowwiseplacement.h \
+    $$PWD/algorithms/placement/rowwiseplacement/elementheightcomparator.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \
@@ -32,6 +33,7 @@ HEADERS  += \
     $$PWD/util/serializer/serializer.h \
     $$PWD/util/serializer/jsonserializer.h \
     $$PWD/util/serializer/binaryserializer.h \
+    $$PWD/util/libraryutils.h \
     $$PWD/datamodels/grid/routedwireindex.h \
     $$PWD/datamodels/architecture/clientsnumber.h \
     $$PWD/datamodels/library/libraryelement.h \

@@ -5,6 +5,11 @@
 
 #include "exception/threadstoppedexception.h"
 
+/**
+ * @brief The Threadable class
+ * Base class for all objects can work in a separate thread.
+ * Provides basic data exchanging and stopping capability.
+ */
 class Threadable: public QObject
 {
     Q_OBJECT

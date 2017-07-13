@@ -175,7 +175,7 @@ void Generator::generateWires()
     {
         sendLog(tr("Element #%1 of %2").arg(QString::number(i), QString::number(size)));
 
-        LibraryElement el = getCorrespondingElement(elements[i].getElement());
+        LibraryElement el = LibraryUtils::getCorrespondingElement(elements[i].getElement(), param.getLibraries());
 
         for(Pin p: el.getPins())
         {
@@ -218,31 +218,13 @@ qint64 Generator::countAllInputPins()
     qint64 res = 0;
     for(NodeElement element: elements)
     {
-        LibraryElement el = getCorrespondingElement(element.getElement());
+        LibraryElement el = LibraryUtils::getCorrespondingElement(element.getElement(), param.getLibraries());
         for(Pin p: el.getPins())
             if(p.getType() == PinType::Input)
                 res ++;
     }
 
     return res;
-}
-
-LibraryElement Generator::getCorrespondingElement(SchemeElement element)
-{
-    for(Library* l: param.getLibraries())
-    {
-        if(l->getId() == element.getLibraryId())
-        {
-            for(LibraryElement el: l->getElements())
-            {
-                if (el.getId() == element.getElementId())
-                    return el;
-            }
-        }
-    }
-
-    throw Exception(tr("Corresponding library element cannot be found, passed element with id: %1.")
-                    .arg(element.getElementId()));
 }
 
 void Generator::generateWiresForOutput(NodeElement& element, Pin p)
@@ -322,7 +304,7 @@ std::pair<NodeElement, Pin> Generator::getRandomPin(int node)
     {
         NodeElement element(chosenElements[elementRandom(mt)]);
 
-        LibraryElement libElement(getCorrespondingElement(element.getElement()));
+        LibraryElement libElement(LibraryUtils::getCorrespondingElement(element.getElement(), param.getLibraries()));
 
         std::uniform_int_distribution<int> pinRandom(0, libElement.getPins().size() - 1);
         Pin pin(libElement.getPins()[pinRandom(mt)]);
