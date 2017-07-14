@@ -21,16 +21,17 @@ public:
 
 private:
     Grid* grid;
-    QList<QPoint> elementTopLeftCoords;
+    QList<QList<QPoint>> elementTopLeftCoords;
     QList<Wire> relatedWires;
+
+    QList<SchemeElement> sortedElements;
 
     int packingWidth;
 
     QPoint currentPoint;
     int firstHeightInRow;
+    int totalRowsHeight;
 
-    //ADD rows and cols data: count, total size
-    // or qlist qlist qpoint elementTopLeftCoords
     ElementHeightComparator comparator;
 
     void clear();
@@ -41,6 +42,14 @@ private:
     void packElement(SchemeElement el);
 
     void expandElements();
+    void expandRows();
+    QVector<int> getIntervals(int totalSize, int count);
+    void expandRow(QList<QPoint>& list);
+
+    PlacementResult* buildResult();
+    QList<QPoint> buildTopLeftCoords();
+    void buildGrid(QList<QPoint>& topLeftCoords);
+    void drawElement(QPoint point, SchemeElement element);
 };
 
 #endif // ROWWISEPLACEMENT_H

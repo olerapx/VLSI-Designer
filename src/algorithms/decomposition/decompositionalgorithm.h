@@ -45,8 +45,6 @@ public slots:
 protected:
     Scheme* scheme;
     int number;
-
-    bool checkArguments();
 };
 
 #endif // DECOMPOSITIONALGORITHM_H

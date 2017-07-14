@@ -5,7 +5,7 @@ PrimaryPlacementAlgorithm::PrimaryPlacementAlgorithm(Scheme* scheme, QList<Libra
     setParameters(scheme, libraries, expandCoefficient);
 }
 
-void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, QList<Library *> libraries, double expandCoefficient)
+void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, QList<Library*> libraries, double expandCoefficient)
 {
     if(!stopped)
         throw Exception(tr("Cannot change parameters while the algorithm is working."));

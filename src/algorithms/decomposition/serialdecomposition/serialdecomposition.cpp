@@ -3,7 +3,7 @@
 SerialDecomposition::SerialDecomposition(Scheme* scheme, int number):
     DecompositionAlgorithm(scheme, number)
 {
-
+    clear();
 }
 
 QList<Scheme*> SerialDecomposition::execute()
@@ -16,7 +16,6 @@ QList<Scheme*> SerialDecomposition::execute()
         stopped = false;
         actuallyStopped = false;
 
-        clear();
         fillVertices();
         prepareSubschemes();
 
@@ -30,6 +29,7 @@ QList<Scheme*> SerialDecomposition::execute()
 
         sendLog(tr("Finishing."));
         QList<Scheme*> list = buildSubschemes();
+        clear();
 
         if(stopped)
             throw ThreadStoppedException(tr("Algorithm is stopped."));

@@ -1,6 +1,6 @@
 #include "elementheightcomparator.h"
 
-ElementHeightComparator::ElementHeightComparator(QList<Library *> &libraries)
+ElementHeightComparator::ElementHeightComparator(QList<Library*> &libraries)
 {
     this->libraries = libraries;
 }
