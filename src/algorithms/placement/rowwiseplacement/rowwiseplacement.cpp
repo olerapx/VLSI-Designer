@@ -54,6 +54,7 @@ void RowWisePlacement::clear()
     firstHeightInRow = 0;
 
     totalRowsHeight = 0;
+    totalRowWidths.clear();
 
     comparator = ElementHeightComparator(libraries);
 }
@@ -112,7 +113,9 @@ void RowWisePlacement::packElement(SchemeElement el)
     {
         elementTopLeftCoords.append(QList<QPoint>());
         elementTopLeftCoords.last().append(currentPoint);
+
         totalRowsHeight += libraryElement.getHeight();
+        totalRowWidths.append(libraryElement.getWidth());
 
         currentPoint.setX(libraryElement.getWidth());
 
@@ -125,13 +128,16 @@ void RowWisePlacement::packElement(SchemeElement el)
     if(newX <= packingWidth)
     {
        elementTopLeftCoords.last().append(currentPoint);
+       totalRowWidths.last() = totalRowWidths.last() + libraryElement.getWidth();
        currentPoint.setX(newX);
        return;
     }
 
     elementTopLeftCoords.append(QList<QPoint>());
     elementTopLeftCoords.last().append(QPoint(0, currentPoint.y() + firstHeightInRow));
+
     totalRowsHeight += libraryElement.getHeight();
+    totalRowWidths.append(libraryElement.getWidth());
 
     currentPoint.setX(libraryElement.getWidth());
     currentPoint.setY(currentPoint.y() + firstHeightInRow);
@@ -143,9 +149,9 @@ void RowWisePlacement::expandElements()
 {
     expandRows();
 
-    for(QList<QPoint>& list: elementTopLeftCoords)
+    for(int i=0; i<elementTopLeftCoords.size(); i++)
     {
-        expandRow(list);
+        expandRow(elementTopLeftCoords[i], totalRowWidths[i]);
     }
 }
 
@@ -174,17 +180,21 @@ QVector<int> RowWisePlacement::getIntervals(int totalSize, int count)
 
     QVector<int> intervals(count + 1);
 
-    intervals[0] = intervals[count] = floor(interval) / 2;
+    if(floor(interval) / 2 >= 1)
+        intervals[0] = intervals[count] = floor(interval) / 2;
+    else
+        intervals[0] = intervals[count] = 1;
+
     diff -= floor(interval);
-    interval = (double) diff / (count - 2);
+    interval = (double) diff / (count - 1);
 
     for(int i=1; i<count-1; i++)
     {
         int actualInterval = 0;
         if(i % 2)
-            actualInterval = ceil(interval);
-        else
             actualInterval = floor(interval);
+        else
+            actualInterval = ceil(interval);
 
         intervals[i] = actualInterval;
         diff -= actualInterval;
@@ -195,10 +205,10 @@ QVector<int> RowWisePlacement::getIntervals(int totalSize, int count)
     return intervals;
 }
 
-void RowWisePlacement::expandRow(QList<QPoint> &list)
+void RowWisePlacement::expandRow(QList<QPoint> &list, int width)
 {
     int count = list.size();
-    QVector<int> intervals = getIntervals(packingWidth, count);
+    QVector<int> intervals = getIntervals(width, count);
 
     int currentShift = 0;
 
@@ -258,16 +268,16 @@ void RowWisePlacement::drawElement(QPoint point, SchemeElement element)
 {
     LibraryElement libraryElement = LibraryUtils::getCorrespondingElement(element, libraries);
 
-    for(int i=0; i<libraryElement.getHeight(); i++)
+    for(int i=1; i<libraryElement.getHeight() - 1; i++)
     {
-        for(int j=0; j<libraryElement.getWidth(); j++)
+        for(int j=1; j<libraryElement.getWidth() - 1; j++)
         {
-            grid->getCells()[point.x() + i][point.y() + j] = Cell(CellType::Element, element.getIndex());
+            grid->getCells()[point.y() + i][point.x() + j] = Cell(CellType::Element, element.getIndex());
         }
     }
 
     for(Pin p: libraryElement.getPins())
     {
-        grid->getCells()[point.x() + p.getX()][point.y() + p.getY()] = Cell(CellType::Pin, element.getIndex(), p.getId());
+        grid->getCells()[point.y() + p.getY()][point.x() + p.getX()] = Cell(CellType::Pin, element.getIndex(), p.getId());
     }
 }

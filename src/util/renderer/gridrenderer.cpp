@@ -335,14 +335,14 @@ void GridRenderer::renderAlias(QImage& image, Cell cell)
         QPoint position((currentX-1 + i) * imageSize, (currentY - 1) * imageSize);
         QString tileName;
 
-        QChar c = alias[i].toLower();
+        QChar c = alias[i];
 
         if(c.isDigit())
-            tileName = QString("digit_%1").arg(c);
+            tileName = QString("digit_%1").arg(c.toLower());
         else if(c.isLower())
-            tileName = QString("lower_%1").arg(c);
+            tileName = QString("lower_%1").arg(c.toLower());
         else
-            tileName = QString("upper_%1").arg(c);
+            tileName = QString("upper_%1").arg(c.toLower());
 
         QImage tile = getImageFromCache(tileName);
 

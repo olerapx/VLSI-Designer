@@ -30,7 +30,9 @@ private:
 
     QPoint currentPoint;
     int firstHeightInRow;
+
     int totalRowsHeight;
+    QList<int> totalRowWidths;
 
     ElementHeightComparator comparator;
 
@@ -44,7 +46,7 @@ private:
     void expandElements();
     void expandRows();
     QVector<int> getIntervals(int totalSize, int count);
-    void expandRow(QList<QPoint>& list);
+    void expandRow(QList<QPoint>& list, int width);
 
     PlacementResult* buildResult();
     QList<QPoint> buildTopLeftCoords();

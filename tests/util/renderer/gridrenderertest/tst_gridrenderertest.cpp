@@ -102,7 +102,7 @@ void GridRendererTest::renderEmptyTest()
     QImage img = renderer.execute();
 
     // uncomment to get new sample images if the resource images is changed
-    // img.save("grid_empty.png");
+    //img.save("grid_empty.png");
 
     QImage sample = readImageFromFile(imagesDir + "/grid_empty.png");
     QVERIFY(img == sample);

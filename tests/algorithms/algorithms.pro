@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += decomposition
+SUBDIRS += decomposition placement
