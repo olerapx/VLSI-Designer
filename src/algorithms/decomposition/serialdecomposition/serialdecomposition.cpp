@@ -111,7 +111,7 @@ void SerialDecomposition::prepareSubschemes()
         for(int i=0; i < number; i++)
         {
             QList<SchemeVertex*> list;
-            for(int j=0; j< quotient; j++)
+            for(qint64 j=0; j< quotient; j++)
                 list.append(nullptr);
 
             distributedVertices.append(list);

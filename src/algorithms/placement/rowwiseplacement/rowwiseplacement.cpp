@@ -176,31 +176,19 @@ QVector<int> RowWisePlacement::getIntervals(int totalSize, int count)
 {
     int diff = round(totalSize * expandCoefficient) - totalSize;
 
-    double interval = (double) diff / (count);
+    int quotient = diff / count;
+    int reminder = diff % count;
 
     QVector<int> intervals(count + 1);
 
-    if(floor(interval) / 2 >= 1)
-        intervals[0] = intervals[count] = floor(interval) / 2;
-    else
-        intervals[0] = intervals[count] = 1;
+    for(int i=0; i<count; i++)
+        intervals[i] = quotient;
 
-    diff -= floor(interval);
-    interval = (double) diff / (count - 1);
+    for(int i=0; i<reminder; i++)
+        intervals[i] ++;
 
-    for(int i=1; i<count-1; i++)
-    {
-        int actualInterval = 0;
-        if(i % 2)
-            actualInterval = floor(interval);
-        else
-            actualInterval = ceil(interval);
-
-        intervals[i] = actualInterval;
-        diff -= actualInterval;
-    }
-
-    intervals[count - 1] = diff;
+    intervals[count] = intervals[0] / 2;
+    intervals[0] = intervals[0] / 2 + intervals[0] % 2;
 
     return intervals;
 }

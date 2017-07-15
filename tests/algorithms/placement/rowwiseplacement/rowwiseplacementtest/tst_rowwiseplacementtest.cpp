@@ -28,7 +28,7 @@ void RowWisePlacementTest::placementTest()
     f.close();
 
     GeneratorParameters param(list);
-    param.setElementsNumber(100);
+    param.setElementsNumber(1000);
     param.setNodeCapacity(2, 0.1, 1, 3);
 
     Generator generator(param);
