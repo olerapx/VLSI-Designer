@@ -16,6 +16,8 @@ QList<Scheme*> SerialDecomposition::execute()
         stopped = false;
         actuallyStopped = false;
 
+        clear();
+
         fillVertices();
         prepareSubschemes();
 

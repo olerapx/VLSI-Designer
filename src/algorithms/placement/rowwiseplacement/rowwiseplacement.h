@@ -37,7 +37,6 @@ private:
     ElementHeightComparator comparator;
 
     void clear();
-    void fillRelatedWires();
 
     void packElements();
     int getPackingWidth();
@@ -49,9 +48,10 @@ private:
     void expandRow(QList<QPoint>& list, int width);
 
     PlacementResult* buildResult();
-    QList<QPoint> buildTopLeftCoords();
+    QList<QPoint> concatTopLeftCoords();
     void buildGrid(QList<QPoint>& topLeftCoords);
     void drawElement(QPoint point, SchemeElement element);
+    void fillRelatedWires();
 };
 
 #endif // ROWWISEPLACEMENT_H

@@ -1,5 +1,5 @@
 CONFIG -= debug_and_release debug_and_release_target
-QT       += core network
+QT += core network
 
 INCLUDEPATH += $$PWD
 

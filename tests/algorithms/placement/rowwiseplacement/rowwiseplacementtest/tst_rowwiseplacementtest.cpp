@@ -2,45 +2,137 @@
 #include <QCoreApplication>
 
 #include <algorithms/placement/rowwiseplacement/rowwiseplacement.h>
-#include <generator/generator.h>
-#include <util/renderer/gridrenderer.h>
-#include <util/serializer/jsonserializer.h>
 
 class RowWisePlacementTest : public QObject
 {
     Q_OBJECT
 
 public:
-    RowWisePlacementTest() {}
+    RowWisePlacementTest();
     ~RowWisePlacementTest() {}
 
 private slots:
-    void placementTest();
+    void gridSquareTest();
+    void elementsNumberTest();
+    void rowsTest();
+    void intervalsTest();
+
+private:
+    QList<Library*> libraries;
 };
 
-void RowWisePlacementTest::placementTest()
+RowWisePlacementTest::RowWisePlacementTest()
 {
-    QFile f("../../../../../libraries/generic.json");
-    f.open(QIODevice::ReadOnly);
-    JsonSerializer j;
-    QList<Library*> list;
-    list.append((Library*) j.deserialize(f.readAll()));
-    f.close();
+    Library* library = new Library("lib", 1.0);
 
-    GeneratorParameters param(list);
-    param.setElementsNumber(1000);
-    param.setNodeCapacity(2, 0.1, 1, 3);
+    library->getElements().append(LibraryElement("el1", 3, 3));
+    library->getElements().append(LibraryElement("el2", 3, 4));
+    library->getElements().append(LibraryElement("el3", 3, 6));
 
-    Generator generator(param);
-    Scheme* s = generator.execute();
+    libraries.append(library);
+}
 
-    RowWisePlacement placement(s, list, 1.5);
-    Grid* g = placement.execute()->getGrid();
+void RowWisePlacementTest::gridSquareTest()
+{
+    Scheme* s = new Scheme();
 
-    GridRenderer renderer(g, s);
-    QImage img = renderer.execute();
+    for(int i=0; i<9; i++)
+        s->getElements().append(SchemeElement("lib", "el1", i));
 
-    img.save("GRID.png");
+    RowWisePlacement placement(s, libraries, 2);
+
+    PlacementResult* result = placement.execute();
+    Grid* g = result->getGrid();
+
+    QVERIFY(g->getCells().size() == 18);
+    QVERIFY(g->getCells()[0].size() == 18);
+
+    delete g;
+    delete result;
+
+    s->getElements().clear();
+    for(int i=0; i<5; i++)
+        s->getElements().append(SchemeElement("lib", "el1", i));
+
+    placement.setParameters(s, libraries, 2);
+
+    result = placement.execute();
+    g = result->getGrid();
+
+    QVERIFY(g->getCells().size() == (3 + 3 + 3) * 2);
+    QVERIFY(g->getCells()[0].size() == 7 * 2);
+
+    delete g;
+    delete result;
+
+    delete s;
+}
+
+void RowWisePlacementTest::elementsNumberTest()
+{
+    Scheme* s = new Scheme();
+
+    s->getElements().append({ SchemeElement("lib", "el1", 0), SchemeElement("lib", "el2", 1),
+                              SchemeElement("lib", "el3", 2), SchemeElement("lib", "el1", 3)});
+
+    RowWisePlacement placement(s, libraries, 1.1);
+    PlacementResult* res = placement.execute();
+
+    int i=0;
+    for(QList<QPoint>& list: res->getElementTopLeftCoords())
+        i += list.size();
+
+    QVERIFY(i == s->getElements().size());
+
+    delete res->getGrid();
+    delete res;
+
+    delete s;
+}
+
+void RowWisePlacementTest::rowsTest()
+{
+    Scheme* s = new Scheme();
+
+    s->getElements().append({ SchemeElement("lib", "el1", 0), SchemeElement("lib", "el2", 1),
+                             SchemeElement("lib", "el3", 2), SchemeElement("lib", "el1", 3),
+                             SchemeElement("lib", "el2", 4)});
+
+    RowWisePlacement placement(s, libraries, 1.1);
+    PlacementResult* res = placement.execute();
+
+    QVERIFY(res->getElementTopLeftCoords().size() == 3);
+
+    QVERIFY(res->getElementTopLeftCoords()[0].size() == 2);
+    QVERIFY(res->getElementTopLeftCoords()[1].size() == 1);
+    QVERIFY(res->getElementTopLeftCoords()[2].size() == 2);
+
+    delete res;
+    delete s;
+}
+
+void RowWisePlacementTest::intervalsTest()
+{
+    Scheme* s = new Scheme();
+
+    s->getElements().append({ SchemeElement("lib", "el1", 0), SchemeElement("lib", "el2", 1),
+                             SchemeElement("lib", "el3", 2), SchemeElement("lib", "el1", 3),
+                             SchemeElement("lib", "el2", 4)});
+
+    RowWisePlacement placement(s, libraries, 2);
+    PlacementResult* res = placement.execute();
+
+    QVERIFY(res->getElementTopLeftCoords()[0][0].y() == 2);
+    QVERIFY(res->getElementTopLeftCoords()[1][0].y() == 2 + 3 + 3);
+    QVERIFY(res->getElementTopLeftCoords()[2][0].y() == 2 +3 + 3 + 3 + 3);
+
+    QList<QPoint> firstRow = res->getElementTopLeftCoords()[0];
+
+    QVERIFY(firstRow[0].x() == 2);
+    QVERIFY(firstRow[1].x() == 2 + libraries[0]->getElements()[0].getWidth() + 3);
+
+    delete res;
+    delete s;
 }
 
 QTEST_MAIN(RowWisePlacementTest)
