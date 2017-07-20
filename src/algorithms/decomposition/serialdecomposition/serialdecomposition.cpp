@@ -108,34 +108,17 @@ void SerialDecomposition::prepareSubschemes()
     qint64 quotient = scheme->getElements().size() / number;
     qint64 reminder = scheme->getElements().size() % number;
 
-    if(reminder == 0)
-    {
-        for(int i=0; i < number; i++)
-        {
-            QList<SchemeVertex*> list;
-            for(qint64 j=0; j< quotient; j++)
-                list.append(nullptr);
-
-            distributedVertices.append(list);
-        }
-
-        return;
-    }
-
-    for(int i=0; i < number-1; i++)
+    for(int i=0; i < number; i++)
     {
         QList<SchemeVertex*> list;
-        for(int j=0; j< quotient; j++)
+        for(qint64 j=0; j<quotient; j++)
             list.append(nullptr);
 
         distributedVertices.append(list);
     }
 
-    QList<SchemeVertex*> list;
-    for(int i=0; i< quotient + reminder; i++)
-        list.append(nullptr);
-
-    distributedVertices.append(list);
+    for(int i=0; i<reminder; i++)
+        distributedVertices[i].append(nullptr);
 }
 
 void SerialDecomposition::fillSubscheme(QList<SchemeVertex*>& list)

@@ -37,9 +37,9 @@ void SerialDecompositionTest::decompositionTest()
     QList<Scheme*> list = decomposition.execute();
 
     QVERIFY(list.size() == 3);
-    QVERIFY(list[0]->getElements().size() == 2);
+    QVERIFY(list[0]->getElements().size() == 3);
     QVERIFY(list[1]->getElements().size() == 2);
-    QVERIFY(list[2]->getElements().size() == 3);
+    QVERIFY(list[2]->getElements().size() == 2);
     QVERIFY(list[0]->getWires().size() == 5);
 
     for(Scheme* scheme: list)
@@ -132,6 +132,7 @@ void SerialDecompositionTest::innerWireAndMinConnectionsPriorityTest()
 
     QVERIFY(list[0]->getElements()[0] == s->getElements()[0]);
     QVERIFY(list[0]->getElements()[1] == s->getElements()[1]);
+    QVERIFY(list[0]->getElements()[2] == s->getElements()[2]);
 
     for(Scheme* scheme: list)
         delete scheme;
