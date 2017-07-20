@@ -85,7 +85,7 @@ void RowWisePlacement::packElements()
 
 int RowWisePlacement::getPackingWidth()
 {
-    int totalSquare;
+    int totalSquare = 0;
 
     for(SchemeElement& el: scheme->getElements())
     {

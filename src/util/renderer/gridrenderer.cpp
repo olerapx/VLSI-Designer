@@ -105,7 +105,7 @@ QImage GridRenderer::execute()
         stopped = false;
         actuallyStopped = false;
 
-        renderedIndexes.clear();
+        clear();
 
         int gridSize = grid->getCells().size();
 
@@ -144,6 +144,8 @@ QImage GridRenderer::execute()
             currentY ++;
         }
 
+        clear();
+
         stopped = true;
         actuallyStopped = true;
 
@@ -156,6 +158,13 @@ QImage GridRenderer::execute()
 
         throw;
     }
+}
+
+void GridRenderer::clear()
+{
+    renderedIndexes.clear();
+    currentX = 0;
+    currentY = 0;
 }
 
 void GridRenderer::renderCell(QImage &image, Cell cell)

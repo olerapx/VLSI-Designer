@@ -20,7 +20,6 @@ class Generator: public Threadable
 
 public:
     Generator(GeneratorParameters param);
-    virtual ~Generator();
 
     void setParameters(GeneratorParameters param);
 

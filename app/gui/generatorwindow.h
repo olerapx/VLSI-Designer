@@ -47,6 +47,7 @@ private:
     Ui::GeneratorWindow *ui;
 
     QStringList libraryFiles;
+    QList<Library*> libraries;
     Generator* generator;
 
     QThread generatorThread;

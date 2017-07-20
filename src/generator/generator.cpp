@@ -10,12 +10,6 @@ Generator::Generator(GeneratorParameters param):
     mt.discard(numbersToDiscard);
 }
 
-Generator::~Generator()
-{
-    for(Library* l: param.getLibraries())
-        delete l;
-}
-
 void Generator::setParameters(GeneratorParameters param)
 {
     if(!stopped)

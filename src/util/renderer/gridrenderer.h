@@ -61,11 +61,13 @@ private:
     Scheme* scheme;
 
     int currentX;
-    int currentY;
+    int currentY;    
 
     void fillCache();
     void fillCacheFromPath(QString path);
     QImage readImageFromFile(const QString filePath);
+
+    void clear();
 
     void renderCell(QImage& image, Cell cell);
     void renderEmpty(QImage& image);

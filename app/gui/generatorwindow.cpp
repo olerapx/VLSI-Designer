@@ -59,6 +59,11 @@ void GeneratorWindow::onSendFinish()
     delete generator;
     generator = nullptr;
 
+    for(Library* l: libraries)
+        delete l;
+
+    libraries.clear();
+
     onSendLog(tr("Generation is finished."));
 
     ui->generateButton->setEnabled(true);
@@ -140,7 +145,6 @@ void GeneratorWindow::on_generateButton_clicked()
 
 GeneratorParameters GeneratorWindow::buildParameters()
 {
-    QList<Library*> libraries;
     JsonSerializer jsonSerializer;
     BinarySerializer binarySerializer;
 
