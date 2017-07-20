@@ -16,8 +16,6 @@ QList<Scheme*> SerialDecomposition::execute()
         stopped = false;
         actuallyStopped = false;
 
-        clear();
-
         fillVertices();
         prepareSubschemes();
 
@@ -41,8 +39,10 @@ QList<Scheme*> SerialDecomposition::execute()
 
         return list;
     }
-    catch(Exception e)
+    catch(...)
     {
+        clear();
+
         stopped = true;
         actuallyStopped = true;
 
@@ -154,7 +154,7 @@ void SerialDecomposition::placeNextElement(QList<SchemeVertex *> &list, int inde
     sendLog(tr("Placement of element %1 of %2.").arg(QString::number(index + 1), QString::number(list.size())));
 
     QList<SchemeVertex*> selectableVertices = getSelectableVertices(list);
-    std::sort(selectableVertices.begin(), selectableVertices.end(), OuterConnectionsNumberComparator(&list));
+    std::sort(selectableVertices.begin(), selectableVertices.end(), OuterConnectionsNumberComparator(list));
 
     SchemeVertex* vertex = selectableVertices[0];
     list[index] = vertex;

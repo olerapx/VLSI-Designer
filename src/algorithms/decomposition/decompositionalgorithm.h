@@ -18,6 +18,13 @@ class DecompositionAlgorithm: public Threadable
 public:
     DecompositionAlgorithm(Scheme* scheme, int number);
 
+    /**
+     * @brief setParameters
+     * Sets new parameters to the algorithm.
+     * @param scheme
+     * @param number
+     * @throw Exception
+     */
     void setParameters(Scheme* scheme, int number);
 
     /**

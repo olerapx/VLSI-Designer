@@ -33,6 +33,7 @@ public:
      * Renders the given grid using the given scheme's aliases.
      * @param g - grid.
      * @param s - scheme.
+     * @throw Exception
      * @return image.
      */
     QImage execute();

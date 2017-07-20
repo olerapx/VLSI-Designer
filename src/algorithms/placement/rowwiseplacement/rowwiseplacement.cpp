@@ -17,8 +17,6 @@ PlacementResult* RowWisePlacement::execute()
         stopped = false;
         actuallyStopped = false;
 
-        clear();
-
         packElements();
         expandElements();
 
@@ -33,8 +31,10 @@ PlacementResult* RowWisePlacement::execute()
 
         return res;
     }
-    catch(Exception e)
+    catch(...)
     {
+        clear();
+
         stopped = true;
         actuallyStopped = true;
 

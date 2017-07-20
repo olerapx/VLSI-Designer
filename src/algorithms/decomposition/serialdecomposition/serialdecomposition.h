@@ -5,11 +5,21 @@
 #include "algorithms/decomposition/serialdecomposition/schemevertex.h"
 #include "algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h"
 
+/**
+ * @brief The SerialDecomposition class
+ * Performs the serial decomposition of the given scheme on the given number of parts.
+ */
 class SerialDecomposition: public DecompositionAlgorithm
 {
 public:
     SerialDecomposition(Scheme* scheme, int number);
 
+    /**
+     * @brief execute
+     * Executes the algorithm with the given parameters.
+     * @throw Exception
+     * @return decomposed scheme.
+     */
     QList<Scheme*> execute();
 
 private:

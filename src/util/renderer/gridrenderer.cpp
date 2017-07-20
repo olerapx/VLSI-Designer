@@ -9,6 +9,7 @@ GridRenderer::GridRenderer(Grid *g, Scheme *s)
     currentY = 0;
 
     fillCache();
+    clear();
 }
 
 void GridRenderer::setParameters(Grid *g, Scheme *s)
@@ -105,8 +106,6 @@ QImage GridRenderer::execute()
         stopped = false;
         actuallyStopped = false;
 
-        clear();
-
         int gridSize = grid->getCells().size();
 
         if(gridSize == 0)
@@ -151,8 +150,10 @@ QImage GridRenderer::execute()
 
         return res;
     }
-    catch(Exception e)
+    catch(...)
     {
+        clear();
+
         stopped = true;
         actuallyStopped = true;
 

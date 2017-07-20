@@ -21,6 +21,13 @@ class PrimaryPlacementAlgorithm: public Threadable
 public:
     PrimaryPlacementAlgorithm(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
 
+    /**
+     * @brief setParameters
+     * Sets new parameters to the algorithm.
+     * @param scheme
+     * @param number
+     * @throw Exception
+     */
     void setParameters(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
 
     /**

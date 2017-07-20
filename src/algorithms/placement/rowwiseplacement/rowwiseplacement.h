@@ -17,6 +17,12 @@ class RowWisePlacement: public PrimaryPlacementAlgorithm
 public:
     RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
 
+    /**
+     * @brief execute
+     * Executes the algorithm with the given parameters.
+     * @throw Exception
+     * @return
+     */
     PlacementResult* execute();
 
 private:

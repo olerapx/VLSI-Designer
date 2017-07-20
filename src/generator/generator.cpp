@@ -8,6 +8,7 @@ Generator::Generator(GeneratorParameters param):
     libraryRandom(0, param.getLibraries().size() - 1)
 {
     mt.discard(numbersToDiscard);
+    clear();
 }
 
 void Generator::setParameters(GeneratorParameters param)
@@ -61,14 +62,17 @@ Scheme* Generator::execute()
         scheme->getWires().append(wires);
 
         generateAliases(scheme);
+        clear();
 
         stopped = true;
         actuallyStopped = true;
 
         return scheme;
     }
-    catch(Exception e)
+    catch(...)
     {
+        clear();
+
         stopped = true;
         actuallyStopped = true;
 
@@ -76,15 +80,21 @@ Scheme* Generator::execute()
     }
 }
 
-void Generator::generateElements()
+void Generator::clear()
 {
+    currentElementIndex = 0;
+    currentWireIndex = 0;
+
     elements.clear();
     groupedElements.clear();
+    wires.clear();
+}
+
+void Generator::generateElements()
+{
     groupedElements.append(QList<NodeElement>());
 
     sendLog(tr("Functional nodes generation."));
-
-    currentElementIndex = 0;
 
     int capacity = 0;
     int elapsedElements = param.getElementsNumber();
@@ -156,9 +166,6 @@ SchemeElement Generator::getRandomElement()
 
 void Generator::generateWires()
 {
-    wires.clear();
-    currentWireIndex = 0;
-
     checkBranching();
 
     sendLog(tr("Wires generation:"));

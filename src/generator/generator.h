@@ -27,6 +27,8 @@ public:
      * @brief execute
      * Starts the process of generation. Can run in separate thread.
      * When the scheme will be generated, the sendScheme signal will be emitted.
+     * @throw Exception
+     * @return the generated scheme.
      */
     Scheme* execute();
 
@@ -69,6 +71,8 @@ private:
     QList<NodeElement> elements;
     QList<QList<NodeElement>> groupedElements;
     QList<Wire> wires;
+
+    void clear();
 
     void generateElements();
 

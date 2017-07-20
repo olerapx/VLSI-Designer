@@ -1,8 +1,9 @@
 #include "outerconnectionsnumbercomparator.h"
 
-OuterConnectionsNumberComparator::OuterConnectionsNumberComparator(QList<SchemeVertex *> *list)
+OuterConnectionsNumberComparator::OuterConnectionsNumberComparator(QList<SchemeVertex *> &list) :
+    list(list)
 {
-    this->list = list;
+
 }
 
 bool OuterConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVertex* v2)
@@ -12,13 +13,13 @@ bool OuterConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVerte
 
     for(std::pair<SchemeVertex*, WireType>& connectedElement: v1->getConnectedElements())
     {
-        if(!list->contains(connectedElement.first))
+        if(!list.contains(connectedElement.first))
             firstConnectionsNumber ++;
     }
 
     for(std::pair<SchemeVertex*, WireType>& connectedElement: v2->getConnectedElements())
     {
-        if(!list->contains(connectedElement.first))
+        if(!list.contains(connectedElement.first))
             secondConnectionsNumber ++;
     }
 
