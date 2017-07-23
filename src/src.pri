@@ -10,11 +10,13 @@ HEADERS  += \
     $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \
     $$PWD/algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h \
     $$PWD/algorithms/placement/primaryplacementalgorithm.h \
+    $$PWD/algorithms/placement/secondaryplacementalgorithm.h \
     $$PWD/algorithms/placement/placementresult.h \
     $$PWD/algorithms/placement/elementcoordinate.h \
     $$PWD/algorithms/placement/wirecoordinate.h \
     $$PWD/algorithms/placement/rowwiseplacement/rowwiseplacement.h \
     $$PWD/algorithms/placement/rowwiseplacement/elementheightcomparator.h \
+    $$PWD/algorithms/placement/rowpermutationplacement/rowpermutationplacement.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \

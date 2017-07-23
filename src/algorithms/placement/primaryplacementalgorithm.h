@@ -38,7 +38,6 @@ public:
     virtual PlacementResult* execute() = 0;
 
 signals:
-
     /**
      * @brief sendResult
      * Emits when the process is finished.

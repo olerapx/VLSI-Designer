@@ -3,7 +3,8 @@
 WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoordinates, QList<Library *> &libraries) :
     wire(wire)
 {
-    ElementCoordinate *src = nullptr, *dest = nullptr;
+    src = nullptr;
+    dest = nullptr;
 
     for(ElementCoordinate& coord: elementCoordinates)
     {
@@ -15,13 +16,13 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoor
 
     if(src == nullptr && dest == nullptr)
         throw IllegalArgumentException("Cannot find src or dest element in the given coordinate list.");
+
     if(src == nullptr)
     {
         src = dest;
         dest = nullptr;
     }
 
-    this->src = src;
     this->srcCoord = getPinCoord(src, libraries, wire.getSrcPinId());
 
     if(dest == nullptr)
@@ -32,7 +33,6 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoor
     else
     {
         this->position = WirePosition::Internal;
-        this->dest = dest;
         this->destCoord = getPinCoord(dest, libraries, wire.getDestPinId());
     }
 }

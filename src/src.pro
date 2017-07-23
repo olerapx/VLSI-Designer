@@ -17,11 +17,13 @@ SOURCES += \
     algorithms/decomposition/serialdecomposition/schemevertex.cpp \
     algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
     algorithms/placement/primaryplacementalgorithm.cpp \
+    algorithms/placement/secondaryplacementalgorithm.cpp \
     algorithms/placement/placementresult.cpp \
     algorithms/placement/elementcoordinate.cpp \
     algorithms/placement/wirecoordinate.cpp \
     algorithms/placement/rowwiseplacement/rowwiseplacement.cpp \
     algorithms/placement/rowwiseplacement/elementheightcomparator.cpp \
+    algorithms/placement/rowpermutationplacement/rowpermutationplacement.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \
