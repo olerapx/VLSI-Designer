@@ -17,3 +17,14 @@ LibraryElement LibraryUtils::getCorrespondingElement(SchemeElement element, QLis
     throw Exception(QObject::tr("Corresponding library element cannot be found, passed element with id: %1.")
                     .arg(element.getElementId()));
 }
+
+Pin LibraryUtils::findPinById(LibraryElement element, QString id)
+{
+    for(Pin& p: element.getPins())
+    {
+        if(p.getId() == id)
+            return p;
+    }
+
+    throw IllegalArgumentException("The element does not contain a pin with the given id.");
+}

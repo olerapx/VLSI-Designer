@@ -18,6 +18,8 @@ SOURCES += \
     algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
     algorithms/placement/primaryplacementalgorithm.cpp \
     algorithms/placement/placementresult.cpp \
+    algorithms/placement/elementcoordinate.cpp \
+    algorithms/placement/wirecoordinate.cpp \
     algorithms/placement/rowwiseplacement/rowwiseplacement.cpp \
     algorithms/placement/rowwiseplacement/elementheightcomparator.cpp \
     network/networkscanner.cpp \

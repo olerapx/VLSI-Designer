@@ -55,6 +55,7 @@ private:
 
     PlacementResult* buildResult();
     QList<QPoint> concatTopLeftCoords();
+    QList<ElementCoordinate> buildElementCoordinates(QList<QPoint>& topLeftCoords);
     void buildGrid(QList<QPoint>& topLeftCoords);
     void drawElement(QPoint point, SchemeElement element);
     void fillRelatedWires();

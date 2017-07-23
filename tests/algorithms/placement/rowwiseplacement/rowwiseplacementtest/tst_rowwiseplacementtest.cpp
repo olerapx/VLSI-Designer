@@ -78,11 +78,7 @@ void RowWisePlacementTest::elementsNumberTest()
     RowWisePlacement placement(s, libraries, 1.1);
     PlacementResult* res = placement.execute();
 
-    int i=0;
-    for(QList<QPoint>& list: res->getElementTopLeftCoords())
-        i += list.size();
-
-    QVERIFY(i == s->getElements().size());
+    QVERIFY(res->getElementCoordinates().size() == s->getElements().size());
 
     delete res->getGrid();
     delete res;
@@ -101,11 +97,11 @@ void RowWisePlacementTest::rowsTest()
     RowWisePlacement placement(s, libraries, 1.1);
     PlacementResult* res = placement.execute();
 
-    QVERIFY(res->getElementTopLeftCoords().size() == 3);
+    QVERIFY(res->getRowWiseCoordinates().size() == 3);
 
-    QVERIFY(res->getElementTopLeftCoords()[0].size() == 2);
-    QVERIFY(res->getElementTopLeftCoords()[1].size() == 1);
-    QVERIFY(res->getElementTopLeftCoords()[2].size() == 2);
+    QVERIFY(res->getRowWiseCoordinates()[0].size() == 2);
+    QVERIFY(res->getRowWiseCoordinates()[1].size() == 1);
+    QVERIFY(res->getRowWiseCoordinates()[2].size() == 2);
 
     delete res;
     delete s;
@@ -122,14 +118,14 @@ void RowWisePlacementTest::intervalsTest()
     RowWisePlacement placement(s, libraries, 2);
     PlacementResult* res = placement.execute();
 
-    QVERIFY(res->getElementTopLeftCoords()[0][0].y() == 2);
-    QVERIFY(res->getElementTopLeftCoords()[1][0].y() == 2 + 3 + 3);
-    QVERIFY(res->getElementTopLeftCoords()[2][0].y() == 2 +3 + 3 + 3 + 3);
+    QVERIFY(res->getRowWiseCoordinates()[0][0].getTopLeftCoord().y() == 2);
+    QVERIFY(res->getRowWiseCoordinates()[1][0].getTopLeftCoord().y() == 2 + 3 + 3);
+    QVERIFY(res->getRowWiseCoordinates()[2][0].getTopLeftCoord().y() == 2 +3 + 3 + 3 + 3);
 
-    QList<QPoint> firstRow = res->getElementTopLeftCoords()[0];
+    QList<ElementCoordinate> firstRow = res->getRowWiseCoordinates()[0];
 
-    QVERIFY(firstRow[0].x() == 2);
-    QVERIFY(firstRow[1].x() == 2 + libraries[0]->getElements()[0].getWidth() + 3);
+    QVERIFY(firstRow[0].getTopLeftCoord().x() == 2);
+    QVERIFY(firstRow[1].getTopLeftCoord().x() == 2 + libraries[0]->getElements()[0].getWidth() + 3);
 
     delete res;
     delete s;

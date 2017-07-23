@@ -221,7 +221,7 @@ PlacementResult* RowWisePlacement::buildResult()
     buildGrid(topLeftCoords);
     fillRelatedWires();
 
-    return new PlacementResult(grid, elementTopLeftCoords, relatedWires);
+    return new PlacementResult(grid, buildElementCoordinates(topLeftCoords), relatedWires, libraries);
 }
 
 QList<QPoint> RowWisePlacement::concatTopLeftCoords()
@@ -230,6 +230,17 @@ QList<QPoint> RowWisePlacement::concatTopLeftCoords()
 
     for(QList<QPoint>& list: elementTopLeftCoords)
         res += list;
+
+    return res;
+}
+
+QList<ElementCoordinate> RowWisePlacement::buildElementCoordinates(QList<QPoint> &topLeftCoords)
+{
+    QList<ElementCoordinate> res;
+    for(int i=0; i<topLeftCoords.size(); i++)
+    {
+        res.append(ElementCoordinate(sortedElements[i], topLeftCoords[i]));
+    }
 
     return res;
 }
@@ -305,4 +316,3 @@ void RowWisePlacement::fillRelatedWires()
         }
     }
 }
-

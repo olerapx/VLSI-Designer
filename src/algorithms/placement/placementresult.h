@@ -2,10 +2,11 @@
 #define PLACEMENTRESULT_H
 
 #include <QList>
-#include <QPoint>
 
+#include "elementcoordinate.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/wire.h"
+#include "datamodels/library/library.h"
 
 /**
  * @brief The PlacementResult class
@@ -14,16 +15,19 @@
 class PlacementResult
 {
 public:
-    PlacementResult(Grid* grid, QList<QList<QPoint>>& elementTopLeftCoords, QList<Wire>& relatedWires);
+    PlacementResult(Grid* grid, QList<ElementCoordinate> elementCoordinates, QList<Wire>& relatedWires, QList<Library*> libraries);
 
     Grid* getGrid() const { return grid; }
-    QList<QList<QPoint>>& getElementTopLeftCoords() { return elementTopLeftCoords; }
+    QList<ElementCoordinate>& getElementCoordinates() { return elementCoordinates; }
+    QList<QList<ElementCoordinate>> getRowWiseCoordinates();
     QList<Wire>& getRelatedWires() { return relatedWires; }
+    QList<Library*>& getLibraries() { return libraries; }
 
 private:
     Grid* grid;
-    QList<QList<QPoint>> elementTopLeftCoords;
+    QList<ElementCoordinate> elementCoordinates;
     QList<Wire> relatedWires;
+    QList<Library*> libraries;
 };
 
 #endif // PLACEMENTRESULT_H

@@ -8,6 +8,7 @@ class LibraryUtils
 {
 public:
     static LibraryElement getCorrespondingElement(SchemeElement element, QList<Library*>& libraries);
+    static Pin findPinById(LibraryElement element, QString id);
 };
 
 #endif // LIBRARYUTILS_H
