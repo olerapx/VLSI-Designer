@@ -1,7 +1,7 @@
 #include "wirecoordinate.h"
 
 WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoordinates, QList<Library *> &libraries) :
-    wire(wire)
+    wire(&wire)
 {
     src = nullptr;
     dest = nullptr;
@@ -79,11 +79,11 @@ void WireCoordinate::updateFitnessValue()
         fitnessValue = abs(srcPoint.x() - destPoint.x()) + abs(srcPoint.y() - destPoint.y());
     }
 
-    if(wire.getType() == WireType::Inner)
+    if(wire->getType() == WireType::Inner)
         fitnessValue *= innerWireFitnessCoefficient;
 }
 
 bool WireCoordinate::operator ==(WireCoordinate& other)
 {
-    return (wire == other.getWire());
+    return ((*wire) == (*other.getWire()));
 }

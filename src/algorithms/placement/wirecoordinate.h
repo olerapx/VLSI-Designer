@@ -21,7 +21,7 @@ class WireCoordinate
 public:
     WireCoordinate(Wire& wire, QList<ElementCoordinate>& elementCoordinates, QList<Library*>& libraries);
 
-    Wire& getWire() { return wire; }
+    Wire* getWire() { return wire; }
 
     QPoint getSrcCoordinate();
     QPoint getDestCoordinate();
@@ -36,7 +36,7 @@ public:
 private:
     static const int innerWireFitnessCoefficient = 10;
 
-    Wire& wire;
+    Wire* wire;
     ElementCoordinate *src, *dest;
     WirePosition position;
     QPoint srcCoord, destCoord;
