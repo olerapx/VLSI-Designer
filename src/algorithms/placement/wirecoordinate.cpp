@@ -5,6 +5,7 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoor
 {
     src = nullptr;
     dest = nullptr;
+    fitnessValue = 0;
 
     for(ElementCoordinate& coord: elementCoordinates)
     {
@@ -35,6 +36,8 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoor
         this->position = WirePosition::Internal;
         this->destCoord = getPinCoord(dest, libraries, wire.getDestPinId());
     }
+
+    updateFitnessValue();
 }
 
 QPoint WireCoordinate::getPinCoord(ElementCoordinate *coordinate, QList<Library *> &libraries, QString pinId)
@@ -58,28 +61,26 @@ QPoint WireCoordinate::getDestCoordinate()
     return QPoint(dest->getTopLeftCoord().x() + destCoord.x(), dest->getTopLeftCoord().y() + destCoord.y());
 }
 
-int WireCoordinate::getFitnessValue()
+void WireCoordinate::updateFitnessValue()
 {
-    int res = 0;
+    fitnessValue = 0;
 
     if(position == WirePosition::External)
     {
         QPoint srcPoint = getSrcCoordinate();
 
-        res = ((srcPoint.x() > srcPoint.y()) ? srcPoint.y() : srcPoint.x());
+        fitnessValue = ((srcPoint.x() > srcPoint.y()) ? srcPoint.y() : srcPoint.x());
     }
     else
     {
         QPoint srcPoint = getSrcCoordinate();
         QPoint destPoint = getDestCoordinate();
 
-        res = abs(srcPoint.x() - destPoint.x()) + abs(srcPoint.y() - destPoint.y());
+        fitnessValue = abs(srcPoint.x() - destPoint.x()) + abs(srcPoint.y() - destPoint.y());
     }
 
     if(wire.getType() == WireType::Inner)
-        res *= innerWireFitnessCoefficient;
-
-    return res;
+        fitnessValue *= innerWireFitnessCoefficient;
 }
 
 bool WireCoordinate::operator ==(WireCoordinate& other)

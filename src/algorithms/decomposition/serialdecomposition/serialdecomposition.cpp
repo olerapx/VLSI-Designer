@@ -106,7 +106,7 @@ void SerialDecomposition::prepareSubschemes()
     sendLog(tr("Creating empty subschemes."));
 
     qint64 quotient = scheme->getElements().size() / number;
-    qint64 reminder = scheme->getElements().size() % number;
+    qint64 remainder = scheme->getElements().size() % number;
 
     for(int i=0; i < number; i++)
     {
@@ -117,7 +117,7 @@ void SerialDecomposition::prepareSubschemes()
         distributedVertices.append(list);
     }
 
-    for(int i=0; i<reminder; i++)
+    for(int i=0; i<remainder; i++)
         distributedVertices[i].append(nullptr);
 }
 

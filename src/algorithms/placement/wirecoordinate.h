@@ -27,7 +27,9 @@ public:
     QPoint getDestCoordinate();
 
     WirePosition getPosition() { return position; }
-    int getFitnessValue();
+
+    void updateFitnessValue();
+    int getFitnessValue() { return fitnessValue; }
 
     bool operator ==(WireCoordinate& other);
 
@@ -38,6 +40,8 @@ private:
     ElementCoordinate *src, *dest;
     WirePosition position;
     QPoint srcCoord, destCoord;
+
+    int fitnessValue;
 
     QPoint getPinCoord(ElementCoordinate* coordinate, QList<Library*>& libraries, QString pinId);
 };
