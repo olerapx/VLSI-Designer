@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += rowwiseplacement
+SUBDIRS += rowwiseplacement rowpermutationplacement

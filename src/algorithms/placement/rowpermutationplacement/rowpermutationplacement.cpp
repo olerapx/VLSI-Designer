@@ -151,7 +151,48 @@ void RowPermutationPlacement::swapElements(QList<QList<ElementCoordinate>>& elem
     if(firstCoord.getTopLeftCoord().x() > secondCoord.getTopLeftCoord().y())
         shift = -shift;
 
-    // swap
+    int height = getRowHeight(row);
+
+    QList<QList<Cell>> firstElementCells = GridUtils::cut(previous->getGrid(), firstCoord.getTopLeftCoord(), firstLibElement.getWidth(), height);
+    QList<QList<Cell>> secondElementCells = GridUtils::cut(previous->getGrid(), secondCoord.getTopLeftCoord(), secondLibElement.getWidth(), height);
+
+    if(shift >= 0)
+    {
+        GridUtils::insertEmptyArea(previous->getGrid(), secondCoord.getTopLeftCoord(), shift, height);
+        GridUtils::removeArea(previous->getGrid(), firstCoord.getTopLeftCoord(), shift, height);
+    }
+    else
+    {
+        GridUtils::insertEmptyArea(previous->getGrid(), firstCoord.getTopLeftCoord(), -shift, height);
+        GridUtils::removeArea(previous->getGrid(), secondCoord.getTopLeftCoord(), -shift, height);
+    }
+
+    GridUtils::paste(previous->getGrid(), secondElementCells, firstCoord.getTopLeftCoord());
+    GridUtils::paste(previous->getGrid(), firstElementCells, QPoint(firstCoord.getTopLeftCoord().x() + shift, firstCoord.getTopLeftCoord().y()));
+
+    QPoint secondElementCoord = secondCoord.getTopLeftCoord();
+    secondCoord.setTopLeftCoord(firstCoord.getTopLeftCoord());
+
+    firstCoord.setTopLeftCoord(QPoint(secondElementCoord.x() + shift, secondElementCoord.y()));
+
+    for(int i=firstElementPosition + 1; i<secondElementPosition; i++)
+    {
+        QPoint coord = row[i].getTopLeftCoord();
+        row[i].setTopLeftCoord(QPoint(coord.x() + shift, coord.y()));
+    }
+}
+
+int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate> &row)
+{
+    int height = 0;
+    for(ElementCoordinate&c : row)
+    {
+        int h = LibraryUtils::getCorrespondingElement(c.getElement(), previous->getLibraries()).getHeight();
+        if(h > height)
+            height = h;
+    }
+
+    return height;
 }
 
 qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate> &wireCoordinates)

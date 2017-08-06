@@ -5,6 +5,7 @@
 
 #include "algorithms/placement/secondaryplacementalgorithm.h"
 #include "algorithms/placement/wirecoordinate.h"
+#include "util/gridutils.h"
 
 /**
  * @brief The RowPermutationPlacement class
@@ -39,7 +40,9 @@ private:
     void permutateRow(int rowIndex);
     void findOptimalElementPosition(int rowIndex, int elementIndex);
     int findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition);
+
     void swapElements(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
+    int getRowHeight(QList<ElementCoordinate>& row);
 };
 
 #endif // ROWPERMUTATIONPLACEMENT_H

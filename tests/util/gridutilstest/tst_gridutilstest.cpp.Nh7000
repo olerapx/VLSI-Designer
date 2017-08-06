@@ -1,0 +1,73 @@
+#include <QtTest>
+#include <QCoreApplication>
+
+#include <util/gridutils.h>
+
+class GridUtilsTest : public QObject
+{
+    Q_OBJECT
+
+public:
+
+private slots:
+    void cutTest();
+    void pasteTest();
+    void insertEmptyAreaTest();
+    void removeAreaTest();
+};
+
+void GridUtilsTest::cutTest()
+{
+    Grid* g = new Grid();
+
+    QList<QList<Cell>> cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Element, 0), Cell(CellType::Pin, 0 , "z"),
+          Cell(CellType::DL), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::UD), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::DR), Cell(CellType::LR),
+          Cell(CellType::UL), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty) }
+    };
+
+    for(QList<Cell> list: cells)
+        g->getCells().append(list);
+
+    QList<QList<Cell>> list = GridUtils::cut(g, QPoint(1, 1), 2, 3);
+    QVERIFY(list.size() == 3);
+    QVERIFY(list[0].size() == 2);
+
+    QVERIFY(list[0][1] == Cell(CellType::Pin, 0 , "z"));
+    QVERIFY(list[2][1] == Cell(CellType::LR));
+
+    delete g;
+}
+
+void GridUtilsTest::pasteTest()
+{
+    Grid* g = new Grid();
+
+    delete g;
+}
+
+void GridUtilsTest::insertEmptyAreaTest()
+{
+
+}
+
+void GridUtilsTest::removeAreaTest()
+{
+
+}
+
+QTEST_MAIN(GridUtilsTest)
+
+#include "tst_gridutilstest.moc"
