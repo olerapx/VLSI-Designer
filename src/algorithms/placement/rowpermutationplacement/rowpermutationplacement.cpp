@@ -19,7 +19,7 @@ PlacementResult* RowPermutationPlacement::execute()
         PlacementResult* res = nullptr;
         clear();
 
-        elementCoordinates = previous->getRowWiseCoordinates();
+        elementCoordinates = previous->getRowWiseCoordinates();        
         wireCoordinates = fillWireCoordinates(previous->getElementCoordinates());
 
         permutateRows();
@@ -51,6 +51,12 @@ void RowPermutationPlacement::clear()
     wireCoordinates.clear();
 
     positions.clear();
+}
+
+qint64 RowPermutationPlacement::getFitnessValue()
+{
+    QList<WireCoordinate> coordinates = fillWireCoordinates(previous->getElementCoordinates());
+    return getFitnessValue(coordinates);
 }
 
 QList<WireCoordinate> RowPermutationPlacement::fillWireCoordinates(QList<ElementCoordinate>& elementCoordinates)
@@ -180,6 +186,8 @@ void RowPermutationPlacement::swapElements(QList<QList<ElementCoordinate>>& elem
         QPoint coord = row[i].getTopLeftCoord();
         row[i].setTopLeftCoord(QPoint(coord.x() + shift, coord.y()));
     }
+
+    row.swap(firstElementPosition, secondElementPosition);
 }
 
 int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate> &row)
