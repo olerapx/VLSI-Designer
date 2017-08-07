@@ -14,7 +14,7 @@ void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, QList<Library*> li
         throw IllegalArgumentException(tr("Expanding coefficient must be bigger than 1."));
 
     if(libraries.empty())
-        throw IllegalArgumentException("Cannot perform the primary placement without any element library provided.");
+        throw IllegalArgumentException(tr("Cannot perform the primary placement without any element library provided."));
 
     this->scheme = scheme;
     this->expandCoefficient = expandCoefficient;

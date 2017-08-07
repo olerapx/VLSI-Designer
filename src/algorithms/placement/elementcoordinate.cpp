@@ -14,7 +14,7 @@ void ElementCoordinate::setElement(SchemeElement element)
 void ElementCoordinate::setTopLeftCoord(QPoint topLeftCoord)
 {
     if(topLeftCoord.x() < 0 || topLeftCoord.y() < 0)
-        throw IllegalArgumentException("Element coordinate cannot be negative.");
+        throw IllegalArgumentException(QObject::tr("Element coordinate cannot be negative."));
 
     this->topLeftCoord = topLeftCoord;
 }

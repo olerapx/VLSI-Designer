@@ -178,7 +178,7 @@ LibraryElement GeneratorTest::getCorrespondingElement(SchemeElement element)
         }
     }
 
-    throw Exception("Corresponding library element cannot be found.");
+    throw Exception(tr("Corresponding library element cannot be found."));
 }
 
 QTEST_MAIN(GeneratorTest)

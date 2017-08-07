@@ -2,13 +2,14 @@
 
 QList<QList<Cell>> GridUtils::cut(Grid *grid, QPoint topLeftCoord, int width, int height)
 {
-    if((topLeftCoord.x() + height) > grid->getCells().size())
+    if((topLeftCoord.x() + width) > grid->getCells()[0].size())
+        throw IllegalArgumentException(QObject::tr("Cannot cut the area with the width %1 from the grid: the width is too big.")
+                                       .arg(QString::number(width)));
+
+    if((topLeftCoord.y() + height) > grid->getCells().size())
         throw IllegalArgumentException(QObject::tr("Cannot cut the area with the height %1 from the grid: the height is too big.")
                                        .arg(QString::number(height)));
 
-    if((topLeftCoord.y() + width) > grid->getCells()[0].size())
-        throw IllegalArgumentException(QObject::tr("Cannot cut the area with the width %1 from the grid: the width is too big.")
-                                       .arg(QString::number(width)));
 
     if(width < 0 || height < 0)
         throw IllegalArgumentException(QObject::tr("Width and height cannot be negative."));
@@ -38,7 +39,7 @@ void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
     if(size == 0)
         return;
 
-    if((topLeftCoord.x() + size) > grid->getCells().size())
+    if((topLeftCoord.y() + size) > grid->getCells().size())
         throw IllegalArgumentException(QObject::tr("Cannot paste the area with the height %1 from the grid: the height is too big.")
                                        .arg(QString::number(size)));
 
@@ -46,7 +47,7 @@ void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
     {
         int rowSize = data[i].size();
 
-        if((topLeftCoord.y() + rowSize) > grid->getCells()[i].size())
+        if((topLeftCoord.x() + rowSize) > grid->getCells()[i].size())
             throw IllegalArgumentException(QObject::tr("Cannot paste the area with the width %1 from the grid: the width is too big.")
                                            .arg(QString::number(rowSize)));
 

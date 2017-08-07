@@ -39,12 +39,15 @@ private:
 
     void permutateRow(int rowIndex);
     void findOptimalElementPosition(int rowIndex, int elementIndex);
-    int findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition);
+    qint64 findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition);
 
     qint64 getFitnessValue(QList<WireCoordinate>& wireCoordinates);
 
     void swapElements(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
     int getRowHeight(QList<ElementCoordinate>& row);
+
+    PlacementResult* buildResult();
+    QList<ElementCoordinate> concatCoordinates();
 };
 
 #endif // ROWPERMUTATIONPLACEMENT_H

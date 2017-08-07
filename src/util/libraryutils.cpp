@@ -26,5 +26,5 @@ Pin LibraryUtils::findPinById(LibraryElement element, QString id)
             return p;
     }
 
-    throw IllegalArgumentException("The element does not contain a pin with the given id.");
+    throw IllegalArgumentException(QObject::tr("The element does not contain a pin with the given id: %1").arg(id));
 }

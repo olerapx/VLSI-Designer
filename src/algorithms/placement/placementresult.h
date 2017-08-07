@@ -15,7 +15,7 @@
 class PlacementResult
 {
 public:
-    PlacementResult(Grid* grid, QList<ElementCoordinate> elementCoordinates, QList<Wire>& relatedWires, QList<Library*> libraries);
+    PlacementResult(Grid* grid, QList<ElementCoordinate> &elementCoordinates, QList<Wire>& relatedWires, QList<Library*> libraries);
 
     Grid* getGrid() const { return grid; }
     QList<ElementCoordinate>& getElementCoordinates() { return elementCoordinates; }

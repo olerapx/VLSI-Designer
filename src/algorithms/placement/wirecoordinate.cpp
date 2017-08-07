@@ -1,6 +1,6 @@
 #include "wirecoordinate.h"
 
-WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoordinates, QList<Library *> &libraries) :
+WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoordinates, QList<Library*> &libraries) :
     wire(&wire)
 {
     src = nullptr;
@@ -10,20 +10,24 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoor
     {
         if(coord.getElement().getIndex() == wire.getSrcIndex())
             src = &coord;
-        else if(coord.getElement().getIndex() == wire.getDestIndex())
+        if(coord.getElement().getIndex() == wire.getDestIndex())
             dest = &coord;
     }
 
     if(src == nullptr && dest == nullptr)
-        throw IllegalArgumentException("Cannot find src or dest element in the given coordinate list.");
+        throw IllegalArgumentException(QObject::tr("Cannot find src or dest element in the given coordinate list."));
 
     if(src == nullptr)
     {
         src = dest;
         dest = nullptr;
-    }
 
-    this->srcCoord = getPinCoord(src, libraries, wire.getSrcPinId());
+        this->srcCoord = getPinCoord(src, libraries, wire.getDestPinId());
+    }
+    else
+    {
+        this->srcCoord = getPinCoord(src, libraries, wire.getSrcPinId());
+    }
 
     if(dest == nullptr)
     {
@@ -53,7 +57,7 @@ QPoint WireCoordinate::getSrcCoordinate()
 QPoint WireCoordinate::getDestCoordinate()
 {
     if(position == WirePosition::External)
-        throw Exception("Cannot get destination coordinate of an external wire.");
+        throw Exception(QObject::tr("Cannot get destination coordinate of an external wire."));
 
     return QPoint(dest->getTopLeftCoord().x() + destCoord.x(), dest->getTopLeftCoord().y() + destCoord.y());
 }

@@ -1,6 +1,6 @@
 #include "placementresult.h"
 
-PlacementResult::PlacementResult(Grid *grid, QList<ElementCoordinate> elementCoordinates, QList<Wire> &relatedWires, QList<Library *> libraries) :
+PlacementResult::PlacementResult(Grid *grid, QList<ElementCoordinate>& elementCoordinates, QList<Wire> &relatedWires, QList<Library *> libraries) :
     grid(grid),
     elementCoordinates(elementCoordinates),
     relatedWires(relatedWires),

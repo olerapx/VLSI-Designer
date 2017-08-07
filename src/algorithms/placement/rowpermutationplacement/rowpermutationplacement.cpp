@@ -16,15 +16,15 @@ PlacementResult* RowPermutationPlacement::execute()
         stopped = false;
         actuallyStopped = false;
 
-        PlacementResult* res = nullptr;
-        clear();
-
-        elementCoordinates = previous->getRowWiseCoordinates();        
-        wireCoordinates = fillWireCoordinates(previous->getElementCoordinates());
+        elementCoordinates = previous->getRowWiseCoordinates();
+        wireCoordinates = fillWireCoordinates(previous->getElementCoordinates()); ///WONT CHANGE
 
         permutateRows();
         for(int i=0; i<elementCoordinates.size(); i++)
             permutateRow(i);
+
+        PlacementResult* res = buildResult();
+        clear();
 
         if(stopped)
             throw ThreadStoppedException(tr("Algorithm is stopped."));
@@ -89,7 +89,7 @@ void RowPermutationPlacement::permutateRow(int rowIndex)
 void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int elementIndex)
 {
     int elementPosition = positions[elementIndex];
-    QList<int> fitnessDiffs;
+    QList<qint64> fitnessDiffs;
 
     for(int i=0; i<positions.size(); i++)
     {
@@ -104,7 +104,7 @@ void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int eleme
     }
 
     int maxDiffIndex = 0;
-    int maxDiff = 0;
+    qint64 maxDiff = 0;
 
     for(int i=0; i<fitnessDiffs.size(); i++)
     {
@@ -124,9 +124,9 @@ void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int eleme
     positions[maxDiffIndex] = elementPosition;
 }
 
-int RowPermutationPlacement::findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition)
+qint64 RowPermutationPlacement::findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition)
 {
-    int fitnessValue = getFitnessValue(wireCoordinates);
+    qint64 fitnessValue = getFitnessValue(wireCoordinates);
 
     QList<QList<ElementCoordinate>> newRowWiseCoordinates = elementCoordinates;
     swapElements(newRowWiseCoordinates, rowIndex, firstElementPosition, secondElementPosition);
@@ -137,7 +137,7 @@ int RowPermutationPlacement::findFitnessDiffOnElementsSwapping(int rowIndex, int
 
     QList<WireCoordinate> newWireCoordinates = fillWireCoordinates(newElementCoordinates);
 
-    int newFitnessValue = getFitnessValue(newWireCoordinates);
+    qint64 newFitnessValue = getFitnessValue(newWireCoordinates);
 
     return (fitnessValue - newFitnessValue);
 }
@@ -208,6 +208,22 @@ qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate> &wireCoord
     qint64 res = 0;
     for(WireCoordinate& w: wireCoordinates)
         res += w.getFitnessValue();
+
+    return res;
+}
+
+PlacementResult* RowPermutationPlacement::buildResult()
+{
+    QList<ElementCoordinate> elementCoords = concatCoordinates();
+    return new PlacementResult(previous->getGrid(), elementCoords, previous->getRelatedWires(), previous->getLibraries());
+}
+
+QList<ElementCoordinate> RowPermutationPlacement::concatCoordinates()
+{
+    QList<ElementCoordinate> res;
+
+    for(QList<ElementCoordinate>& list: elementCoordinates)
+        res.append(list);
 
     return res;
 }
