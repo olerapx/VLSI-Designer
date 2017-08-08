@@ -19,7 +19,7 @@ enum class WirePosition
 class WireCoordinate
 {
 public:
-    WireCoordinate(Wire& wire, QList<ElementCoordinate>& elementCoordinates, QList<Library*>& libraries);
+    WireCoordinate(Wire& wire, QList<QList<ElementCoordinate> > &elementCoordinates, QList<Library*>& libraries);
 
     Wire* getWire() { return wire; }
 

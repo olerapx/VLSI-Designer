@@ -33,7 +33,7 @@ private:
     QMap<int, int> positions;
 
     void clear();
-    QList<WireCoordinate> fillWireCoordinates(QList<ElementCoordinate> &elementCoordinates);
+    QList<WireCoordinate> fillWireCoordinates(QList<QList<ElementCoordinate> > &elementCoordinates);
 
     void permutateRows();
 
@@ -43,7 +43,9 @@ private:
 
     qint64 getFitnessValue(QList<WireCoordinate>& wireCoordinates);
 
-    void swapElements(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
+    void swapElementsCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
+    int getShift(ElementCoordinate first, ElementCoordinate second);
+    void swapElementsOnGrid(QList<QList<ElementCoordinate> > &elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
     int getRowHeight(QList<ElementCoordinate>& row);
 
     PlacementResult* buildResult();

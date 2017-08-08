@@ -1,17 +1,20 @@
 #include "wirecoordinate.h"
 
-WireCoordinate::WireCoordinate(Wire &wire, QList<ElementCoordinate> &elementCoordinates, QList<Library*> &libraries) :
+WireCoordinate::WireCoordinate(Wire &wire, QList<QList<ElementCoordinate>> &elementCoordinates, QList<Library*> &libraries) :
     wire(&wire)
 {
     src = nullptr;
     dest = nullptr;
 
-    for(ElementCoordinate& coord: elementCoordinates)
+    for(QList<ElementCoordinate>& list: elementCoordinates)
     {
-        if(coord.getElement().getIndex() == wire.getSrcIndex())
-            src = &coord;
-        if(coord.getElement().getIndex() == wire.getDestIndex())
-            dest = &coord;
+        for(ElementCoordinate& coord: list)
+        {
+            if(coord.getElement().getIndex() == wire.getSrcIndex())
+                src = &coord;
+            if(coord.getElement().getIndex() == wire.getDestIndex())
+                dest = &coord;
+        }
     }
 
     if(src == nullptr && dest == nullptr)

@@ -2,7 +2,6 @@
 #include <QCoreApplication>
 
 #include <algorithms/placement/rowpermutationplacement/rowpermutationplacement.h>
-#include <util/renderer/gridrenderer.h>
 
 class RowPermutationPlacementTest : public QObject
 {
@@ -29,9 +28,13 @@ RowPermutationPlacementTest::RowPermutationPlacementTest()
     el1.getPins().append(Pin("p2", 0, 2, PinType::Input));
     el1.getPins().append(Pin("p3", 2, 2, PinType::Output));
 
+    LibraryElement el2("el2", 4, 4);
+    el2.getPins().append(Pin("p1", 0, 1, PinType::Input));
+    el2.getPins().append(Pin("p2", 0, 2, PinType::Input));
+    el2.getPins().append(Pin("p3", 3, 2, PinType::Output));
+
     library->getElements().append(el1);
-    library->getElements().append(LibraryElement("el2", 3, 4));
-    library->getElements().append(LibraryElement("el3", 3, 6));
+    library->getElements().append(el2);
 
     libraries.append(library);
 }
@@ -99,35 +102,35 @@ void RowPermutationPlacementTest::elementsPermutationTest()
     {
         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
-          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
 
         { Cell(CellType::Pin, 0, "p1"), Cell(CellType::Element, 0), Cell(CellType::Empty),
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
-          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
 
         { Cell(CellType::Pin, 0, "p2"), Cell(CellType::Element, 0), Cell(CellType::Pin, 0, "p3"),
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
-          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
 
         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
-          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
 
         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
-          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }  ,
 
-        { Cell(CellType::Pin, 1, "p1"), Cell(CellType::Element, 1), Cell(CellType::Empty),
+        { Cell(CellType::Pin, 1, "p1"), Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Empty),
           Cell(CellType::Pin, 2, "p1"), Cell(CellType::Element, 2), Cell(CellType::Empty),
           Cell(CellType::Pin, 3, "p1"), Cell(CellType::Element, 3), Cell(CellType::Empty) }  ,
 
-        { Cell(CellType::Pin, 1, "p2"), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p3"),
+        { Cell(CellType::Pin, 1, "p2"), Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p3"),
           Cell(CellType::Pin, 2, "p2"), Cell(CellType::Element, 2), Cell(CellType::Pin, 2, "p3"),
           Cell(CellType::Pin, 3, "p2"), Cell(CellType::Element, 3), Cell(CellType::Pin, 3, "p3") }  ,
 
         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
-          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
     for(QList<Cell> list: cells)
@@ -136,9 +139,9 @@ void RowPermutationPlacementTest::elementsPermutationTest()
     QList<ElementCoordinate> coords =
     {
         ElementCoordinate(SchemeElement("lib", "el1", 0), QPoint(0, 0)),
-        ElementCoordinate(SchemeElement("lib", "el1", 1), QPoint(0, 4)),
-        ElementCoordinate(SchemeElement("lib", "el1", 2), QPoint(3, 4)),
-        ElementCoordinate(SchemeElement("lib", "el1", 3), QPoint(6, 4))
+        ElementCoordinate(SchemeElement("lib", "el2", 1), QPoint(0, 4)),
+        ElementCoordinate(SchemeElement("lib", "el1", 2), QPoint(4, 4)),
+        ElementCoordinate(SchemeElement("lib", "el1", 3), QPoint(7, 4))
     };
 
     QList<Wire> wires =
@@ -149,40 +152,35 @@ void RowPermutationPlacementTest::elementsPermutationTest()
         Wire(10, "dummy", 0, "p1", WireType::Outer, 3)
     };
 
-    Scheme* s = new Scheme();
-    s->getElements().append(SchemeElement("lib", "el1", 0));
-    s->getElements().append(SchemeElement("lib", "el1", 0));
-    s->getElements().append(SchemeElement("lib", "el1", 0));
-    s->getElements().append(SchemeElement("lib", "el1", 0));
-
-    s->getElements()[0].setAlias("0");
-    s->getElements()[1].setAlias("1");
-    s->getElements()[2].setAlias("2");
-    s->getElements()[3].setAlias("3");
-
     PlacementResult* res = new PlacementResult(g, coords, wires, libraries);
-
-    GridRenderer renderer(res->getGrid(), s);
-    renderer.execute().save("old.png");
 
     RowPermutationPlacement placement(res);
 
-    QVERIFY(placement.getFitnessValue() == (1 + 8 + 4));
+    QVERIFY(placement.getFitnessValue() == (1 + 9 + 4));
 
     PlacementResult* newRes = placement.execute();
     placement.setParameters(newRes);
     delete res;
 
-    renderer.setParameters(newRes->getGrid(), s);
-    renderer.execute().save("new.png");
+    QVERIFY(placement.getFitnessValue() == 5);
 
-    qint64 i = placement.getFitnessValue();
+    QVERIFY(newRes->getElementCoordinates()[0].getTopLeftCoord() == QPoint(0, 0));
+    QVERIFY(newRes->getElementCoordinates()[1].getTopLeftCoord() == QPoint(0, 4));
+    QVERIFY(newRes->getElementCoordinates()[2].getTopLeftCoord() == QPoint(3, 4));
+    QVERIFY(newRes->getElementCoordinates()[3].getTopLeftCoord() == QPoint(6, 4));
 
-    //QVERIFY(placement.getFitnessValue() == 5);
+    QVERIFY(newRes->getElementCoordinates()[0].getElement().getIndex() == 0);
+    QVERIFY(newRes->getElementCoordinates()[1].getElement().getIndex() == 3);
+    QVERIFY(newRes->getElementCoordinates()[2].getElement().getIndex() == 2);
+    QVERIFY(newRes->getElementCoordinates()[3].getElement().getIndex() == 1);
+
+    QVERIFY(newRes->getGrid()->getCells()[1][0].getIndex() == 0);
+    QVERIFY(newRes->getGrid()->getCells()[5][0].getIndex() == 3);
+    QVERIFY(newRes->getGrid()->getCells()[5][3].getIndex() == 2);
+    QVERIFY(newRes->getGrid()->getCells()[5][6].getIndex() == 1);
 
     delete newRes;
 
-    delete s;
     delete g;
 }
 
