@@ -58,34 +58,62 @@ void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
     }
 }
 
-void GridUtils::insertEmptyArea(Grid *grid, QPoint topLeftCoord, int width, int height)
+void GridUtils::insertRows(Grid *grid, int y, int number)
+{
+    if(y > grid->getCells().size())
+        throw IllegalArgumentException(QObject::tr("Cannot insert rows after y-coordinate %1 at the grid: the number is too big.")
+                                       .arg(QString::number(number)));
+
+    int width = grid->getCells()[0].size();
+
+    for(int i=0; i<number; i++)
+    {
+        QList<Cell> row;
+        for(int j=0; j<width; j++)
+            row.append(Cell(CellType::Empty));
+
+        grid->getCells().insert(y, row);
+    }
+}
+
+void GridUtils::removeRows(Grid *grid, int y, int number)
+{
+    if((y + number) > grid->getCells().size())
+        throw IllegalArgumentException(QObject::tr("Cannot remove %1 rows from the grid: the number is too big.")
+                                       .arg(QString::number(number)));
+
+    for(int i=0; i< number; i++)
+        grid->getCells().removeAt(y);
+}
+
+void GridUtils::insertEmptyColumns(Grid *grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
 {
     if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() >= grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Start point is out of range."));
 
-    if(width < 0 || height < 0)
-        throw IllegalArgumentException(QObject::tr("Width and height cannot be negative."));
+    if(colsNumber < 0 || rowsNumber < 0)
+        throw IllegalArgumentException(QObject::tr("Width and height cannot be negative."));  
 
-    for(int i=topLeftCoord.y(); i<topLeftCoord.y() + height; i++)
+    for(int i=topLeftCoord.y(); i<topLeftCoord.y() + rowsNumber; i++)
     {
-        for(int j=topLeftCoord.x(); j<topLeftCoord.x() + width; j++)
+        for(int j=topLeftCoord.x(); j<topLeftCoord.x() + colsNumber; j++)
         {
             grid->getCells()[i].insert(j, Cell(CellType::Empty));
         }
     }
 }
 
-void GridUtils::removeArea(Grid *grid, QPoint topLeftCoord, int width, int height)
+void GridUtils::removeColumns(Grid *grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
 {
     if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() >= grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Start point is out of range."));
 
-    if(width < 0 || height < 0)
+    if(colsNumber < 0 || rowsNumber < 0)
         throw IllegalArgumentException(QObject::tr("Width and height cannot be negative."));
 
-    for(int i=topLeftCoord.y(); i<topLeftCoord.y() + height; i++)
+    for(int i=topLeftCoord.y(); i<topLeftCoord.y() + rowsNumber; i++)
     {
-        for(int j=0; j<width; j++)
+        for(int j=0; j<colsNumber; j++)
         {
             grid->getCells()[i].removeAt(topLeftCoord.x());
         }

@@ -1,10 +1,13 @@
 #include "wirecoordinate.h"
 
-WireCoordinate::WireCoordinate(Wire &wire, QList<QList<ElementCoordinate>> &elementCoordinates, QList<Library*> &libraries) :
+WireCoordinate::WireCoordinate(Wire &wire, QList<QList<ElementCoordinate>> &elementCoordinates, QList<Library*> &libraries, int gridHeight, int gridWidth) :
     wire(&wire)
 {
     src = nullptr;
     dest = nullptr;
+
+    height = gridHeight;
+    width = gridWidth;
 
     for(QList<ElementCoordinate>& list: elementCoordinates)
     {
@@ -73,7 +76,14 @@ qint64 WireCoordinate::getFitnessValue()
     {
         QPoint srcPoint = getSrcCoordinate();
 
-        res = ((srcPoint.x() > srcPoint.y()) ? srcPoint.y() : srcPoint.x());
+        int distances[] = { srcPoint.x(), srcPoint.y(), height - srcPoint.y() - 1, width - srcPoint.x() - 1 };
+        int min = distances[0];
+
+        for(int i=1; i<4; i++)
+            if(distances[i] < min)
+                min = distances[i];
+
+        res = min;
     }
     else
     {

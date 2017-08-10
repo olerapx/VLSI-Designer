@@ -13,8 +13,8 @@ public:
 private slots:
     void cutTest();
     void pasteTest();
-    void insertEmptyAreaTest();
-    void removeAreaTest();
+    void insertEmptyColumnsTest();
+    void removeColumnsTest();
 };
 
 void GridUtilsTest::cutTest()
@@ -82,7 +82,7 @@ void GridUtilsTest::pasteTest()
     delete g;
 }
 
-void GridUtilsTest::insertEmptyAreaTest()
+void GridUtilsTest::insertEmptyColumnsTest()
 {
     Grid* g = new Grid();
 
@@ -96,7 +96,7 @@ void GridUtilsTest::insertEmptyAreaTest()
     for(QList<Cell> list: cells)
         g->getCells().append(list);
 
-    GridUtils::insertEmptyArea(g, QPoint(1, 0), 1, 2);
+    GridUtils::insertEmptyColumns(g, QPoint(1, 0), 1, 2);
 
     QVERIFY(g->getCells()[0][0] == Cell(CellType::UD));
     QVERIFY(g->getCells()[0][1] == Cell(CellType::Empty));
@@ -115,7 +115,7 @@ void GridUtilsTest::insertEmptyAreaTest()
     delete g;
 }
 
-void GridUtilsTest::removeAreaTest()
+void GridUtilsTest::removeColumnsTest()
 {
      Grid* g = new Grid();
 
@@ -129,7 +129,7 @@ void GridUtilsTest::removeAreaTest()
      for(QList<Cell> list: cells)
          g->getCells().append(list);
 
-     GridUtils::removeArea(g, QPoint(1, 0), 1, 2);
+     GridUtils::removeColumns(g, QPoint(1, 0), 1, 2);
 
     QVERIFY(g->getCells()[0][0] == Cell(CellType::UD));
     QVERIFY(g->getCells()[0][1] == Cell(CellType::LR));

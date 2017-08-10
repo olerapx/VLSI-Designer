@@ -4,6 +4,7 @@
 #include "elementcoordinate.h"
 #include "datamodels/scheme/wire.h"
 #include "datamodels/library/library.h"
+#include "datamodels/grid/grid.h"
 #include "util/libraryutils.h"
 
 enum class WirePosition
@@ -19,7 +20,7 @@ enum class WirePosition
 class WireCoordinate
 {
 public:
-    WireCoordinate(Wire& wire, QList<QList<ElementCoordinate> > &elementCoordinates, QList<Library*>& libraries);
+    WireCoordinate(Wire& wire, QList<QList<ElementCoordinate> > &elementCoordinates, QList<Library*>& libraries, int gridHeight, int gridWidth);
 
     Wire* getWire() { return wire; }
 
@@ -39,6 +40,8 @@ private:
     ElementCoordinate *src, *dest;
     WirePosition position;
     QPoint srcCoord, destCoord;
+
+    int height, width;
 
     QPoint getPinCoord(ElementCoordinate* coordinate, QList<Library*>& libraries, QString pinId);
 };
