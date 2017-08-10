@@ -11,7 +11,7 @@ void PrimaryPlacementAlgorithm::setParameters(Scheme* scheme, QList<Library*> li
         throw Exception(tr("Cannot change parameters while the algorithm is working."));
 
     if(expandCoefficient <= 1.0)
-        throw IllegalArgumentException(tr("Expanding coefficient must be bigger than 1."));
+        throw IllegalArgumentException(tr("Expanding coefficient must be bigger than 1, passed: %1.").arg(QString::number(expandCoefficient)));
 
     if(libraries.empty())
         throw IllegalArgumentException(tr("Cannot perform the primary placement without any element library provided."));

@@ -19,9 +19,14 @@ PlacementResult* RowPermutationPlacement::execute()
         elementCoordinates = previous->getRowWiseCoordinates();
         wireCoordinates = fillWireCoordinates(elementCoordinates);
 
+        sendLog(tr("Pairwise rows permutation."));
         permutateRows();
+
         for(int i=0; i<elementCoordinates.size(); i++)
+        {
+            sendLog(tr("Pairwise elements permutation in row %1 of %2.").arg(QString::number(i+1), QString::number(elementCoordinates.size())));
             permutateRow(i);
+        }
 
         PlacementResult* res = buildResult();
         clear();
@@ -63,6 +68,8 @@ qint64 RowPermutationPlacement::getFitnessValue()
 
 QList<WireCoordinate> RowPermutationPlacement::fillWireCoordinates(QList<QList<ElementCoordinate> > &elementCoordinates)
 {
+    sendLog(tr("Preparing."));
+
     QList<WireCoordinate> res;
 
     int gridHeight = previous->getGrid()->getCells().size();
@@ -78,22 +85,32 @@ QList<WireCoordinate> RowPermutationPlacement::fillWireCoordinates(QList<QList<E
 
 void RowPermutationPlacement::permutateRows()
 {
+    if(stopped) return;
+
     positions.clear();
     for(int i=0; i<elementCoordinates.size(); i++)
         positions.insert(i, i);
 
     for(int i=0; i<positions.size(); i++)
+    {
+        if(stopped) return;
+
+        sendLog(tr("Finding the optimal position of row %1 of %2.").arg(QString::number(i+1), QString::number(positions.size())));
+
         findOptimalRowPosition(i);
+    }
 }
 
 void RowPermutationPlacement::findOptimalRowPosition(int rowIndex)
-{        
+{
     int rowPosition = positions[rowIndex];
 
     QList<qint64> fitnessDiffs;
 
     for(int i=0; i<positions.size(); i++)
     {
+        if(stopped) return;
+
         if(i == rowIndex)
         {
             fitnessDiffs.append(0);
@@ -119,6 +136,10 @@ void RowPermutationPlacement::findOptimalRowPosition(int rowIndex)
 
     if(maxDiff == 0)
         return;
+
+    if(stopped) return;
+
+    sendLog(tr("Performing permutation..."));
 
     swapRowsOnGrid(elementCoordinates, rowPosition, positions[maxDiffIndex]);
     swapRowsCoordinates(elementCoordinates, rowPosition, positions[maxDiffIndex]);
@@ -224,12 +245,20 @@ void RowPermutationPlacement::swapRowsOnGrid(QList<QList<ElementCoordinate> > &e
 
 void RowPermutationPlacement::permutateRow(int rowIndex)
 {
+    if(stopped) return;
+
     positions.clear();
     for(int i=0; i<elementCoordinates[rowIndex].size(); i++)
         positions.insert(i, i);
 
     for(int i=0; i<positions.size(); i++)
+    {
+        if(stopped) return;
+
+        sendLog(tr("Finding the optimal position of element %1 of %2.").arg(QString::number(i+1), QString::number(positions.size())));
+
         findOptimalElementPosition(rowIndex, i);
+    }
 }
 
 void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int elementIndex)
@@ -239,6 +268,8 @@ void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int eleme
 
     for(int i=0; i<positions.size(); i++)
     {
+        if(stopped) return;
+
         if(i == elementIndex)
         {
             fitnessDiffs.append(0);
@@ -263,6 +294,10 @@ void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int eleme
 
     if(maxDiff == 0)
         return;
+
+    if(stopped) return;
+
+    sendLog(tr("Performing permutation..."));
 
     swapElementsOnGrid(elementCoordinates, rowIndex, elementPosition, positions[maxDiffIndex]);
     swapElementsCoordinates(elementCoordinates, rowIndex, elementPosition, positions[maxDiffIndex]);

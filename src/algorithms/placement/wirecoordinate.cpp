@@ -21,7 +21,8 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<QList<ElementCoordinate>> &elem
     }
 
     if(src == nullptr && dest == nullptr)
-        throw IllegalArgumentException(QObject::tr("Cannot find src or dest element in the given coordinate list."));
+        throw IllegalArgumentException(QObject::tr("Cannot find source (index: %1) or destination (index: %2) element in the given coordinate list.")
+                                       .arg(QString::number(wire.getSrcIndex()), QString::number(wire.getDestIndex())));
 
     if(src == nullptr)
     {
