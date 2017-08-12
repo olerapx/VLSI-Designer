@@ -1,6 +1,6 @@
 #include "rowwiseplacement.h"
 
-RowWisePlacement::RowWisePlacement(Scheme *scheme, QList<Library *> libraries, double expandCoefficient):
+RowWisePlacement::RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandCoefficient) :
     PrimaryPlacementAlgorithm(scheme, libraries, expandCoefficient),
     comparator(libraries)
 {
@@ -236,7 +236,7 @@ QList<QPoint> RowWisePlacement::concatTopLeftCoords()
     return res;
 }
 
-QList<ElementCoordinate> RowWisePlacement::buildElementCoordinates(QList<QPoint> &topLeftCoords)
+QList<ElementCoordinate> RowWisePlacement::buildElementCoordinates(QList<QPoint>& topLeftCoords)
 {
     QList<ElementCoordinate> res;
     for(int i=0; i<topLeftCoords.size(); i++)

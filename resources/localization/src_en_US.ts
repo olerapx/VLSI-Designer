@@ -15,6 +15,10 @@
         <source>The number of scheme&apos;s elements (%1) is lower than number of subschemes (%2).</source>
         <translation>The number of scheme&apos;s elements (%1) is lower than number of subschemes (%2).</translation>
     </message>
+    <message>
+        <source>Cannot change parameters while the algorithm is working.</source>
+        <translation>Cannot change parameters while the algorithm is working.</translation>
+    </message>
 </context>
 <context>
     <name>Generator</name>
@@ -31,20 +35,8 @@
         <translation>Wires generation:</translation>
     </message>
     <message>
-        <source>Element #%1 of %2</source>
-        <translation>Element #%1 of %2</translation>
-    </message>
-    <message>
         <source>Branching parameters changing:</source>
         <translation>Branching parameters changing:</translation>
-    </message>
-    <message>
-        <source>Mean = %1, left limit = %2, right limit = %3.</source>
-        <translation type="vanished">Mean = %1, left limit = %2, right limit = %3.</translation>
-    </message>
-    <message>
-        <source>Corresponding library element cannot be found, passed element with id: %1.</source>
-        <translation>Corresponding library element cannot be found, passed element with id: %1.</translation>
     </message>
     <message>
         <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
@@ -58,13 +50,21 @@
         <source>Aliases generation.</source>
         <translation>Aliases generation.</translation>
     </message>
+    <message>
+        <source>Cannot change parameters while the generator is working.</source>
+        <translation>Cannot change parameters while the generator is working.</translation>
+    </message>
+    <message>
+        <source>Generator is stopped.</source>
+        <translation>Generator is stopped.</translation>
+    </message>
+    <message>
+        <source>Element %1 of %2.</source>
+        <translation>Element %1 of %2.</translation>
+    </message>
 </context>
 <context>
     <name>GridRenderer</name>
-    <message>
-        <source>Image %1 cannot be read.</source>
-        <translation>Image %1 cannot be read.</translation>
-    </message>
     <message>
         <source>The resource image is empty or corrupted: %1. Contact the developers to resolve this.</source>
         <translation>The resource image is empty or corrupted: %1. Contact the developers to resolve this.</translation>
@@ -76,14 +76,6 @@
     <message>
         <source>All resource images must have the same size: %1. Contact the developers to resolve this.</source>
         <translation>All resource images must have the same size: %1. Contact the developers to resolve this.</translation>
-    </message>
-    <message>
-        <source>The resource image file cannot be found or opened: %1</source>
-        <translation>The resource image file cannot be found or opened: %1</translation>
-    </message>
-    <message>
-        <source>The resource image is not supported or corrupted.</source>
-        <translation>The resource image is not supported or corrupted.</translation>
     </message>
     <message>
         <source>The grid is empty.</source>
@@ -112,6 +104,26 @@
     <message>
         <source>Degrees value must be multiple of 90, passed: %1.</source>
         <translation>Degrees value must be multiple of 90, passed: %1.</translation>
+    </message>
+    <message>
+        <source>Cannot change parameters while the renderer is working.</source>
+        <translation>Cannot change parameters while the renderer is working.</translation>
+    </message>
+    <message>
+        <source>The resource image file cannot be found or opened: %1.</source>
+        <translation>The resource image file cannot be found or opened: %1.</translation>
+    </message>
+    <message>
+        <source>The resource image is not supported or corrupted: %1.</source>
+        <translation>The resource image is not supported or corrupted: %1.</translation>
+    </message>
+    <message>
+        <source>The renderer is already working.</source>
+        <translation>The renderer is already working.</translation>
+    </message>
+    <message>
+        <source>Renderer is stopped.</source>
+        <translation>Renderer is stopped.</translation>
     </message>
 </context>
 <context>
@@ -197,6 +209,21 @@
     </message>
 </context>
 <context>
+    <name>PrimaryPlacementAlgorithm</name>
+    <message>
+        <source>Cannot change parameters while the algorithm is working.</source>
+        <translation>Cannot change parameters while the algorithm is working.</translation>
+    </message>
+    <message>
+        <source>Expanding coefficient must be bigger than 1, passed: %1.</source>
+        <translation>Expanding coefficient must be bigger than 1, passed: %1.</translation>
+    </message>
+    <message>
+        <source>Cannot perform the primary placement without any element library provided.</source>
+        <translation>Cannot perform the primary placement without any element library provided.</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Clients number must be positive, passed: %1.</source>
@@ -217,10 +244,6 @@
     <message>
         <source>Pin id cannot be empty.</source>
         <translation>Pin id cannot be empty.</translation>
-    </message>
-    <message>
-        <source>Client initial level cannot be negative, passed: %1.</source>
-        <translation>Client initial level cannot be negative, passed: %1.</translation>
     </message>
     <message>
         <source>Routed wire index cannot be negative, passed: %1.</source>
@@ -287,10 +310,6 @@
         <translation>Distribution parameters must be positive.</translation>
     </message>
     <message>
-        <source>Right limit must be bigger or equal than left limit.</source>
-        <translation type="vanished">Right limit must be bigger or equal than left limit.</translation>
-    </message>
-    <message>
         <source>Mean must be in limits.</source>
         <translation>Mean must be in limits.</translation>
     </message>
@@ -334,6 +353,136 @@
         <source>Upper limit must be bigger or equal than lower limit.</source>
         <translation>Upper limit must be bigger or equal than lower limit.</translation>
     </message>
+    <message>
+        <source>Cannot find source (index: %1) or destination (index: %2) element in the given coordinate list.</source>
+        <translation>Cannot find source (index: %1) or destination (index: %2) element in the given coordinate list.</translation>
+    </message>
+    <message>
+        <source>Cannot get destination coordinate of an external wire.</source>
+        <translation>Cannot get destination coordinate of an external wire.</translation>
+    </message>
+    <message>
+        <source>Cannot cut the area with the width %1 from the grid: the width is too big.</source>
+        <translation>Cannot cut the area with the width %1 from the grid: the width is too big.</translation>
+    </message>
+    <message>
+        <source>Cannot cut the area with the height %1 from the grid: the height is too big.</source>
+        <translation>Cannot cut the area with the height %1 from the grid: the height is too big.</translation>
+    </message>
+    <message>
+        <source>Width and height cannot be negative.</source>
+        <translation>Width and height cannot be negative.</translation>
+    </message>
+    <message>
+        <source>Cannot insert rows after y-coordinate %1 at the grid: the number is too big.</source>
+        <translation>Cannot insert rows after y-coordinate %1 at the grid: the number is too big.</translation>
+    </message>
+    <message>
+        <source>Cannot remove %1 rows from the grid: the number is too big.</source>
+        <translation>Cannot remove %1 rows from the grid: the number is too big.</translation>
+    </message>
+    <message>
+        <source>Start point is out of range.</source>
+        <translation>Start point is out of range.</translation>
+    </message>
+    <message>
+        <source>Corresponding library element cannot be found, passed element with id: %1.</source>
+        <translation>Corresponding library element cannot be found, passed element with id: %1.</translation>
+    </message>
+    <message>
+        <source>Element coordinates cannot be negative, passed: (%1; %2).</source>
+        <translation>Element coordinates cannot be negative, passed: (%1; %2).</translation>
+    </message>
+    <message>
+        <source>Cannot paste the area with the height %1 into the grid: the height is too big.</source>
+        <translation>Cannot paste the area with the height %1 into the grid: the height is too big.</translation>
+    </message>
+    <message>
+        <source>Cannot paste the area with the width %1 into the grid: the width is too big.</source>
+        <translation>Cannot paste the area with the width %1 into the grid: the width is too big.</translation>
+    </message>
+    <message>
+        <source>The element does not contain a pin with the given id: %1.</source>
+        <translation>The element does not contain a pin with the given id: %1.</translation>
+    </message>
+</context>
+<context>
+    <name>RowPermutationPlacement</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>The algorithm is already working.</translation>
+    </message>
+    <message>
+        <source>Pairwise rows permutation.</source>
+        <translation>Pairwise rows permutation.</translation>
+    </message>
+    <message>
+        <source>Pairwise elements permutation in row %1 of %2.</source>
+        <translation>Pairwise elements permutation in row %1 of %2.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Algorithm is stopped.</translation>
+    </message>
+    <message>
+        <source>Preparing.</source>
+        <translation>Preparing.</translation>
+    </message>
+    <message>
+        <source>Finding the optimal position of row %1 of %2.</source>
+        <translation>Finding the optimal position of row %1 of %2.</translation>
+    </message>
+    <message>
+        <source>Performing permutation...</source>
+        <translation>Performing permutation...</translation>
+    </message>
+    <message>
+        <source>Finding the optimal position of element %1 of %2.</source>
+        <translation>Finding the optimal position of element %1 of %2.</translation>
+    </message>
+</context>
+<context>
+    <name>RowWisePlacement</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>The algorithm is already working.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Algorithm is stopped.</translation>
+    </message>
+    <message>
+        <source>Packing the elements.</source>
+        <translation>Packing the elements.</translation>
+    </message>
+    <message>
+        <source>Packing element %1 of %2.</source>
+        <translation>Packing element %1 of %2.</translation>
+    </message>
+    <message>
+        <source>Expanding the elements.</source>
+        <translation>Expanding the elements.</translation>
+    </message>
+    <message>
+        <source>Expanding row %1 of %2.</source>
+        <translation>Expanding row %1 of %2.</translation>
+    </message>
+    <message>
+        <source>Expanding rows.</source>
+        <translation>Expanding rows.</translation>
+    </message>
+    <message>
+        <source>Building the result.</source>
+        <translation>Building the result.</translation>
+    </message>
+    <message>
+        <source>Building the result grid.</source>
+        <translation>Building the result grid.</translation>
+    </message>
+    <message>
+        <source>Distinguishing the scheme-related wires.</source>
+        <translation>Distinguishing the scheme-related wires.</translation>
+    </message>
 </context>
 <context>
     <name>SerialDecomposition</name>
@@ -348,6 +497,38 @@
     <message>
         <source>The vertex with id %1 is already distributed or does not exist.</source>
         <translation>The vertex with id %1 is already distributed or does not exist.</translation>
+    </message>
+    <message>
+        <source>Elements decomposition.</source>
+        <translation>Elements decomposition.</translation>
+    </message>
+    <message>
+        <source>Filling subscheme %1 of %2:</source>
+        <translation>Filling subscheme %1 of %2:</translation>
+    </message>
+    <message>
+        <source>Finishing.</source>
+        <translation>Finishing.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Algorithm is stopped.</translation>
+    </message>
+    <message>
+        <source>Preparing.</source>
+        <translation>Preparing.</translation>
+    </message>
+    <message>
+        <source>Creating empty subschemes.</source>
+        <translation>Creating empty subschemes.</translation>
+    </message>
+    <message>
+        <source>First element placement.</source>
+        <translation>First element placement.</translation>
+    </message>
+    <message>
+        <source>Placement of element %1 of %2.</source>
+        <translation>Placement of element %1 of %2.</translation>
     </message>
 </context>
 </TS>

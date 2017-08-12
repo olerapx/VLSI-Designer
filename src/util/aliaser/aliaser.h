@@ -12,7 +12,6 @@
 class Aliaser
 {
 public:
-
     /**
      * @brief Aliaser
      * @param length - the number of letters in each alias.
@@ -24,7 +23,7 @@ public:
      * Performs the generation.
      * @param scheme - the given scheme.
      */
-    void generate(Scheme* scheme);
+    void execute(Scheme* scheme);
 
 private:
     const QString allowedCharacters =

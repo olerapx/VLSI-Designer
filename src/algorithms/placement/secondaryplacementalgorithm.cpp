@@ -1,11 +1,11 @@
 #include "secondaryplacementalgorithm.h"
 
-SecondaryPlacementAlgorithm::SecondaryPlacementAlgorithm(PlacementResult *previous)
+SecondaryPlacementAlgorithm::SecondaryPlacementAlgorithm(PlacementResult* previous)
 {
     setParameters(previous);
 }
 
-void SecondaryPlacementAlgorithm::setParameters(PlacementResult *previous)
+void SecondaryPlacementAlgorithm::setParameters(PlacementResult* previous)
 {
     this->previous = previous;
 }
@@ -18,11 +18,11 @@ void SecondaryPlacementAlgorithm::onStart()
         sendResult(result);
         sendFinish();
     }
-    catch(ThreadStoppedException& tse)
+    catch(ThreadStoppedException&)
     {
         sendFinish();
     }
-    catch(Exception e)
+    catch(Exception& e)
     {
         sendError(e.what());
         sendFinish();

@@ -18,7 +18,7 @@
  * Constructs an image of a grid using the image resources.
  * Each cell in the grid is associated with one of the images, so the resulting image is composed of them.
  */
-class GridRenderer: public Threadable
+class GridRenderer : public Threadable
 {
     Q_OBJECT
 

@@ -10,12 +10,12 @@
 
 /**
  * @brief The JsonSerializer class
- * Implements a JSON serialization and deserialization of of objects.
+ * Implements a JSON serialization and deserialization of objects.
  *
  * The object you need to be serialized or deserialized must be inherited from Serializable.
  * If the object's type is not supported, an IllegalArgumentException will be thrown.
  */
-class JsonSerializer: public Serializer
+class JsonSerializer : public Serializer
 {
 public:
     JsonSerializer() {}

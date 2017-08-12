@@ -10,7 +10,7 @@
  * Base class for all objects which can work in a separate thread.
  * Provides basic data exchanging and stopping capability.
  */
-class Threadable: public QObject
+class Threadable : public QObject
 {
     Q_OBJECT
 
@@ -48,7 +48,7 @@ signals:
 public slots:
     /**
      * @brief onStart
-     * Starts the process. An alternate way is to call generate().
+     * Starts the process.
      */
     virtual void onStart() = 0;
 

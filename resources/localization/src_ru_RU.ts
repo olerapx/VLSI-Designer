@@ -15,6 +15,10 @@
         <source>The number of scheme&apos;s elements (%1) is lower than number of subschemes (%2).</source>
         <translation>Число элементов схемы (%1) меньше, чем число подсхем (%2).</translation>
     </message>
+    <message>
+        <source>Cannot change parameters while the algorithm is working.</source>
+        <translation>Невозможно изменить параметры, пока алгоритм работает.</translation>
+    </message>
 </context>
 <context>
     <name>Generator</name>
@@ -31,20 +35,8 @@
         <translation>Генерация соединений:</translation>
     </message>
     <message>
-        <source>Element #%1 of %2</source>
-        <translation>Элемент№ %1 из %2</translation>
-    </message>
-    <message>
         <source>Branching parameters changing:</source>
         <translation>Изменение параметров ветвления:</translation>
-    </message>
-    <message>
-        <source>Mean = %1, left limit = %2, right limit = %3.</source>
-        <translation type="vanished">Медиана = %1,левая граница = %2, правая граница = %3.</translation>
-    </message>
-    <message>
-        <source>Corresponding library element cannot be found, passed element with id: %1.</source>
-        <translation>Не удается найти библиотечный элемент, соответствующий данному элементу с id %1.</translation>
     </message>
     <message>
         <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
@@ -58,13 +50,21 @@
         <source>Aliases generation.</source>
         <translation>Генерация псевдонимов.</translation>
     </message>
+    <message>
+        <source>Cannot change parameters while the generator is working.</source>
+        <translation>Невозможно изменить параметры, пока генератор работает.</translation>
+    </message>
+    <message>
+        <source>Generator is stopped.</source>
+        <translation>Генератор остановлен.</translation>
+    </message>
+    <message>
+        <source>Element %1 of %2.</source>
+        <translation>Элемент %1 из %2.</translation>
+    </message>
 </context>
 <context>
     <name>GridRenderer</name>
-    <message>
-        <source>Image %1 cannot be read.</source>
-        <translation>Изображение %1 не может быть прочитано.</translation>
-    </message>
     <message>
         <source>The resource image is empty or corrupted: %1. Contact the developers to resolve this.</source>
         <translation>Изображение-ресурс пусто или повреждено: %1. Свяжитесь с разработчиками для исправления.</translation>
@@ -76,14 +76,6 @@
     <message>
         <source>All resource images must have the same size: %1. Contact the developers to resolve this.</source>
         <translation>Все изображения-ресурсы должны иметь одинаковый размер: %1. Свяжитесь с разработчиками для исправления.</translation>
-    </message>
-    <message>
-        <source>The resource image file cannot be found or opened: %1</source>
-        <translation>Файл с изображением-ресурсом не может быть найден или открыт: %1</translation>
-    </message>
-    <message>
-        <source>The resource image is not supported or corrupted.</source>
-        <translation>Изображение-ресурс не поддерживается или повреждено.</translation>
     </message>
     <message>
         <source>The grid is empty.</source>
@@ -112,6 +104,26 @@
     <message>
         <source>Degrees value must be multiple of 90, passed: %1.</source>
         <translation>Значение градусов должно быть кратно 90, передано: %1.</translation>
+    </message>
+    <message>
+        <source>Cannot change parameters while the renderer is working.</source>
+        <translation>Невозможно изменить параметры, пока рендерер работает.</translation>
+    </message>
+    <message>
+        <source>The resource image file cannot be found or opened: %1.</source>
+        <translation>Файл с изображением-ресурсом не может быть найден или открыт: %1.</translation>
+    </message>
+    <message>
+        <source>The resource image is not supported or corrupted: %1.</source>
+        <translation>Изображение-ресурс не поддерживается или повреждено: %1.</translation>
+    </message>
+    <message>
+        <source>The renderer is already working.</source>
+        <translation>Рендерер уже запущен.</translation>
+    </message>
+    <message>
+        <source>Renderer is stopped.</source>
+        <translation>Рендерер остановлен.</translation>
     </message>
 </context>
 <context>
@@ -197,6 +209,21 @@
     </message>
 </context>
 <context>
+    <name>PrimaryPlacementAlgorithm</name>
+    <message>
+        <source>Cannot change parameters while the algorithm is working.</source>
+        <translation>Невозможно изменить параметры, пока алгоритм работает.</translation>
+    </message>
+    <message>
+        <source>Expanding coefficient must be bigger than 1, passed: %1.</source>
+        <translation>Коэффициент раздвижения должен быть больше, чем 1, передано: %1.</translation>
+    </message>
+    <message>
+        <source>Cannot perform the primary placement without any element library provided.</source>
+        <translation>Невозможно произвести первичное размещение без предоставленных библиотек элементов.</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Clients number must be positive, passed: %1.</source>
@@ -217,10 +244,6 @@
     <message>
         <source>Pin id cannot be empty.</source>
         <translation>id ножки не может быть пустым.</translation>
-    </message>
-    <message>
-        <source>Client initial level cannot be negative, passed: %1.</source>
-        <translation>Начальный уровень клиента не может быть отрицательным, передано: %1.</translation>
     </message>
     <message>
         <source>Routed wire index cannot be negative, passed: %1.</source>
@@ -287,10 +310,6 @@
         <translation>Параметры распределения должны быть положительными.</translation>
     </message>
     <message>
-        <source>Right limit must be bigger or equal than left limit.</source>
-        <translation type="vanished">Правая граница должна быть больше или равна левой границе.</translation>
-    </message>
-    <message>
         <source>Mean must be in limits.</source>
         <translation>Медиана должна лежать в границах.</translation>
     </message>
@@ -334,6 +353,136 @@
         <source>Upper limit must be bigger or equal than lower limit.</source>
         <translation>Верхняя граница должна быть больше или равна нижней границе.</translation>
     </message>
+    <message>
+        <source>Cannot find source (index: %1) or destination (index: %2) element in the given coordinate list.</source>
+        <translation>Невозможно найти элемент-источник (индекс: %1) или назначение (индекс: %2) в данном списке координат.</translation>
+    </message>
+    <message>
+        <source>Cannot get destination coordinate of an external wire.</source>
+        <translation>Невозможно получить координату назначения внешнего соединения.</translation>
+    </message>
+    <message>
+        <source>Cannot cut the area with the width %1 from the grid: the width is too big.</source>
+        <translation>Невозможно вырезать область шириной %1 из ДРП: ширина слишком большая.</translation>
+    </message>
+    <message>
+        <source>Cannot cut the area with the height %1 from the grid: the height is too big.</source>
+        <translation>Невозможно вырезать область высотой %1 из ДРП: высота слишком большая.</translation>
+    </message>
+    <message>
+        <source>Width and height cannot be negative.</source>
+        <translation>Ширина и высота не могут быть отрицательными.</translation>
+    </message>
+    <message>
+        <source>Cannot insert rows after y-coordinate %1 at the grid: the number is too big.</source>
+        <translation>Невозможно вставить строки после y-координаты %1 в ДРП: число слишком большое.</translation>
+    </message>
+    <message>
+        <source>Cannot remove %1 rows from the grid: the number is too big.</source>
+        <translation>Невозможно убрать %1 строк из ДРП: число слишком большое.</translation>
+    </message>
+    <message>
+        <source>Start point is out of range.</source>
+        <translation>Стартовая точка находится за границами.</translation>
+    </message>
+    <message>
+        <source>Corresponding library element cannot be found, passed element with id: %1.</source>
+        <translation>Не удается найти библиотечный элемент, соответствующий данному элементу с id %1.</translation>
+    </message>
+    <message>
+        <source>Element coordinates cannot be negative, passed: (%1; %2).</source>
+        <translation>Координаты элемента не могут быть отрицательными, передано: (%1; %2).</translation>
+    </message>
+    <message>
+        <source>Cannot paste the area with the height %1 into the grid: the height is too big.</source>
+        <translation>Невозможно вставить область высотой %1 в ДРП: высота слишком большая.</translation>
+    </message>
+    <message>
+        <source>Cannot paste the area with the width %1 into the grid: the width is too big.</source>
+        <translation>Невозможно вставить область шириной %1 в ДРП: ширина слишком большая.</translation>
+    </message>
+    <message>
+        <source>The element does not contain a pin with the given id: %1.</source>
+        <translation>Элемент не содержит ножку с данным id: %1.</translation>
+    </message>
+</context>
+<context>
+    <name>RowPermutationPlacement</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>Алгоритм уже работает.</translation>
+    </message>
+    <message>
+        <source>Pairwise rows permutation.</source>
+        <translation>Попарная перестановка строк.</translation>
+    </message>
+    <message>
+        <source>Pairwise elements permutation in row %1 of %2.</source>
+        <translation>Попарная перестановка элементов в строке %1 из %2.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Алгоритм остановлен.</translation>
+    </message>
+    <message>
+        <source>Preparing.</source>
+        <translation>Подготовка.</translation>
+    </message>
+    <message>
+        <source>Finding the optimal position of row %1 of %2.</source>
+        <translation>Поиск оптимальной позиции строки %1 из %2.</translation>
+    </message>
+    <message>
+        <source>Performing permutation...</source>
+        <translation>Производится перестановка...</translation>
+    </message>
+    <message>
+        <source>Finding the optimal position of element %1 of %2.</source>
+        <translation>Поиск оптимальной позиции элемента %1 из %2.</translation>
+    </message>
+</context>
+<context>
+    <name>RowWisePlacement</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>Алгоритм уже работает.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Алгоритм остановлен.</translation>
+    </message>
+    <message>
+        <source>Packing the elements.</source>
+        <translation>Упаковка элементов.</translation>
+    </message>
+    <message>
+        <source>Packing element %1 of %2.</source>
+        <translation>Упаковка элемента %1 из %2.</translation>
+    </message>
+    <message>
+        <source>Expanding the elements.</source>
+        <translation>Раздвижение элементов.</translation>
+    </message>
+    <message>
+        <source>Expanding row %1 of %2.</source>
+        <translation>Раздвижение строки %1 из %2.</translation>
+    </message>
+    <message>
+        <source>Expanding rows.</source>
+        <translation>Раздвижение строк.</translation>
+    </message>
+    <message>
+        <source>Building the result.</source>
+        <translation>Построение результата.</translation>
+    </message>
+    <message>
+        <source>Building the result grid.</source>
+        <translation>Построение результирующего ДРП.</translation>
+    </message>
+    <message>
+        <source>Distinguishing the scheme-related wires.</source>
+        <translation>Выделение соединений, относящихся к схеме.</translation>
+    </message>
 </context>
 <context>
     <name>SerialDecomposition</name>
@@ -348,6 +497,38 @@
     <message>
         <source>The vertex with id %1 is already distributed or does not exist.</source>
         <translation>Вершина с id %1 уже распределена или не существует.</translation>
+    </message>
+    <message>
+        <source>Elements decomposition.</source>
+        <translation>Декомпозиция элементов.</translation>
+    </message>
+    <message>
+        <source>Filling subscheme %1 of %2:</source>
+        <translation>Заполнение подсхемы %1 из %2:</translation>
+    </message>
+    <message>
+        <source>Finishing.</source>
+        <translation>Завершение.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Алгоритм остановлен.</translation>
+    </message>
+    <message>
+        <source>Preparing.</source>
+        <translation>Подготовка.</translation>
+    </message>
+    <message>
+        <source>Creating empty subschemes.</source>
+        <translation>Создание пустых подсхем.</translation>
+    </message>
+    <message>
+        <source>First element placement.</source>
+        <translation>Размещение первого элемента.</translation>
+    </message>
+    <message>
+        <source>Placement of element %1 of %2.</source>
+        <translation>Размещение элемента %1 из %2.</translation>
     </message>
 </context>
 </TS>

@@ -28,7 +28,7 @@ enum class Mode
  * send a response to a specified response port.
  * Each response will be classified as a new host by the server.
  */
-class NetworkScanner: public QObject
+class NetworkScanner : public QObject
 {
     Q_OBJECT
 

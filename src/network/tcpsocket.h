@@ -9,7 +9,7 @@
  * @brief Wraps QTcpSocket and current block size to provide receiving full data.
  * Does not allocate or delete a QTcpSocket object.
  */
-class TcpSocket: public QObject
+class TcpSocket : public QObject
 {
     Q_OBJECT
 

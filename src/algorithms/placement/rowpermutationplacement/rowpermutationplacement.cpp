@@ -1,6 +1,6 @@
 #include "rowpermutationplacement.h"
 
-RowPermutationPlacement::RowPermutationPlacement(PlacementResult* previous):
+RowPermutationPlacement::RowPermutationPlacement(PlacementResult* previous) :
     SecondaryPlacementAlgorithm(previous)
 {
     clear();
@@ -66,7 +66,7 @@ qint64 RowPermutationPlacement::getFitnessValue()
     return getFitnessValue(coordinates);
 }
 
-QList<WireCoordinate> RowPermutationPlacement::fillWireCoordinates(QList<QList<ElementCoordinate> > &elementCoordinates)
+QList<WireCoordinate> RowPermutationPlacement::fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates)
 {
     sendLog(tr("Preparing."));
 
@@ -162,7 +162,7 @@ qint64 RowPermutationPlacement::findFitnessDiffOnRowsSwapping(int firstRowPositi
     return (fitnessValue - newFitnessValue);
 }
 
-void RowPermutationPlacement::swapRowsCoordinates(QList<QList<ElementCoordinate>> &elementCoordinates, int firstRowPosition, int secondRowPosition)
+void RowPermutationPlacement::swapRowsCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition)
 {
     if(firstRowPosition > secondRowPosition)
         std::swap(firstRowPosition, secondRowPosition);
@@ -174,13 +174,13 @@ void RowPermutationPlacement::swapRowsCoordinates(QList<QList<ElementCoordinate>
 
     QPoint secondRowCoord = secondRow[0].getTopLeftCoord();
 
-    for(ElementCoordinate &c: secondRow)
+    for(ElementCoordinate& c: secondRow)
     {
         QPoint coord = c.getTopLeftCoord();
         c.setTopLeftCoord(QPoint(coord.x(), firstRow[0].getTopLeftCoord().y()));
     }
 
-    for(ElementCoordinate &c: firstRow)
+    for(ElementCoordinate& c: firstRow)
     {
         QPoint coord = c.getTopLeftCoord();
         c.setTopLeftCoord(QPoint(coord.x(), secondRowCoord.y() + shift));
@@ -188,7 +188,7 @@ void RowPermutationPlacement::swapRowsCoordinates(QList<QList<ElementCoordinate>
 
     for(int i=firstRowPosition + 1; i<secondRowPosition; i++)
     {
-        for(ElementCoordinate &c: elementCoordinates[i])
+        for(ElementCoordinate& c: elementCoordinates[i])
         {
             QPoint coord = c.getTopLeftCoord();
             c.setTopLeftCoord(QPoint(coord.x(), coord.y() + shift));
@@ -198,7 +198,7 @@ void RowPermutationPlacement::swapRowsCoordinates(QList<QList<ElementCoordinate>
     elementCoordinates.swap(firstRowPosition, secondRowPosition);
 }
 
-int RowPermutationPlacement::getShift(QList<ElementCoordinate> &first, QList<ElementCoordinate> &second)
+int RowPermutationPlacement::getShift(QList<ElementCoordinate>& first, QList<ElementCoordinate>& second)
 {
     LibraryElement firstLibElement = LibraryUtils::getCorrespondingElement(first[0].getElement(), previous->getLibraries());
     LibraryElement secondLibElement = LibraryUtils::getCorrespondingElement(second[0].getElement(), previous->getLibraries());
@@ -208,7 +208,7 @@ int RowPermutationPlacement::getShift(QList<ElementCoordinate> &first, QList<Ele
     return shift;
 }
 
-void RowPermutationPlacement::swapRowsOnGrid(QList<QList<ElementCoordinate> > &elementCoordinates, int firstRowPosition, int secondRowPosition)
+void RowPermutationPlacement::swapRowsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition)
 {
     if(firstRowPosition > secondRowPosition)
         std::swap(firstRowPosition, secondRowPosition);
@@ -391,10 +391,10 @@ void RowPermutationPlacement::swapElementsOnGrid(QList<QList<ElementCoordinate>>
     GridUtils::paste(previous->getGrid(), firstElementCells, QPoint(secondCoord.getTopLeftCoord().x() + shift, secondCoord.getTopLeftCoord().y()));
 }
 
-int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate> &row)
+int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate>& row)
 {
     int height = 0;
-    for(ElementCoordinate& c : row)
+    for(ElementCoordinate& c: row)
     {
         int h = LibraryUtils::getCorrespondingElement(c.getElement(), previous->getLibraries()).getHeight();
         if(h > height)
@@ -404,7 +404,7 @@ int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate> &row)
     return height;
 }
 
-qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate> &wireCoordinates)
+qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate>& wireCoordinates)
 {
     qint64 res = 0;
     for(WireCoordinate& w: wireCoordinates)

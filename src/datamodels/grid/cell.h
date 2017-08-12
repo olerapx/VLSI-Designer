@@ -25,7 +25,7 @@ class Cell: public Serializable
 {
 protected:
     CellType type;
-    qint64 index; /// Applies only on an element or a pin.
+    qint64 index; /// Applies only on an element or a pin cell.
     QString pinId; /// Applies only on a pin cell.
 
 public:

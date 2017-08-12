@@ -8,12 +8,12 @@
 
 /**
  * @brief The BinarySerializer class
- * Implements a binary serialization and deserialization of an objects.
+ * Implements a binary serialization and deserialization of objects.
  *
  * The object you need to be serialized or deserialized must be inherited from Serializable.
  * If the object's type is not supported, an IllegalArgumentException will be thrown.
  */
-class BinarySerializer: public Serializer
+class BinarySerializer : public Serializer
 {
 public:
     BinarySerializer() {}

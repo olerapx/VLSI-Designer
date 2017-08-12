@@ -14,7 +14,7 @@
  * @brief The PrimaryPlacementAlgorithm class
  * Base class for primary placement algorithms.
  */
-class PrimaryPlacementAlgorithm: public Threadable
+class PrimaryPlacementAlgorithm : public Threadable
 {
     Q_OBJECT
 

@@ -12,10 +12,10 @@
  * Performs the row permutation and the element permutation within each row.
  * All elements must be grouped by their height and placed in rows.
  */
-class RowPermutationPlacement: public SecondaryPlacementAlgorithm
+class RowPermutationPlacement : public SecondaryPlacementAlgorithm
 {
 public:
-    RowPermutationPlacement(PlacementResult *previous);
+    RowPermutationPlacement(PlacementResult* previous);
 
     /**
      * @brief execute
@@ -24,6 +24,11 @@ public:
      */
     PlacementResult* execute();
 
+    /**
+     * @brief getFitnessValue
+     * Retrieves the fitness value of the current elements configuration.
+     * @return
+     */
     qint64 getFitnessValue();
 
 private:
@@ -33,24 +38,24 @@ private:
     QMap<int, int> positions;
 
     void clear();
-    QList<WireCoordinate> fillWireCoordinates(QList<QList<ElementCoordinate>> &elementCoordinates);
+    QList<WireCoordinate> fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates);
 
     void permutateRows();
     void findOptimalRowPosition(int rowIndex);
     qint64 findFitnessDiffOnRowsSwapping(int firstRowPosition, int secondRowPosition);
-    void swapRowsCoordinates(QList<QList<ElementCoordinate>> &elementCoordinates, int firstRowPosition, int secondRowPosition);
-    int getShift(QList<ElementCoordinate> &first, QList<ElementCoordinate> &second);
-    void swapRowsOnGrid(QList<QList<ElementCoordinate>> &elementCoordinates, int firstRowPosition, int secondRowPosition);
+    void swapRowsCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition);
+    int getShift(QList<ElementCoordinate>& first, QList<ElementCoordinate>& second);
+    void swapRowsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition);
 
     void permutateRow(int rowIndex);
     void findOptimalElementPosition(int rowIndex, int elementIndex);
     qint64 findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition);    
-    void swapElementsCoordinates(QList<QList<ElementCoordinate>> &elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
+    void swapElementsCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
     int getShift(ElementCoordinate first, ElementCoordinate second);
-    void swapElementsOnGrid(QList<QList<ElementCoordinate>> &elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
-    int getRowHeight(QList<ElementCoordinate> &row);
+    void swapElementsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
+    int getRowHeight(QList<ElementCoordinate>& row);
 
-    qint64 getFitnessValue(QList<WireCoordinate> &wireCoordinates);
+    qint64 getFitnessValue(QList<WireCoordinate>& wireCoordinates);
 
     PlacementResult* buildResult();
     QList<ElementCoordinate> concatCoordinates();

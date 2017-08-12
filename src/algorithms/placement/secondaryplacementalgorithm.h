@@ -8,7 +8,7 @@
  * @brief The SecondaryPlacementAlgorithm class
  * Base class for secondary placement algorithms.
  */
-class SecondaryPlacementAlgorithm: public Threadable
+class SecondaryPlacementAlgorithm : public Threadable
 {
     Q_OBJECT
 
@@ -28,6 +28,13 @@ public:
      * @return
      */
     virtual PlacementResult* execute() = 0;
+
+    /**
+     * @brief getFitnessValue
+     * Retrieves the fitness value of the current elements configuration.
+     * @return
+     */
+    virtual qint64 getFitnessValue() = 0;
 
 signals:
     /**

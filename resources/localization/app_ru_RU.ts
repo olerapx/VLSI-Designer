@@ -36,14 +36,6 @@
         <translation>Отклонение</translation>
     </message>
     <message>
-        <source>Left limit</source>
-        <translation type="vanished">Левая граница</translation>
-    </message>
-    <message>
-        <source>Right limit</source>
-        <translation type="vanished">Правая граница</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="159"/>
         <location filename="../../app/gui/generatorwindow.ui" line="411"/>
         <source>Lower limit</source>
@@ -91,26 +83,14 @@
         <translation>Разветвленность</translation>
     </message>
     <message>
-        <source>Обзор...</source>
-        <translation type="vanished">Обзор...</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="101"/>
         <source>Разрядность узлов</source>
         <translation>Разрядность узлов</translation>
     </message>
     <message>
-        <source>Медиана</source>
-        <translation type="vanished">Медиана</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="120"/>
         <source>6</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Отклонение</source>
-        <translation type="vanished">Отклонение</translation>
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.ui" line="143"/>
@@ -119,37 +99,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Левая граница</source>
-        <translation type="vanished">Левая граница</translation>
-    </message>
-    <message>
-        <source>Правая граница</source>
-        <translation type="vanished">Правая граница</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="189"/>
         <source>7</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Значения указываются в степенях двойки</source>
-        <translation type="vanished">Значения указываются в степенях двойки</translation>
-    </message>
-    <message>
-        <source>Генерировать</source>
-        <translation type="vanished">Генерировать</translation>
-    </message>
-    <message>
-        <source>Стоп</source>
-        <translation type="vanished">Стоп</translation>
-    </message>
-    <message>
-        <source>Закрыть</source>
-        <translation type="vanished">Закрыть</translation>
-    </message>
-    <message>
-        <source>Число элементов</source>
-        <translation type="vanished">Число элементов</translation>
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.ui" line="314"/>
@@ -157,17 +109,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Вероятность внутренней связи</source>
-        <translation type="vanished">Вероятность внутренней связи</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="353"/>
         <source>0.75</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Разветвленность</source>
-        <translation type="vanished">Разветвленность</translation>
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.ui" line="384"/>
@@ -187,7 +131,7 @@
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.cpp" line="22"/>
-        <location filename="../../app/gui/generatorwindow.cpp" line="218"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="222"/>
         <source>Stopping...</source>
         <translation>Остановка...</translation>
     </message>
@@ -197,32 +141,32 @@
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="62"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="67"/>
         <source>Generation is finished.</source>
         <translation>Генерация завершена.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="97"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="102"/>
         <source>Libraries choosing</source>
         <translation>Выбор библиотек</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="97"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="102"/>
         <source>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</source>
         <translation>Все поддерживаемые файлы (*.bin *.json);;JSON (*.json);;Бинарный (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="193"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="197"/>
         <source>JSON (*.json);;Binary (*.bin)</source>
         <translation>JSON (*.json);;Бинарный (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="184"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="188"/>
         <source>Serialization...</source>
         <translation>Сериализация...</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="193"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="197"/>
         <source>Scheme saving</source>
         <translation>Сохранение схемы</translation>
     </message>

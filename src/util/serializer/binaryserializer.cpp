@@ -1,6 +1,6 @@
 #include "binaryserializer.h"
 
-QByteArray BinarySerializer::serialize(Serializable *s)
+QByteArray BinarySerializer::serialize(Serializable* s)
 {
     const std::type_info& info = typeid(*s);
     if (info == typeid(Library))
@@ -128,7 +128,7 @@ QDataStream& BinarySerializer::serializeCell(Cell c, QDataStream& stream)
     return stream;
 }
 
-QByteArray BinarySerializer::serializeArchitecture(Architecture *a)
+QByteArray BinarySerializer::serializeArchitecture(Architecture* a)
 {
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
@@ -163,7 +163,7 @@ Serializable* BinarySerializer::deserialize(QByteArray binaryData)
         throw IllegalArgumentException(QObject::tr("The contained object is not supported or cannot be deserialized."));
 }
 
-Library* BinarySerializer::deserializeLibrary(QDataStream &stream)
+Library* BinarySerializer::deserializeLibrary(QDataStream& stream)
 {
     QString id;
     double version;
@@ -270,7 +270,7 @@ Wire BinarySerializer::deserializeWire(QDataStream& stream)
     return Wire(srcIndex, srcPinId, destIndex, destPinId, (WireType)type, index);
 }
 
-Grid* BinarySerializer::deserializeGrid(QDataStream &stream)
+Grid* BinarySerializer::deserializeGrid(QDataStream& stream)
 {
     Grid* g = new Grid();
 
@@ -313,7 +313,7 @@ Cell BinarySerializer::deserializeCell(QDataStream& stream)
     return Cell((CellType)type, index, pinId);
 }
 
-Architecture* BinarySerializer::deserializeArchitecture(QDataStream &stream)
+Architecture* BinarySerializer::deserializeArchitecture(QDataStream& stream)
 {
     qint32 type;
     stream >> type;

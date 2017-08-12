@@ -1,6 +1,6 @@
 #include "wirecoordinate.h"
 
-WireCoordinate::WireCoordinate(Wire &wire, QList<QList<ElementCoordinate>> &elementCoordinates, QList<Library*> &libraries, int gridHeight, int gridWidth) :
+WireCoordinate::WireCoordinate(Wire& wire, QList<QList<ElementCoordinate>>& elementCoordinates, QList<Library*>& libraries, int gridHeight, int gridWidth) :
     wire(&wire)
 {
     src = nullptr;
@@ -48,7 +48,7 @@ WireCoordinate::WireCoordinate(Wire &wire, QList<QList<ElementCoordinate>> &elem
     }
 }
 
-QPoint WireCoordinate::getPinCoord(ElementCoordinate *coordinate, QList<Library *> &libraries, QString pinId)
+QPoint WireCoordinate::getPinCoord(ElementCoordinate* coordinate, QList<Library*>& libraries, QString pinId)
 {
     LibraryElement libElement = LibraryUtils::getCorrespondingElement(coordinate->getElement(), libraries);
     Pin pin = LibraryUtils::findPinById(libElement, pinId);

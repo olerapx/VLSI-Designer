@@ -1,6 +1,6 @@
 #include "gridutils.h"
 
-QList<QList<Cell>> GridUtils::cut(Grid *grid, QPoint topLeftCoord, int width, int height)
+QList<QList<Cell>> GridUtils::cut(Grid* grid, QPoint topLeftCoord, int width, int height)
 {
     if((topLeftCoord.x() + width) > grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Cannot cut the area with the width %1 from the grid: the width is too big.")
@@ -32,7 +32,7 @@ QList<QList<Cell>> GridUtils::cut(Grid *grid, QPoint topLeftCoord, int width, in
     return res;
 }
 
-void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
+void GridUtils::paste(Grid* grid, QList<QList<Cell>> data, QPoint topLeftCoord)
 {
     int size = data.size();
 
@@ -40,7 +40,7 @@ void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
         return;
 
     if((topLeftCoord.y() + size) > grid->getCells().size())
-        throw IllegalArgumentException(QObject::tr("Cannot paste the area with the height %1 from the grid: the height is too big.")
+        throw IllegalArgumentException(QObject::tr("Cannot paste the area with the height %1 into the grid: the height is too big.")
                                        .arg(QString::number(size)));
 
     for(int i=0; i<size; i++)
@@ -48,7 +48,7 @@ void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
         int rowSize = data[i].size();
 
         if((topLeftCoord.x() + rowSize) > grid->getCells()[i].size())
-            throw IllegalArgumentException(QObject::tr("Cannot paste the area with the width %1 from the grid: the width is too big.")
+            throw IllegalArgumentException(QObject::tr("Cannot paste the area with the width %1 into the grid: the width is too big.")
                                            .arg(QString::number(rowSize)));
 
         for(int j=0; j<rowSize; j++)
@@ -58,7 +58,7 @@ void GridUtils::paste(Grid *grid, QList<QList<Cell>> data, QPoint topLeftCoord)
     }
 }
 
-void GridUtils::insertRows(Grid *grid, int y, int number)
+void GridUtils::insertRows(Grid* grid, int y, int number)
 {
     if(y > grid->getCells().size())
         throw IllegalArgumentException(QObject::tr("Cannot insert rows after y-coordinate %1 at the grid: the number is too big.")
@@ -76,7 +76,7 @@ void GridUtils::insertRows(Grid *grid, int y, int number)
     }
 }
 
-void GridUtils::removeRows(Grid *grid, int y, int number)
+void GridUtils::removeRows(Grid* grid, int y, int number)
 {
     if((y + number) > grid->getCells().size())
         throw IllegalArgumentException(QObject::tr("Cannot remove %1 rows from the grid: the number is too big.")
@@ -86,7 +86,7 @@ void GridUtils::removeRows(Grid *grid, int y, int number)
         grid->getCells().removeAt(y);
 }
 
-void GridUtils::insertEmptyColumns(Grid *grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
+void GridUtils::insertEmptyColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
 {
     if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() >= grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Start point is out of range."));
@@ -103,7 +103,7 @@ void GridUtils::insertEmptyColumns(Grid *grid, QPoint topLeftCoord, int colsNumb
     }
 }
 
-void GridUtils::removeColumns(Grid *grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
+void GridUtils::removeColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
 {
     if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() >= grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Start point is out of range."));

@@ -160,7 +160,7 @@ QJsonObject JsonSerializer::serializeCell(Cell c)
     return json;
 }
 
-QByteArray JsonSerializer::serializeArchitecture(Architecture *a)
+QByteArray JsonSerializer::serializeArchitecture(Architecture* a)
 {
     QJsonObject json;
 

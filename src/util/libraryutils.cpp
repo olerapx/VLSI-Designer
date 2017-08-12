@@ -1,6 +1,6 @@
 #include "libraryutils.h"
 
-LibraryElement LibraryUtils::getCorrespondingElement(SchemeElement element, QList<Library *> &libraries)
+LibraryElement LibraryUtils::getCorrespondingElement(SchemeElement element, QList<Library*>& libraries)
 {
     for(Library* l: libraries)
     {
@@ -26,5 +26,5 @@ Pin LibraryUtils::findPinById(LibraryElement element, QString id)
             return p;
     }
 
-    throw IllegalArgumentException(QObject::tr("The element does not contain a pin with the given id: %1").arg(id));
+    throw IllegalArgumentException(QObject::tr("The element does not contain a pin with the given id: %1.").arg(id));
 }

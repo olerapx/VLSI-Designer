@@ -19,11 +19,11 @@ void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInt
     initScanningSockets();
 
     scanningUpstreamSocket->bind();
-    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort,
+    if(!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(tr("Cannot bind socket to port %1.").arg(scanningPort));
 
-    if (!responseDownstreamSocket->bind(this->responsePort,
+    if(!responseDownstreamSocket->bind(this->responsePort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(tr("Cannot bind socket to port %1.").arg(responsePort));
 
@@ -47,16 +47,16 @@ void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanning
     initScanningSockets();
 
     scanningAddress = findAnyBroadcastAddress();
-    if (scanningAddress == QHostAddress::Null) throw NetworkException(tr("No broadcast address found for interface: %1.")
+    if(scanningAddress == QHostAddress::Null) throw NetworkException(tr("No broadcast address found for interface: %1.")
                                                                       .arg(interface.humanReadableName()));
 
     scanningUpstreamSocket->bind();
 
-    if (!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort,
+    if(!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(tr("Cannot bind socket to port %1.").arg(scanningPort));
 
-    if (!responseDownstreamSocket->bind(this->responsePort,
+    if(!responseDownstreamSocket->bind(this->responsePort,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
         throw NetworkException(tr("Cannot bind socket to port %1.").arg(responsePort));
 
@@ -69,7 +69,7 @@ QHostAddress NetworkScanner::findAnyBroadcastAddress()
 
     for(QNetworkAddressEntry entry: nets)
     {
-        if (!entry.broadcast().isNull())
+        if(!entry.broadcast().isNull())
             return entry.broadcast();
     }
 
@@ -78,7 +78,7 @@ QHostAddress NetworkScanner::findAnyBroadcastAddress()
 
 void NetworkScanner::initScanningSockets()
 {
-    if (mode != Mode::None)
+    if(mode != Mode::None)
         deleteSockets();
     mode = Mode::None;
 
@@ -131,7 +131,7 @@ void NetworkScanner::processScanningDatagrams()
 
 void NetworkScanner::processResponseDatagrams()
 {
-    while (responseDownstreamSocket->hasPendingDatagrams() && !stopped)
+    while(responseDownstreamSocket->hasPendingDatagrams() && !stopped)
     {
         QByteArray datagram;
         datagram.resize(responseDownstreamSocket->pendingDatagramSize());
@@ -146,7 +146,7 @@ void NetworkScanner::processResponseDatagrams()
 
         QString token = datagramString.section("@", 0, 0);
 
-        if (token == currentScanToken.toUtf8())
+        if(token == currentScanToken.toUtf8())
         {
             QString hostName = datagramString.section("@", 1);
 
@@ -159,10 +159,10 @@ void NetworkScanner::processResponseDatagrams()
 
 void NetworkScanner::scanNetwork()
 {
-    if (mode == Mode::None)
+    if(mode == Mode::None)
         throw NetworkException(tr("Scanner is not initialized."));
 
-    if (!stopped)
+    if(!stopped)
         throw NetworkException(tr("Already scanning."));
 
     stopped = false;

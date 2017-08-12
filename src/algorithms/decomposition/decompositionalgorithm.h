@@ -11,7 +11,7 @@
  * @brief The DecompositionAlgorithm class
  * Base class for decomposition algorithms.
  */
-class DecompositionAlgorithm: public Threadable
+class DecompositionAlgorithm : public Threadable
 {
     Q_OBJECT
 

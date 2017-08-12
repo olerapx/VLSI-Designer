@@ -31,7 +31,7 @@ void Library::setName(QString name)
 bool Library::operator ==(const Library& other)
 {
     if(id == other.id && version == other.version &&
-            name == other.name && elements == other.elements)
+       name == other.name && elements == other.elements)
         return true;
 
     return false;

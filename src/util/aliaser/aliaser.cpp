@@ -7,7 +7,7 @@ Aliaser::Aliaser(int length)
     hasAvailableAlias = true;
 }
 
-void Aliaser::generate(Scheme *scheme)
+void Aliaser::execute(Scheme* scheme)
 {
     QMap<QString, QString> generatedAliases;
 

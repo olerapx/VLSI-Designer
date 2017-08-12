@@ -27,11 +27,11 @@ void Generator::onStart()
         sendResult(s);
         sendFinish();
     }
-    catch(ThreadStoppedException tse)
+    catch(ThreadStoppedException&)
     {
         sendFinish();
     }
-    catch(Exception e)
+    catch(Exception& e)
     {
         sendError(e.what());
         sendFinish();
@@ -174,7 +174,7 @@ void Generator::generateWires()
 
     for(int i=0; i<size; i++)
     {
-        sendLog(tr("Element #%1 of %2").arg(QString::number(i), QString::number(size)));
+        sendLog(tr("Element %1 of %2.").arg(QString::number(i), QString::number(size)));
 
         LibraryElement el = LibraryUtils::getCorrespondingElement(elements[i].getElement(), param.getLibraries());
 
@@ -339,5 +339,5 @@ void Generator::generateAliases(Scheme *scheme)
     sendLog(tr("Aliases generation."));
 
     Aliaser aliaser(3);
-    aliaser.generate(scheme);
+    aliaser.execute(scheme);
 }

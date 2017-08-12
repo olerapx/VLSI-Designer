@@ -1,6 +1,6 @@
 #include "gridrenderer.h"
 
-GridRenderer::GridRenderer(Grid *g, Scheme *s)
+GridRenderer::GridRenderer(Grid* g, Scheme* s)
 {
     setParameters(g, s);
 
@@ -12,7 +12,7 @@ GridRenderer::GridRenderer(Grid *g, Scheme *s)
     clear();
 }
 
-void GridRenderer::setParameters(Grid *g, Scheme *s)
+void GridRenderer::setParameters(Grid* g, Scheme* s)
 {
     if(!stopped)
         throw Exception(tr("Cannot change parameters while the renderer is working."));
@@ -39,9 +39,9 @@ void GridRenderer::fillCacheFromPath(QString path)
         {
             image = readImageFromFile(info.absoluteFilePath());
         }
-        catch(Exception ex)
+        catch(Exception& e)
         {
-            sendLog(tr("Image %1 cannot be read.").arg(info.fileName()));
+            sendLog(e.what());
             continue;
         }
 
@@ -66,13 +66,13 @@ QImage GridRenderer::readImageFromFile(const QString filePath)
     QFileInfo info(filePath);
 
     if(!f.open(QIODevice::ReadOnly))
-        throw IOException(tr("The resource image file cannot be found or opened: %1").arg(info.fileName()));
+        throw IOException(tr("The resource image file cannot be found or opened: %1.").arg(info.fileName()));
 
     QImage image = QImage::fromData(f.readAll(), info.suffix().toLocal8Bit());
     f.close();
 
     if(image.isNull())
-        throw Exception(tr("The resource image is not supported or corrupted.").arg(info.fileName()));
+        throw Exception(tr("The resource image is not supported or corrupted: %1.").arg(info.fileName()));
 
     return image;
 }
@@ -85,11 +85,11 @@ void GridRenderer::onStart()
         sendResult(img);
         sendFinish();
     }
-    catch(ThreadStoppedException tse)
+    catch(ThreadStoppedException&)
     {
         sendFinish();
     }
-    catch(Exception e)
+    catch(Exception& e)
     {
         sendError(e.what());
         sendFinish();
@@ -168,7 +168,7 @@ void GridRenderer::clear()
     currentY = 0;
 }
 
-void GridRenderer::renderCell(QImage &image, Cell cell)
+void GridRenderer::renderCell(QImage& image, Cell cell)
 {
     switch(cell.getType())
     {
@@ -466,7 +466,7 @@ void GridRenderer::renderTileOnCurrentPosition(QImage& image, QImage tile)
     renderTileOnPosition(image, tile, position);
 }
 
-void GridRenderer::renderTileOnPosition(QImage &image, QImage tile, QPoint position)
+void GridRenderer::renderTileOnPosition(QImage& image, QImage tile, QPoint position)
 {
     QPainter painter(&image);
     painter.drawImage(position, tile);

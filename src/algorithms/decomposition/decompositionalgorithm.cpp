@@ -1,11 +1,11 @@
 #include "decompositionalgorithm.h"
 
-DecompositionAlgorithm::DecompositionAlgorithm(Scheme *scheme, int number)
+DecompositionAlgorithm::DecompositionAlgorithm(Scheme* scheme, int number)
 {
     setParameters(scheme, number);
 }
 
-void DecompositionAlgorithm::setParameters(Scheme *scheme, int number)
+void DecompositionAlgorithm::setParameters(Scheme* scheme, int number)
 {
     if(!stopped)
         throw Exception(tr("Cannot change parameters while the algorithm is working."));
@@ -32,11 +32,11 @@ void DecompositionAlgorithm::onStart()
         sendResult(list);
         sendFinish();
     }
-    catch(ThreadStoppedException tse)
+    catch(ThreadStoppedException&)
     {
         sendFinish();
     }
-    catch(Exception e)
+    catch(Exception& e)
     {
         sendError(e.what());
         sendFinish();

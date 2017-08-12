@@ -18,7 +18,7 @@ public:
     QString what() { return this->error; }
 
     void raise() const { throw *this; }
-    Exception *clone() const { return new Exception(*this); }
+    Exception* clone() const { return new Exception(*this); }
 };
 
 #endif // EXCEPTION_H

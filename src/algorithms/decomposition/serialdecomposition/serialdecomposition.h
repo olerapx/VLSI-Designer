@@ -9,7 +9,7 @@
  * @brief The SerialDecomposition class
  * Performs the serial decomposition of the given scheme on the given number of parts.
  */
-class SerialDecomposition: public DecompositionAlgorithm
+class SerialDecomposition : public DecompositionAlgorithm
 {
 public:
     SerialDecomposition(Scheme* scheme, int number);

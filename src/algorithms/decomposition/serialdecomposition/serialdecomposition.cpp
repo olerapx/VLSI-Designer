@@ -1,6 +1,6 @@
 #include "serialdecomposition.h"
 
-SerialDecomposition::SerialDecomposition(Scheme* scheme, int number):
+SerialDecomposition::SerialDecomposition(Scheme* scheme, int number) :
     DecompositionAlgorithm(scheme, number)
 {
     clear();
@@ -124,6 +124,7 @@ void SerialDecomposition::prepareSubschemes()
 void SerialDecomposition::fillSubscheme(QList<SchemeVertex*>& list)
 {
     if(stopped) return;
+
     placeFirstElement(list);
 
     for(int i=1; i<list.size(); i++)
@@ -134,9 +135,10 @@ void SerialDecomposition::fillSubscheme(QList<SchemeVertex*>& list)
     }
 }
 
-void SerialDecomposition::placeFirstElement(QList<SchemeVertex*> &list)
+void SerialDecomposition::placeFirstElement(QList<SchemeVertex*>& list)
 {
     sendLog(tr("First element placement."));
+
     std::sort(undistributedVertices.begin(), undistributedVertices.end(), SerialDecomposition::connectedElementsNumberComparator);
 
     list[0] = undistributedVertices[0];
@@ -149,7 +151,7 @@ bool SerialDecomposition::connectedElementsNumberComparator(SchemeVertex* v1, Sc
     return (v1->getConnectedElements().size() < v2->getConnectedElements().size());
 }
 
-void SerialDecomposition::placeNextElement(QList<SchemeVertex *> &list, int index)
+void SerialDecomposition::placeNextElement(QList<SchemeVertex*>& list, int index)
 {
     sendLog(tr("Placement of element %1 of %2.").arg(QString::number(index + 1), QString::number(list.size())));
 
@@ -168,7 +170,7 @@ void SerialDecomposition::placeNextElement(QList<SchemeVertex *> &list, int inde
     undistributedVertices.removeAt(i);
 }
 
-QList<SchemeVertex*> SerialDecomposition::getSelectableVertices(QList<SchemeVertex *> &list)
+QList<SchemeVertex*> SerialDecomposition::getSelectableVertices(QList<SchemeVertex*>& list)
 {
     QList<SchemeVertex*> selectableElements;
     for(SchemeVertex* vertex: list)

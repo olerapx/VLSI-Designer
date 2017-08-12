@@ -18,7 +18,7 @@
  * The server will constantly listen to a specified server port.
  * Note that there can be only one server listening to each port or the exception will be raised.
  */
-class NetworkTransmitter: public QObject
+class NetworkTransmitter : public QObject
 {
     Q_OBJECT
 
@@ -73,7 +73,7 @@ private:
     QList <TcpSocket*> sockets;
 
     TcpSocket* addTcpSocket(QTcpSocket* qsocket);
-    void removeTcpSocket(TcpSocket *socket);
+    void removeTcpSocket(TcpSocket* socket);
 
     TcpSocket* findSocket(QHostAddress address, int port);
 

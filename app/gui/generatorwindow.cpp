@@ -136,7 +136,7 @@ void GeneratorWindow::on_generateButton_clicked()
 
         generatorThread.start();
     }
-    catch(Exception e)
+    catch(Exception& e)
     {
         onSendError(e.what());
         ui->generateButton->setEnabled(true);

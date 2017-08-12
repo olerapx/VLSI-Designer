@@ -38,7 +38,7 @@ public:
     int getHeight() const { return height; }
     int getWidth() const { return width; }
 
-    QList <Pin>& getPins() { return pins; }
+    QList<Pin>& getPins() { return pins; }
 
     bool operator ==(const LibraryElement& other);
 };

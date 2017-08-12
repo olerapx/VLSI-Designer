@@ -27,7 +27,7 @@ void AliaserTest::generateTest()
     for(int i=0; i<count; i++)
         s->getElements().append(SchemeElement("lib", "el" + QString::number(i), 1));
 
-    aliaser.generate(s);
+    aliaser.execute(s);
     QVERIFY(s->getElements()[0].getAlias() == "AA");
     QVERIFY(s->getElements()[s->getElements().size()-2].getAlias() == "99");
     QVERIFY(s->getElements()[s->getElements().size()-1].getAlias().isEmpty());
@@ -46,7 +46,7 @@ void AliaserTest::repeatingTypesTest()
     s->getElements().append(SchemeElement("lib", "el2", 3));
     s->getElements().append(SchemeElement("lib", "el1", 4));
 
-    aliaser.generate(s);
+    aliaser.execute(s);
 
     QVERIFY(s->getElements()[0].getAlias() == "A");
     QVERIFY(s->getElements()[1].getAlias() == "B");

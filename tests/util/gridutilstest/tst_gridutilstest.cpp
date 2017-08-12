@@ -141,7 +141,7 @@ void GridUtilsTest::removeColumnsTest()
     QVERIFY(g->getCells()[2][1] == Cell(CellType::Empty));
     QVERIFY(g->getCells()[2][2] == Cell(CellType::LRU));
 
-     delete g;
+    delete g;
 }
 
 QTEST_MAIN(GridUtilsTest)

@@ -1,6 +1,6 @@
 #include "outerconnectionsnumbercomparator.h"
 
-OuterConnectionsNumberComparator::OuterConnectionsNumberComparator(QList<SchemeVertex *> &list) :
+OuterConnectionsNumberComparator::OuterConnectionsNumberComparator(QList<SchemeVertex*> &list) :
     list(list)
 {
 

@@ -7,6 +7,10 @@
 #include "exception/illegalargumentexception.h"
 #include "clientsnumber.h"
 
+/**
+ * @brief The DistributionType enum
+ * Represents the possible types of distribution.
+ */
 enum class DistributionType
 {
     Default,
@@ -21,7 +25,7 @@ class Architecture: public Serializable
 {
 protected:
     QList<ClientsNumber> model; /// List of each server's clients number on each level start from 1.
-    DistributionType type; /// Type of distribution algorithm.
+    DistributionType type;
 
 public:
     Architecture(DistributionType type);

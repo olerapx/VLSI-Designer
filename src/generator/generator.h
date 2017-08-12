@@ -14,7 +14,7 @@
  * @brief The Generator class
  * Generates a scheme using the given parameters.
  */
-class Generator: public Threadable
+class Generator : public Threadable
 {
     Q_OBJECT
 
@@ -76,7 +76,7 @@ private:
 
     void generateElements();
 
-    int getTruncatedDistributedValue(std::normal_distribution<> &dist, int lowerLimit, int upperLimit);
+    int getTruncatedDistributedValue(std::normal_distribution<>& dist, int lowerLimit, int upperLimit);
     SchemeElement getRandomElement();
 
     void generateWires();
@@ -84,10 +84,10 @@ private:
     void checkBranching();
     qint64 countAllInputPins();
 
-    void generateWiresForOutput(NodeElement &element, Pin p);
+    void generateWiresForOutput(NodeElement& element, Pin p);
 
-    void generateOuterWire(NodeElement &element, Pin p);
-    bool tryGenerateInnerWire(NodeElement &element, Pin p, int attempts);
+    void generateOuterWire(NodeElement& element, Pin p);
+    bool tryGenerateInnerWire(NodeElement& element, Pin p, int attempts);
 
     std::pair<NodeElement, Pin> getRandomPin(int node = freeNodeElementIndex);
 

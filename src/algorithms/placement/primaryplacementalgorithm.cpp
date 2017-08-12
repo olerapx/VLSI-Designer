@@ -29,11 +29,11 @@ void PrimaryPlacementAlgorithm::onStart()
         sendResult(result);
         sendFinish();
     }
-    catch(ThreadStoppedException tse)
+    catch(ThreadStoppedException&)
     {
         sendFinish();
     }
-    catch(Exception e)
+    catch(Exception& e)
     {
         sendError(e.what());
         sendFinish();

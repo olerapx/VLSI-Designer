@@ -107,9 +107,9 @@ void MainWindow::on_saveButton_clicked()
             scanner.initIPv4Broadcast(interfaces.at(ui->interfacesBox->currentIndex()),
                                   ui->scanningPortText->text().toInt(), ui->responsePortText->text().toInt());
         }
-        catch(NetworkException ex)
+        catch(NetworkException& ne)
         {
-           QMessageBox::critical(this, "Exception", ex.what());
+           QMessageBox::critical(this, "Exception", ne.what());
         }
 }
 
