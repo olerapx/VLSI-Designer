@@ -24,6 +24,8 @@ SOURCES += \
     algorithms/placement/rowwiseplacement/rowwiseplacement.cpp \
     algorithms/placement/rowwiseplacement/elementheightcomparator.cpp \
     algorithms/placement/rowpermutationplacement/rowpermutationplacement.cpp \
+    algorithms/routing/routingalgorithm.cpp \
+    algorithms/routing/leerouting/leerouting.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \

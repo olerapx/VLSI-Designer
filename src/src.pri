@@ -17,6 +17,8 @@ HEADERS  += \
     $$PWD/algorithms/placement/rowwiseplacement/rowwiseplacement.h \
     $$PWD/algorithms/placement/rowwiseplacement/elementheightcomparator.h \
     $$PWD/algorithms/placement/rowpermutationplacement/rowpermutationplacement.h \
+    $$PWD/algorithms/routing/routingalgorithm.h \
+    $$PWD/algorithms/routing/leerouting/leerouting.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \
