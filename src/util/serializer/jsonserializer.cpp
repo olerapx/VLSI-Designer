@@ -133,10 +133,17 @@ QByteArray JsonSerializer::serializeGrid(Grid* g)
 
     QJsonArray routedWires;
 
-    for (RoutedWireIndex i: g->getRoutedWires())
+    for(RoutedWireIndex i: g->getRoutedWires())
         routedWires.append(QString::number(i.getValue()));
 
     json["routed-wires"] = routedWires;
+
+    QJsonArray wiresData;
+
+    for(WireData data: g->getWiresData())
+        wiresData.append(serializeWireData(data));
+
+    json["wires-data"] = wiresData;
 
     QJsonObject res;
     res["grid"] = json;
@@ -156,6 +163,31 @@ QJsonObject JsonSerializer::serializeCell(Cell c)
 
     if (c.getType() == CellType::Pin)
         json["pin-id"] = c.getPinId();
+
+    return json;
+}
+
+QJsonObject JsonSerializer::serializeWireData(WireData data)
+{
+    QJsonObject json;
+
+    json["index"] = QString::number(data.getIndex());
+
+    json["src-x"] = data.getSrcCoord().x();
+    json["src-y"] = data.getSrcCoord().y();
+
+    if(data.getWirePosition() == WirePosition::Internal)
+    {
+        json["dest-x"] = data.getDestCoord().x();
+        json["dest-y"] = data.getDestCoord().y();
+    }
+    else
+    {
+        json["dest-x"] = 0;
+        json["dest-y"] = 0;
+    }
+
+    json["position"] = wirePositionMap.key(data.getWirePosition());
 
     return json;
 }
@@ -335,6 +367,10 @@ Grid* JsonSerializer::deserializeGrid(QJsonObject obj)
         grid->getRoutedWires().append(index);
     }
 
+    QJsonArray wiresData = obj.value("wires-data").toArray();
+    for(QJsonValue val: wiresData)
+        grid->getWiresData().append(deserializeWireData(val.toObject()));
+
     return grid;
 }
 
@@ -354,6 +390,29 @@ Cell JsonSerializer::deserializeCell(QJsonObject obj)
     QString pinId = obj.value("pin-id").toString();
 
     return Cell(type, index, pinId);
+}
+
+WireData JsonSerializer::deserializeWireData(QJsonObject obj)
+{
+    bool ok;
+    qint64 index = obj.value("index").toString().toLongLong(&ok);
+    if (!ok) index = -1;
+
+    int srcX = obj.value("src-x").toInt(-1);
+    int srcY = obj.value("src-y").toInt(-1);
+
+    int destX = obj.value("dest-x").toInt(-1);
+    int destY = obj.value("dest-y").toInt(-1);
+
+    QString t = obj.value("position").toString();
+    WirePosition position;
+
+    if (wirePositionMap.contains(t))
+        position = wirePositionMap[t];
+    else
+        throw IllegalArgumentException(QObject::tr("Invalid wire position specified, got: %1.").arg(t));
+
+    return WireData(index, QPoint(srcX, srcY), QPoint(destX, destY), position);
 }
 
 Architecture* JsonSerializer::deserializeArchitecture(QJsonObject obj)

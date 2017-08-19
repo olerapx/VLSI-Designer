@@ -161,6 +161,9 @@ void JsonSerializerTest::serializeGridTest()
     g->getRoutedWires().append(0);
     g->getRoutedWires().append(Q_INT64_C(9223372036854775807));
 
+    g->getWiresData().append(WireData(Q_INT64_C(34535345345343), QPoint(1, 2), QPoint(3, 4), WirePosition::Internal));
+    g->getWiresData().append(WireData(Q_INT64_C(3), QPoint(1, 1), QPoint(5, 5), WirePosition::External));
+
     QList<Cell> firstRow, secondRow;
 
     Cell c1(CellType::Empty);
@@ -186,6 +189,19 @@ void JsonSerializerTest::serializeGridTest()
 
     RoutedWireIndex index = obj.value("routed-wires").toArray().at(2).toString().toLongLong();
     QVERIFY(index == Q_INT64_C(9223372036854775807));
+
+    QVERIFY(obj.value("wires-data").toArray().size() == 2);
+
+    QJsonObject wireData1 = obj.value("wires-data").toArray().at(0).toObject();
+    QVERIFY(wireData1.value("index").toString().toLongLong() == Q_INT64_C(34535345345343));
+    QVERIFY(wireData1.value("src-x").toInt() == 1);
+    QVERIFY(wireData1.value("src-y").toInt() == 2);
+    QVERIFY(wireData1.value("dest-x").toInt() == 3);
+    QVERIFY(wireData1.value("dest-y").toInt() == 4);
+    QVERIFY(wireData1.value("position").toString() == "internal");
+
+    QJsonObject wireData2 = obj.value("wires-data").toArray().at(1).toObject();
+    QVERIFY(wireData2.value("position").toString() == "external");
 
     QJsonArray row1 = obj.value("cells").toArray().at(0).toArray();
     QJsonArray row2 = obj.value("cells").toArray().at(1).toArray();
@@ -347,6 +363,12 @@ void JsonSerializerTest::deserializeGridTest()
 
     QList<RoutedWireIndex> routedWires = {0, 1};
     QVERIFY(g->getRoutedWires() == routedWires);
+
+    QList<WireData> wiresData;
+    wiresData.append(WireData(Q_INT64_C(9223372036854775807), QPoint(3, 5), QPoint(10, 15), WirePosition::Internal));
+    wiresData.append(WireData(Q_INT64_C(1), QPoint(1, 2), QPoint(0, 0), WirePosition::External));
+
+    QVERIFY(g->getWiresData() == wiresData);
 
     Cell emptyCell = g->getCells().at(0).at(0);
     QVERIFY(emptyCell.getType() == CellType::Empty);

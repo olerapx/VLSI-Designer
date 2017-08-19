@@ -130,6 +130,9 @@ void BinarySerializerTest::gridTest()
     g->getRoutedWires().append(0);
     g->getRoutedWires().append(Q_INT64_C(9223372036854775807));
 
+    g->getWiresData().append(WireData(Q_INT64_C(34535345345343), QPoint(1, 2), QPoint(3, 4), WirePosition::Internal));
+    g->getWiresData().append(WireData(Q_INT64_C(3), QPoint(1, 1), QPoint(0, 0), WirePosition::External));
+
     QList<Cell> firstRow, secondRow;
 
     Cell c1(CellType::Empty);
@@ -151,6 +154,8 @@ void BinarySerializerTest::gridTest()
 
     QVERIFY(deserializedGrid->getRoutedWires() == g->getRoutedWires());
     QVERIFY(deserializedGrid->getRoutedWires()[2] == g->getRoutedWires()[2]);
+
+    QVERIFY(deserializedGrid->getWiresData() == g->getWiresData());
 
     QVERIFY(deserializedGrid->getCells().size() == g->getCells().size());
     QVERIFY(deserializedGrid->getCells()[0][0].getType() == g->getCells()[0][0].getType());

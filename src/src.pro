@@ -35,6 +35,7 @@ SOURCES += \
     datamodels/scheme/scheme.cpp \
     datamodels/grid/grid.cpp \
     datamodels/grid/cell.cpp \
+    datamodels/grid/wiredata.cpp \
     datamodels/grid/routedwireindex.cpp \
     datamodels/architecture/architecture.cpp \
     datamodels/architecture/clientsnumber.cpp \

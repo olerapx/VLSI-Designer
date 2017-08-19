@@ -50,6 +50,7 @@ protected:
 
     QByteArray serializeGrid(Grid* g);
     QJsonObject serializeCell(Cell c);
+    QJsonObject serializeWireData(WireData data);
 
     QByteArray serializeArchitecture(Architecture* a);
 
@@ -64,6 +65,7 @@ protected:
 
     Grid* deserializeGrid(QJsonObject obj);
     Cell deserializeCell(QJsonObject obj);
+    WireData deserializeWireData(QJsonObject obj);
 
     Architecture* deserializeArchitecture(QJsonObject obj);
 };

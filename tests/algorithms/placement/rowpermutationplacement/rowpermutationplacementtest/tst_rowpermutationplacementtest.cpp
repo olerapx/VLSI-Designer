@@ -211,6 +211,12 @@ void RowPermutationPlacementTest::rowsPermutationTest()
     QVERIFY(newRes->getGrid()->getCells()[16][1].getIndex() == 0);
     QVERIFY(newRes->getGrid()->getCells()[20][1].getIndex() == 4);
 
+    QList<WireData> wiresData;
+    wiresData.append(WireData(0, QPoint(0, 16), QPoint(2, 13), WirePosition::Internal));
+    wiresData.append(WireData(1, QPoint(3, 21), QPoint(0, 0), WirePosition::External));
+
+    QVERIFY(newRes->getGrid()->getWiresData() == wiresData);
+
     delete newRes;
 
     delete g;
@@ -300,6 +306,14 @@ void RowPermutationPlacementTest::elementsPermutationTest()
     QVERIFY(newRes->getGrid()->getCells()[5][0].getIndex() == 3);
     QVERIFY(newRes->getGrid()->getCells()[5][3].getIndex() == 2);
     QVERIFY(newRes->getGrid()->getCells()[5][6].getIndex() == 1);
+
+    QList<WireData> wiresData;
+    wiresData.append(WireData(0, QPoint(2, 2), QPoint(0, 2), WirePosition::Internal));
+    wiresData.append(WireData(1, QPoint(2, 6), QPoint(6, 5), WirePosition::Internal));
+    wiresData.append(WireData(2, QPoint(2, 6), QPoint(3, 6), WirePosition::Internal));
+    wiresData.append(WireData(3, QPoint(0, 1), QPoint(0, 0), WirePosition::External));
+
+    QVERIFY(newRes->getGrid()->getWiresData() == wiresData);
 
     delete newRes;
 

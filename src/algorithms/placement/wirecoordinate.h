@@ -7,12 +7,6 @@
 #include "datamodels/grid/grid.h"
 #include "util/libraryutils.h"
 
-enum class WirePosition
-{
-    Internal,
-    External
-};
-
 /**
  * @brief The WireCoordinate class
  * Encapsulates a wire with the coordinates of its pins and the fitness function value.

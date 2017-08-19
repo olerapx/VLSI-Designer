@@ -3,6 +3,7 @@
 
 #include "threadable.h"
 #include "algorithms/placement/placementresult.h"
+#include "wirecoordinate.h"
 
 /**
  * @brief The SecondaryPlacementAlgorithm class
@@ -53,6 +54,14 @@ public slots:
 
 protected:
     PlacementResult* previous;
+
+    /**
+     * @brief fillWireData
+     * Fills in wires data list in the grid. Must be called at the end of any secondary placement algorithm.
+     */
+    void fillWiresData(PlacementResult* result, QList<WireCoordinate> coordinates);
+
+    QList<WireCoordinate> fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates);
 };
 
 #endif // SECONDARYPLACEMENTALGORITHM_H

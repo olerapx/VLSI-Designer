@@ -45,6 +45,12 @@ static const QMap<QString, CellType> cellTypeMap
     {"UDLRI", CellType::UDLRI}
 };
 
+static const QMap<QString, WirePosition> wirePositionMap
+{
+    {"external", WirePosition::External},
+    {"internal", WirePosition::Internal}
+};
+
 /**
  * @brief The Serializer class
  * Base class for serializers/deserializers.

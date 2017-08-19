@@ -48,6 +48,7 @@ protected:
 
     QByteArray serializeGrid(Grid* g);
     QDataStream& serializeCell(Cell c, QDataStream& stream);
+    QDataStream& serializeWireData(WireData d, QDataStream& stream);
 
     QByteArray serializeArchitecture(Architecture* a);
 
@@ -62,6 +63,7 @@ protected:
 
     Grid* deserializeGrid(QDataStream& stream);
     Cell deserializeCell(QDataStream& stream);
+    WireData deserializeWireData(QDataStream& stream);
 
     Architecture* deserializeArchitecture(QDataStream& stream);
 };

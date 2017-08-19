@@ -4,7 +4,6 @@
 #include <QMap>
 
 #include "algorithms/placement/secondaryplacementalgorithm.h"
-#include "algorithms/placement/wirecoordinate.h"
 #include "util/gridutils.h"
 
 /**
@@ -38,7 +37,6 @@ private:
     QMap<int, int> positions;
 
     void clear();
-    QList<WireCoordinate> fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates);
 
     void permutateRows();
     void findOptimalRowPosition(int rowIndex);

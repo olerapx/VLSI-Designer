@@ -29,6 +29,7 @@ HEADERS  += \
     $$PWD/datamodels/scheme/scheme.h \
     $$PWD/datamodels/grid/grid.h \
     $$PWD/datamodels/grid/cell.h \
+    $$PWD/datamodels/grid/wiredata.h \
     $$PWD/datamodels/architecture/architecture.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \

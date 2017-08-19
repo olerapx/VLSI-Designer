@@ -116,6 +116,10 @@ QByteArray BinarySerializer::serializeGrid(Grid* g)
     for(RoutedWireIndex index: g->getRoutedWires())
         stream << index;
 
+    stream << (qint32)g->getWiresData().size();
+    for(WireData data: g->getWiresData())
+        serializeWireData(data, stream);
+
     return array;
 }
 
@@ -124,6 +128,22 @@ QDataStream& BinarySerializer::serializeCell(Cell c, QDataStream& stream)
     stream << (qint32)c.getType();
     stream << c.getIndex();
     stream << c.getPinId();
+
+    return stream;
+}
+
+QDataStream& BinarySerializer::serializeWireData(WireData d, QDataStream &stream)
+{
+    stream << d.getIndex();
+
+    stream << (qint32)d.getSrcCoord().x() << (qint32)d.getSrcCoord().y();
+
+    if(d.getWirePosition() == WirePosition::Internal)
+        stream << (qint32)d.getDestCoord().x() << (qint32)d.getDestCoord().y();
+    else
+        stream << (qint32)0 << (qint32)0;
+
+    stream << (qint32)d.getWirePosition();
 
     return stream;
 }
@@ -299,6 +319,11 @@ Grid* BinarySerializer::deserializeGrid(QDataStream& stream)
         g->getRoutedWires().append(index);
     }
 
+    stream >> size;
+    g->getWiresData().reserve(size);
+    for(int i=0; i<size; i++)
+        g->getWiresData().append(deserializeWireData(stream));
+
     return g;
 }
 
@@ -311,6 +336,20 @@ Cell BinarySerializer::deserializeCell(QDataStream& stream)
     stream >> type >> index >> pinId;
 
     return Cell((CellType)type, index, pinId);
+}
+
+WireData BinarySerializer::deserializeWireData(QDataStream &stream)
+{
+    qint64 index;
+
+    qint32 srcX, srcY;
+    qint32 destX, destY;
+
+    qint32 position;
+
+    stream >> index >> srcX >> srcY >> destX >> destY >> position;
+
+    return WireData(index, QPoint(srcX, srcY), QPoint(destX, destY), (WirePosition)position);
 }
 
 Architecture* BinarySerializer::deserializeArchitecture(QDataStream& stream)

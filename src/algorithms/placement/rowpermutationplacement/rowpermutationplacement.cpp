@@ -29,6 +29,7 @@ PlacementResult* RowPermutationPlacement::execute()
         }
 
         PlacementResult* res = buildResult();
+        fillWiresData(res, wireCoordinates);
         clear();
 
         if(stopped)
@@ -64,23 +65,6 @@ qint64 RowPermutationPlacement::getFitnessValue()
     QList<WireCoordinate> coordinates = fillWireCoordinates(elementCoords);
 
     return getFitnessValue(coordinates);
-}
-
-QList<WireCoordinate> RowPermutationPlacement::fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates)
-{
-    sendLog(tr("Preparing."));
-
-    QList<WireCoordinate> res;
-
-    int gridHeight = previous->getGrid()->getCells().size();
-    int gridWidth = previous->getGrid()->getCells()[0].size();
-
-    for(Wire& w: previous->getRelatedWires())
-    {
-        res.append(WireCoordinate(w, elementCoordinates, previous->getLibraries(), gridHeight, gridWidth));
-    }
-
-    return res;
 }
 
 void RowPermutationPlacement::permutateRows()
