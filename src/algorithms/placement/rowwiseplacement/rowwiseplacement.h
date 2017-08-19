@@ -4,7 +4,7 @@
 #include <cmath>
 
 #include "algorithms/placement/primaryplacementalgorithm.h"
-#include "util/libraryutils.h"
+#include "util/misc/libraryutils.h"
 #include "elementheightcomparator.h"
 
 /**

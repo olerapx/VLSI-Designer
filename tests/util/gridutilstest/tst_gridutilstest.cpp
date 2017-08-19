@@ -1,7 +1,7 @@
 #include <QtTest>
 #include <QCoreApplication>
 
-#include <util/gridutils.h>
+#include <util/misc/gridutils.h>
 
 class GridUtilsTest : public QObject
 {

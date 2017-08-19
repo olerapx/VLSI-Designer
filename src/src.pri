@@ -38,8 +38,9 @@ HEADERS  += \
     $$PWD/util/serializer/serializer.h \
     $$PWD/util/serializer/jsonserializer.h \
     $$PWD/util/serializer/binaryserializer.h \
-    $$PWD/util/libraryutils.h \
-    $$PWD/util/gridutils.h \
+    $$PWD/util/misc/libraryutils.h \
+    $$PWD/util/misc/gridutils.h \
+    $$PWD/util/misc/wireutils.h \
     $$PWD/datamodels/grid/routedwireindex.h \
     $$PWD/datamodels/architecture/clientsnumber.h \
     $$PWD/datamodels/library/libraryelement.h \

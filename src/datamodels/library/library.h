@@ -9,7 +9,7 @@
  * @brief The Library class
  * Represents a library of elements.
  */
-class Library: public Serializable
+class Library : public Serializable
 {
 protected:
     QString id;

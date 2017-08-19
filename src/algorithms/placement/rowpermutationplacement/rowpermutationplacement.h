@@ -4,7 +4,7 @@
 #include <QMap>
 
 #include "algorithms/placement/secondaryplacementalgorithm.h"
-#include "util/gridutils.h"
+#include "util/misc/gridutils.h"
 
 /**
  * @brief The RowPermutationPlacement class

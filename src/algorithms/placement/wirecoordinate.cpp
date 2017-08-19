@@ -74,25 +74,9 @@ qint64 WireCoordinate::getFitnessValue()
     qint64 res = 0;
 
     if(position == WirePosition::External)
-    {
-        QPoint srcPoint = getSrcCoordinate();
-
-        int distances[] = { srcPoint.x(), srcPoint.y(), height - srcPoint.y() - 1, width - srcPoint.x() - 1 };
-        int min = distances[0];
-
-        for(int i=1; i<4; i++)
-            if(distances[i] < min)
-                min = distances[i];
-
-        res = min;
-    }
+        res = WireUtils::getDistance(getSrcCoordinate(), QPoint(0, 0), position, height, width);
     else
-    {
-        QPoint srcPoint = getSrcCoordinate();
-        QPoint destPoint = getDestCoordinate();
-
-        res = abs(srcPoint.x() - destPoint.x()) + abs(srcPoint.y() - destPoint.y()) - 1;
-    }
+        res = WireUtils::getDistance(getSrcCoordinate(), getDestCoordinate(), position, height, width);
 
     if(wire->getType() == WireType::Inner)
         res *= innerWireFitnessCoefficient;

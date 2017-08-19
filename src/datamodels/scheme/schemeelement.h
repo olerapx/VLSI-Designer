@@ -8,7 +8,7 @@
  * @brief The SchemeElement class
  * Represents an element on a generated scheme.
  */
-class SchemeElement: public Serializable
+class SchemeElement : public Serializable
 {
 protected:
     QString libraryId;

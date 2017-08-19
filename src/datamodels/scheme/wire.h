@@ -14,7 +14,7 @@ enum class WireType
  * @brief The Wire class
  * Represents a wire on a generated scheme.
  */
-class Wire: public Serializable
+class Wire : public Serializable
 {
 protected:
     qint64 srcIndex;

@@ -43,8 +43,9 @@ SOURCES += \
     util/serializer/serializer.cpp \
     util/serializer/jsonserializer.cpp \
     util/serializer/binaryserializer.cpp \
-    util/libraryutils.cpp \
-    util/gridutils.cpp \
+    util/misc/libraryutils.cpp \
+    util/misc/gridutils.cpp \
+    util/misc/wireutils.cpp \
     datamodels/library/libraryelement.cpp \
     generator/generatorparameters.cpp \
     generator/generator.cpp \

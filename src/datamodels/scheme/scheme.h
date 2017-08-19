@@ -10,7 +10,7 @@
  * @brief The Scheme class
  * Represents a generated scheme.
  */
-class Scheme: public Serializable
+class Scheme : public Serializable
 {
 protected:
     QList<SchemeElement> elements;

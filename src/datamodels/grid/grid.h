@@ -10,7 +10,7 @@
 /**
  * @brief The Grid class
  */
-class Grid: public Serializable
+class Grid : public Serializable
 {
 protected:
     QList<QList<Cell>> cells;

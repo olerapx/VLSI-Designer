@@ -1,7 +1,7 @@
 #ifndef ELEMENTHEIGHTCOMPARATOR_H
 #define ELEMENTHEIGHTCOMPARATOR_H
 
-#include "util/libraryutils.h"
+#include "util/misc/libraryutils.h"
 
 class ElementHeightComparator
 {

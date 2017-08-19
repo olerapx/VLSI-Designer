@@ -21,7 +21,7 @@ enum class CellType
  * @brief The Cell class
  * Represents a grid's cell.
  */
-class Cell: public Serializable
+class Cell : public Serializable
 {
 protected:
     CellType type;

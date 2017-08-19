@@ -5,7 +5,8 @@
 #include "datamodels/scheme/wire.h"
 #include "datamodels/library/library.h"
 #include "datamodels/grid/grid.h"
-#include "util/libraryutils.h"
+#include "util/misc/libraryutils.h"
+#include "util/misc/wireutils.h"
 
 /**
  * @brief The WireCoordinate class

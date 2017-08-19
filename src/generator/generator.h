@@ -8,7 +8,7 @@
 #include "generatorparameters.h"
 #include "nodeelement.h"
 #include "util/aliaser/aliaser.h"
-#include "util/libraryutils.h"
+#include "util/misc/libraryutils.h"
 
 /**
  * @brief The Generator class
@@ -25,8 +25,7 @@ public:
 
     /**
      * @brief execute
-     * Starts the process of generation. Can run in separate thread.
-     * When the scheme will be generated, the sendScheme signal will be emitted.
+     * Starts the process of generation. When the scheme will be generated, the sendScheme signal will be emitted.
      * @throw Exception
      * @return the generated scheme.
      */

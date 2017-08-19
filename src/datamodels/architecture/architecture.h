@@ -21,7 +21,7 @@ enum class DistributionType
  * @brief The Architecture class
  * Represents the used architecture.
  */
-class Architecture: public Serializable
+class Architecture : public Serializable
 {
 protected:
     QList<ClientsNumber> model; /// List of each server's clients number on each level start from 1.
