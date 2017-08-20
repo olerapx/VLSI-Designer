@@ -19,6 +19,7 @@ HEADERS  += \
     $$PWD/algorithms/placement/rowpermutationplacement/rowpermutationplacement.h \
     $$PWD/algorithms/routing/routingalgorithm.h \
     $$PWD/algorithms/routing/leerouting/leerouting.h \
+    $$PWD/algorithms/routing/leerouting/wiredistancecomparator.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \
@@ -43,6 +44,7 @@ HEADERS  += \
     $$PWD/util/misc/libraryutils.h \
     $$PWD/util/misc/gridutils.h \
     $$PWD/util/misc/wireutils.h \
+    $$PWD/util/misc/schemeutils.h \
     $$PWD/datamodels/grid/routedwireindex.h \
     $$PWD/datamodels/architecture/clientsnumber.h \
     $$PWD/datamodels/library/libraryelement.h \

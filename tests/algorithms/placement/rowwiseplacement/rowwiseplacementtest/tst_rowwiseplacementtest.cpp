@@ -1,6 +1,5 @@
 #include <QtTest>
 #include <QCoreApplication>
-
 #include <algorithms/placement/rowwiseplacement/rowwiseplacement.h>
 
 class RowWisePlacementTest : public QObject

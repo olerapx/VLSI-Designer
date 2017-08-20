@@ -13,6 +13,8 @@ enum class Direction
     Down
 };
 
+Direction operator !(const Direction& other);
+
 /**
  * @brief The RoutingAlgorithm class
  * Base class for routing algorithms.
@@ -57,6 +59,14 @@ public slots:
 protected:
     Grid* grid;
     Scheme* scheme;
+
+    bool canEnter(int x, int y, Direction direction);
+    bool hasElementNearby(int x, int y);
+
+    bool canLeave(int x, int y, Direction direction);
+
+    CellType draw(CellType type, Direction from, Direction to);
+    CellType branch(CellType type, Direction to);
 };
 
 #endif // ROUTINGALGORITHM_H

@@ -26,6 +26,7 @@ SOURCES += \
     algorithms/placement/rowpermutationplacement/rowpermutationplacement.cpp \
     algorithms/routing/routingalgorithm.cpp \
     algorithms/routing/leerouting/leerouting.cpp \
+    algorithms/routing/leerouting/wiredistancecomparator.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
     util/misc/libraryutils.cpp \
     util/misc/gridutils.cpp \
     util/misc/wireutils.cpp \
+    util/misc/schemeutils.cpp \
     datamodels/library/libraryelement.cpp \
     generator/generatorparameters.cpp \
     generator/generator.cpp \
