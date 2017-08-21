@@ -9,6 +9,7 @@
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
 #include "datamodels/library/library.h"
+#include "algorithms/routing/direction.h"
 
 /**
  * @brief The PrimaryPlacementAlgorithm class
@@ -36,6 +37,13 @@ public:
      * @return result.
      */
     virtual PlacementResult* execute() = 0;
+
+    /**
+     * @brief possibleExtensionDirections
+     * Returns the list of possible extension directions used by routing algorithms.
+     * @return
+     */
+    virtual QList<Direction> getPossibleExtensionDirections() const = 0;
 
 signals:
     /**

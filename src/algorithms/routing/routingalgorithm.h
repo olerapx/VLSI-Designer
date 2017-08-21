@@ -5,14 +5,8 @@
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
 #include "routingexception.h"
-
-enum class Direction
-{
-    Left,
-    Up,
-    Right,
-    Down
-};
+#include "direction.h"
+#include "algorithms/placement/primaryplacementalgorithm.h"
 
 enum RoutingAction
 {
@@ -40,15 +34,17 @@ class RoutingAlgorithm : public Threadable
     Q_OBJECT
 
 public:
-    RoutingAlgorithm(Grid* grid, Scheme* scheme);
+    RoutingAlgorithm(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts);
 
     /**
      * @brief setParameters
      * Sets new parameters to the algorithm.
      * @param grid
      * @param scheme
+     * @param algorithm
+     * @param maxExtensionAttempts
      */
-    void setParameters(Grid* grid, Scheme* scheme);
+    void setParameters(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts);
 
     /**
      * @brief execute
@@ -75,11 +71,13 @@ public slots:
 protected:
     Grid* grid;
     Scheme* scheme;
+    PrimaryPlacementAlgorithm* primaryPlacement;
+    int maxExtensionAttempts;
 
-    bool canEnter(int x, int y, Direction direction);
-    bool hasElementNearby(int x, int y);
+    bool canEnter(QPoint coord, Direction from);
+    bool hasElementNearby(QPoint coord);
 
-    bool canLeave(int x, int y, Direction direction);
+    bool canLeave(QPoint coord, Direction to);
 
     void draw(Cell& cell, Direction from, Direction to);
     CellType getDrawType(CellType type, Direction from, Direction to);
@@ -87,7 +85,7 @@ protected:
     void branch(Cell& cell, Direction to);
     CellType getBranchType(CellType type, Direction to);
 
-    RoutingState canRoute(QPoint from, QPoint to);
+    virtual RoutingState canRoute(QPoint from, QPoint to) = 0;
 };
 
 #endif // ROUTINGALGORITHM_H

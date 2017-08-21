@@ -21,7 +21,7 @@ struct CellInfo
 class LeeRouting : public RoutingAlgorithm
 {
 public:
-    LeeRouting(Grid* grid, Scheme* scheme);
+    LeeRouting(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts);
 
     /**
      * @brief execute
@@ -44,6 +44,7 @@ private:
     bool isWireRouted(Wire& wire);
 
     void routeWire(WireData data);
+    RoutingState canRoute(QPoint from, QPoint to);
 };
 
 #endif // LEEROUTING_H

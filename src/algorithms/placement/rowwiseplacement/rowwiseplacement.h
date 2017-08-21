@@ -25,6 +25,13 @@ public:
      */
     PlacementResult* execute();
 
+    /**
+     * @brief possibleExtensionDirections
+     * Returns the list of possible extension directions used by routing algorithms.
+     * @return
+     */
+    QList<Direction> getPossibleExtensionDirections() const { return {Direction::Up, Direction::Down}; }
+
 private:
     Grid* grid;
     QList<QList<QPoint>> elementTopLeftCoords;

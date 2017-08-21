@@ -1,7 +1,7 @@
 #include "leerouting.h"
 
-LeeRouting::LeeRouting(Grid* grid, Scheme* scheme) :
-    RoutingAlgorithm(grid, scheme)
+LeeRouting::LeeRouting(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts) :
+    RoutingAlgorithm(grid, scheme, algorithm, maxExtensionAttempts)
 {
     clear();
 }
@@ -116,3 +116,52 @@ void LeeRouting::routeWire(WireData data)
 {
 
 }
+
+RoutingState LeeRouting::canRoute(QPoint from, QPoint to)
+{
+    CellInfo info = matrix[from.y()][from.x()];
+
+    int diff = abs(to.x() - from.x()) + abs(to.y() - from.y());
+
+    if(diff == 0)
+        return { true, RoutingAction::Nothing, info.branched };
+
+    if(diff != 1)
+        throw RoutingException(tr("The given cells are not adjacent."));
+
+    Direction direction;
+    if(from.x() - to.x() == 1)
+        direction = Direction::Left;
+    else if(to.x() - from.x() == 1)
+        direction = Direction::Right;
+    else if(to.y() - from.y() == 1)
+        direction = Direction::Up;
+    else
+        direction = Direction::Down;
+
+    bool leave = canLeave(from, direction);
+    bool enter = canEnter(to, !direction);
+
+    if(leave)
+    {
+        if(!enter)
+            return { false, RoutingAction::Nothing, true };
+
+        if(info.branched)
+            return { true, RoutingAction::Draw, true };
+
+        return { true, RoutingAction::Branch, true };
+    }
+
+    if(enter)
+        return { false, RoutingAction::WarnBrokenWire, true };
+
+    if(info.branched)
+        return { false, RoutingAction::Nothing, true };
+
+    if(canLeave(to, !direction))
+        return { false, RoutingAction::WarnBrokenWire, true };
+
+    return { true, RoutingAction::Nothing, false };
+}
+

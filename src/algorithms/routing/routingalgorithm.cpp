@@ -15,15 +15,17 @@ Direction operator !(const Direction& other)
     }
 }
 
-RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme)
+RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts)
 {
-    setParameters(grid, scheme);
+    setParameters(grid, scheme, algorithm, maxExtensionAttempts);
 }
 
-void RoutingAlgorithm::setParameters(Grid *grid, Scheme *scheme)
+void RoutingAlgorithm::setParameters(Grid *grid, Scheme *scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts)
 {
     this->grid = grid;
     this->scheme = scheme;
+    this->primaryPlacement = algorithm;
+    this->maxExtensionAttempts = maxExtensionAttempts;
 }
 
 void RoutingAlgorithm::onStart()
@@ -45,44 +47,44 @@ void RoutingAlgorithm::onStart()
     }
 }
 
-bool RoutingAlgorithm::canEnter(int x, int y, Direction direction)
+bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
 {
-    CellType type = grid->getCells()[y][x].getType();
+    CellType type = grid->getCells()[coord.y()][coord.x()].getType();
 
     if(type == CellType::Element || type == CellType::Pin)
         return false;
 
     if(type == CellType::Empty)
     {
-        if(hasElementNearby(x, y))
+        if(hasElementNearby(coord))
             return false;
         return true;
     }
 
-    if(type == CellType::UD && (direction == Direction::Left || direction == Direction::Right))
+    if(type == CellType::UD && (from == Direction::Left || from == Direction::Right))
         return true;
 
-    if(type == CellType::LR && (direction == Direction::Up || direction == Direction::Down))
+    if(type == CellType::LR && (from == Direction::Up || from == Direction::Down))
         return true;
 
     return false;
 }
 
-bool RoutingAlgorithm::hasElementNearby(int x, int y)
+bool RoutingAlgorithm::hasElementNearby(QPoint coord)
 {
     int deltas[] = { -1, 0, 1 };
 
     for(int i=0; i<3; i++)
         for(int j=0; j<3; j++)
-            if(grid->getCells()[y + deltas[i]][x + deltas[j]].getType() == CellType::Element)
+            if(grid->getCells()[coord.y() + deltas[i]][coord.x() + deltas[j]].getType() == CellType::Element)
                 return true;
 
     return false;
 }
 
-bool RoutingAlgorithm::canLeave(int x, int y, Direction direction)
+bool RoutingAlgorithm::canLeave(QPoint coord, Direction to)
 {
-    CellType type = grid->getCells()[y][x].getType();
+    CellType type = grid->getCells()[coord.y()][coord.x()].getType();
 
     if(type == CellType::Element || type == CellType::Pin)
         return false;
@@ -90,34 +92,34 @@ bool RoutingAlgorithm::canLeave(int x, int y, Direction direction)
     if(type == CellType::Empty)
         return true;
 
-    if(type == CellType::UD && (direction == Direction::Left || direction == Direction::Right))
+    if(type == CellType::UD && (to == Direction::Left || to == Direction::Right))
         return true;
 
-    if(type == CellType::LR && (direction == Direction::Up || direction == Direction::Down))
+    if(type == CellType::LR && (to == Direction::Up || to == Direction::Down))
         return true;
 
-    if(type == CellType::UL && (direction == Direction::Down || direction == Direction::Right))
+    if(type == CellType::UL && (to == Direction::Down || to == Direction::Right))
         return true;
 
-    if(type == CellType::UR && (direction == Direction::Down || direction == Direction::Left))
+    if(type == CellType::UR && (to == Direction::Down || to == Direction::Left))
         return true;
 
-    if(type == CellType::DL && (direction == Direction::Up || direction == Direction::Right))
+    if(type == CellType::DL && (to == Direction::Up || to == Direction::Right))
         return true;
 
-    if(type == CellType::DR && (direction == Direction::Up || direction == Direction::Left))
+    if(type == CellType::DR && (to == Direction::Up || to == Direction::Left))
         return true;
 
-    if(type == CellType::UDL && direction == Direction::Right)
+    if(type == CellType::UDL && to == Direction::Right)
         return true;
 
-    if(type == CellType::UDR && direction == Direction::Left)
+    if(type == CellType::UDR && to == Direction::Left)
         return true;
 
-    if(type == CellType::LRU && direction == Direction::Down)
+    if(type == CellType::LRU && to == Direction::Down)
         return true;
 
-    if(type == CellType::LRD && direction == Direction::Up)
+    if(type == CellType::LRD && to == Direction::Up)
         return true;
 
     return false;
@@ -248,9 +250,4 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
     }
 
     throw RoutingException(tr("Incorrect combination of wire type and direction is specified."));
-}
-
-RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to)
-{
-
 }
