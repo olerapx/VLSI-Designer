@@ -4,13 +4,29 @@
 #include "threadable.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
+#include "routingexception.h"
 
 enum class Direction
 {
     Left,
-    Right,
     Up,
+    Right,
     Down
+};
+
+enum RoutingAction
+{
+    Branch,
+    Draw,
+    Nothing,
+    WarnBrokenWire
+};
+
+struct RoutingState
+{
+    bool canMove;
+    RoutingAction action;
+    bool newBranched;
 };
 
 Direction operator !(const Direction& other);
@@ -65,8 +81,13 @@ protected:
 
     bool canLeave(int x, int y, Direction direction);
 
-    CellType draw(CellType type, Direction from, Direction to);
-    CellType branch(CellType type, Direction to);
+    void draw(Cell& cell, Direction from, Direction to);
+    CellType getDrawType(CellType type, Direction from, Direction to);
+
+    void branch(Cell& cell, Direction to);
+    CellType getBranchType(CellType type, Direction to);
+
+    RoutingState canRoute(QPoint from, QPoint to);
 };
 
 #endif // ROUTINGALGORITHM_H

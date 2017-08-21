@@ -41,6 +41,7 @@ private:
 
     void initMatrix();
     void initWires();
+    bool isWireRouted(Wire& wire);
 
     void routeWire(WireData data);
 };

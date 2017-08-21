@@ -87,6 +87,9 @@ void LeeRouting::initWires()
         qint64 index = data.getIndex();
         Wire& w = SchemeUtils::findWireByIndex(scheme, index);
 
+        if(isWireRouted(w))
+            continue;
+
         if(w.getType() == WireType::Inner)
             innerWires.append(data);
         else
@@ -95,6 +98,18 @@ void LeeRouting::initWires()
 
     std::sort(innerWires.begin(), innerWires.end(), WireDistanceComparator(gridHeight, gridWidth));
     std::sort(outerWires.begin(), outerWires.end(), WireDistanceComparator(gridHeight, gridWidth));
+}
+
+bool LeeRouting::isWireRouted(Wire& wire)
+{
+    qint64 index = wire.getIndex();
+    for(RoutedWireIndex& i: grid->getRoutedWires())
+    {
+        if(i == index)
+            return true;
+    }
+
+    return false;
 }
 
 void LeeRouting::routeWire(WireData data)

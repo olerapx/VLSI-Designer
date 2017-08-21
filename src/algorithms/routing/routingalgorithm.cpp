@@ -123,12 +123,134 @@ bool RoutingAlgorithm::canLeave(int x, int y, Direction direction)
     return false;
 }
 
-CellType RoutingAlgorithm::draw(CellType type, Direction from, Direction to)
-{
-    ///TODO
+void RoutingAlgorithm::draw(Cell& cell, Direction from, Direction to)
+{    
+    CellType newType = getDrawType(cell.getType(), from, to);
+    cell.setType(newType);
 }
 
-CellType RoutingAlgorithm::branch(CellType type, Direction to)
+CellType RoutingAlgorithm::getDrawType(CellType type, Direction from, Direction to)
 {
-    ///TODO
+    if(from == to)
+        return type;
+
+    if(from > to)
+        std::swap(from, to);
+
+    if(from == Direction::Left)
+    {
+        if(to == Direction::Up && type == CellType::Empty)
+            return CellType::UL;
+
+        if(to == Direction::Right)
+        {
+            if(type == CellType::Empty)
+                return CellType::LR;
+            if(type == CellType::UD)
+                return CellType::UDLR;
+        }
+
+        if(to == Direction::Down && type == CellType::Empty)
+            return CellType::DL;
+    }
+
+    if(from == Direction::Up)
+    {
+        if(to == Direction::Right && type == CellType::Empty)
+            return CellType::UR;
+
+        if(to == Direction::Down)
+        {
+            if(type == CellType::Empty)
+                return CellType::UD;
+            if(type == CellType::LR)
+                return CellType::UDLR;
+        }
+    }
+
+    if(from == Direction::Right && to == Direction::Down && type == CellType::Empty)
+        return CellType::DR;
+
+
+    throw RoutingException(tr("Cannot draw a wire with the given directions: either the directions are wrong or the cell type is incorrect."));
+}
+
+void RoutingAlgorithm::branch(Cell& cell, Direction to)
+{
+    CellType newType = getBranchType(cell.getType(), to);
+    cell.setType(newType);
+}
+
+CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
+{
+    if(type == CellType::Empty || type == CellType::Element || type == CellType::Pin ||
+            type == CellType::UDLR || type == CellType::UDLRI)
+        throw RoutingException(tr("Cannot branch a wire on the cell without wire already existed."));
+
+    if(type == CellType::UDL && to == Direction::Right)
+        return CellType::UDLRI;
+
+    if(type == CellType::UDR && to == Direction::Left)
+        return CellType::UDLRI;
+
+    if(type == CellType::LRU && to == Direction::Down)
+        return CellType::UDLRI;
+
+    if(type == CellType::LRD && to == Direction::Up)
+        return CellType::UDLRI;
+
+    if(type == CellType::UD)
+    {
+        if(to == Direction::Left)
+            return CellType::UDL;
+        if(to == Direction::Right)
+            return CellType::UDR;
+    }
+
+    if(type == CellType::LR)
+    {
+        if(to == Direction::Up)
+            return CellType::LRU;
+        if(to == Direction::Down)
+            return CellType::LRD;
+    }
+
+    if(type == CellType::UL)
+    {
+        if(to == Direction::Right)
+            return CellType::LRU;
+        if(to == Direction::Down)
+            return CellType::UDL;
+    }
+
+    if(type == CellType::UR)
+    {
+        if(to == Direction::Down)
+            return CellType::UDR;
+        if(to == Direction::Left)
+            return CellType::LRU;
+    }
+
+    if(type == CellType::DL)
+    {
+        if(to == Direction::Up)
+            return CellType::UDL;
+        if(to == Direction::Right)
+            return CellType::LRD;
+    }
+
+    if(type == CellType::DR)
+    {
+        if(to == Direction::Up)
+            return CellType::UDR;
+        if(to == Direction::Left)
+            return CellType::LRD;
+    }
+
+    throw RoutingException(tr("Incorrect combination of wire type and direction is specified."));
+}
+
+RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to)
+{
+
 }
