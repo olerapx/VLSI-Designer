@@ -39,12 +39,11 @@ private:
 
     void clear();
 
-    void initMatrix();
     void initWires();
     bool isWireRouted(Wire& wire);
 
     void routeWire(WireData data);
-    RoutingState canRoute(QPoint from, QPoint to);
+    void initMatrix();
 };
 
 #endif // LEEROUTING_H

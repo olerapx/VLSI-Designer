@@ -80,12 +80,19 @@ protected:
     bool canLeave(QPoint coord, Direction to);
 
     void draw(Cell& cell, Direction from, Direction to);
-    CellType getDrawType(CellType type, Direction from, Direction to);
-
     void branch(Cell& cell, Direction to);
+
+
+    RoutingState canRoute(QPoint from, QPoint to, bool branched);
+
+    bool extend(QPoint coord, int number, Direction direction);
+
+private:
+    CellType getDrawType(CellType type, Direction from, Direction to);
     CellType getBranchType(CellType type, Direction to);
 
-    virtual RoutingState canRoute(QPoint from, QPoint to) = 0;
+    bool extendHorizontally(QPoint coord, int number, Direction direction);
+    bool extendVertically(QPoint coord, int number, Direction direction);
 };
 
 #endif // ROUTINGALGORITHM_H

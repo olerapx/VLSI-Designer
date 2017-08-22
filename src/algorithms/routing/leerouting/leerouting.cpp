@@ -19,7 +19,6 @@ Grid* LeeRouting::execute()
         gridHeight = grid->getCells().size();
         gridWidth = grid->getCells()[0].size();
 
-        initMatrix();
         initWires();
 
         for(int i=0; i<innerWires.size(); i++)
@@ -54,27 +53,10 @@ void LeeRouting::clear()
     innerWires.clear();
     outerWires.clear();
 
-    for(QList<CellInfo>& list: matrix)
-        list.clear();
-
     matrix.clear();
 
     gridHeight = 0;
     gridWidth = 0;
-}
-
-void LeeRouting::initMatrix()
-{
-    for(QList<Cell>& list: grid->getCells())
-    {
-        matrix.append(QList<CellInfo>());
-
-        for(int i=0; i<list.size(); i++)
-        {
-            CellInfo info = { -1, true };
-            matrix.last().append(info);
-        }
-    }
 }
 
 void LeeRouting::initWires()
@@ -114,54 +96,22 @@ bool LeeRouting::isWireRouted(Wire& wire)
 
 void LeeRouting::routeWire(WireData data)
 {
-
+    initMatrix();
 }
 
-RoutingState LeeRouting::canRoute(QPoint from, QPoint to)
+void LeeRouting::initMatrix()
 {
-    CellInfo info = matrix[from.y()][from.x()];
+    matrix.clear();
 
-    int diff = abs(to.x() - from.x()) + abs(to.y() - from.y());
-
-    if(diff == 0)
-        return { true, RoutingAction::Nothing, info.branched };
-
-    if(diff != 1)
-        throw RoutingException(tr("The given cells are not adjacent."));
-
-    Direction direction;
-    if(from.x() - to.x() == 1)
-        direction = Direction::Left;
-    else if(to.x() - from.x() == 1)
-        direction = Direction::Right;
-    else if(to.y() - from.y() == 1)
-        direction = Direction::Up;
-    else
-        direction = Direction::Down;
-
-    bool leave = canLeave(from, direction);
-    bool enter = canEnter(to, !direction);
-
-    if(leave)
+    for(QList<Cell>& list: grid->getCells())
     {
-        if(!enter)
-            return { false, RoutingAction::Nothing, true };
+        matrix.append(QList<CellInfo>());
 
-        if(info.branched)
-            return { true, RoutingAction::Draw, true };
-
-        return { true, RoutingAction::Branch, true };
+        for(int i=0; i<list.size(); i++)
+        {
+            CellInfo info = { -1, true };
+            matrix.last().append(info);
+        }
     }
-
-    if(enter)
-        return { false, RoutingAction::WarnBrokenWire, true };
-
-    if(info.branched)
-        return { false, RoutingAction::Nothing, true };
-
-    if(canLeave(to, !direction))
-        return { false, RoutingAction::WarnBrokenWire, true };
-
-    return { true, RoutingAction::Nothing, false };
 }
 
