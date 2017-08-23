@@ -42,8 +42,9 @@ private:
     void initWires();
     bool isWireRouted(Wire& wire);
 
-    void routeWire(WireData data);
+    void routeWire(WireData& data);
     void initMatrix();
+    QPoint getNearbyAvailableCoord(QPoint pinCoord);
 };
 
 #endif // LEEROUTING_H

@@ -82,12 +82,13 @@ protected:
     void draw(Cell& cell, Direction from, Direction to);
     void branch(Cell& cell, Direction to);
 
-
     RoutingState canRoute(QPoint from, QPoint to, bool branched);
 
     bool extend(QPoint coord, int number, Direction direction);
 
 private:
+    void validateCoord(QPoint coord);
+
     CellType getDrawType(CellType type, Direction from, Direction to);
     CellType getBranchType(CellType type, Direction to);
 

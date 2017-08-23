@@ -94,9 +94,15 @@ bool LeeRouting::isWireRouted(Wire& wire)
     return false;
 }
 
-void LeeRouting::routeWire(WireData data)
+void LeeRouting::routeWire(WireData& data)
 {
     initMatrix();
+
+    QPoint startPinCoord = data.getSrcCoord();
+    QPoint finishPinCoord = data.getDestCoord();
+
+    QPoint startCoord = getNearbyAvailableCoord(startPinCoord);
+    QPoint finishCoord = getNearbyAvailableCoord(finishPinCoord);
 }
 
 void LeeRouting::initMatrix()
@@ -115,3 +121,19 @@ void LeeRouting::initMatrix()
     }
 }
 
+QPoint LeeRouting::getNearbyAvailableCoord(QPoint coord)
+{
+    QPoint points[] = { QPoint(coord.x() - 1, coord.y()), QPoint(coord.x(), coord.y() - 1),
+                      QPoint(coord.x() + 1, coord.y()), QPoint(coord.x(), coord.y() + 1) };
+
+    Direction directions[] = { Direction::Right, Direction::Down, Direction::Left, Direction::Up };
+
+    for(int i=0; i<4; i++)
+    {
+        if(canEnter(points[i], directions[i]))
+            return points[i];
+    }
+
+    throw RoutingException(tr("Cannot start drawing wire from/to pin at coordinates(%1; %2): the pin is obscured.")
+                           .arg(QString::number(coord.y()), QString::number(coord.x())));
+}

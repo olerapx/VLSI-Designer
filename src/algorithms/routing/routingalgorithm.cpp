@@ -49,6 +49,8 @@ void RoutingAlgorithm::onStart()
 
 bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
 {
+    validateCoord(coord);
+
     CellType type = grid->getCells()[coord.y()][coord.x()].getType();
 
     if(type == CellType::Element || type == CellType::Pin)
@@ -70,6 +72,14 @@ bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
     return false;
 }
 
+void RoutingAlgorithm::validateCoord(QPoint coord)
+{
+    if(coord.y() < 0 || coord.y() >= grid->getCells().size() ||
+            coord.x() < 0 || coord.x() >= grid->getCells()[coord.y()].size())
+        throw IllegalArgumentException(tr("The given coordinates are out of grid bounds: (%1; %2).")
+                                       .arg(QString::number(coord.x()), QString::number(coord.y())));
+}
+
 bool RoutingAlgorithm::hasElementNearby(QPoint coord)
 {
     int deltas[] = { -1, 0, 1 };
@@ -84,6 +94,8 @@ bool RoutingAlgorithm::hasElementNearby(QPoint coord)
 
 bool RoutingAlgorithm::canLeave(QPoint coord, Direction to)
 {
+    validateCoord(coord);
+
     CellType type = grid->getCells()[coord.y()][coord.x()].getType();
 
     if(type == CellType::Element || type == CellType::Pin)
@@ -300,6 +312,8 @@ RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 
 bool RoutingAlgorithm::extend(QPoint coord, int number, Direction direction)
 {
+    validateCoord(coord);
+
     if(direction == Direction::Left || direction == Direction::Right)
         return extendHorizontally(coord, number, direction);
 
@@ -335,6 +349,15 @@ bool RoutingAlgorithm::extendHorizontally(QPoint coord, int number, Direction di
         {
             grid->getCells()[i].insert(insertX, Cell(type));
         }
+    }
+
+    for(WireData& data: grid->getWiresData())
+    {
+        if(data.getSrcCoord().x() >= insertX)
+            data.setSrcCoord(QPoint(data.getSrcCoord().x() + number, data.getSrcCoord().y()));
+
+        if(data.getDestCoord().x() >= insertX)
+            data.setDestCoord(QPoint(data.getDestCoord().x() + number, data.getDestCoord().y()));
     }
 
     return true;
@@ -378,6 +401,15 @@ bool RoutingAlgorithm::extendVertically(QPoint coord, int number, Direction dire
     for(int i=0; i<number; i++)
     {
         grid->getCells().insert(insertY, newCells[i]);
+    }
+
+    for(WireData& data: grid->getWiresData())
+    {
+        if(data.getSrcCoord().y() >= insertY)
+            data.setSrcCoord(QPoint(data.getSrcCoord().x(), data.getSrcCoord().y() + number));
+
+        if(data.getDestCoord().y() >= insertY)
+            data.setDestCoord(QPoint(data.getDestCoord().x(), data.getDestCoord().y() + number));
     }
 
     return true;
