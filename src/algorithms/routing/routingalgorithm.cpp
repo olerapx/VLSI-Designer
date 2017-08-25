@@ -49,7 +49,8 @@ void RoutingAlgorithm::onStart()
 
 bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
 {
-    validateCoord(coord);
+    if(!validateCoord(coord))
+        return false;
 
     CellType type = grid->getCells()[coord.y()][coord.x()].getType();
 
@@ -72,12 +73,13 @@ bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
     return false;
 }
 
-void RoutingAlgorithm::validateCoord(QPoint coord)
+bool RoutingAlgorithm::validateCoord(QPoint coord)
 {
     if(coord.y() < 0 || coord.y() >= grid->getCells().size() ||
             coord.x() < 0 || coord.x() >= grid->getCells()[coord.y()].size())
-        throw IllegalArgumentException(tr("The given coordinates are out of grid bounds: (%1; %2).")
-                                       .arg(QString::number(coord.x()), QString::number(coord.y())));
+        return false;
+
+    return true;
 }
 
 bool RoutingAlgorithm::hasElementNearby(QPoint coord)
@@ -86,15 +88,22 @@ bool RoutingAlgorithm::hasElementNearby(QPoint coord)
 
     for(int i=0; i<3; i++)
         for(int j=0; j<3; j++)
-            if(grid->getCells()[coord.y() + deltas[i]][coord.x() + deltas[j]].getType() == CellType::Element)
+        {
+            QPoint nearbyCoord = QPoint(coord.x() + deltas[j], coord.y() + deltas[i]);
+            if(!validateCoord(nearbyCoord))
+                continue;
+
+            if(grid->getCells()[nearbyCoord.y()][nearbyCoord.x()].getType() == CellType::Element)
                 return true;
+        }
 
     return false;
 }
 
 bool RoutingAlgorithm::canLeave(QPoint coord, Direction to)
 {
-    validateCoord(coord);
+    if(!validateCoord(coord))
+        return false;
 
     CellType type = grid->getCells()[coord.y()][coord.x()].getType();
 
@@ -266,6 +275,9 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
 
 RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 {
+    if(!validateCoord(from) || !validateCoord(to))
+        return { false, RoutingAction::Nothing, false };
+
     int diff = abs(to.x() - from.x()) + abs(to.y() - from.y());
 
     if(diff == 0)
@@ -309,7 +321,7 @@ Direction RoutingAlgorithm::getDirection(QPoint from, QPoint to)
         direction = Direction::Left;
     else if(to.x() - from.x() == 1)
         direction = Direction::Right;
-    else if(to.y() - from.y() == 1)
+    else if(from.y() - to.y() == 1)
         direction = Direction::Up;
     else
         direction = Direction::Down;
@@ -319,7 +331,8 @@ Direction RoutingAlgorithm::getDirection(QPoint from, QPoint to)
 
 bool RoutingAlgorithm::extend(QPoint coord, int number, Direction direction)
 {
-    validateCoord(coord);
+    if(!validateCoord(coord))
+        return false;
 
     if(direction == Direction::Left || direction == Direction::Right)
         return extendHorizontally(coord, number, direction);

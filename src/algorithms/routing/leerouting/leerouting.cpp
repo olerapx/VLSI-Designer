@@ -215,6 +215,9 @@ void LeeRouting::pushWave()
 
 bool LeeRouting::tryRoute(QPoint from, QPoint to)
 {
+    if(!validateCoord(to))
+        return false;
+
     qint64 value = matrix[to.y()][to.x()].value;
 
     if(value == -1 || value > currentValue + 1)
@@ -277,6 +280,7 @@ bool LeeRouting::tryExtend()
 void LeeRouting::pushReverseWave()
 {
     QPoint currentCoord = finishCoord;
+    currentValue = matrix[currentCoord.y()][currentCoord.x()].value;
 
     Direction from, to;
     from = getDirection(finishPinCoord, currentCoord);
@@ -289,6 +293,9 @@ void LeeRouting::pushReverseWave()
         for(int i=0; i<4; i++)
         {
            QPoint coord = nearbyCoords[i];
+
+           if(!validateCoord(coord))
+               continue;
 
            if(matrix[coord.y()][coord.x()].value != currentValue - 1)
                continue;
@@ -312,6 +319,7 @@ void LeeRouting::pushReverseWave()
            from = to;
 
            currentCoord = coord;
+           currentValue --;
 
            break;
         }

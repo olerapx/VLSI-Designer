@@ -75,6 +75,7 @@ protected:
     int maxExtensionAttempts;
 
     bool canEnter(QPoint coord, Direction from);
+    bool validateCoord(QPoint coord);
     bool hasElementNearby(QPoint coord);
 
     bool canLeave(QPoint coord, Direction to);
@@ -88,8 +89,6 @@ protected:
     bool extend(QPoint coord, int number, Direction direction);
 
 private:
-    void validateCoord(QPoint coord);
-
     CellType getDrawType(CellType type, Direction from, Direction to);
     CellType getBranchType(CellType type, Direction to);
 
