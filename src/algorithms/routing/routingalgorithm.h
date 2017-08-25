@@ -83,6 +83,7 @@ protected:
     void branch(Cell& cell, Direction to);
 
     RoutingState canRoute(QPoint from, QPoint to, bool branched);
+    Direction getDirection(QPoint from, QPoint to);
 
     bool extend(QPoint coord, int number, Direction direction);
 

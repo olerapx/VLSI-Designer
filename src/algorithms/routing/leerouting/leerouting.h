@@ -7,10 +7,11 @@
 #include "util/misc/schemeutils.h"
 #include "util/misc/wireutils.h"
 #include "wiredistancecomparator.h"
+#include "pointdistancecomparator.h"
 
 struct CellInfo
 {
-    int value;
+    qint64 value;
     bool branched;
 };
 
@@ -36,6 +37,14 @@ private:
     QList<QList<CellInfo>> matrix;
 
     int gridHeight, gridWidth;
+    qint64 currentValue;
+    int extensionAttempts;
+
+    bool finished;
+    bool noMoreWays;
+
+    QPoint startCoord, finishCoord;
+    QPoint startPinCoord, finishPinCoord;
 
     void clear();
 
@@ -45,6 +54,13 @@ private:
     void routeWire(WireData& data);
     void initMatrix();
     QPoint getNearbyAvailableCoord(QPoint pinCoord);
+
+    void pushWave();
+    bool tryRoute(QPoint from, QPoint to);
+
+    bool tryExtend();
+
+    void pushReverseWave();
 };
 
 #endif // LEEROUTING_H

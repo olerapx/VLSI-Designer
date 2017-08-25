@@ -27,6 +27,7 @@ SOURCES += \
     algorithms/routing/routingalgorithm.cpp \
     algorithms/routing/leerouting/leerouting.cpp \
     algorithms/routing/leerouting/wiredistancecomparator.cpp \
+    algorithms/routing/leerouting/pointdistancecomparator.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \

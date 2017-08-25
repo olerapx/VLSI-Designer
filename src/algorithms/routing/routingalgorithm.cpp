@@ -20,7 +20,7 @@ RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme, PrimaryPlacementA
     setParameters(grid, scheme, algorithm, maxExtensionAttempts);
 }
 
-void RoutingAlgorithm::setParameters(Grid *grid, Scheme *scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts)
+void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts)
 {
     this->grid = grid;
     this->scheme = scheme;
@@ -274,15 +274,7 @@ RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
     if(diff != 1)
         throw RoutingException(tr("The given cells are not adjacent."));
 
-    Direction direction;
-    if(from.x() - to.x() == 1)
-        direction = Direction::Left;
-    else if(to.x() - from.x() == 1)
-        direction = Direction::Right;
-    else if(to.y() - from.y() == 1)
-        direction = Direction::Up;
-    else
-        direction = Direction::Down;
+    Direction direction = getDirection(from, to);
 
     bool leave = canLeave(from, direction);
     bool enter = canEnter(to, !direction);
@@ -308,6 +300,21 @@ RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
         return { false, RoutingAction::WarnBrokenWire, true };
 
     return { true, RoutingAction::Nothing, false };
+}
+
+Direction RoutingAlgorithm::getDirection(QPoint from, QPoint to)
+{
+    Direction direction;
+    if(from.x() - to.x() == 1)
+        direction = Direction::Left;
+    else if(to.x() - from.x() == 1)
+        direction = Direction::Right;
+    else if(to.y() - from.y() == 1)
+        direction = Direction::Up;
+    else
+        direction = Direction::Down;
+
+    return direction;
 }
 
 bool RoutingAlgorithm::extend(QPoint coord, int number, Direction direction)

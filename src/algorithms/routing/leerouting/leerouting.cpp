@@ -57,6 +57,12 @@ void LeeRouting::clear()
 
     gridHeight = 0;
     gridWidth = 0;
+
+    currentValue = 0;
+    extensionAttempts = 0;
+
+    finished = false;
+    noMoreWays = false;
 }
 
 void LeeRouting::initWires()
@@ -96,13 +102,44 @@ bool LeeRouting::isWireRouted(Wire& wire)
 
 void LeeRouting::routeWire(WireData& data)
 {
-    initMatrix();
+    extensionAttempts = 0;
 
-    QPoint startPinCoord = data.getSrcCoord();
-    QPoint finishPinCoord = data.getDestCoord();
+    do
+    {
+        initMatrix();
 
-    QPoint startCoord = getNearbyAvailableCoord(startPinCoord);
-    QPoint finishCoord = getNearbyAvailableCoord(finishPinCoord);
+        startPinCoord = data.getSrcCoord();
+        finishPinCoord = data.getDestCoord();
+
+        startCoord = getNearbyAvailableCoord(startPinCoord);
+        finishCoord = getNearbyAvailableCoord(finishPinCoord);
+
+        pushWave();
+        if(noMoreWays)
+        {
+            if(!tryExtend())
+                break;
+
+            maxExtensionAttempts ++;
+        }
+    }
+    while(!finished && extensionAttempts < maxExtensionAttempts);
+
+    if(!finished && extensionAttempts == maxExtensionAttempts)
+    {
+        sendLog(tr("Cannot route wire with index %1. Max extension attempts number is reached.").arg(QString::number(data.getIndex())));
+        return;
+    }
+
+    if(!finished)
+    {
+        sendLog(tr("Cannot route wire with index %1. Grid extension is unavailable.").arg(QString::number(data.getIndex())));
+        return;
+    }
+
+    pushReverseWave();
+
+    grid->getRoutedWires().append(data.getIndex());
 }
 
 void LeeRouting::initMatrix()
@@ -135,5 +172,152 @@ QPoint LeeRouting::getNearbyAvailableCoord(QPoint coord)
     }
 
     throw RoutingException(tr("Cannot start drawing wire from/to pin at coordinates(%1; %2): the pin is obscured.")
-                           .arg(QString::number(coord.y()), QString::number(coord.x())));
+                           .arg(QString::number(coord.x()), QString::number(coord.y())));
+}
+
+void LeeRouting::pushWave()
+{
+    currentValue = 0;
+    matrix[startCoord.y()][startCoord.x()].value = currentValue;
+    matrix[startCoord.y()][startCoord.x()].branched = false;
+
+    finished = false;
+    noMoreWays = false;
+
+    int pushedOnCurrentStep = 0;
+
+    while(!finished && !noMoreWays)
+    {
+        pushedOnCurrentStep = 0;
+
+        for(int i=0; i<matrix.size(); i++)
+        {
+            for(int j=0; j<matrix[i].size(); j++)
+            {
+                if(matrix[i][j].value != currentValue)
+                    continue;
+
+                QPoint currentCoord = QPoint(j, i);
+                QPoint nearbyCoords[] = { QPoint(j - 1, i), QPoint(j, i - 1), QPoint(j + 1, i), QPoint(j, i + 1) };
+
+                for(int k=0; k<4; k++)
+                    if(tryRoute(currentCoord, nearbyCoords[k]))
+                        pushedOnCurrentStep ++;
+            }
+        }
+
+        if(pushedOnCurrentStep > 0)
+            currentValue ++;
+        else
+            noMoreWays = true;
+    }
+}
+
+bool LeeRouting::tryRoute(QPoint from, QPoint to)
+{
+    qint64 value = matrix[to.y()][to.x()].value;
+
+    if(value == -1 || value > currentValue + 1)
+    {
+        RoutingState state = canRoute(from, to, matrix[from.y()][from.x()].branched);
+
+        if(state.action == RoutingAction::WarnBrokenWire)
+            sendLog(tr("A broken wire detected at (%1; %2).")
+                    .arg(QString::number(from.x()), QString::number(from.y())));
+
+        if(!state.canMove)
+            return false;
+
+        matrix[to.y()][to.x()].value = currentValue + 1;
+        matrix[to.y()][to.x()].branched = state.newBranched;
+
+        if(to == finishCoord)
+            finished = true;
+
+        return true;
+    }
+
+    return false;
+}
+
+bool LeeRouting::tryExtend()
+{
+    QList<QPoint> lastWavePoints;
+
+    for(int i=0; i<matrix.size(); i++)
+    {
+        for(int j=0; j<matrix[i].size(); j++)
+        {
+            if(matrix[i][j].value == currentValue)
+                lastWavePoints.append(QPoint(j, i));
+        }
+    }
+
+    std::sort(lastWavePoints.begin(), lastWavePoints.end(), PointDistanceComparator(finishCoord));
+
+    QList<Direction> directions = primaryPlacement->getPossibleExtensionDirections();
+
+    for(QPoint& point: lastWavePoints)
+    {
+        for(Direction& direction: directions)
+        {
+            if(extend(point, 1, direction))
+            {
+                gridHeight = grid->getCells().size();
+                gridWidth = grid->getCells()[0].size();
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void LeeRouting::pushReverseWave()
+{
+    QPoint currentCoord = finishCoord;
+
+    Direction from, to;
+    from = getDirection(finishPinCoord, currentCoord);
+
+    do
+    {
+        QPoint nearbyCoords[] = { QPoint(currentCoord.x() - 1, currentCoord.y()), QPoint(currentCoord.x(), currentCoord.y() - 1),
+                                  QPoint(currentCoord.x() + 1, currentCoord.y()), QPoint(currentCoord.x(), currentCoord.y() + 1) };
+
+        for(int i=0; i<4; i++)
+        {
+           QPoint coord = nearbyCoords[i];
+
+           if(matrix[coord.y()][coord.x()].value != currentValue - 1)
+               continue;
+
+           RoutingState state = canRoute(nearbyCoords[i], currentCoord, matrix[currentCoord.y()][currentCoord.x()].branched);
+
+           if(!state.canMove)
+               continue;
+
+           to = getDirection(currentCoord, coord);
+
+           if(state.action == RoutingAction::Draw)
+           {
+                draw(grid->getCells()[currentCoord.y()][currentCoord.x()], !from, to);
+           }
+           else if(state.action == RoutingAction::Branch)
+           {
+                branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
+           }
+
+           from = to;
+
+           currentCoord = coord;
+
+           break;
+        }
+    }
+    while(currentCoord != startCoord);
+
+    to = getDirection(currentCoord, startPinCoord);
+    draw(grid->getCells()[currentCoord.y()][currentCoord.x()], !from, to);
 }
