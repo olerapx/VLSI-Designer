@@ -276,7 +276,11 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
 RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 {
     if(!validateCoord(from) || !validateCoord(to))
-        return { false, RoutingAction::Nothing, false };
+        return { false, RoutingAction::Nothing, true };
+
+    CellType type = grid->getCells()[to.y()][to.x()].getType();
+    if(type == CellType::Pin || type == CellType::Element)
+        return { false, RoutingAction::Nothing, true };
 
     int diff = abs(to.x() - from.x()) + abs(to.y() - from.y());
 

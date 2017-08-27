@@ -63,6 +63,8 @@ void LeeRouting::clear()
 
     finished = false;
     noMoreWays = false;
+
+    startBranched = false;
 }
 
 void LeeRouting::initWires()
@@ -111,8 +113,11 @@ void LeeRouting::routeWire(WireData& data)
         startPinCoord = data.getSrcCoord();
         finishPinCoord = data.getDestCoord();
 
-        startCoord = getNearbyAvailableCoord(startPinCoord);
-        finishCoord = getNearbyAvailableCoord(finishPinCoord);
+        std::pair<QPoint, bool> startPair = getNearbyAvailableCoord(startPinCoord);
+        startCoord = startPair.first;
+        startBranched = startPair.second;
+
+        finishCoord = getNearbyAvailableCoord(finishPinCoord).first;
 
         pushWave();
         if(noMoreWays)
@@ -158,7 +163,7 @@ void LeeRouting::initMatrix()
     }
 }
 
-QPoint LeeRouting::getNearbyAvailableCoord(QPoint coord)
+std::pair<QPoint, bool> LeeRouting::getNearbyAvailableCoord(QPoint coord)
 {
     QPoint points[] = { QPoint(coord.x() - 1, coord.y()), QPoint(coord.x(), coord.y() - 1),
                       QPoint(coord.x() + 1, coord.y()), QPoint(coord.x(), coord.y() + 1) };
@@ -167,8 +172,23 @@ QPoint LeeRouting::getNearbyAvailableCoord(QPoint coord)
 
     for(int i=0; i<4; i++)
     {
-        if(canEnter(points[i], directions[i]))
-            return points[i];
+        if(!validateCoord(points[i]))
+            continue;
+
+        if(grid->getCells()[points[i].y()][points[i].x()].getType() == CellType::Element)
+        {
+            QPoint diff = points[i] - coord;
+            QPoint availableCoord = coord - diff;
+
+            if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::Empty)
+                return std::make_pair(availableCoord, true);
+
+            if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::UD && (directions[i] == Direction::Left ||
+                                                                                            directions[i] == Direction::Right))
+                return std::make_pair(availableCoord, true);
+
+           return std::make_pair(availableCoord, false);
+        }
     }
 
     throw RoutingException(tr("Cannot start drawing wire from/to pin at coordinates(%1; %2): the pin is obscured.")
@@ -179,7 +199,7 @@ void LeeRouting::pushWave()
 {
     currentValue = 0;
     matrix[startCoord.y()][startCoord.x()].value = currentValue;
-    matrix[startCoord.y()][startCoord.x()].branched = false;
+    matrix[startCoord.y()][startCoord.x()].branched = startBranched;
 
     finished = false;
     noMoreWays = false;
@@ -283,7 +303,9 @@ void LeeRouting::pushReverseWave()
     currentValue = matrix[currentCoord.y()][currentCoord.x()].value;
 
     Direction from, to;
-    from = getDirection(finishPinCoord, currentCoord);
+    to = !getDirection(finishPinCoord, currentCoord);
+
+    RoutingAction lastAction = RoutingAction::Draw;
 
     do
     {
@@ -300,23 +322,35 @@ void LeeRouting::pushReverseWave()
            if(matrix[coord.y()][coord.x()].value != currentValue - 1)
                continue;
 
-           RoutingState state = canRoute(nearbyCoords[i], currentCoord, matrix[currentCoord.y()][currentCoord.x()].branched);
+           RoutingState state = canRoute(nearbyCoords[i], currentCoord, matrix[nearbyCoords[i].y()][nearbyCoords[i].x()].branched);
 
            if(!state.canMove)
                continue;
 
-           to = getDirection(currentCoord, coord);
+           from = getDirection(currentCoord, coord);
 
-           if(state.action == RoutingAction::Draw)
+           if(currentCoord == finishCoord)
            {
-                draw(grid->getCells()[currentCoord.y()][currentCoord.x()], !from, to);
+               try
+               {
+                   draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
+               }
+               catch(RoutingException&)
+               {
+                   branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
+               }
            }
-           else if(state.action == RoutingAction::Branch)
+           else if(lastAction == RoutingAction::Draw)
+           {
+                draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
+           }
+           else if(lastAction == RoutingAction::Branch)
            {
                 branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
            }
 
-           from = to;
+           to = !from;
+           lastAction = state.action;
 
            currentCoord = coord;
            currentValue --;
@@ -326,6 +360,9 @@ void LeeRouting::pushReverseWave()
     }
     while(currentCoord != startCoord);
 
-    to = getDirection(currentCoord, startPinCoord);
-    draw(grid->getCells()[currentCoord.y()][currentCoord.x()], !from, to);
+    if(startBranched)
+    {
+        to = getDirection(currentCoord, startPinCoord);
+        draw(grid->getCells()[currentCoord.y()][currentCoord.x()], !from, to);
+    }
 }

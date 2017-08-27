@@ -45,6 +45,7 @@ private:
 
     QPoint startCoord, finishCoord;
     QPoint startPinCoord, finishPinCoord;
+    bool startBranched;
 
     void clear();
 
@@ -53,7 +54,7 @@ private:
 
     void routeWire(WireData& data);
     void initMatrix();
-    QPoint getNearbyAvailableCoord(QPoint pinCoord);
+    std::pair<QPoint, bool> getNearbyAvailableCoord(QPoint pinCoord);
 
     void pushWave();
     bool tryRoute(QPoint from, QPoint to);
