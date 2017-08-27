@@ -2,8 +2,19 @@
 #include <QCoreApplication>
 
 #include <algorithms/routing/leerouting/leerouting.h>
-#include <algorithms/placement/rowwiseplacement/rowwiseplacement.h>
+#include <algorithms/placement/primaryplacementalgorithm.h>
 #include <util/renderer/gridrenderer.h>
+
+class DummyPlacement: public PrimaryPlacementAlgorithm
+{
+public:
+    DummyPlacement(Scheme* scheme, QList<Library*> libraries, double expandCoefficient) :
+        PrimaryPlacementAlgorithm(scheme, libraries, expandCoefficient) {}
+
+    PlacementResult* execute() { return nullptr; }
+
+    QList<Direction> getPossibleExtensionDirections() const { return {Direction::Up, Direction::Down, Direction::Left, Direction::Right}; }
+};
 
 class LeeRoutingTest : public QObject
 {
@@ -17,6 +28,8 @@ private slots:
     void routingTest();
     void branchingTest();
     void wireSortingTest();
+    void excludedWiresTest();
+    void extendTest();
 
 private:
     QList<Library*> libraries;
@@ -104,8 +117,8 @@ void LeeRoutingTest::routingTest()
     s->getWires().append(Wire(0, "p1", 1, "p3", WireType::Outer, 1));
     s->getWires().append(Wire(0, "p1", 1, "p5", WireType::Outer, 2));
 
-    RowWisePlacement* rwp = new RowWisePlacement(s, libraries, 1.5);
-    LeeRouting lee(g, s, rwp, 1);
+    DummyPlacement dummy(s, libraries, 1.5);
+    LeeRouting lee(g, s, &dummy, 1);
 
     lee.execute();
 
@@ -137,8 +150,6 @@ void LeeRoutingTest::routingTest()
 
     delete g;
     delete s;
-
-    delete rwp;
 }
 
 void LeeRoutingTest::branchingTest()
@@ -195,8 +206,8 @@ void LeeRoutingTest::branchingTest()
     s->getWires().append(Wire(0, "p2", 3, "p1", WireType::Outer, 2));
     s->getWires().append(Wire(0, "p2", 4, "p1", WireType::Outer, 3));
 
-    RowWisePlacement* rwp = new RowWisePlacement(s, libraries, 1.5);
-    LeeRouting lee(g, s, rwp, 1);
+    DummyPlacement dummy(s, libraries, 1.5);
+    LeeRouting lee(g, s, &dummy, 1);
 
     lee.execute();
 
@@ -212,13 +223,150 @@ void LeeRoutingTest::branchingTest()
 
     delete g;
     delete s;
-
-    delete rwp;
 }
 
 void LeeRoutingTest::wireSortingTest()
 {
+    Grid* g = new Grid();
 
+    QList<QList<Cell>> cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Pin, 0, "p1"), Cell(CellType::Element, 0), Cell(CellType::Element, 0),
+          Cell(CellType::Pin, 0, "p2"), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Pin, 1, "p4"), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p1"),
+          Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p2"),
+          Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p3"),
+          Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p5"), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
+    };
+
+    for(QList<Cell> list: cells)
+        g->getCells().append(list);
+
+    g->getWiresData().append(WireData(0, QPoint(1, 1), QPoint(3, 6), WirePosition::Internal));
+    g->getWiresData().append(WireData(1, QPoint(4, 1), QPoint(3, 5), WirePosition::Internal));
+    g->getWiresData().append(WireData(2, QPoint(4, 1), QPoint(6, 7), WirePosition::Internal));
+    g->getWiresData().append(WireData(3, QPoint(4, 1), QPoint(3, 7), WirePosition::Internal));
+
+    Scheme* s = new Scheme();
+    s->getElements().append(SchemeElement("lib", "el4", 0));
+    s->getElements().append(SchemeElement("lib", "el3", 1));
+
+    s->getWires().append(Wire(0, "p1", 1, "p2", WireType::Outer, 0));
+    s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 1));
+
+    s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
+    s->getWires().append(Wire(0, "p2", 1, "p3", WireType::Inner, 3));
+
+    DummyPlacement dummy(s, libraries, 1.5);
+    LeeRouting lee(g, s, &dummy, 1);
+
+    lee.execute();
+
+    QVERIFY(g->getRoutedWires()[0] == 3);
+    QVERIFY(g->getRoutedWires()[1] == 2);
+    QVERIFY(g->getRoutedWires()[2] == 1);
+    QVERIFY(g->getRoutedWires()[3] == 0);
+
+    delete g;
+    delete s;
+}
+
+void LeeRoutingTest::excludedWiresTest()
+{
+    Grid* g = new Grid();
+
+    QList<QList<Cell>> cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Pin, 0, "p1"), Cell(CellType::Element, 0), Cell(CellType::Element, 0),
+          Cell(CellType::Pin, 0, "p2"), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Pin, 1, "p4"), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p1"),
+          Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p2"),
+          Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Empty), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p3"),
+          Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p5"), Cell(CellType::Empty) },
+
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
+    };
+
+    for(QList<Cell> list: cells)
+        g->getCells().append(list);
+
+    g->getWiresData().append(WireData(0, QPoint(1, 1), QPoint(3, 6), WirePosition::External));
+    g->getWiresData().append(WireData(1, QPoint(4, 1), QPoint(3, 5), WirePosition::Internal));
+    g->getWiresData().append(WireData(2, QPoint(4, 1), QPoint(6, 7), WirePosition::Internal));
+
+    g->getRoutedWires().append(1);
+    g->getRoutedWires().append(2);
+
+    Scheme* s = new Scheme();
+    s->getElements().append(SchemeElement("lib", "el4", 0));
+    s->getElements().append(SchemeElement("lib", "el3", 1));
+
+    s->getWires().append(Wire(0, "p1", 1, "p2", WireType::Outer, 0));
+    s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 1));
+
+    s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
+
+    DummyPlacement dummy(s, libraries, 1.5);
+    LeeRouting lee(g, s, &dummy, 1);
+
+    lee.execute();
+
+    QVERIFY(g->getRoutedWires().size() == 2);
+
+    delete g;
+    delete s;
+}
+
+void LeeRoutingTest::extendTest()
+{
+    Grid* g = new Grid();
+
+    QList<QList<Cell>> cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+          Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+    };
+
+    for(QList<Cell> list: cells)
+        g->getCells().append(list);
 }
 
 QTEST_MAIN(LeeRoutingTest)
