@@ -276,16 +276,16 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
 RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 {
     if(!validateCoord(from) || !validateCoord(to))
-        return { false, RoutingAction::Nothing, true };
+        return { false, false, true };
 
     CellType type = grid->getCells()[to.y()][to.x()].getType();
     if(type == CellType::Pin || type == CellType::Element)
-        return { false, RoutingAction::Nothing, true };
+        return { false, false, true };
 
     int diff = abs(to.x() - from.x()) + abs(to.y() - from.y());
 
     if(diff == 0)
-        return { true, RoutingAction::Nothing, branched };
+        return { true, false, branched };
 
     if(diff != 1)
         throw RoutingException(tr("The given cells are not adjacent."));
@@ -298,24 +298,21 @@ RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
     if(leave)
     {
         if(!enter)
-            return { false, RoutingAction::Nothing, true };
+            return { false, false, true };
 
-        if(branched)
-            return { true, RoutingAction::Draw, true };
-
-        return { true, RoutingAction::Branch, true };
+        return { true, false, true };
     }
 
     if(enter)
-        return { false, RoutingAction::WarnBrokenWire, true };
+        return { false, true, true };
 
     if(branched)
-        return { false, RoutingAction::Nothing, true };
+        return { false, false, true };
 
     if(canLeave(to, !direction))
-        return { false, RoutingAction::WarnBrokenWire, true };
+        return { false, true, true };
 
-    return { true, RoutingAction::Nothing, false };
+    return { true, false, false };
 }
 
 Direction RoutingAlgorithm::getDirection(QPoint from, QPoint to)
@@ -365,8 +362,11 @@ bool RoutingAlgorithm::extendHorizontally(QPoint coord, int number, Direction di
     {
         CellType type = CellType::Empty;
 
-        if(canLeave(QPoint(coord.x(), i), direction) || (direction == Direction::Left && coord.x() - 1 >= 0 && canLeave(QPoint(coord.x() - 1, i), !direction)) ||
-                (direction == Direction::Right && coord.x() + 1 < grid->getCells()[i].size() && canLeave(QPoint(coord.x() + 1, i), !direction)))
+        if((grid->getCells()[i][coord.x()].isWire() && !canLeave(QPoint(coord.x(), i), direction)) ||
+                (direction == Direction::Left && coord.x() - 1 >= 0 && grid->getCells()[i][coord.x() - 1].isWire() &&
+                 !canLeave(QPoint(coord.x() - 1, i), !direction)) ||
+                (direction == Direction::Right && coord.x() + 1 < grid->getCells()[i].size() && grid->getCells()[i][coord.x() + 1].isWire() &&
+                 !canLeave(QPoint(coord.x() + 1, i), !direction)))
             type = CellType::LR;
 
         for(int j=0; j<number; j++)
@@ -378,10 +378,10 @@ bool RoutingAlgorithm::extendHorizontally(QPoint coord, int number, Direction di
     for(WireData& data: grid->getWiresData())
     {
         if(data.getSrcCoord().x() >= insertX)
-            data.setSrcCoord(QPoint(data.getSrcCoord().x() + number, data.getSrcCoord().y()));
+            data.setSrcCoord(data.getSrcCoord() + QPoint(number, 0));
 
         if(data.getDestCoord().x() >= insertX)
-            data.setDestCoord(QPoint(data.getDestCoord().x() + number, data.getDestCoord().y()));
+            data.setDestCoord(data.getDestCoord() + QPoint(number, 0));
     }
 
     return true;
@@ -412,8 +412,11 @@ bool RoutingAlgorithm::extendVertically(QPoint coord, int number, Direction dire
     {
         CellType type = CellType::Empty;
 
-        if(canLeave(QPoint(j, coord.y()), direction) || (direction == Direction::Up && coord.y() - 1 >= 0 && canLeave(QPoint(j, coord.y() - 1), !direction)) ||
-                (direction == Direction::Down && coord.y() + 1 < grid->getCells().size() && canLeave(QPoint(j, coord.y() + 1), !direction)))
+        if((grid->getCells()[coord.y()][j].isWire() && !canLeave(QPoint(j, coord.y()), direction)) ||
+                (direction == Direction::Up && coord.y() - 1 >= 0 && grid->getCells()[coord.y() - 1][j].isWire() &&
+                 !canLeave(QPoint(j, coord.y() - 1), !direction)) ||
+                (direction == Direction::Down && coord.y() + 1 < grid->getCells().size() && grid->getCells()[coord.y() + 1][j].isWire() &&
+                 !canLeave(QPoint(j, coord.y() + 1), !direction)))
             type = CellType::UD;
 
         for(int i=0; i<number; i++)
@@ -430,10 +433,10 @@ bool RoutingAlgorithm::extendVertically(QPoint coord, int number, Direction dire
     for(WireData& data: grid->getWiresData())
     {
         if(data.getSrcCoord().y() >= insertY)
-            data.setSrcCoord(QPoint(data.getSrcCoord().x(), data.getSrcCoord().y() + number));
+            data.setSrcCoord(data.getSrcCoord() + QPoint(0, number));
 
         if(data.getDestCoord().y() >= insertY)
-            data.setDestCoord(QPoint(data.getDestCoord().x(), data.getDestCoord().y() + number));
+            data.setDestCoord(data.getDestCoord() + QPoint(0, number));
     }
 
     return true;

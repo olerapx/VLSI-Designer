@@ -41,6 +41,8 @@ public:
     QString getPinId() const { return pinId; }
 
     bool operator ==(const Cell& other);
+
+    bool isWire() const;
 };
 
 #endif // CELL_H

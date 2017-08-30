@@ -33,7 +33,7 @@ public:
     Grid* execute();
 
 private:
-    QList<WireData> innerWires, outerWires;
+    QList<WireData*> innerWires, outerWires;
     QList<QList<CellInfo>> matrix;
 
     int gridHeight, gridWidth;
@@ -52,7 +52,7 @@ private:
     void initWires();
     bool isWireRouted(Wire& wire);
 
-    void routeWire(WireData& data);
+    void routeWire(WireData *data);
     void initMatrix();
     std::pair<QPoint, bool> getNearbyAvailableCoord(QPoint pinCoord);
 

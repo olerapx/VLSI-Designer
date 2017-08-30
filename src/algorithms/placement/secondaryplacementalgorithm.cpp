@@ -31,6 +31,8 @@ void SecondaryPlacementAlgorithm::onStart()
 
 void SecondaryPlacementAlgorithm::fillWiresData(PlacementResult* result, QList<WireCoordinate> coordinates)
 {
+    result->getGrid()->getWiresData().clear();
+
     for(WireCoordinate& c: coordinates)
     {
         if(c.getPosition() == WirePosition::Internal)

@@ -8,18 +8,10 @@
 #include "direction.h"
 #include "algorithms/placement/primaryplacementalgorithm.h"
 
-enum RoutingAction
-{
-    Branch,
-    Draw,
-    Nothing,
-    WarnBrokenWire
-};
-
 struct RoutingState
 {
     bool canMove;
-    RoutingAction action;
+    bool warnBrokenWire;
     bool newBranched;
 };
 

@@ -64,3 +64,8 @@ bool Cell::operator ==(const Cell& other)
 
     return true;
 }
+
+bool Cell::isWire() const
+{
+    return (type != CellType::Element && type != CellType::Pin && type != CellType::Empty);
+}

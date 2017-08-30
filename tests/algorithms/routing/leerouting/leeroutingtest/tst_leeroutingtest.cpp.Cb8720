@@ -27,14 +27,10 @@ public:
 private slots:
     void routingTest();
     void branchingTest();
-
     void wireSortingTest();
     void excludedWiresTest();
-
     void extendHorizontallyTest();
     void extendVerticallyTest();
-
-    void extensionIsUnavailableTest();
 
 private:
     QList<Library*> libraries;
@@ -437,8 +433,8 @@ void LeeRoutingTest::extendVerticallyTest()
 
      QList<QList<Cell>> cells =
      {
-         { Cell(CellType::LR), Cell(CellType::Pin, 4, "p1"), Cell(CellType::Element, 4), Cell(CellType::Element, 4),
-           Cell(CellType::Pin, 4, "p2"), Cell(CellType::Pin, 2, "p1"), Cell(CellType::Element, 2), Cell(CellType::Element, 2),
+         { Cell(CellType::LR), Cell(CellType::LR), Cell(CellType::LR), Cell(CellType::LR),
+           Cell(CellType::LR), Cell(CellType::Pin, 2, "p1"), Cell(CellType::Element, 2), Cell(CellType::Element, 2),
            Cell(CellType::Pin, 2, "p1"), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p1"), Cell(CellType::Element, 1),
            Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p2")},
 
@@ -473,42 +469,21 @@ void LeeRoutingTest::extendVerticallyTest()
      s->getElements().append(SchemeElement("lib", "el4", 1));
      s->getElements().append(SchemeElement("lib", "el4", 2));
      s->getElements().append(SchemeElement("lib", "el4", 3));
-     s->getElements().append(SchemeElement("lib", "el4", 4));
 
      s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 0));
+
+     GridRenderer renderer(g, s);
+     renderer.execute().save("old.png");
 
      DummyPlacement dummy(s, libraries, 1.5);
      LeeRouting lee(g, s, &dummy, 1);
 
      lee.execute();
 
-     QVERIFY(g->getCells().size() == 6);
-     QVERIFY(g->getCells()[0].size() == 14);
-
-     QVERIFY(g->getWiresData()[0].getSrcCoord() == QPoint(3, 5));
-     QVERIFY(g->getWiresData()[0].getDestCoord() == QPoint(10, 0));
-
-     QVERIFY(g->getRoutedWires()[0] == 0);
-
-     QVERIFY(g->getCells()[5][4].getType() == CellType::UL);
-     QVERIFY(g->getCells()[4][4].getType() == CellType::UD);
-     QVERIFY(g->getCells()[3][4].getType() == CellType::UD);
-     QVERIFY(g->getCells()[2][4].getType() == CellType::DR);
-     QVERIFY(g->getCells()[2][5].getType() == CellType::LR);
-     QVERIFY(g->getCells()[2][6].getType() == CellType::LR);
-     QVERIFY(g->getCells()[2][7].getType() == CellType::LR);
-     QVERIFY(g->getCells()[2][8].getType() == CellType::LR);
-     QVERIFY(g->getCells()[2][9].getType() == CellType::UL);
-     QVERIFY(g->getCells()[1][9].getType() == CellType::UD);
-     QVERIFY(g->getCells()[0][9].getType() == CellType::DR);
+    renderer.execute().save("new.png");
 
      delete g;
      delete s;
-}
-
-void LeeRoutingTest::extensionIsUnavailableTest()
-{
-
 }
 
 QTEST_MAIN(LeeRoutingTest)

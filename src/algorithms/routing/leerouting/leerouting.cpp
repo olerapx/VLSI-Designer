@@ -81,9 +81,9 @@ void LeeRouting::initWires()
             continue;
 
         if(w.getType() == WireType::Inner)
-            innerWires.append(data);
+            innerWires.append(&data);
         else
-            outerWires.append(data);
+            outerWires.append(&data);
     }
 
     std::sort(innerWires.begin(), innerWires.end(), WireDistanceComparator(gridHeight, gridWidth));
@@ -102,16 +102,14 @@ bool LeeRouting::isWireRouted(Wire& wire)
     return false;
 }
 
-void LeeRouting::routeWire(WireData& data)
+void LeeRouting::routeWire(WireData* data)
 {
-    extensionAttempts = 0;
-
     do
     {
         initMatrix();
 
-        startPinCoord = data.getSrcCoord();
-        finishPinCoord = data.getDestCoord();
+        startPinCoord = data->getSrcCoord();
+        finishPinCoord = data->getDestCoord();
 
         std::pair<QPoint, bool> startPair = getNearbyAvailableCoord(startPinCoord);
         startCoord = startPair.first;
@@ -122,29 +120,32 @@ void LeeRouting::routeWire(WireData& data)
         pushWave();
         if(noMoreWays)
         {
+            if(extensionAttempts == maxExtensionAttempts)
+                break;
+
             if(!tryExtend())
                 break;
 
-            maxExtensionAttempts ++;
+            extensionAttempts ++;
         }
     }
-    while(!finished && extensionAttempts < maxExtensionAttempts);
+    while(!finished);
 
     if(!finished && extensionAttempts == maxExtensionAttempts)
     {
-        sendLog(tr("Cannot route wire with index %1. Max extension attempts number is reached.").arg(QString::number(data.getIndex())));
+        sendLog(tr("Cannot route wire with index %1. Max extension attempts number is reached.").arg(QString::number(data->getIndex())));
         return;
     }
 
     if(!finished)
     {
-        sendLog(tr("Cannot route wire with index %1. Grid extension is unavailable.").arg(QString::number(data.getIndex())));
+        sendLog(tr("Cannot route wire with index %1. Grid extension is unavailable.").arg(QString::number(data->getIndex())));
         return;
     }
 
     pushReverseWave();
 
-    grid->getRoutedWires().append(data.getIndex());
+    grid->getRoutedWires().append(data->getIndex());
 }
 
 void LeeRouting::initMatrix()
@@ -185,6 +186,10 @@ std::pair<QPoint, bool> LeeRouting::getNearbyAvailableCoord(QPoint coord)
 
             if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::UD && (directions[i] == Direction::Left ||
                                                                                             directions[i] == Direction::Right))
+                return std::make_pair(availableCoord, true);
+
+            if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::LR && (directions[i] == Direction::Up ||
+                                                                                            directions[i] == Direction::Down))
                 return std::make_pair(availableCoord, true);
 
            return std::make_pair(availableCoord, false);
@@ -244,7 +249,7 @@ bool LeeRouting::tryRoute(QPoint from, QPoint to)
     {
         RoutingState state = canRoute(from, to, matrix[from.y()][from.x()].branched);
 
-        if(state.action == RoutingAction::WarnBrokenWire)
+        if(state.warnBrokenWire)
             sendLog(tr("A broken wire detected at (%1; %2).")
                     .arg(QString::number(from.x()), QString::number(from.y())));
 
@@ -271,7 +276,7 @@ bool LeeRouting::tryExtend()
     {
         for(int j=0; j<matrix[i].size(); j++)
         {
-            if(matrix[i][j].value == currentValue)
+            if(matrix[i][j].value != -1)
                 lastWavePoints.append(QPoint(j, i));
         }
     }
@@ -305,8 +310,6 @@ void LeeRouting::pushReverseWave()
     Direction from, to;
     to = !getDirection(finishPinCoord, currentCoord);
 
-    RoutingAction lastAction = RoutingAction::Draw;
-
     do
     {
         QPoint nearbyCoords[] = { QPoint(currentCoord.x() - 1, currentCoord.y()), QPoint(currentCoord.x(), currentCoord.y() - 1),
@@ -329,28 +332,20 @@ void LeeRouting::pushReverseWave()
 
            from = getDirection(currentCoord, coord);
 
-           if(currentCoord == finishCoord)
+           try
+           {
+               draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
+           }
+           catch(RoutingException&)
            {
                try
                {
-                   draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
-               }
-               catch(RoutingException&)
-               {
                    branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
                }
-           }
-           else if(lastAction == RoutingAction::Draw)
-           {
-                draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
-           }
-           else if(lastAction == RoutingAction::Branch)
-           {
-                branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
+               catch(RoutingException&) {}
            }
 
            to = !from;
-           lastAction = state.action;
 
            currentCoord = coord;
            currentValue --;
@@ -360,9 +355,18 @@ void LeeRouting::pushReverseWave()
     }
     while(currentCoord != startCoord);
 
-    if(startBranched)
+    from = getDirection(currentCoord, startPinCoord);
+
+    try
     {
-        to = getDirection(currentCoord, startPinCoord);
-        draw(grid->getCells()[currentCoord.y()][currentCoord.x()], !from, to);
+        draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
+    }
+    catch(RoutingException&)
+    {
+        try
+        {
+            branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
+        }
+        catch(RoutingException&) {}
     }
 }
