@@ -146,10 +146,21 @@ bool RoutingAlgorithm::canLeave(QPoint coord, Direction to)
     return false;
 }
 
-void RoutingAlgorithm::draw(Cell& cell, Direction from, Direction to)
+bool RoutingAlgorithm::draw(Cell& cell, Direction from, Direction to)
 {    
-    CellType newType = getDrawType(cell.getType(), from, to);
-    cell.setType(newType);
+    try
+    {
+        CellType newType = getDrawType(cell.getType(), from, to);
+        cell.setType(newType);
+    }
+    catch(RoutingException& e)
+    {
+        sendLog(e.what());
+
+        return false;
+    }
+
+    return true;
 }
 
 CellType RoutingAlgorithm::getDrawType(CellType type, Direction from, Direction to)
@@ -198,10 +209,21 @@ CellType RoutingAlgorithm::getDrawType(CellType type, Direction from, Direction 
     throw RoutingException(tr("Cannot draw a wire with the given directions: either the directions are wrong or the cell type is incorrect."));
 }
 
-void RoutingAlgorithm::branch(Cell& cell, Direction to)
+bool RoutingAlgorithm::branch(Cell& cell, Direction to)
 {
-    CellType newType = getBranchType(cell.getType(), to);
-    cell.setType(newType);
+    try
+    {
+        CellType newType = getBranchType(cell.getType(), to);
+        cell.setType(newType);
+    }
+    catch(RoutingException& e)
+    {
+        sendLog(e.what());
+
+        return false;
+    }
+
+    return true;
 }
 
 CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
@@ -276,16 +298,16 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
 RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 {
     if(!validateCoord(from) || !validateCoord(to))
-        return { false, false, true };
+        return { false, true };
 
     CellType type = grid->getCells()[to.y()][to.x()].getType();
     if(type == CellType::Pin || type == CellType::Element)
-        return { false, false, true };
+        return { false, true };
 
     int diff = abs(to.x() - from.x()) + abs(to.y() - from.y());
 
     if(diff == 0)
-        return { true, false, branched };
+        return { true, branched };
 
     if(diff != 1)
         throw RoutingException(tr("The given cells are not adjacent."));
@@ -298,21 +320,31 @@ RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
     if(leave)
     {
         if(!enter)
-            return { false, false, true };
+            return { false, true };
 
-        return { true, false, true };
+        return { true, true };
     }
 
     if(enter)
-        return { false, true, true };
+    {
+        sendLog(tr("A broken wire detected at (%1; %2).")
+                .arg(QString::number(from.x()), QString::number(from.y())));
+
+        return { false, true };
+    }
 
     if(branched)
-        return { false, false, true };
+        return { false, true };
 
     if(canLeave(to, !direction))
-        return { false, true, true };
+    {
+        sendLog(tr("A broken wire detected at (%1; %2).")
+                .arg(QString::number(from.x()), QString::number(from.y())));
 
-    return { true, false, false };
+        return { false, true };
+    }
+
+    return { true, false };
 }
 
 Direction RoutingAlgorithm::getDirection(QPoint from, QPoint to)

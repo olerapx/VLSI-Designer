@@ -46,6 +46,7 @@ private:
     QPoint startCoord, finishCoord;
     QPoint startPinCoord, finishPinCoord;
     bool startBranched;
+    bool finishBranched;
 
     void clear();
 

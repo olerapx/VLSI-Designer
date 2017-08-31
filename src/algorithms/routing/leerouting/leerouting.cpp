@@ -65,6 +65,7 @@ void LeeRouting::clear()
     noMoreWays = false;
 
     startBranched = false;
+    finishBranched = true;
 }
 
 void LeeRouting::initWires()
@@ -115,7 +116,10 @@ void LeeRouting::routeWire(WireData* data)
         startCoord = startPair.first;
         startBranched = startPair.second;
 
-        finishCoord = getNearbyAvailableCoord(finishPinCoord).first;
+        std::pair<QPoint, bool> finishPair = getNearbyAvailableCoord(finishPinCoord);
+
+        finishCoord = finishPair.first;
+        finishBranched = finishPair.second;
 
         pushWave();
         if(noMoreWays)
@@ -171,6 +175,10 @@ std::pair<QPoint, bool> LeeRouting::getNearbyAvailableCoord(QPoint coord)
 
     Direction directions[] = { Direction::Right, Direction::Down, Direction::Left, Direction::Up };
 
+    if(grid->getCells()[coord.y()][coord.x()].getType() != CellType::Pin)
+        throw RoutingException(tr("Cannot start drawing wire from/to pin at coordinates(%1; %2): no pin found.")
+                               .arg(QString::number(coord.x()), QString::number(coord.y())));
+
     for(int i=0; i<4; i++)
     {
         if(!validateCoord(points[i]))
@@ -192,11 +200,11 @@ std::pair<QPoint, bool> LeeRouting::getNearbyAvailableCoord(QPoint coord)
                                                                                             directions[i] == Direction::Down))
                 return std::make_pair(availableCoord, true);
 
-           return std::make_pair(availableCoord, false);
+            return std::make_pair(availableCoord, false);
         }
     }
 
-    throw RoutingException(tr("Cannot start drawing wire from/to pin at coordinates(%1; %2): the pin is obscured.")
+    throw RoutingException(tr("Cannot start drawing wire from/to pin at coordinates(%1; %2): no element found nearby.")
                            .arg(QString::number(coord.x()), QString::number(coord.y())));
 }
 
@@ -248,10 +256,6 @@ bool LeeRouting::tryRoute(QPoint from, QPoint to)
     if(value == -1 || value > currentValue + 1)
     {
         RoutingState state = canRoute(from, to, matrix[from.y()][from.x()].branched);
-
-        if(state.warnBrokenWire)
-            sendLog(tr("A broken wire detected at (%1; %2).")
-                    .arg(QString::number(from.x()), QString::number(from.y())));
 
         if(!state.canMove)
             return false;
@@ -310,6 +314,8 @@ void LeeRouting::pushReverseWave()
     Direction from, to;
     to = !getDirection(finishPinCoord, currentCoord);
 
+    bool currentBranched = finishBranched;
+
     do
     {
         QPoint nearbyCoords[] = { QPoint(currentCoord.x() - 1, currentCoord.y()), QPoint(currentCoord.x(), currentCoord.y() - 1),
@@ -325,6 +331,11 @@ void LeeRouting::pushReverseWave()
            if(matrix[coord.y()][coord.x()].value != currentValue - 1)
                continue;
 
+           bool nextBranched = matrix[coord.y()][coord.x()].branched;
+
+           if(!currentBranched && nextBranched)
+               continue;
+
            RoutingState state = canRoute(nearbyCoords[i], currentCoord, matrix[nearbyCoords[i].y()][nearbyCoords[i].x()].branched);
 
            if(!state.canMove)
@@ -332,41 +343,28 @@ void LeeRouting::pushReverseWave()
 
            from = getDirection(currentCoord, coord);
 
-           try
-           {
-               draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
-           }
-           catch(RoutingException&)
-           {
-               try
-               {
-                   branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
-               }
-               catch(RoutingException&) {}
-           }
+           if(!draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to))
+               branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
 
            to = !from;
 
            currentCoord = coord;
            currentValue --;
 
+           currentBranched = nextBranched;
+
            break;
         }
+
+        throw RoutingException(tr("Cannot draw a wire from (%1; %2) to (%3; %4). "
+                                  "Perhaps the scheme has multiple outputs connected to the same input which is forbidden.")
+                               .arg(QString::number(startPinCoord.x()), QString::number(startPinCoord.y()),
+                                    QString::number(finishPinCoord.x()), QString::number(finishPinCoord.y())));
     }
     while(currentCoord != startCoord);
 
     from = getDirection(currentCoord, startPinCoord);
 
-    try
-    {
-        draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to);
-    }
-    catch(RoutingException&)
-    {
-        try
-        {
-            branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
-        }
-        catch(RoutingException&) {}
-    }
+    if(!draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to))
+        branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
 }

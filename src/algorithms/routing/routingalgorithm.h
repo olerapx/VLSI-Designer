@@ -11,7 +11,6 @@
 struct RoutingState
 {
     bool canMove;
-    bool warnBrokenWire;
     bool newBranched;
 };
 
@@ -72,8 +71,8 @@ protected:
 
     bool canLeave(QPoint coord, Direction to);
 
-    void draw(Cell& cell, Direction from, Direction to);
-    void branch(Cell& cell, Direction to);
+    bool draw(Cell& cell, Direction from, Direction to);
+    bool branch(Cell& cell, Direction to);
 
     RoutingState canRoute(QPoint from, QPoint to, bool branched);
     Direction getDirection(QPoint from, QPoint to);
