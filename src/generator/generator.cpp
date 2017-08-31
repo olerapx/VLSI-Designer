@@ -56,8 +56,8 @@ Scheme* Generator::execute()
 
         Scheme* scheme = new Scheme();
 
-        for(NodeElement el: elements)
-            scheme->getElements().append(el.getElement());
+        for(NodeElement* el: elements)
+            scheme->getElements().append(el->getElement());
 
         scheme->getWires().append(wires);
 
@@ -85,6 +85,9 @@ void Generator::clear()
     currentElementIndex = 0;
     currentWireIndex = 0;
 
+    for(NodeElement* element: elements)
+        delete element;
+
     elements.clear();
     groupedElements.clear();
     wires.clear();
@@ -92,7 +95,7 @@ void Generator::clear()
 
 void Generator::generateElements()
 {
-    groupedElements.append(QList<NodeElement>());
+    groupedElements.append(QList<NodeElement*>());
 
     sendLog(tr("Functional nodes generation."));
 
@@ -105,7 +108,7 @@ void Generator::generateElements()
     {
         SchemeElement element = getRandomElement();
 
-        groupedElements.append(QList<NodeElement>());
+        groupedElements.append(QList<NodeElement*>());
 
         for(int i=0; i<capacity; i++)
         {
@@ -119,7 +122,7 @@ void Generator::generateElements()
                 currentElementIndex ++;
             }
 
-            NodeElement nodeElement(el, currentNodeNumber);
+            NodeElement* nodeElement = new NodeElement(el, currentNodeNumber, param.getLibraries());
 
             elements.append(nodeElement);
             groupedElements[groupedElements.size() - 1].append(nodeElement);
@@ -134,7 +137,7 @@ void Generator::generateElements()
 
     for(int i=0; i<elapsedElements; i++)
     {
-        NodeElement nodeElement(getRandomElement(), freeNodeElementIndex);
+        NodeElement* nodeElement = new NodeElement(getRandomElement(), freeNodeElementIndex, param.getLibraries());
 
         elements.append(nodeElement);
         groupedElements[0].append(nodeElement);
@@ -176,7 +179,7 @@ void Generator::generateWires()
     {
         sendLog(tr("Element %1 of %2.").arg(QString::number(i), QString::number(size)));
 
-        LibraryElement el = LibraryUtils::getCorrespondingElement(elements[i].getElement(), param.getLibraries());
+        LibraryElement el = LibraryUtils::getCorrespondingElement(elements[i]->getElement(), param.getLibraries());
 
         for(Pin p: el.getPins())
         {
@@ -193,11 +196,12 @@ void Generator::checkBranching()
 {
     if(stopped) return;
 
-    qint64 inputPins = countAllInputPins();
+    qint64 inputPins = countAllPins(PinType::Input);
+    qint64 outputPins = countAllPins(PinType::Output);
 
-    if(inputPins < param.getBranchingUpperLimit())
+    if(inputPins < (param.getBranchingUpperLimit() * outputPins))
     {
-        int upperLimit = inputPins;
+        int upperLimit = inputPins / outputPins;
         int lowerLimit = param.getBranchingLowerLimit();
         int mean = param.getBranchingMean();
 
@@ -209,26 +213,30 @@ void Generator::checkBranching()
 
         param.setBranching(mean, param.getBranchingSigma(), lowerLimit, upperLimit);
 
+        branchingDistribution = std::normal_distribution<>(param.getBranchingMean(), param.getBranchingSigma());
+
         sendLog(tr("Branching parameters changing:"));
         sendLog(tr("Mean = %1, lower limit = %2, upper limit = %3.").arg(mean, lowerLimit, upperLimit));
     }
 }
 
-qint64 Generator::countAllInputPins()
+qint64 Generator::countAllPins(PinType type)
 {
     qint64 res = 0;
-    for(NodeElement element: elements)
+    for(NodeElement* element: elements)
     {
-        LibraryElement el = LibraryUtils::getCorrespondingElement(element.getElement(), param.getLibraries());
-        for(Pin p: el.getPins())
-            if(p.getType() == PinType::Input)
+        LibraryElement libElement = LibraryUtils::getCorrespondingElement(element->getElement(), param.getLibraries());
+        for(Pin& p: libElement.getPins())
+        {
+            if(p.getType() == type)
                 res ++;
+        }
     }
 
     return res;
 }
 
-void Generator::generateWiresForOutput(NodeElement& element, Pin p)
+void Generator::generateWiresForOutput(NodeElement* element, Pin p)
 {
     std::uniform_real_distribution<double> wireRandom(0, 1);
     int branching = getTruncatedDistributedValue(branchingDistribution, param.getBranchingLowerLimit(), param.getBranchingUpperLimit());
@@ -238,7 +246,7 @@ void Generator::generateWiresForOutput(NodeElement& element, Pin p)
         if(stopped) return;
 
         double chance = wireRandom(mt);
-        if(element.getNodeNumber() == freeNodeElementIndex || chance > param.getInnerWireChance())
+        if(element->getNodeNumber() == freeNodeElementIndex || chance > param.getInnerWireChance())
         {
             generateOuterWire(element, p);
             continue;
@@ -249,87 +257,82 @@ void Generator::generateWiresForOutput(NodeElement& element, Pin p)
     }
 }
 
-void Generator::generateOuterWire(NodeElement& element, Pin p)
+void Generator::generateOuterWire(NodeElement* element, Pin p)
 {
-    std::pair<NodeElement, Pin> pair = getRandomPin();
-    Wire w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
-
-    while(isWireExist(element, w))
+    try
     {
-        pair = getRandomPin();
-        w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
-    }
+        std::pair<NodeElement*, Pin> pair = getRandomPin();
+        Wire w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
 
-    wires.append(w);
-    element.getGeneratedWires().append(w);
-    currentWireIndex ++;
+        wires.append(w);
+        currentWireIndex ++;
+    }
+    catch(Exception& e)
+    {
+        sendLog(e.what());
+    }
 }
 
-bool Generator::tryGenerateInnerWire(NodeElement& element, Pin p, int attempts)
+bool Generator::tryGenerateInnerWire(NodeElement* element, Pin p, int attempts)
 {
-    std::pair<NodeElement, Pin> pair(getRandomPin(element.getNodeNumber()));
-    Wire w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
-
     for(int i=0; i<attempts; i++)
     {
-        if(isWireExist(element, w))
+        try
         {
-            pair = getRandomPin(element.getNodeNumber());
-            w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
+            std::pair<NodeElement*, Pin> pair = getRandomPin(element->getNodeNumber());
+            Wire w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
+
+            wires.append(w);
+            currentWireIndex ++;
+
+            return true;
         }
-        else break;
+        catch(Exception& e) {}
     }
 
-    if(isWireExist(element, w))
-        return false;
-
-    wires.append(w);
-    element.getGeneratedWires().append(w);
-    currentWireIndex ++;
-
-    return true;
+    return false;
 }
 
-std::pair<NodeElement, Pin> Generator::getRandomPin(int node)
+std::pair<NodeElement*, Pin> Generator::getRandomPin(int node)
 {
-    QList<NodeElement> chosenElements;
+    QList<NodeElement*> chosenElements;
 
     if(node == freeNodeElementIndex)
         chosenElements = elements;
     else
         chosenElements = groupedElements.at(node);
 
+    for(int i=0; i<chosenElements.size(); i++)
+    {
+        if(chosenElements[i]->getAvailableInputPins().empty())
+        {
+            chosenElements.removeAt(i);
+            i --;
+        }
+    }
+
+    if(chosenElements.empty())
+    {
+        throw Exception(tr("Cannot obtain available input pin without any wires connected."));
+    }
+
     std::uniform_int_distribution<int> elementRandom(0, chosenElements.size() - 1);
 
-    while(true)
-    {
-        NodeElement element(chosenElements[elementRandom(mt)]);
+    NodeElement* element = chosenElements[elementRandom(mt)];
 
-        LibraryElement libElement(LibraryUtils::getCorrespondingElement(element.getElement(), param.getLibraries()));
+    std::uniform_int_distribution<int> pinRandom(0, element->getAvailableInputPins().size() - 1);
 
-        std::uniform_int_distribution<int> pinRandom(0, libElement.getPins().size() - 1);
-        Pin pin(libElement.getPins()[pinRandom(mt)]);
+    int i = pinRandom(mt);
+    Pin pin = element->getAvailableInputPins()[i];
 
-        if(pin.getType() == PinType::Input)
-            return std::make_pair(element, pin);
-    }
+    element->getAvailableInputPins().removeAt(i);
+
+    return std::make_pair(element, pin);
 }
 
-bool Generator::isWireExist(NodeElement sourceElement, Wire other)
+Wire Generator::buildWire(NodeElement* sourceElement, Pin sourcePin, NodeElement* destElement, Pin destPin, WireType type)
 {
-    for(Wire w: sourceElement.getGeneratedWires())
-    {
-        if(w.getSrcIndex() == other.getSrcIndex() && w.getSrcPinId() == other.getSrcPinId() &&
-                w.getDestIndex() == other.getDestIndex() && w.getDestPinId() == other.getDestPinId())
-            return true;
-    }
-
-    return false;
-}
-
-Wire Generator::buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type)
-{
-    Wire wire(sourceElement.getElement().getIndex(), sourcePin.getId(), destElement.getElement().getIndex(), destPin.getId(), type, currentWireIndex);
+    Wire wire(sourceElement->getElement().getIndex(), sourcePin.getId(), destElement->getElement().getIndex(), destPin.getId(), type, currentWireIndex);
 
     return wire;
 }

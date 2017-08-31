@@ -25,7 +25,6 @@ private:
     void readLibraries();
 
     bool containsOuter(Scheme* s);
-    LibraryElement getCorrespondingElement(SchemeElement element);
 
     Scheme* scheme;
 };
@@ -94,19 +93,19 @@ void GeneratorTest::distributionTest()
     param.setElementsNumber(17);
 
     param.setNodeCapacity(2, 0.1, 2, 2);
-    param.setBranching(4, 0.2, 4, 4);
+    param.setBranching(2, 0.2, 2, 2);
 
     Generator* g = new Generator(param);
     Scheme* s = g->execute();
 
     QVERIFY(s->getElements().size() == 17);
-    QVERIFY(s->getWires().size() == 17*4);
+    QVERIFY(s->getWires().size() == 17*2);
 
     for(int i=0; i<16; i+=pow(2, 2))
     {
-        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+1]));
-        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+2]));
-        QVERIFY(getCorrespondingElement(s->getElements()[i]) == getCorrespondingElement(s->getElements()[i+3]));
+        QVERIFY(LibraryUtils::getCorrespondingElement(s->getElements()[i], libraries) == LibraryUtils::getCorrespondingElement(s->getElements()[i+1], libraries));
+        QVERIFY(LibraryUtils::getCorrespondingElement(s->getElements()[i], libraries) == LibraryUtils::getCorrespondingElement(s->getElements()[i+2], libraries));
+        QVERIFY(LibraryUtils::getCorrespondingElement(s->getElements()[i], libraries) == LibraryUtils::getCorrespondingElement(s->getElements()[i+3], libraries));
     }
 
     delete s;
@@ -156,29 +155,13 @@ void GeneratorTest::changeBranchingTest()
 
     Generator* g = new Generator(param);
     Scheme* s = g->execute();
-    QVERIFY(g->getParameters().getBranchingMean() == 6);
-    QVERIFY(g->getParameters().getBranchingLowerLimit() == 6);
-    QVERIFY(g->getParameters().getBranchingUpperLimit() == 6);
+
+    QVERIFY(g->getParameters().getBranchingMean() == 2);
+    QVERIFY(g->getParameters().getBranchingLowerLimit() == 2);
+    QVERIFY(g->getParameters().getBranchingUpperLimit() == 2);
 
     delete s;
     delete g;
-}
-
-LibraryElement GeneratorTest::getCorrespondingElement(SchemeElement element)
-{
-    for(Library* l: libraries)
-    {
-        if(l->getId() == element.getLibraryId())
-        {
-            for(LibraryElement el: l->getElements())
-            {
-                if (el.getId() == element.getElementId())
-                    return el;
-            }
-        }
-    }
-
-    throw Exception(tr("Corresponding library element cannot be found."));
 }
 
 QTEST_MAIN(GeneratorTest)

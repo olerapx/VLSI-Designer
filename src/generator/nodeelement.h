@@ -2,7 +2,7 @@
 #define NODEELEMENT_H
 
 #include "datamodels/scheme/schemeelement.h"
-#include "datamodels/scheme/wire.h"
+#include "util/misc/libraryutils.h"
 
 /**
  * @brief The NodeElement class
@@ -14,15 +14,15 @@ private:
     SchemeElement element;
     int nodeNumber;
 
-    QList<Wire> generatedWires;
+    QList<Pin> availableInputPins;
 
 public:
-    NodeElement(SchemeElement element, int nodeNumber);
+    NodeElement(SchemeElement element, int nodeNumber, QList<Library*>& libraries);
 
     SchemeElement getElement() const { return element; }
     int getNodeNumber() const { return nodeNumber; }
 
-    QList<Wire>& getGeneratedWires() { return generatedWires; }
+    QList<Pin>& getAvailableInputPins() { return availableInputPins; }
 };
 
 #endif // NODEELEMENT_H

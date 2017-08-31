@@ -67,8 +67,8 @@ private:
     qint64 currentElementIndex;
     qint64 currentWireIndex;
 
-    QList<NodeElement> elements;
-    QList<QList<NodeElement>> groupedElements;
+    QList<NodeElement*> elements;
+    QList<QList<NodeElement*>> groupedElements;
     QList<Wire> wires;
 
     void clear();
@@ -81,17 +81,16 @@ private:
     void generateWires();
 
     void checkBranching();
-    qint64 countAllInputPins();
+    qint64 countAllPins(PinType type);
 
-    void generateWiresForOutput(NodeElement& element, Pin p);
+    void generateWiresForOutput(NodeElement* element, Pin p);
 
-    void generateOuterWire(NodeElement& element, Pin p);
-    bool tryGenerateInnerWire(NodeElement& element, Pin p, int attempts);
+    void generateOuterWire(NodeElement* element, Pin p);
+    bool tryGenerateInnerWire(NodeElement* element, Pin p, int attempts);
 
-    std::pair<NodeElement, Pin> getRandomPin(int node = freeNodeElementIndex);
+    std::pair<NodeElement*, Pin> getRandomPin(int node = freeNodeElementIndex);
 
-    bool isWireExist(NodeElement sourceElement, Wire other);
-    Wire buildWire(NodeElement sourceElement, Pin sourcePin, NodeElement destElement, Pin destPin, WireType type);
+    Wire buildWire(NodeElement* sourceElement, Pin sourcePin, NodeElement* destElement, Pin destPin, WireType type);
 
     void generateAliases(Scheme* scheme);
 };
