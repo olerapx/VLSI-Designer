@@ -1,6 +1,6 @@
 {"library": {
 	"id": "generic",
-	"version": 0.1,
+	"version": 0.2,
 	"name": "Generic Standard Element Library",
 	"elements": [
 	{
@@ -22,7 +22,7 @@
 		"height": 6,
 		"width": 4,
 		"pins": [
-			{"id": "a", "x": 0, "y": 2, "type": "input"},
+			{"id": "a", "x": 0, "y": 1, "type": "input"},
 			{"id": "b", "x": 0, "y": 2, "type": "input"},
 			{"id": "c", "x": 0, "y": 3, "type": "input"},
 			{"id": "z", "x": 3, "y": 2, "type": "output"}

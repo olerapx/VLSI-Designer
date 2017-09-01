@@ -22,7 +22,7 @@ struct CellInfo
 class LeeRouting : public RoutingAlgorithm
 {
 public:
-    LeeRouting(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts);
+    LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
 
     /**
      * @brief execute
@@ -46,7 +46,6 @@ private:
     QPoint startCoord, finishCoord;
     QPoint startPinCoord, finishPinCoord;
     bool startBranched;
-    bool finishBranched;
 
     void clear();
 

@@ -19,7 +19,6 @@ HEADERS  += \
     $$PWD/algorithms/placement/rowpermutationplacement/rowpermutationplacement.h \
     $$PWD/algorithms/routing/routingalgorithm.h \
     $$PWD/algorithms/routing/routingexception.h \
-    $$PWD/algorithms/routing/direction.h \
     $$PWD/algorithms/routing/leerouting/leerouting.h \
     $$PWD/algorithms/routing/leerouting/wiredistancecomparator.h \
     $$PWD/algorithms/routing/leerouting/pointdistancecomparator.h \

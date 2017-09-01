@@ -5,8 +5,14 @@
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
 #include "routingexception.h"
-#include "direction.h"
-#include "algorithms/placement/primaryplacementalgorithm.h"
+
+enum class Direction
+{
+    Left,
+    Up,
+    Right,
+    Down
+};
 
 struct RoutingState
 {
@@ -25,7 +31,7 @@ class RoutingAlgorithm : public Threadable
     Q_OBJECT
 
 public:
-    RoutingAlgorithm(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts);
+    RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
 
     /**
      * @brief setParameters
@@ -35,7 +41,7 @@ public:
      * @param algorithm
      * @param maxExtensionAttempts
      */
-    void setParameters(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts);
+    void setParameters(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
 
     /**
      * @brief execute
@@ -62,7 +68,6 @@ public slots:
 protected:
     Grid* grid;
     Scheme* scheme;
-    PrimaryPlacementAlgorithm* primaryPlacement;
     int maxExtensionAttempts;
 
     bool canEnter(QPoint coord, Direction from);

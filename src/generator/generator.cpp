@@ -199,24 +199,28 @@ void Generator::checkBranching()
     qint64 inputPins = countAllPins(PinType::Input);
     qint64 outputPins = countAllPins(PinType::Output);
 
-    if(inputPins < (param.getBranchingUpperLimit() * outputPins))
+    if(inputPins < (param.getBranchingMean() * outputPins))
     {
-        int upperLimit = inputPins / outputPins;
+        int mean = inputPins / outputPins;
+        int upperLimit = param.getBranchingUpperLimit();
         int lowerLimit = param.getBranchingLowerLimit();
-        int mean = param.getBranchingMean();
-
-        if(lowerLimit > upperLimit)
-            lowerLimit = upperLimit;
 
         if(mean < lowerLimit || mean > upperLimit)
-            mean = (lowerLimit + upperLimit) / 2;
+        {
+            int diff = param.getBranchingMean() - mean;
+            lowerLimit -= diff;
+            upperLimit -= diff;
+
+            if(lowerLimit < 0)
+                lowerLimit = 0;
+        }
 
         param.setBranching(mean, param.getBranchingSigma(), lowerLimit, upperLimit);
 
         branchingDistribution = std::normal_distribution<>(param.getBranchingMean(), param.getBranchingSigma());
 
         sendLog(tr("Branching parameters changing:"));
-        sendLog(tr("Mean = %1, lower limit = %2, upper limit = %3.").arg(mean, lowerLimit, upperLimit));
+        sendLog(tr("Mean = %1, lower limit = %2, upper limit = %3.").arg(QString::number(mean), QString::number(lowerLimit), QString::number(upperLimit)));
     }
 }
 
@@ -248,28 +252,32 @@ void Generator::generateWiresForOutput(NodeElement* element, Pin p)
         double chance = wireRandom(mt);
         if(element->getNodeNumber() == freeNodeElementIndex || chance > param.getInnerWireChance())
         {
-            generateOuterWire(element, p);
+            tryGenerateOuterWire(element, p, branching);
             continue;
         }
 
         if (!tryGenerateInnerWire(element, p, branching))
-            generateOuterWire(element, p);
+            tryGenerateOuterWire(element, p, branching);
     }
 }
 
-void Generator::generateOuterWire(NodeElement* element, Pin p)
+void Generator::tryGenerateOuterWire(NodeElement* element, Pin p, int attempts)
 {
-    try
+    for(int i=0; i<attempts; i++)
     {
-        std::pair<NodeElement*, Pin> pair = getRandomPin();
-        Wire w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
+        try
+        {
+            std::pair<NodeElement*, Pin> pair = getRandomPin();
+            Wire w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
 
-        wires.append(w);
-        currentWireIndex ++;
-    }
-    catch(Exception& e)
-    {
-        sendLog(e.what());
+            wires.append(w);
+            currentWireIndex ++;
+        }
+        catch(Exception& e)
+        {
+            if(i == attempts - 1)
+                sendLog(e.what());
+        }
     }
 }
 

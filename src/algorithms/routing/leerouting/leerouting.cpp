@@ -1,7 +1,7 @@
 #include "leerouting.h"
 
-LeeRouting::LeeRouting(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts) :
-    RoutingAlgorithm(grid, scheme, algorithm, maxExtensionAttempts)
+LeeRouting::LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts) :
+    RoutingAlgorithm(grid, scheme, maxExtensionAttempts)
 {
     clear();
 }
@@ -65,7 +65,6 @@ void LeeRouting::clear()
     noMoreWays = false;
 
     startBranched = false;
-    finishBranched = true;
 }
 
 void LeeRouting::initWires()
@@ -119,7 +118,9 @@ void LeeRouting::routeWire(WireData* data)
         std::pair<QPoint, bool> finishPair = getNearbyAvailableCoord(finishPinCoord);
 
         finishCoord = finishPair.first;
-        finishBranched = finishPair.second;
+        if(!finishPair.second)
+            throw RoutingException(tr("Cannot route a wire to the pin (%1; %2). Multiple wires connected to the same pin which is prohibited.")
+                                   .arg(QString::number(finishPinCoord.x()), QString::number(finishPinCoord.y())));
 
         pushWave();
         if(noMoreWays)
@@ -189,15 +190,7 @@ std::pair<QPoint, bool> LeeRouting::getNearbyAvailableCoord(QPoint coord)
             QPoint diff = points[i] - coord;
             QPoint availableCoord = coord - diff;
 
-            if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::Empty)
-                return std::make_pair(availableCoord, true);
-
-            if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::UD && (directions[i] == Direction::Left ||
-                                                                                            directions[i] == Direction::Right))
-                return std::make_pair(availableCoord, true);
-
-            if(grid->getCells()[availableCoord.y()][availableCoord.x()].getType() == CellType::LR && (directions[i] == Direction::Up ||
-                                                                                            directions[i] == Direction::Down))
+            if(canLeave(availableCoord, !directions[i]))
                 return std::make_pair(availableCoord, true);
 
             return std::make_pair(availableCoord, false);
@@ -287,7 +280,7 @@ bool LeeRouting::tryExtend()
 
     std::sort(lastWavePoints.begin(), lastWavePoints.end(), PointDistanceComparator(finishCoord));
 
-    QList<Direction> directions = primaryPlacement->getPossibleExtensionDirections();
+    QList<Direction> directions = { Direction::Left, Direction::Up, Direction::Right, Direction::Down };
 
     for(QPoint& point: lastWavePoints)
     {
@@ -314,7 +307,7 @@ void LeeRouting::pushReverseWave()
     Direction from, to;
     to = !getDirection(finishPinCoord, currentCoord);
 
-    bool currentBranched = finishBranched;
+    bool currentBranched = matrix[currentCoord.y()][currentCoord.x()].branched;
     bool routed = false;
 
     do

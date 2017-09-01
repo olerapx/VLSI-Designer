@@ -15,16 +15,15 @@ Direction operator !(const Direction& other)
     }
 }
 
-RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts)
+RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts)
 {
-    setParameters(grid, scheme, algorithm, maxExtensionAttempts);
+    setParameters(grid, scheme, maxExtensionAttempts);
 }
 
-void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, PrimaryPlacementAlgorithm* algorithm, int maxExtensionAttempts)
+void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, int maxExtensionAttempts)
 {
     this->grid = grid;
     this->scheme = scheme;
-    this->primaryPlacement = algorithm;
     this->maxExtensionAttempts = maxExtensionAttempts;
 }
 

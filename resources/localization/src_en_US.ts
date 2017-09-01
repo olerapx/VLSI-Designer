@@ -62,6 +62,10 @@
         <source>Element %1 of %2.</source>
         <translation>Element %1 of %2.</translation>
     </message>
+    <message>
+        <source>Cannot obtain available input pin without any wires connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GridRenderer</name>
@@ -124,6 +128,41 @@
     <message>
         <source>Renderer is stopped.</source>
         <translation>Renderer is stopped.</translation>
+    </message>
+</context>
+<context>
+    <name>LeeRouting</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation type="unfinished">The algorithm is already working.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation type="unfinished">Algorithm is stopped.</translation>
+    </message>
+    <message>
+        <source>Cannot route a wire to the pin (%1; %2). Multiple wires connected to the same pin which is prohibited.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot route wire with index %1. Max extension attempts number is reached.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot route wire with index %1. Grid extension is unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot start drawing wire from/to pin at coordinates(%1; %2): no pin found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot start drawing wire from/to pin at coordinates(%1; %2): no element found nearby.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot draw a wire from (%1; %2) to (%3; %4). Perhaps the scheme has multiple outputs connected to the same input which is forbidden.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -405,6 +444,45 @@
         <source>The element does not contain a pin with the given id: %1.</source>
         <translation>The element does not contain a pin with the given id: %1.</translation>
     </message>
+    <message>
+        <source>Wire source coordinates cannot be negative, passed: (%1; %2).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wire destination coordinates cannot be negative, passed: (%1; %2).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot find the wire with index %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid wire position specified, got: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RoutingAlgorithm</name>
+    <message>
+        <source>Cannot draw a wire with the given directions: either the directions are wrong or the cell type is incorrect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot branch a wire on the cell without wire already existed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Incorrect combination of wire type and direction is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given cells are not adjacent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A broken wire detected at (%1; %2).</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RowPermutationPlacement</name>
@@ -426,7 +504,7 @@
     </message>
     <message>
         <source>Preparing.</source>
-        <translation>Preparing.</translation>
+        <translation type="vanished">Preparing.</translation>
     </message>
     <message>
         <source>Finding the optimal position of row %1 of %2.</source>
@@ -482,6 +560,13 @@
     <message>
         <source>Distinguishing the scheme-related wires.</source>
         <translation>Distinguishing the scheme-related wires.</translation>
+    </message>
+</context>
+<context>
+    <name>SecondaryPlacementAlgorithm</name>
+    <message>
+        <source>Preparing.</source>
+        <translation type="unfinished">Preparing.</translation>
     </message>
 </context>
 <context>

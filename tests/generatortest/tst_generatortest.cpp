@@ -81,6 +81,19 @@ void GeneratorTest::generateTest()
     for(int i=1; i<s->getElements().size(); i++)
         QVERIFY(s->getElements()[i].getIndex() - s->getElements()[i-1].getIndex() == 1);
 
+    for(int i=0; i<s->getWires().size(); i++)
+    {
+        qint64 destIndex = s->getWires()[i].getDestIndex();
+        QString destPinId = s->getWires()[i].getDestPinId();
+
+        for(int j=0; j<s->getWires().size(); j++)
+        {
+            if(i == j) continue;
+
+            QVERIFY(!(destIndex == s->getWires()[j].getDestIndex() && destPinId == s->getWires()[j].getDestPinId()));
+        }
+    }
+
     delete s;
     delete g;
 }

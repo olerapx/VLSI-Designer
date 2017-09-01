@@ -85,7 +85,7 @@ private:
 
     void generateWiresForOutput(NodeElement* element, Pin p);
 
-    void generateOuterWire(NodeElement* element, Pin p);
+    void tryGenerateOuterWire(NodeElement* element, Pin p, int attempts);
     bool tryGenerateInnerWire(NodeElement* element, Pin p, int attempts);
 
     std::pair<NodeElement*, Pin> getRandomPin(int node = freeNodeElementIndex);

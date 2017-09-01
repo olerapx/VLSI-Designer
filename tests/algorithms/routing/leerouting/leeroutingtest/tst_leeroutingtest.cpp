@@ -2,19 +2,8 @@
 #include <QCoreApplication>
 
 #include <algorithms/routing/leerouting/leerouting.h>
-#include <algorithms/placement/primaryplacementalgorithm.h>
 #include <util/renderer/gridrenderer.h>
-
-class DummyPlacement: public PrimaryPlacementAlgorithm
-{
-public:
-    DummyPlacement(Scheme* scheme, QList<Library*> libraries, double expandCoefficient) :
-        PrimaryPlacementAlgorithm(scheme, libraries, expandCoefficient) {}
-
-    PlacementResult* execute() { return nullptr; }
-
-    QList<Direction> getPossibleExtensionDirections() const { return {Direction::Left, Direction::Up, Direction::Right, Direction::Down}; }
-};
+#include "datamodels/library/library.h"
 
 class LeeRoutingTest : public QObject
 {
@@ -122,8 +111,7 @@ void LeeRoutingTest::routingTest()
     s->getWires().append(Wire(0, "p1", 1, "p3", WireType::Outer, 1));
     s->getWires().append(Wire(0, "p1", 1, "p5", WireType::Outer, 2));
 
-    DummyPlacement dummy(s, libraries, 1.5);
-    LeeRouting lee(g, s, &dummy, 1);
+    LeeRouting lee(g, s, 1);
 
     lee.execute();
 
@@ -211,8 +199,7 @@ void LeeRoutingTest::branchingTest()
     s->getWires().append(Wire(0, "p2", 3, "p1", WireType::Outer, 2));
     s->getWires().append(Wire(0, "p2", 4, "p1", WireType::Outer, 3));
 
-    DummyPlacement dummy(s, libraries, 1.5);
-    LeeRouting lee(g, s, &dummy, 1);
+    LeeRouting lee(g, s, 1);
 
     lee.execute();
 
@@ -282,8 +269,7 @@ void LeeRoutingTest::wireSortingTest()
     s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
     s->getWires().append(Wire(0, "p2", 1, "p3", WireType::Inner, 3));
 
-    DummyPlacement dummy(s, libraries, 1.5);
-    LeeRouting lee(g, s, &dummy, 1);
+    LeeRouting lee(g, s, 1);
 
     lee.execute();
 
@@ -349,8 +335,7 @@ void LeeRoutingTest::excludedWiresTest()
 
     s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
 
-    DummyPlacement dummy(s, libraries, 1.5);
-    LeeRouting lee(g, s, &dummy, 1);
+    LeeRouting lee(g, s, 1);
 
     lee.execute();
 
@@ -404,8 +389,7 @@ void LeeRoutingTest::extendHorizontallyTest()
 
     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
 
-    DummyPlacement dummy(s, libraries, 1.5);
-    LeeRouting lee(g, s, &dummy, 1);
+    LeeRouting lee(g, s, 1);
 
     lee.execute();
 
@@ -477,8 +461,7 @@ void LeeRoutingTest::extendVerticallyTest()
 
      s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 0));
 
-     DummyPlacement dummy(s, libraries, 1.5);
-     LeeRouting lee(g, s, &dummy, 1);
+     LeeRouting lee(g, s, 1);
 
      lee.execute();
 

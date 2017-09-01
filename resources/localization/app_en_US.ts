@@ -130,43 +130,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="22"/>
-        <location filename="../../app/gui/generatorwindow.cpp" line="222"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="27"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="251"/>
         <source>Stopping...</source>
         <translation>Stopping...</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="40"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="45"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="67"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="72"/>
         <source>Generation is finished.</source>
         <translation>Generation is finished.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="102"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="107"/>
         <source>Libraries choosing</source>
         <translation>Libraries choosing</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="102"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="107"/>
         <source>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</source>
         <translation>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="197"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="226"/>
         <source>JSON (*.json);;Binary (*.bin)</source>
         <translation>JSON (*.json);;Binary (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="188"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="217"/>
         <source>Serialization...</source>
         <translation>Serialization...</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="197"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="226"/>
         <source>Scheme saving</source>
         <translation>Scheme saving</translation>
     </message>
