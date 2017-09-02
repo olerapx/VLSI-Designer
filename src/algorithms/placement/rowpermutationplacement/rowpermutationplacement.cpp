@@ -319,12 +319,12 @@ void RowPermutationPlacement::swapElementsCoordinates(QList<QList<ElementCoordin
     QPoint secondElementCoord = secondCoord.getTopLeftCoord();
     secondCoord.setTopLeftCoord(firstCoord.getTopLeftCoord());
 
-    firstCoord.setTopLeftCoord(QPoint(secondElementCoord.x() + shift, secondElementCoord.y()));
+    firstCoord.setTopLeftCoord(secondElementCoord + QPoint(shift, 0));
 
     for(int i=firstElementPosition + 1; i<secondElementPosition; i++)
     {
         QPoint coord = row[i].getTopLeftCoord();
-        row[i].setTopLeftCoord(QPoint(coord.x() + shift, coord.y()));
+        row[i].setTopLeftCoord(coord + QPoint(shift, 0));
     }
 
     row.swap(firstElementPosition, secondElementPosition);
@@ -372,7 +372,7 @@ void RowPermutationPlacement::swapElementsOnGrid(QList<QList<ElementCoordinate>>
     }
 
     GridUtils::paste(previous->getGrid(), secondElementCells, firstCoord.getTopLeftCoord());
-    GridUtils::paste(previous->getGrid(), firstElementCells, QPoint(secondCoord.getTopLeftCoord().x() + shift, secondCoord.getTopLeftCoord().y()));
+    GridUtils::paste(previous->getGrid(), firstElementCells, (secondCoord.getTopLeftCoord() + QPoint(shift, 0)));
 }
 
 int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate>& row)

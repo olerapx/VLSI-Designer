@@ -308,14 +308,14 @@ void LeeRouting::pushReverseWave()
     to = !getDirection(finishPinCoord, currentCoord);
 
     bool currentBranched = matrix[currentCoord.y()][currentCoord.x()].branched;
-    bool routed = false;
+    bool hasProgress = false;
 
     do
     {
         QPoint nearbyCoords[] = { QPoint(currentCoord.x() - 1, currentCoord.y()), QPoint(currentCoord.x(), currentCoord.y() - 1),
                                   QPoint(currentCoord.x() + 1, currentCoord.y()), QPoint(currentCoord.x(), currentCoord.y() + 1) };
 
-        routed = false;
+        hasProgress = false;
 
         for(int i=0; i<4; i++)
         {
@@ -339,6 +339,12 @@ void LeeRouting::pushReverseWave()
 
            from = getDirection(currentCoord, coord);
 
+           if(!currentBranched && !nextBranched)
+           {
+               if(canLeave(currentCoord, from) || canLeave(coord, !from))
+                   continue;
+           }
+
            if(!draw(grid->getCells()[currentCoord.y()][currentCoord.x()], from, to))
                branch(grid->getCells()[currentCoord.y()][currentCoord.x()], to);
 
@@ -349,14 +355,13 @@ void LeeRouting::pushReverseWave()
 
            currentBranched = nextBranched;
 
-           routed = true;
+           hasProgress = true;
 
            break;
         }
 
-        if(!routed)
-            throw RoutingException(tr("Cannot draw a wire from (%1; %2) to (%3; %4). "
-                                      "Perhaps the scheme has multiple outputs connected to the same input which is forbidden.")
+        if(!hasProgress)
+            throw RoutingException(tr("Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.")
                                    .arg(QString::number(startPinCoord.x()), QString::number(startPinCoord.y()),
                                         QString::number(finishPinCoord.x()), QString::number(finishPinCoord.y())));
     }
