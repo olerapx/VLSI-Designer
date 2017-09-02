@@ -61,10 +61,10 @@ void RowPermutationPlacement::clear()
 
 qint64 RowPermutationPlacement::getFitnessValue()
 {
-    QList<QList<ElementCoordinate>> elementCoords = previous->getRowWiseCoordinates();
-    QList<WireCoordinate> coordinates = fillWireCoordinates(elementCoords);
+    QList<QList<ElementCoordinate>> elementCoordinates = previous->getRowWiseCoordinates();
+    QList<WireCoordinate> wireCoordinates = fillWireCoordinates(elementCoordinates);
 
-    return getFitnessValue(coordinates);
+    return getFitnessValue(wireCoordinates);
 }
 
 void RowPermutationPlacement::permutateRows()
@@ -134,13 +134,12 @@ void RowPermutationPlacement::findOptimalRowPosition(int rowIndex)
 
 qint64 RowPermutationPlacement::findFitnessDiffOnRowsSwapping(int firstRowPosition, int secondRowPosition)
 {
-    qint64 fitnessValue = getFitnessValue(wireCoordinates);
-
     QList<QList<ElementCoordinate>> newElementCoordinates = elementCoordinates;
-    swapRowsCoordinates(newElementCoordinates, firstRowPosition, secondRowPosition);
 
+    swapRowsCoordinates(newElementCoordinates, firstRowPosition, secondRowPosition);
     QList<WireCoordinate> newWireCoordinates = fillWireCoordinates(newElementCoordinates);
 
+    qint64 fitnessValue = getFitnessValue(wireCoordinates);
     qint64 newFitnessValue = getFitnessValue(newWireCoordinates);
 
     return (fitnessValue - newFitnessValue);
@@ -175,7 +174,7 @@ void RowPermutationPlacement::swapRowsCoordinates(QList<QList<ElementCoordinate>
         for(ElementCoordinate& c: elementCoordinates[i])
         {
             QPoint coord = c.getTopLeftCoord();
-            c.setTopLeftCoord(QPoint(coord.x(), coord.y() + shift));
+            c.setTopLeftCoord(coord + QPoint(0, shift));
         }
     }
 
@@ -292,13 +291,12 @@ void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int eleme
 
 qint64 RowPermutationPlacement::findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition)
 {
-    qint64 fitnessValue = getFitnessValue(wireCoordinates);
-
     QList<QList<ElementCoordinate>> newElementCoordinates = elementCoordinates;
-    swapElementsCoordinates(newElementCoordinates, rowIndex, firstElementPosition, secondElementPosition);
 
+    swapElementsCoordinates(newElementCoordinates, rowIndex, firstElementPosition, secondElementPosition);
     QList<WireCoordinate> newWireCoordinates = fillWireCoordinates(newElementCoordinates);
 
+    qint64 fitnessValue = getFitnessValue(wireCoordinates);
     qint64 newFitnessValue = getFitnessValue(newWireCoordinates);
 
     return (fitnessValue - newFitnessValue);
@@ -399,11 +397,11 @@ qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate>& wireCoord
 
 PlacementResult* RowPermutationPlacement::buildResult()
 {
-    QList<ElementCoordinate> elementCoords = concatCoordinates();
+    QList<ElementCoordinate> elementCoords = concatElementCoordinates();
     return new PlacementResult(previous->getGrid(), elementCoords, previous->getRelatedWires(), previous->getLibraries());
 }
 
-QList<ElementCoordinate> RowPermutationPlacement::concatCoordinates()
+QList<ElementCoordinate> RowPermutationPlacement::concatElementCoordinates()
 {
     QList<ElementCoordinate> res;
 

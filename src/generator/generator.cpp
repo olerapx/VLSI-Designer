@@ -272,6 +272,8 @@ void Generator::tryGenerateOuterWire(NodeElement* element, Pin p, int attempts)
 
             wires.append(w);
             currentWireIndex ++;
+
+            return;
         }
         catch(Exception& e)
         {

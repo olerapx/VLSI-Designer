@@ -56,7 +56,7 @@ private:
     qint64 getFitnessValue(QList<WireCoordinate>& wireCoordinates);
 
     PlacementResult* buildResult();
-    QList<ElementCoordinate> concatCoordinates();
+    QList<ElementCoordinate> concatElementCoordinates();
 };
 
 #endif // ROWPERMUTATIONPLACEMENT_H
