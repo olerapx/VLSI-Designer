@@ -214,7 +214,7 @@ void RowPermutationPlacement::swapRowsOnGrid(QList<QList<ElementCoordinate>>& el
     if(shift > 0)
     {
         GridUtils::insertRows(previous->getGrid(), firstCoord.y(), shift);
-        GridUtils::removeRows(previous->getGrid(), secondCoord.y(), shift);
+        GridUtils::removeRows(previous->getGrid(), secondCoord.y() + shift, shift);
     }
     else if(shift < 0)
     {
@@ -361,7 +361,7 @@ void RowPermutationPlacement::swapElementsOnGrid(QList<QList<ElementCoordinate>>
     if(shift > 0)
     {
         GridUtils::insertEmptyColumns(previous->getGrid(), firstCoord.getTopLeftCoord(), shift, height);
-        GridUtils::removeColumns(previous->getGrid(), secondCoord.getTopLeftCoord(), shift, height);
+        GridUtils::removeColumns(previous->getGrid(), (secondCoord.getTopLeftCoord() + QPoint(shift, 0)), shift, height);
     }
     else if(shift < 0)
     {
