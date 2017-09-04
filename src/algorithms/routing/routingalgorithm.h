@@ -71,7 +71,7 @@ protected:
     int maxExtensionAttempts;
 
     bool canEnter(QPoint coord, Direction from);
-    bool validateCoord(QPoint coord);
+    bool checkCoordIsInGrid(QPoint coord);
     bool hasElementNearby(QPoint coord);
 
     bool canLeave(QPoint coord, Direction to);

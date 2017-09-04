@@ -1,8 +1,6 @@
 #ifndef LEEROUTING_H
 #define LEEROUTING_H
 
-#include <QList>
-
 #include "algorithms/routing/routingalgorithm.h"
 #include "util/misc/schemeutils.h"
 #include "util/misc/wireutils.h"
@@ -52,8 +50,9 @@ private:
     void initWires();
     bool isWireRouted(Wire& wire);
 
-    void routeWire(WireData *data);
+    void routeWire(WireData *data);    
     void initMatrix();
+    void getTerminalCoords(WireData* data);
     std::pair<QPoint, bool> getNearbyAvailableCoord(QPoint pinCoord);
 
     void pushWave();
@@ -62,6 +61,7 @@ private:
     bool tryExtend();
 
     void pushReverseWave();
+    bool canAdvance(QPoint currentCoord, QPoint coord);
 };
 
 #endif // LEEROUTING_H

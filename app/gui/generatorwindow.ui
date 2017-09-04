@@ -98,7 +98,7 @@
          </sizepolicy>
         </property>
         <property name="title">
-         <string>Разрядность узлов</string>
+         <string>Node capacity</string>
         </property>
         <layout class="QFormLayout" name="formLayout">
          <item row="1" column="0">

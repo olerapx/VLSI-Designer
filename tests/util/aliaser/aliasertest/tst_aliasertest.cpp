@@ -1,7 +1,7 @@
 #include <QtTest>
 #include <QCoreApplication>
 
-#include "util/aliaser/aliaser.h"
+#include <util/aliaser/aliaser.h>
 
 class AliaserTest : public QObject
 {

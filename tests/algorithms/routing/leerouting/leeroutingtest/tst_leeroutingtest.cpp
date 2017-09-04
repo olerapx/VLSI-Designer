@@ -2,8 +2,7 @@
 #include <QCoreApplication>
 
 #include <algorithms/routing/leerouting/leerouting.h>
-#include <util/renderer/gridrenderer.h>
-#include "datamodels/library/library.h"
+#include <datamodels/library/library.h>
 
 class LeeRoutingTest : public QObject
 {
@@ -24,6 +23,7 @@ private slots:
     void extendVerticallyTest();
 
     void extensionIsUnavailableTest();
+    void maxExtensionAttemptsReachedTest();
 
 private:
     QList<Library*> libraries;
@@ -491,7 +491,90 @@ void LeeRoutingTest::extendVerticallyTest()
 
 void LeeRoutingTest::extensionIsUnavailableTest()
 {
+    Grid* g = new Grid();
 
+     QList<QList<Cell>> cells =
+     {
+         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Empty), Cell(CellType::UD), Cell(CellType::Pin, 2, "p1"), Cell(CellType::Element, 2),
+           Cell(CellType::Element, 2), Cell(CellType::Pin, 2, "p2"), Cell(CellType::Empty), Cell(CellType::Empty)},
+
+         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Empty), Cell(CellType::UD), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty)},
+
+         { Cell(CellType::Pin, 0, "p1"), Cell(CellType::Element, 0), Cell(CellType::Element, 0), Cell(CellType::Pin, 0, "p2"),
+           Cell(CellType::Empty), Cell(CellType::UDL), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Pin, 1, "p1"), Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p2")},
+
+         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Empty), Cell(CellType::UD), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty)},
+
+         { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty),
+           Cell(CellType::Empty), Cell(CellType::UD), Cell(CellType::Pin, 3, "p1"), Cell(CellType::Element, 3),
+           Cell(CellType::Element, 3), Cell(CellType::Pin, 3, "p2"), Cell(CellType::Empty), Cell(CellType::Empty)},
+     };
+
+     for(QList<Cell> list: cells)
+         g->getCells().append(list);
+
+     g->getWiresData().append(WireData(0, QPoint(8, 2), QPoint(3, 2), WirePosition::Internal));
+
+     Scheme* s = new Scheme();
+     s->getElements().append(SchemeElement("lib", "el4", 0));
+     s->getElements().append(SchemeElement("lib", "el4", 1));
+     s->getElements().append(SchemeElement("lib", "el4", 2));
+     s->getElements().append(SchemeElement("lib", "el4", 3));
+
+     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
+
+     LeeRouting lee(g, s, 1);
+
+     lee.execute();
+
+     QVERIFY(g->getRoutedWires().size() == 0);
+
+     QVERIFY(g->getCells().size() == 5);
+     QVERIFY(g->getCells()[0].size() == 12);
+
+     delete g;
+     delete s;
+}
+
+void LeeRoutingTest::maxExtensionAttemptsReachedTest()
+{
+    Grid* g = new Grid();
+
+     QList<QList<Cell>> cells =
+     {
+         { Cell(CellType::Pin, 0, "p1"), Cell(CellType::Element, 0), Cell(CellType::Element, 0), Cell(CellType::Pin, 0, "p2"),
+           Cell(CellType::Empty), Cell(CellType::UDLRI), Cell(CellType::Empty), Cell(CellType::Pin, 1, "p1"),
+           Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p2")}
+     };
+
+     for(QList<Cell> list: cells)
+         g->getCells().append(list);
+
+     g->getWiresData().append(WireData(0, QPoint(7, 0), QPoint(3, 0), WirePosition::Internal));
+
+     Scheme* s = new Scheme();
+     s->getElements().append(SchemeElement("lib", "el4", 0));
+     s->getElements().append(SchemeElement("lib", "el4", 1));
+
+     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
+
+     LeeRouting lee(g, s, 2);
+
+     lee.execute();
+
+     QVERIFY(g->getRoutedWires().size() == 0);
+
+     QVERIFY(g->getCells().size() == 1);
+     QVERIFY(g->getCells()[0].size() == 13);
+
+     delete g;
+     delete s;
 }
 
 QTEST_MAIN(LeeRoutingTest)

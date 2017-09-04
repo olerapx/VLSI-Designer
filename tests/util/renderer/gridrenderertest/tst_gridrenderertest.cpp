@@ -1,7 +1,7 @@
 #include <QtTest>
 #include <QCoreApplication>
 
-#include "util/renderer/gridrenderer.h"
+#include <util/renderer/gridrenderer.h>
 
 class GridRendererTest : public QObject
 {

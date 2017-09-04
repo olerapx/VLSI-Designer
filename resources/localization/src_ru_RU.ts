@@ -40,7 +40,7 @@
     </message>
     <message>
         <source>Mean = %1, lower limit = %2, upper limit = %3.</source>
-        <translation>Медиана = %1,нижняя граница = %2, верхняя граница = %3.</translation>
+        <translation>Медиана = %1, нижняя граница = %2, верхняя граница = %3.</translation>
     </message>
     <message>
         <source>The generator is already working.</source>
@@ -63,8 +63,8 @@
         <translation>Элемент %1 из %2.</translation>
     </message>
     <message>
-        <source>Cannot obtain available input pin without any wires connected.</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot get available input pin without any wires connected.</source>
+        <translation>Невозможно найти доступный входной контакт без подключенных соединений.</translation>
     </message>
 </context>
 <context>
@@ -134,35 +134,75 @@
     <name>LeeRouting</name>
     <message>
         <source>The algorithm is already working.</source>
-        <translation type="unfinished">Алгоритм уже работает.</translation>
+        <translation>Алгоритм уже работает.</translation>
     </message>
     <message>
         <source>Algorithm is stopped.</source>
-        <translation type="unfinished">Алгоритм остановлен.</translation>
+        <translation>Алгоритм остановлен.</translation>
     </message>
     <message>
         <source>Cannot route a wire to the pin (%1; %2). Multiple wires connected to the same pin which is prohibited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно протрассировать соединение к контакту (%1; %2). Множество соединений подключено к одному и тому же контакту, что не допускается.</translation>
     </message>
     <message>
         <source>Cannot route wire with index %1. Max extension attempts number is reached.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно протрассировать соединение с индексом %1. Достигнуто максимальное число попыток раздвижения ДРП.</translation>
     </message>
     <message>
         <source>Cannot route wire with index %1. Grid extension is unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно протрассировать соединение с индексом %1. Раздвижение ДРП недоступно.</translation>
     </message>
     <message>
         <source>Cannot start drawing wire from/to pin at coordinates(%1; %2): no pin found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно начать трассировку соединения от/к контакту на координатах (%1; %2): контакта не найдено.</translation>
     </message>
     <message>
         <source>Cannot start drawing wire from/to pin at coordinates(%1; %2): no element found nearby.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно начать трассировку соединения от/к контакту на координатах (%1; %2): рядом не обнаружено элемента.</translation>
     </message>
     <message>
-        <source>Cannot draw a wire from (%1; %2) to (%3; %4). Perhaps the scheme has multiple outputs connected to the same input which is forbidden.</source>
-        <translation type="unfinished"></translation>
+        <source>Routing inner wires.</source>
+        <translation>Трассировка внутренних соединений.</translation>
+    </message>
+    <message>
+        <source>Routing inner wire %1 of %2:</source>
+        <translation>Трассировка внутреннего соединения %1 из %2:</translation>
+    </message>
+    <message>
+        <source>Routing outer wires.</source>
+        <translation>Трассировка внешних соединений.</translation>
+    </message>
+    <message>
+        <source>Routing outer wire %1 of %2:</source>
+        <translation>Трассировка внешнего соединения %1 из %2:</translation>
+    </message>
+    <message>
+        <source>Obtaining wires to be traced.</source>
+        <translation>Получение соединений, которые будут протрассированы.</translation>
+    </message>
+    <message>
+        <source>Pushing the wave to find all possible routes.</source>
+        <translation>Пуск волны для нахождения всех возможных путей.</translation>
+    </message>
+    <message>
+        <source>Attempting to extend the grid.</source>
+        <translation>Попытка раздвинуть ДРП.</translation>
+    </message>
+    <message>
+        <source>Successful extension.</source>
+        <translation>Успешное раздвижение.</translation>
+    </message>
+    <message>
+        <source>Extension failed.</source>
+        <translation>Раздвижение не удалось.</translation>
+    </message>
+    <message>
+        <source>Drawing the most optimal route.</source>
+        <translation>Проведение наиболее оптимального пути.</translation>
+    </message>
+    <message>
+        <source>Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.</source>
+        <translation>Невозможно провести соединение от (%1; %2) к (%3; %4), хотя возможный путь был найден.</translation>
     </message>
 </context>
 <context>
@@ -274,7 +314,7 @@
     </message>
     <message>
         <source>Cannot create pin cell without pinId.</source>
-        <translation>Невозможно создать ячейку с ножкой без ее id.</translation>
+        <translation>Невозможно создать ячейку с контактом без ее id.</translation>
     </message>
     <message>
         <source>Element index cannot be negative, passed: %1.</source>
@@ -282,7 +322,7 @@
     </message>
     <message>
         <source>Pin id cannot be empty.</source>
-        <translation>id ножки не может быть пустым.</translation>
+        <translation>id контакта не может быть пустым.</translation>
     </message>
     <message>
         <source>Routed wire index cannot be negative, passed: %1.</source>
@@ -310,7 +350,7 @@
     </message>
     <message>
         <source>Pin coordinate cannot be negative, passed: %1.</source>
-        <translation>Координата ножки не может быть отрицательной, передано: %1.</translation>
+        <translation>Координата контакта не может быть отрицательной, передано: %1.</translation>
     </message>
     <message>
         <source>Wire source index cannot be negative, passed: %1.</source>
@@ -318,7 +358,7 @@
     </message>
     <message>
         <source>Wire source pin id cannot be empty.</source>
-        <translation>id начальной ножки соединения не может быть пустым.</translation>
+        <translation>id начального контакта соединения не может быть пустым.</translation>
     </message>
     <message>
         <source>Wire destination index cannot be negative, passed: %1.</source>
@@ -326,7 +366,7 @@
     </message>
     <message>
         <source>Wire destination pin id cannot be empty.</source>
-        <translation>id конечной ножки соединения не может быть пустым.</translation>
+        <translation>id конечного контакта соединения не может быть пустым.</translation>
     </message>
     <message>
         <source>Wire index cannot be negative, passed: %1.</source>
@@ -370,7 +410,7 @@
     </message>
     <message>
         <source>Invalid pin type specified, got: %1.</source>
-        <translation>Указан некорректный тип ножки, получено: %1.</translation>
+        <translation>Указан некорректный тип контакта, получено: %1.</translation>
     </message>
     <message>
         <source>Invalid wire type specified, got: %1.</source>
@@ -442,46 +482,46 @@
     </message>
     <message>
         <source>The element does not contain a pin with the given id: %1.</source>
-        <translation>Элемент не содержит ножку с данным id: %1.</translation>
+        <translation>Элемент не содержит контакт с данным id: %1.</translation>
     </message>
     <message>
         <source>Wire source coordinates cannot be negative, passed: (%1; %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Координаты источника соединения не могут быть отрицательными, передано: (%1; %2).</translation>
     </message>
     <message>
         <source>Wire destination coordinates cannot be negative, passed: (%1; %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Координаты назначения соединения не могут быть отрицательными, передано: (%1; %2).</translation>
     </message>
     <message>
         <source>Cannot find the wire with index %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно найти соединение с индексом %1.</translation>
     </message>
     <message>
         <source>Invalid wire position specified, got: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Указана некорректная позиция соединения, получено: %1.</translation>
     </message>
 </context>
 <context>
     <name>RoutingAlgorithm</name>
     <message>
         <source>Cannot draw a wire with the given directions: either the directions are wrong or the cell type is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно провести соединение с заданными направлениями: либо направления неправильны, либо тип ячейки некорректен.</translation>
     </message>
     <message>
         <source>Cannot branch a wire on the cell without wire already existed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно ответвить соединение на ячейке без уже проведенного соединения.</translation>
     </message>
     <message>
         <source>Incorrect combination of wire type and direction is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Передана некорректная комбинация типа соединения и направления.</translation>
     </message>
     <message>
         <source>The given cells are not adjacent.</source>
-        <translation type="unfinished"></translation>
+        <translation>Заданные клетки непримыкающие.</translation>
     </message>
     <message>
         <source>A broken wire detected at (%1; %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Прерванное соединение обнаружено в (%1; %2).</translation>
     </message>
 </context>
 <context>
@@ -501,10 +541,6 @@
     <message>
         <source>Algorithm is stopped.</source>
         <translation>Алгоритм остановлен.</translation>
-    </message>
-    <message>
-        <source>Preparing.</source>
-        <translation type="vanished">Подготовка.</translation>
     </message>
     <message>
         <source>Finding the optimal position of row %1 of %2.</source>
@@ -566,7 +602,7 @@
     <name>SecondaryPlacementAlgorithm</name>
     <message>
         <source>Preparing.</source>
-        <translation type="unfinished">Подготовка.</translation>
+        <translation>Подготовка.</translation>
     </message>
 </context>
 <context>

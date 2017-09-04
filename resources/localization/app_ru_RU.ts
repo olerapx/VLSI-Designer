@@ -24,6 +24,11 @@
         <translation>Обзор...</translation>
     </message>
     <message>
+        <location filename="../../app/gui/generatorwindow.ui" line="101"/>
+        <source>Node capacity</source>
+        <translation>Разрядность узлов</translation>
+    </message>
+    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="113"/>
         <location filename="../../app/gui/generatorwindow.ui" line="377"/>
         <source>Mean</source>
@@ -83,11 +88,6 @@
         <translation>Разветвленность</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.ui" line="101"/>
-        <source>Разрядность узлов</source>
-        <translation>Разрядность узлов</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow.ui" line="120"/>
         <source>6</source>
         <translation type="unfinished"></translation>
@@ -131,7 +131,7 @@
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow.cpp" line="27"/>
-        <location filename="../../app/gui/generatorwindow.cpp" line="251"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="279"/>
         <source>Stopping...</source>
         <translation>Остановка...</translation>
     </message>
@@ -156,17 +156,17 @@
         <translation>Все поддерживаемые файлы (*.bin *.json);;JSON (*.json);;Бинарный (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="226"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="254"/>
         <source>JSON (*.json);;Binary (*.bin)</source>
         <translation>JSON (*.json);;Бинарный (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="217"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="245"/>
         <source>Serialization...</source>
         <translation>Сериализация...</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow.cpp" line="226"/>
+        <location filename="../../app/gui/generatorwindow.cpp" line="254"/>
         <source>Scheme saving</source>
         <translation>Сохранение схемы</translation>
     </message>

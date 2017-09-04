@@ -63,8 +63,8 @@
         <translation>Element %1 of %2.</translation>
     </message>
     <message>
-        <source>Cannot obtain available input pin without any wires connected.</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot get available input pin without any wires connected.</source>
+        <translation>Cannot get available input pin without any wires connected.</translation>
     </message>
 </context>
 <context>
@@ -134,35 +134,75 @@
     <name>LeeRouting</name>
     <message>
         <source>The algorithm is already working.</source>
-        <translation type="unfinished">The algorithm is already working.</translation>
+        <translation>The algorithm is already working.</translation>
     </message>
     <message>
         <source>Algorithm is stopped.</source>
-        <translation type="unfinished">Algorithm is stopped.</translation>
+        <translation>Algorithm is stopped.</translation>
     </message>
     <message>
         <source>Cannot route a wire to the pin (%1; %2). Multiple wires connected to the same pin which is prohibited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot route a wire to the pin (%1; %2). Multiple wires connected to the same pin which is prohibited.</translation>
     </message>
     <message>
         <source>Cannot route wire with index %1. Max extension attempts number is reached.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot route wire with index %1. Max extension attempts number is reached.</translation>
     </message>
     <message>
         <source>Cannot route wire with index %1. Grid extension is unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot route wire with index %1. Grid extension is unavailable.</translation>
     </message>
     <message>
         <source>Cannot start drawing wire from/to pin at coordinates(%1; %2): no pin found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot start drawing wire from/to pin at coordinates(%1; %2): no pin found.</translation>
     </message>
     <message>
         <source>Cannot start drawing wire from/to pin at coordinates(%1; %2): no element found nearby.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot start drawing wire from/to pin at coordinates(%1; %2): no element found nearby.</translation>
     </message>
     <message>
-        <source>Cannot draw a wire from (%1; %2) to (%3; %4). Perhaps the scheme has multiple outputs connected to the same input which is forbidden.</source>
-        <translation type="unfinished"></translation>
+        <source>Routing inner wires.</source>
+        <translation>Routing inner wires.</translation>
+    </message>
+    <message>
+        <source>Routing inner wire %1 of %2:</source>
+        <translation>Routing inner wire %1 of %2:</translation>
+    </message>
+    <message>
+        <source>Routing outer wires.</source>
+        <translation>Routing outer wires.</translation>
+    </message>
+    <message>
+        <source>Routing outer wire %1 of %2:</source>
+        <translation>Routing outer wire %1 of %2:</translation>
+    </message>
+    <message>
+        <source>Obtaining wires to be traced.</source>
+        <translation>Obtaining wires to be traced.</translation>
+    </message>
+    <message>
+        <source>Pushing the wave to find all possible routes.</source>
+        <translation>Pushing the wave to find all possible routes.</translation>
+    </message>
+    <message>
+        <source>Attempting to extend the grid.</source>
+        <translation>Attempting to extend the grid.</translation>
+    </message>
+    <message>
+        <source>Successful extension.</source>
+        <translation>Successful extension.</translation>
+    </message>
+    <message>
+        <source>Extension failed.</source>
+        <translation>Extension failed.</translation>
+    </message>
+    <message>
+        <source>Drawing the most optimal route.</source>
+        <translation>Drawing the most optimal route.</translation>
+    </message>
+    <message>
+        <source>Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.</source>
+        <translation>Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.</translation>
     </message>
 </context>
 <context>
@@ -446,42 +486,42 @@
     </message>
     <message>
         <source>Wire source coordinates cannot be negative, passed: (%1; %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Wire source coordinates cannot be negative, passed: (%1; %2).</translation>
     </message>
     <message>
         <source>Wire destination coordinates cannot be negative, passed: (%1; %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Wire destination coordinates cannot be negative, passed: (%1; %2).</translation>
     </message>
     <message>
         <source>Cannot find the wire with index %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot find the wire with index %1.</translation>
     </message>
     <message>
         <source>Invalid wire position specified, got: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invalid wire position specified, got: %1.</translation>
     </message>
 </context>
 <context>
     <name>RoutingAlgorithm</name>
     <message>
         <source>Cannot draw a wire with the given directions: either the directions are wrong or the cell type is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot draw a wire with the given directions: either the directions are wrong or the cell type is incorrect.</translation>
     </message>
     <message>
         <source>Cannot branch a wire on the cell without wire already existed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot branch a wire on the cell without wire already existed.</translation>
     </message>
     <message>
         <source>Incorrect combination of wire type and direction is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Incorrect combination of wire type and direction is specified.</translation>
     </message>
     <message>
         <source>The given cells are not adjacent.</source>
-        <translation type="unfinished"></translation>
+        <translation>The given cells are not adjacent.</translation>
     </message>
     <message>
         <source>A broken wire detected at (%1; %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>A broken wire detected at (%1; %2).</translation>
     </message>
 </context>
 <context>
@@ -501,10 +541,6 @@
     <message>
         <source>Algorithm is stopped.</source>
         <translation>Algorithm is stopped.</translation>
-    </message>
-    <message>
-        <source>Preparing.</source>
-        <translation type="vanished">Preparing.</translation>
     </message>
     <message>
         <source>Finding the optimal position of row %1 of %2.</source>
@@ -566,7 +602,7 @@
     <name>SecondaryPlacementAlgorithm</name>
     <message>
         <source>Preparing.</source>
-        <translation type="unfinished">Preparing.</translation>
+        <translation>Preparing.</translation>
     </message>
 </context>
 <context>

@@ -323,7 +323,7 @@ std::pair<NodeElement*, Pin> Generator::getRandomPin(int node)
 
     if(chosenElements.empty())
     {
-        throw Exception(tr("Cannot obtain available input pin without any wires connected."));
+        throw Exception(tr("Cannot get available input pin without any wires connected."));
     }
 
     std::uniform_int_distribution<int> elementRandom(0, chosenElements.size() - 1);

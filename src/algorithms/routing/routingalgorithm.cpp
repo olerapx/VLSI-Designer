@@ -48,7 +48,7 @@ void RoutingAlgorithm::onStart()
 
 bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
 {
-    if(!validateCoord(coord))
+    if(!checkCoordIsInGrid(coord))
         return false;
 
     CellType type = grid->getCells()[coord.y()][coord.x()].getType();
@@ -72,7 +72,7 @@ bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
     return false;
 }
 
-bool RoutingAlgorithm::validateCoord(QPoint coord)
+bool RoutingAlgorithm::checkCoordIsInGrid(QPoint coord)
 {
     if(coord.y() < 0 || coord.y() >= grid->getCells().size() ||
             coord.x() < 0 || coord.x() >= grid->getCells()[coord.y()].size())
@@ -89,7 +89,7 @@ bool RoutingAlgorithm::hasElementNearby(QPoint coord)
         for(int j=0; j<3; j++)
         {
             QPoint nearbyCoord = QPoint(coord.x() + deltas[j], coord.y() + deltas[i]);
-            if(!validateCoord(nearbyCoord))
+            if(!checkCoordIsInGrid(nearbyCoord))
                 continue;
 
             if(grid->getCells()[nearbyCoord.y()][nearbyCoord.x()].getType() == CellType::Element)
@@ -101,7 +101,7 @@ bool RoutingAlgorithm::hasElementNearby(QPoint coord)
 
 bool RoutingAlgorithm::canLeave(QPoint coord, Direction to)
 {
-    if(!validateCoord(coord))
+    if(!checkCoordIsInGrid(coord))
         return false;
 
     CellType type = grid->getCells()[coord.y()][coord.x()].getType();
@@ -296,7 +296,7 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
 
 RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 {
-    if(!validateCoord(from) || !validateCoord(to))
+    if(!checkCoordIsInGrid(from) || !checkCoordIsInGrid(to))
         return { false, true };
 
     CellType type = grid->getCells()[to.y()][to.x()].getType();
@@ -363,7 +363,7 @@ Direction RoutingAlgorithm::getDirection(QPoint from, QPoint to)
 
 bool RoutingAlgorithm::extend(QPoint coord, int number, Direction direction)
 {
-    if(!validateCoord(coord))
+    if(!checkCoordIsInGrid(coord))
         return false;
 
     if(direction == Direction::Left || direction == Direction::Right)
