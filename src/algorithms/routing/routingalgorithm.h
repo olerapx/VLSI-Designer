@@ -5,6 +5,7 @@
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
 #include "routingexception.h"
+#include "util/misc/gridutils.h"
 
 enum class Direction
 {
@@ -18,6 +19,13 @@ struct RoutingState
 {
     bool canMove;
     bool newBranched;
+};
+
+struct ExtensionRecord
+{
+    QPoint coord;
+    int number;
+    Direction direction;
 };
 
 Direction operator !(const Direction& other);
@@ -68,7 +76,7 @@ public slots:
 protected:
     Grid* grid;
     Scheme* scheme;
-    int maxExtensionAttempts;
+    int maxExtensionAttempts;    
 
     bool canEnter(QPoint coord, Direction from);
     bool checkCoordIsInGrid(QPoint coord);
@@ -83,6 +91,7 @@ protected:
     Direction getDirection(QPoint from, QPoint to);
 
     bool extend(QPoint coord, int number, Direction direction);
+    void undoExtends(QList<ExtensionRecord>& extensions);
 
 private:
     CellType getDrawType(CellType type, Direction from, Direction to);
@@ -90,6 +99,9 @@ private:
 
     bool extendHorizontally(QPoint coord, int number, Direction direction);
     bool extendVertically(QPoint coord, int number, Direction direction);
+
+    void undoHorizontalExtension(ExtensionRecord& record);
+    void undoVerticalExtension(ExtensionRecord& record);
 };
 
 #endif // ROUTINGALGORITHM_H

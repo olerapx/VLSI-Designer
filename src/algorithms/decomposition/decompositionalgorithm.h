@@ -1,9 +1,6 @@
 #ifndef DECOMPOSITIONALGORITHM_H
 #define DECOMPOSITIONALGORITHM_H
 
-#include <QObject>
-#include <QList>
-
 #include "threadable.h"
 #include "datamodels/scheme/scheme.h"
 

@@ -381,7 +381,7 @@
          <item row="0" column="1">
           <widget class="QLineEdit" name="branchingMeanText">
            <property name="text">
-            <string>4</string>
+            <string>2</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

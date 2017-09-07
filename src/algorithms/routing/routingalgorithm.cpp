@@ -472,3 +472,58 @@ bool RoutingAlgorithm::extendVertically(QPoint coord, int number, Direction dire
 
     return true;
 }
+
+void RoutingAlgorithm::undoExtends(QList<ExtensionRecord>& extensions)
+{
+    std::reverse(extensions.begin(), extensions.end());
+
+    for(ExtensionRecord& record: extensions)
+    {
+        if(record.direction == Direction::Left || record.direction == Direction::Right)
+            undoHorizontalExtension(record);
+        else
+            undoVerticalExtension(record);
+    }
+}
+
+void RoutingAlgorithm::undoHorizontalExtension(ExtensionRecord& record)
+{
+    int undoX = 0;
+
+    if(record.direction == Direction::Left)
+        undoX = record.coord.x();
+    else
+      undoX = record.coord.x() + 1;
+
+    GridUtils::removeColumns(grid, QPoint(undoX, 0), record.number, grid->getCells().size());
+
+    for(WireData& data: grid->getWiresData())
+    {
+        if(data.getSrcCoord().x() >= undoX)
+            data.setSrcCoord(data.getSrcCoord() - QPoint(record.number, 0));
+
+        if(data.getDestCoord().x() >= undoX)
+            data.setDestCoord(data.getDestCoord() - QPoint(record.number, 0));
+    }
+}
+
+void RoutingAlgorithm::undoVerticalExtension(ExtensionRecord& record)
+{
+    int undoY = 0;
+
+    if(record.direction == Direction::Up)
+        undoY = record.coord.y();
+    else
+        undoY = record.coord.y() + 1;
+
+    GridUtils::removeRows(grid, undoY, record.number);
+
+    for(WireData& data: grid->getWiresData())
+    {
+        if(data.getSrcCoord().y() >= undoY)
+            data.setSrcCoord(data.getSrcCoord() - QPoint(0, record.number));
+
+        if(data.getDestCoord().y() >= undoY)
+            data.setDestCoord(data.getDestCoord() - QPoint(0, record.number));
+    }
+}

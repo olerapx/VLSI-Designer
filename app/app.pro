@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 INCLUDEPATH += $$PWD
 
-include (../src/src.pri)
+include(../src/src.pri)
 LIBS += -L../src -lvlsi
 
 HEADERS += \
@@ -23,7 +23,7 @@ SOURCES +=  main.cpp \
     gui/mainwindow.cpp \
     gui/generatorwindow.cpp
 
-FORMS    +=  \
+FORMS += \
     gui/mainwindow.ui \
     gui/generatorwindow.ui
 

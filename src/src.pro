@@ -8,7 +8,7 @@ TARGET = vlsi
 TEMPLATE = lib
 
 INCLUDEPATH += $$PWD
-include (src.pri)
+include(src.pri)
 
 SOURCES += \
     threadable.cpp \

@@ -1,8 +1,6 @@
 #ifndef POINTDISTANCECOMPARATOR_H
 #define POINTDISTANCECOMPARATOR_H
 
-#include <QPoint>
-
 #include "util/misc/wireutils.h"
 
 class PointDistanceComparator

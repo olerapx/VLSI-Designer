@@ -66,6 +66,7 @@ void LeeRouting::clear()
     outerWires.clear();
 
     matrix.clear();
+    extensions.clear();
 
     gridHeight = 0;
     gridWidth = 0;
@@ -119,6 +120,8 @@ bool LeeRouting::isWireRouted(Wire& wire)
 
 void LeeRouting::routeWire(WireData* data)
 {
+    extensions.clear();
+
     do
     {
         if(stopped) return;
@@ -147,6 +150,8 @@ void LeeRouting::routeWire(WireData* data)
             sendLog(tr("Cannot route wire with index %1. Max extension attempts number is reached.").arg(QString::number(data->getIndex())));
 
         sendLog(tr("Cannot route wire with index %1. Grid extension is unavailable.").arg(QString::number(data->getIndex())));
+
+        undoAllExtends();
 
         return;
     }
@@ -317,6 +322,8 @@ bool LeeRouting::tryExtend()
                 gridHeight = grid->getCells().size();
                 gridWidth = grid->getCells()[0].size();
 
+                extensions.append({ point, 1, direction });
+
                 sendLog(tr("Successful extension."));
                 return true;
             }
@@ -325,6 +332,16 @@ bool LeeRouting::tryExtend()
 
     sendLog(tr("Extension failed."));
     return false;
+}
+
+void LeeRouting::undoAllExtends()
+{
+    undoExtends(extensions);
+
+    gridHeight = grid->getCells().size();
+    gridWidth = grid->getCells()[0].size();
+
+    extensionAttempts -= extensions.size();
 }
 
 void LeeRouting::pushReverseWave()

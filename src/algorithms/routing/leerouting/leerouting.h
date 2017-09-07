@@ -45,6 +45,8 @@ private:
     QPoint startPinCoord, finishPinCoord;
     bool startBranched;
 
+    QList<ExtensionRecord> extensions;
+
     void clear();
 
     void initWires();
@@ -59,6 +61,7 @@ private:
     bool tryRoute(QPoint from, QPoint to);
 
     bool tryExtend();
+    void undoAllExtends();
 
     void pushReverseWave();
     bool canAdvance(QPoint currentCoord, QPoint coord);

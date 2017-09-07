@@ -1,8 +1,6 @@
 #ifndef GENERATORPARAMETERS_H
 #define GENERATORPARAMETERS_H
 
-#include <QList>
-
 #include "datamodels/library/library.h"
 #include "datamodels/scheme/scheme.h"
 #include "exception/illegalargumentexception.h"

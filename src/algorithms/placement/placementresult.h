@@ -1,8 +1,6 @@
 #ifndef PLACEMENTRESULT_H
 #define PLACEMENTRESULT_H
 
-#include <QList>
-
 #include "elementcoordinate.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/wire.h"

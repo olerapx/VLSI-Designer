@@ -1,9 +1,6 @@
 #ifndef PRIMARYPLACEMENTALGORITHM_H
 #define PRIMARYPLACEMENTALGORITHM_H
 
-#include <QObject>
-#include <QList>
-
 #include "threadable.h"
 #include "algorithms/placement/placementresult.h"
 #include "datamodels/grid/grid.h"

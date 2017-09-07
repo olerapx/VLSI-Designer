@@ -11,8 +11,9 @@
 #include "util/serializer/binaryserializer.h"
 #include "util/serializer/jsonserializer.h"
 
-namespace Ui {
-class GeneratorWindow;
+namespace Ui
+{
+    class GeneratorWindow;
 }
 
 class GeneratorWindow : public QMainWindow

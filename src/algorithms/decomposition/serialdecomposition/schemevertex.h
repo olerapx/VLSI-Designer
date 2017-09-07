@@ -1,8 +1,6 @@
 #ifndef SCHEMEVERTEX_H
 #define SCHEMEVERTEX_H
 
-#include <QList>
-
 #include "datamodels/scheme/scheme.h"
 
 /**

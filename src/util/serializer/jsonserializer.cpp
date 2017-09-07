@@ -362,7 +362,10 @@ Grid* JsonSerializer::deserializeGrid(QJsonObject obj)
         bool ok;
         qint64 index = val.toString().toLongLong(&ok);
         if (!ok)
+        {
+            delete grid;
             throw IllegalArgumentException(QObject::tr("Invalid routed wire index, got: %1.").arg(QString::number(index)));
+        }
 
         grid->getRoutedWires().append(index);
     }

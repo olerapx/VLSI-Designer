@@ -571,7 +571,10 @@ void LeeRoutingTest::maxExtensionAttemptsReachedTest()
      QVERIFY(g->getRoutedWires().size() == 0);
 
      QVERIFY(g->getCells().size() == 1);
-     QVERIFY(g->getCells()[0].size() == 13);
+     QVERIFY(g->getCells()[0].size() == 11);
+
+     QVERIFY(g->getWiresData()[0].getSrcCoord() == QPoint(7, 0));
+     QVERIFY(g->getWiresData()[0].getDestCoord() == QPoint(3, 0));
 
      delete g;
      delete s;
