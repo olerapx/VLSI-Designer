@@ -1,5 +1,4 @@
-#ifndef GENERATORPARAMETERS_H
-#define GENERATORPARAMETERS_H
+#pragma once
 
 #include "datamodels/library/library.h"
 #include "datamodels/scheme/scheme.h"
@@ -57,5 +56,3 @@ public:
 
     QList<Library*>& getLibraries() { return libraries; }
 };
-
-#endif // GENERATORPARAMETERS_H

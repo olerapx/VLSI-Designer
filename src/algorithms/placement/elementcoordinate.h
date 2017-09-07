@@ -1,5 +1,4 @@
-#ifndef ELEMENTCOORDINATE_H
-#define ELEMENTCOORDINATE_H
+#pragma once
 
 #include <QPoint>
 
@@ -24,5 +23,3 @@ private:
     SchemeElement element;
     QPoint topLeftCoord;
 };
-
-#endif // ELEMENTCOORDINATE_H

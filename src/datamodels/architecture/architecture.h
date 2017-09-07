@@ -1,5 +1,4 @@
-#ifndef ARCHITECTURE_H
-#define ARCHITECTURE_H
+#pragma once
 
 #include <QList>
 
@@ -38,5 +37,3 @@ public:
 
     bool operator ==(const Architecture& other);
 };
-
-#endif // ARCHITECTURE_H

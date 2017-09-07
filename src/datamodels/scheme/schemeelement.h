@@ -1,5 +1,4 @@
-#ifndef SCHEMEELEMENT_H
-#define SCHEMEELEMENT_H
+#pragma once
 
 #include "datamodels/serializable.h"
 #include "exception/illegalargumentexception.h"
@@ -37,5 +36,3 @@ public:
      */
     bool operator ==(const SchemeElement& other);
 };
-
-#endif // SCHEMEELEMENT_H

@@ -1,5 +1,4 @@
-#ifndef ELEMENTHEIGHTCOMPARATOR_H
-#define ELEMENTHEIGHTCOMPARATOR_H
+#pragma once
 
 #include "util/misc/libraryutils.h"
 
@@ -13,5 +12,3 @@ public:
 private:
     QList<Library*> libraries;
 };
-
-#endif // ELEMENTHEIGHTCOMPARATOR_H

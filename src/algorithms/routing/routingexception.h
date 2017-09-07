@@ -1,5 +1,4 @@
-#ifndef ROUTINGEXCEPTION_H
-#define ROUTINGEXCEPTION_H
+#pragma once
 
 #include "exception/exception.h"
 
@@ -12,5 +11,3 @@ class RoutingException : public Exception
 public:
     RoutingException(QString what): Exception(what) {}
 };
-
-#endif // ROUTINGEXCEPTION_H

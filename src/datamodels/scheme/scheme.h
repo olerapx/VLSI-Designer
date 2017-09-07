@@ -1,5 +1,4 @@
-#ifndef SCHEME_H
-#define SCHEME_H
+#pragma once
 
 #include <QList>
 
@@ -25,5 +24,3 @@ public:
 
     bool operator ==(const Scheme& other);
 };
-
-#endif // SCHEME_H

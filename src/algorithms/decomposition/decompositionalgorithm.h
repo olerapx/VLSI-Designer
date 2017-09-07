@@ -1,5 +1,4 @@
-#ifndef DECOMPOSITIONALGORITHM_H
-#define DECOMPOSITIONALGORITHM_H
+#pragma once
 
 #include "threadable.h"
 #include "datamodels/scheme/scheme.h"
@@ -50,5 +49,3 @@ protected:
     Scheme* scheme;
     int number;
 };
-
-#endif // DECOMPOSITIONALGORITHM_H

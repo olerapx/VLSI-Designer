@@ -1,5 +1,4 @@
-#ifndef NETWORKTRANSMITTER_H
-#define NETWORKTRANSMITTER_H
+#pragma once
 
 #include <QTcpServer>
 #include <QList>
@@ -83,5 +82,3 @@ private slots:
     void on_newConnection();
     void on_socketDisconnected(TcpSocket* socket);
 };
-
-#endif // NETWORKTRANSMITTER_H

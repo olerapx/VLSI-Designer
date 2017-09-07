@@ -1,5 +1,4 @@
-#ifndef GENERATORWINDOW_H
-#define GENERATORWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QFileDialog>
@@ -59,5 +58,3 @@ private:
 
     void saveScheme(Scheme s);
 };
-
-#endif // GENERATORWINDOW_H

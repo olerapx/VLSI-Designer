@@ -1,5 +1,4 @@
-#ifndef THREADABLE_H
-#define THREADABLE_H
+#pragma once
 
 #include <QObject>
 
@@ -63,5 +62,3 @@ protected:
     bool stopped;
     bool actuallyStopped;
 };
-
-#endif // THREADABLE_H

@@ -1,5 +1,4 @@
-#ifndef ELEMENT_H
-#define ELEMENT_H
+#pragma once
 
 #include <QList>
 
@@ -42,5 +41,3 @@ public:
 
     bool operator ==(const LibraryElement& other);
 };
-
-#endif // ELEMENT_H

@@ -1,5 +1,4 @@
-#ifndef SECONDARYPLACEMENTALGORITHM_H
-#define SECONDARYPLACEMENTALGORITHM_H
+#pragma once
 
 #include "threadable.h"
 #include "algorithms/placement/placementresult.h"
@@ -63,5 +62,3 @@ protected:
 
     QList<WireCoordinate> fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates);
 };
-
-#endif // SECONDARYPLACEMENTALGORITHM_H

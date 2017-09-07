@@ -1,5 +1,4 @@
-#ifndef GRIDUTILS_H
-#define GRIDUTILS_H
+#pragma once
 
 #include "datamodels/grid/grid.h"
 
@@ -15,5 +14,3 @@ public:
     static void insertEmptyColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
     static void removeColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
 };
-
-#endif // GRIDUTILS_H

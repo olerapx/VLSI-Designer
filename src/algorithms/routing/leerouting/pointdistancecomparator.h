@@ -1,5 +1,4 @@
-#ifndef POINTDISTANCECOMPARATOR_H
-#define POINTDISTANCECOMPARATOR_H
+#pragma once
 
 #include "util/misc/wireutils.h"
 
@@ -13,5 +12,3 @@ public:
 private:
     QPoint finish;
 };
-
-#endif // POINTDISTANCECOMPARATOR_H

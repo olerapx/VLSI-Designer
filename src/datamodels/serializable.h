@@ -1,5 +1,4 @@
-#ifndef SERIALIZABLE_H
-#define SERIALIZABLE_H
+#pragma once
 
 #include <QString>
 #include <QObject>
@@ -16,5 +15,3 @@ public:
     Serializable();
     virtual ~Serializable() = 0;
 };
-
-#endif // SERIALIZABLE_H

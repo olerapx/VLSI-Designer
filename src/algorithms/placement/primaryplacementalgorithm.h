@@ -1,5 +1,4 @@
-#ifndef PRIMARYPLACEMENTALGORITHM_H
-#define PRIMARYPLACEMENTALGORITHM_H
+#pragma once
 
 #include "threadable.h"
 #include "algorithms/placement/placementresult.h"
@@ -54,5 +53,3 @@ protected:
     QList<Library*> libraries;
     double expandCoefficient;
 };
-
-#endif // PRIMARYPLACEMENTALGORITHM_H

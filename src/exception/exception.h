@@ -1,5 +1,4 @@
-#ifndef EXCEPTION_H
-#define EXCEPTION_H
+#pragma once
 
 #include <QException>
 #include <QString>
@@ -20,5 +19,3 @@ public:
     void raise() const { throw *this; }
     Exception* clone() const { return new Exception(*this); }
 };
-
-#endif // EXCEPTION_H

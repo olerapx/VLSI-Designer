@@ -1,5 +1,4 @@
-#ifndef SERIALIZER_H
-#define SERIALIZER_H
+#pragma once
 
 #include <QMap>
 
@@ -64,5 +63,3 @@ public:
     virtual QByteArray serialize(Serializable* s) = 0;
     virtual Serializable* deserialize(QByteArray data) = 0;
 };
-
-#endif // SERIALIZER_H

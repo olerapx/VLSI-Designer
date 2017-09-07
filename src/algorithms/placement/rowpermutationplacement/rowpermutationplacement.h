@@ -1,5 +1,4 @@
-#ifndef ROWPERMUTATIONPLACEMENT_H
-#define ROWPERMUTATIONPLACEMENT_H
+#pragma once
 
 #include <QMap>
 
@@ -58,5 +57,3 @@ private:
     PlacementResult* buildResult();
     QList<ElementCoordinate> concatElementCoordinates();
 };
-
-#endif // ROWPERMUTATIONPLACEMENT_H

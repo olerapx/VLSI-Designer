@@ -1,5 +1,4 @@
-#ifndef NETWORKEXCEPTION_H
-#define NETWORKEXCEPTION_H
+#pragma once
 
 #include "exception/exception.h"
 
@@ -12,5 +11,3 @@ class NetworkException : public Exception
 public:
     NetworkException(QString what): Exception(what) {}
 };
-
-#endif // NETWORKEXCEPTION_H

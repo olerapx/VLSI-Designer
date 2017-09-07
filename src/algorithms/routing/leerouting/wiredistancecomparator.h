@@ -1,5 +1,4 @@
-#ifndef WIREDISTANCECOMPARATOR_H
-#define WIREDISTANCECOMPARATOR_H
+#pragma once
 
 #include "datamodels/grid/wiredata.h"
 #include "util/misc/wireutils.h"
@@ -14,5 +13,3 @@ public:
 private:
     int height, width;
 };
-
-#endif // WIREDISTANCECOMPARATOR_H

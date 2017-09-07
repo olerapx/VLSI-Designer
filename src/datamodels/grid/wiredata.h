@@ -1,5 +1,4 @@
-#ifndef WIREDATA_H
-#define WIREDATA_H
+#pragma once
 
 #include <QPoint>
 
@@ -47,5 +46,3 @@ public:
 
     bool operator ==(const WireData& other);
 };
-
-#endif // WIREDATA_H

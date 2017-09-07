@@ -1,5 +1,4 @@
-#ifndef GRID_H
-#define GRID_H
+#pragma once
 
 #include <QList>
 
@@ -27,5 +26,3 @@ public:
 
     bool operator ==(const Grid& other);
 };
-
-#endif // GRID_H

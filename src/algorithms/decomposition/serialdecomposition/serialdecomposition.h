@@ -1,5 +1,4 @@
-#ifndef SERIALDECOMPOSITION_H
-#define SERIALDECOMPOSITION_H
+#pragma once
 
 #include "algorithms/decomposition/decompositionalgorithm.h"
 #include "algorithms/decomposition/serialdecomposition/schemevertex.h"
@@ -43,5 +42,3 @@ private:
 
     QList<Scheme*> buildSubschemes();
 };
-
-#endif // SERIALDECOMPOSITION_H

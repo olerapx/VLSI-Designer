@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QNetworkInterface>
@@ -48,5 +47,3 @@ private:
 
     void log(QString text);
 };
-
-#endif // MAINWINDOW_H

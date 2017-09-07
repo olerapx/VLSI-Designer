@@ -1,5 +1,4 @@
-#ifndef ALIASER_H
-#define ALIASER_H
+#pragma once
 
 #include <QMap>
 
@@ -41,5 +40,3 @@ private:
 
     void shiftAlias();
 };
-
-#endif // ALIASER_H

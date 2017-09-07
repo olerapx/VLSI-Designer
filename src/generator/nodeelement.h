@@ -1,5 +1,4 @@
-#ifndef NODEELEMENT_H
-#define NODEELEMENT_H
+#pragma once
 
 #include "datamodels/scheme/schemeelement.h"
 #include "util/misc/libraryutils.h"
@@ -24,5 +23,3 @@ public:
 
     QList<Pin>& getAvailableInputPins() { return availableInputPins; }
 };
-
-#endif // NODEELEMENT_H

@@ -1,5 +1,4 @@
-#ifndef OUTERCONNECTIONSNUMBERCOMPARATOR_H
-#define OUTERCONNECTIONSNUMBERCOMPARATOR_H
+#pragma once
 
 #include "algorithms/decomposition/serialdecomposition/schemevertex.h"
 
@@ -12,5 +11,3 @@ public:
 private:
     QList<SchemeVertex*>& list;
 };
-
-#endif // OUTERCONNECTIONSNUMBERCOMPARATOR_H

@@ -1,5 +1,4 @@
-#ifndef PLACEMENTRESULT_H
-#define PLACEMENTRESULT_H
+#pragma once
 
 #include "elementcoordinate.h"
 #include "datamodels/grid/grid.h"
@@ -27,5 +26,3 @@ private:
     QList<Wire> relatedWires;
     QList<Library*> libraries;
 };
-
-#endif // PLACEMENTRESULT_H

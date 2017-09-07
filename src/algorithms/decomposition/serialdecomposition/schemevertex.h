@@ -1,5 +1,4 @@
-#ifndef SCHEMEVERTEX_H
-#define SCHEMEVERTEX_H
+#pragma once
 
 #include "datamodels/scheme/scheme.h"
 
@@ -24,5 +23,3 @@ private:
     QList<std::pair<SchemeVertex*, WireType>> connectedElements;
     bool distributed;
 };
-
-#endif // SCHEMEVERTEX_H

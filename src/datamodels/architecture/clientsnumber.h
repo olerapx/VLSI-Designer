@@ -1,5 +1,4 @@
-#ifndef CLIENTSNUMBER_H
-#define CLIENTSNUMBER_H
+#pragma once
 
 #include <QObject>
 
@@ -22,5 +21,3 @@ public:
     operator int() const { return value; }
     int getValue() const { return value; }
 };
-
-#endif // CLIENTSNUMBER_H

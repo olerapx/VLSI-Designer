@@ -1,5 +1,4 @@
-#ifndef LEEROUTING_H
-#define LEEROUTING_H
+#pragma once
 
 #include "algorithms/routing/routingalgorithm.h"
 #include "util/misc/schemeutils.h"
@@ -66,5 +65,3 @@ private:
     void pushReverseWave();
     bool canAdvance(QPoint currentCoord, QPoint coord);
 };
-
-#endif // LEEROUTING_H

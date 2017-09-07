@@ -1,5 +1,4 @@
-#ifndef GENERATOR_H
-#define GENERATOR_H
+#pragma once
 
 #include <random>
 #include <chrono>
@@ -93,5 +92,3 @@ private:
 
     void generateAliases(Scheme* scheme);
 };
-
-#endif // GENERATOR_H

@@ -1,5 +1,4 @@
-#ifndef WIRECOORDINATE_H
-#define WIRECOORDINATE_H
+#pragma once
 
 #include "elementcoordinate.h"
 #include "datamodels/scheme/wire.h"
@@ -40,5 +39,3 @@ private:
 
     QPoint getPinCoord(ElementCoordinate* coordinate, QList<Library*>& libraries, QString pinId);
 };
-
-#endif // WIRECOORDINATE_H

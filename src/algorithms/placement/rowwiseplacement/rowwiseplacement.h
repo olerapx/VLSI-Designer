@@ -1,5 +1,4 @@
-#ifndef ROWWISEPLACEMENT_H
-#define ROWWISEPLACEMENT_H
+#pragma once
 
 #include <cmath>
 
@@ -60,5 +59,3 @@ private:
     void drawElement(QPoint point, SchemeElement element);
     void fillRelatedWires();
 };
-
-#endif // ROWWISEPLACEMENT_H

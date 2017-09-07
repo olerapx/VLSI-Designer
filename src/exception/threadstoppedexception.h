@@ -1,5 +1,4 @@
-#ifndef THREADSTOPPEDEXCEPTION_H
-#define THREADSTOPPEDEXCEPTION_H
+#pragma once
 
 #include "exception.h"
 
@@ -14,5 +13,3 @@ class ThreadStoppedException: public Exception
 public:
     ThreadStoppedException(QString what): Exception(what){}
 };
-
-#endif // THREADSTOPPEDEXCEPTION_H

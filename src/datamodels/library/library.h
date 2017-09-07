@@ -1,5 +1,4 @@
-#ifndef LIBRARY_H
-#define LIBRARY_H
+#pragma once
 
 #include "libraryelement.h"
 
@@ -30,5 +29,3 @@ public:
 
     bool operator ==(const Library& other);
 };
-
-#endif // LIBRARY_H

@@ -1,5 +1,4 @@
-#ifndef ROUTINGALGORITHM_H
-#define ROUTINGALGORITHM_H
+#pragma once
 
 #include "threadable.h"
 #include "datamodels/grid/grid.h"
@@ -103,5 +102,3 @@ private:
     void undoHorizontalExtension(ExtensionRecord& record);
     void undoVerticalExtension(ExtensionRecord& record);
 };
-
-#endif // ROUTINGALGORITHM_H

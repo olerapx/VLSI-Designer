@@ -1,5 +1,4 @@
-#ifndef BINARYSERIALIZER_H
-#define BINARYSERIALIZER_H
+#pragma once
 
 #include <typeinfo>
 #include <QDataStream>
@@ -67,5 +66,3 @@ protected:
 
     Architecture* deserializeArchitecture(QDataStream& stream);
 };
-
-#endif // BINARYSERIALIZER_H

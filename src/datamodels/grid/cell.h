@@ -1,5 +1,4 @@
-#ifndef CELL_H
-#define CELL_H
+#pragma once
 
 #include "datamodels/serializable.h"
 #include "exception/illegalargumentexception.h"
@@ -44,5 +43,3 @@ public:
 
     bool isWire() const;
 };
-
-#endif // CELL_H

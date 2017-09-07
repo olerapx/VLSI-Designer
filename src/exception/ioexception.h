@@ -1,5 +1,4 @@
-#ifndef IOEXCEPTION_H
-#define IOEXCEPTION_H
+#pragma once
 
 #include "exception.h"
 
@@ -12,5 +11,3 @@ class IOException: public Exception
 public:
     IOException(QString what): Exception(what){}
 };
-
-#endif // IOEXCEPTION_H

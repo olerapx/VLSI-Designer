@@ -1,5 +1,4 @@
-#ifndef ILLEGALARGUMENTEXCEPTION_H
-#define ILLEGALARGUMENTEXCEPTION_H
+#pragma once
 
 #include "exception.h"
 
@@ -12,5 +11,3 @@ class IllegalArgumentException: public Exception
 public:
     IllegalArgumentException(QString what): Exception(what){}
 };
-
-#endif // ILLEGALARGUMENTEXCEPTION_H

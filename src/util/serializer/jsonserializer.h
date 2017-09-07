@@ -1,5 +1,4 @@
-#ifndef JSONSERIALIZER_H
-#define JSONSERIALIZER_H
+#pragma once
 
 #include <typeinfo>
 #include <QJsonDocument>
@@ -69,5 +68,3 @@ protected:
 
     Architecture* deserializeArchitecture(QJsonObject obj);
 };
-
-#endif // JSONSERIALIZER_H

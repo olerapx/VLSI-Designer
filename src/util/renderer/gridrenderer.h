@@ -1,5 +1,4 @@
-#ifndef GRIDRENDERER_H
-#define GRIDRENDERER_H
+#pragma once
 
 #include <QImage>
 #include <QMap>
@@ -84,5 +83,3 @@ private:
     void renderTileOnPosition(QImage& image, QImage tile, QPoint position);
     QImage rotateImage(QImage image, int degrees);
 };
-
-#endif // GRIDRENDERER_H

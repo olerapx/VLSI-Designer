@@ -1,5 +1,4 @@
-#ifndef PIN_H
-#define PIN_H
+#pragma once
 
 #include "datamodels/serializable.h"
 
@@ -36,5 +35,3 @@ public:
 
     bool operator ==(const Pin& other);
 };
-
-#endif // PIN_H

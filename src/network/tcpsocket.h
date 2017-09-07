@@ -1,5 +1,4 @@
-#ifndef TCPSOCKET_H
-#define TCPSOCKET_H
+#pragma once
 
 #include <QTcpSocket>
 #include <QDataStream>
@@ -43,5 +42,3 @@ private slots:
     void on_readyRead();
     void on_disconnected();
 };
-
-#endif // TCPSOCKET_H

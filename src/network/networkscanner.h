@@ -1,5 +1,4 @@
-#ifndef NETWORKSCANNER_H
-#define NETWORKSCANNER_H
+#pragma once
 
 #include <QUdpSocket>
 #include <QNetworkInterface>
@@ -106,5 +105,3 @@ private slots:
     void processScanningDatagrams();
     void processResponseDatagrams();
 };
-
-#endif // NETWORKSCANNER_H

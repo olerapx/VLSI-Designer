@@ -1,5 +1,4 @@
-#ifndef WIRE_H
-#define WIRE_H
+#pragma once
 
 #include "datamodels/serializable.h"
 #include "exception/illegalargumentexception.h"
@@ -55,5 +54,3 @@ public:
      */
     bool operator ==(const Wire& other);
 };
-
-#endif // WIRE_H

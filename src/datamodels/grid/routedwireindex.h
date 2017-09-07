@@ -1,5 +1,4 @@
-#ifndef ROUTEDWIREINDEX_H
-#define ROUTEDWIREINDEX_H
+#pragma once
 
 #include <QObject>
 
@@ -22,5 +21,3 @@ private:
 
     void setValue(qint64 index);
 };
-
-#endif // ROUTEDWIREINDEX_H
