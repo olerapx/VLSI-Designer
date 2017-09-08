@@ -96,8 +96,7 @@ void LeeRoutingTest::routingTest()
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     g->getWiresData().append(WireData(1, QPoint(1, 1), QPoint(3, 7), WirePosition::Internal));
     g->getWiresData().append(WireData(0, QPoint(4, 1), QPoint(5, 4), WirePosition::Internal));
@@ -179,8 +178,7 @@ void LeeRoutingTest::branchingTest()
           Cell(CellType::UDLR), Cell(CellType::UDLR), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     g->getWiresData().append(WireData(0, QPoint(3, 1), QPoint(3, 3), WirePosition::Internal));
     g->getWiresData().append(WireData(0, QPoint(3, 1), QPoint(3, 5), WirePosition::Internal));
@@ -251,8 +249,7 @@ void LeeRoutingTest::wireSortingTest()
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     g->getWiresData().append(WireData(0, QPoint(1, 1), QPoint(3, 6), WirePosition::Internal));
     g->getWiresData().append(WireData(1, QPoint(4, 1), QPoint(3, 5), WirePosition::Internal));
@@ -316,8 +313,7 @@ void LeeRoutingTest::excludedWiresTest()
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     g->getWiresData().append(WireData(0, QPoint(1, 1), QPoint(3, 6), WirePosition::External));
     g->getWiresData().append(WireData(1, QPoint(4, 1), QPoint(3, 5), WirePosition::Internal));
@@ -376,8 +372,7 @@ void LeeRoutingTest::extendHorizontallyTest()
           Cell(CellType::Element, 1), Cell(CellType::Element, 1), Cell(CellType::Pin, 1, "p2") }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     g->getWiresData().append(WireData(0, QPoint(7, 5), QPoint(3, 0), WirePosition::Internal));
 
@@ -447,8 +442,7 @@ void LeeRoutingTest::extendVerticallyTest()
            Cell(CellType::Empty), Cell(CellType::Empty)}
      };
 
-     for(QList<Cell> list: cells)
-         g->getCells().append(list);
+     g->getCells().append(cells);
 
      g->getWiresData().append(WireData(0, QPoint(3, 4), QPoint(10, 0), WirePosition::Internal));
 
@@ -516,8 +510,7 @@ void LeeRoutingTest::extensionIsUnavailableTest()
            Cell(CellType::Element, 3), Cell(CellType::Pin, 3, "p2"), Cell(CellType::Empty), Cell(CellType::Empty)},
      };
 
-     for(QList<Cell> list: cells)
-         g->getCells().append(list);
+     g->getCells().append(cells);
 
      g->getWiresData().append(WireData(0, QPoint(8, 2), QPoint(3, 2), WirePosition::Internal));
 

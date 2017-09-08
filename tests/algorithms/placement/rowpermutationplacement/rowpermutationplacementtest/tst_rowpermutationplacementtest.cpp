@@ -73,8 +73,7 @@ void RowPermutationPlacementTest::fitnessFunctionTest()
           Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     QList<ElementCoordinate> coords =
     {
@@ -160,8 +159,7 @@ void RowPermutationPlacementTest::rowsPermutationTest()
           Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     QList<ElementCoordinate> coords =
     {
@@ -261,8 +259,7 @@ void RowPermutationPlacementTest::elementsPermutationTest()
           Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) }
     };
 
-    for(QList<Cell> list: cells)
-        g->getCells().append(list);
+    g->getCells().append(cells);
 
     QList<ElementCoordinate> coords =
     {

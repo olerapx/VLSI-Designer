@@ -86,9 +86,9 @@ void GridUtils::removeRows(Grid* grid, int y, int number)
         grid->getCells().removeAt(y);
 }
 
-void GridUtils::insertEmptyColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
+void GridUtils::insertEmptyArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
 {
-    if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() >= grid->getCells()[0].size())
+    if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() > grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Start point is out of range."));
 
     if(colsNumber < 0 || rowsNumber < 0)
@@ -103,7 +103,7 @@ void GridUtils::insertEmptyColumns(Grid* grid, QPoint topLeftCoord, int colsNumb
     }
 }
 
-void GridUtils::removeColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
+void GridUtils::removeArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber)
 {
     if(topLeftCoord.y() >= grid->getCells().size() || topLeftCoord.x() >= grid->getCells()[0].size())
         throw IllegalArgumentException(QObject::tr("Start point is out of range."));

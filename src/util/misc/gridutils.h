@@ -11,6 +11,6 @@ public:
     static void insertRows(Grid* grid, int y, int number);
     static void removeRows(Grid* grid, int y, int number);
 
-    static void insertEmptyColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
-    static void removeColumns(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
+    static void insertEmptyArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
+    static void removeArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
 };

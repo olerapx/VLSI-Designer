@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += decomposition placement routing
+SUBDIRS += composition decomposition placement routing

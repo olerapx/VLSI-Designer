@@ -294,7 +294,7 @@ CellType RoutingAlgorithm::getBranchType(CellType type, Direction to)
     throw RoutingException(tr("Incorrect combination of wire type and direction is specified."));
 }
 
-RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
+RoutingAlgorithm::RoutingState RoutingAlgorithm::canRoute(QPoint from, QPoint to, bool branched)
 {
     if(!checkCoordIsInGrid(from) || !checkCoordIsInGrid(to))
         return { false, true };
@@ -495,7 +495,7 @@ void RoutingAlgorithm::undoHorizontalExtension(ExtensionRecord& record)
     else
       undoX = record.coord.x() + 1;
 
-    GridUtils::removeColumns(grid, QPoint(undoX, 0), record.number, grid->getCells().size());
+    GridUtils::removeArea(grid, QPoint(undoX, 0), record.number, grid->getCells().size());
 
     for(WireData& data: grid->getWiresData())
     {

@@ -96,7 +96,7 @@ void GridUtilsTest::insertEmptyColumnsTest()
     for(QList<Cell> list: cells)
         g->getCells().append(list);
 
-    GridUtils::insertEmptyColumns(g, QPoint(1, 0), 1, 2);
+    GridUtils::insertEmptyArea(g, QPoint(1, 0), 1, 2);
 
     QVERIFY(g->getCells()[0][0] == Cell(CellType::UD));
     QVERIFY(g->getCells()[0][1] == Cell(CellType::Empty));
@@ -129,7 +129,7 @@ void GridUtilsTest::removeColumnsTest()
      for(QList<Cell> list: cells)
          g->getCells().append(list);
 
-     GridUtils::removeColumns(g, QPoint(1, 0), 1, 2);
+     GridUtils::removeArea(g, QPoint(1, 0), 1, 2);
 
     QVERIFY(g->getCells()[0][0] == Cell(CellType::UD));
     QVERIFY(g->getCells()[0][1] == Cell(CellType::LR));

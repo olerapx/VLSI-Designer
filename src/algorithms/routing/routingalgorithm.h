@@ -14,19 +14,6 @@ enum class Direction
     Down
 };
 
-struct RoutingState
-{
-    bool canMove;
-    bool newBranched;
-};
-
-struct ExtensionRecord
-{
-    QPoint coord;
-    int number;
-    Direction direction;
-};
-
 Direction operator !(const Direction& other);
 
 /**
@@ -73,6 +60,19 @@ public slots:
     void onStart();
 
 protected:
+    struct RoutingState
+    {
+        bool canMove;
+        bool newBranched;
+    };
+
+    struct ExtensionRecord
+    {
+        QPoint coord;
+        int number;
+        Direction direction;
+    };
+
     Grid* grid;
     Scheme* scheme;
     int maxExtensionAttempts;    
@@ -86,7 +86,7 @@ protected:
     bool draw(Cell& cell, Direction from, Direction to);
     bool branch(Cell& cell, Direction to);
 
-    RoutingState canRoute(QPoint from, QPoint to, bool branched);
+    RoutingAlgorithm::RoutingState canRoute(QPoint from, QPoint to, bool branched);
     Direction getDirection(QPoint from, QPoint to);
 
     bool extend(QPoint coord, int number, Direction direction);

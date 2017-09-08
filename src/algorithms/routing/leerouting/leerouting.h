@@ -6,12 +6,6 @@
 #include "wiredistancecomparator.h"
 #include "pointdistancecomparator.h"
 
-struct CellInfo
-{
-    qint64 value;
-    bool branched;
-};
-
 /**
  * @brief The LeeRouting class
  * Implements the Lee path connection algorithm.
@@ -30,6 +24,12 @@ public:
     Grid* execute();
 
 private:
+    struct CellInfo
+    {
+        qint64 value;
+        bool branched;
+    };
+
     QList<WireData*> innerWires, outerWires;
     QList<QList<CellInfo>> matrix;
 
