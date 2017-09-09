@@ -74,8 +74,8 @@ bool RoutingAlgorithm::canEnter(QPoint coord, Direction from)
 
 bool RoutingAlgorithm::checkCoordIsInGrid(QPoint coord)
 {
-    if(coord.y() < 0 || coord.y() >= grid->getCells().size() ||
-            coord.x() < 0 || coord.x() >= grid->getCells()[coord.y()].size())
+    if(coord.y() < 0 || coord.y() >= grid->getHeight() ||
+            coord.x() < 0 || coord.x() >= grid->getWidth())
         return false;
 
     return true;
@@ -374,7 +374,7 @@ bool RoutingAlgorithm::extend(QPoint coord, int number, Direction direction)
 
 bool RoutingAlgorithm::extendHorizontally(QPoint coord, int number, Direction direction)
 {
-    for(int i=0; i<grid->getCells().size(); i++)
+    for(int i=0; i<grid->getHeight(); i++)
     {
         CellType type = grid->getCells()[i][coord.x()].getType();
 
@@ -389,7 +389,7 @@ bool RoutingAlgorithm::extendHorizontally(QPoint coord, int number, Direction di
     else
         insertX = coord.x() + 1;
 
-    for(int i=0; i<grid->getCells().size(); i++)
+    for(int i=0; i<grid->getHeight(); i++)
     {
         CellType type = CellType::Empty;
 
@@ -446,7 +446,7 @@ bool RoutingAlgorithm::extendVertically(QPoint coord, int number, Direction dire
         if((grid->getCells()[coord.y()][j].isWire() && !canLeave(QPoint(j, coord.y()), direction)) ||
                 (direction == Direction::Up && coord.y() - 1 >= 0 && grid->getCells()[coord.y() - 1][j].isWire() &&
                  !canLeave(QPoint(j, coord.y() - 1), !direction)) ||
-                (direction == Direction::Down && coord.y() + 1 < grid->getCells().size() && grid->getCells()[coord.y() + 1][j].isWire() &&
+                (direction == Direction::Down && coord.y() + 1 < grid->getHeight() && grid->getCells()[coord.y() + 1][j].isWire() &&
                  !canLeave(QPoint(j, coord.y() + 1), !direction)))
             type = CellType::UD;
 
@@ -495,7 +495,7 @@ void RoutingAlgorithm::undoHorizontalExtension(ExtensionRecord& record)
     else
       undoX = record.coord.x() + 1;
 
-    GridUtils::removeArea(grid, QPoint(undoX, 0), record.number, grid->getCells().size());
+    GridUtils::removeArea(grid, QPoint(undoX, 0), record.number, grid->getHeight());
 
     for(WireData& data: grid->getWiresData())
     {

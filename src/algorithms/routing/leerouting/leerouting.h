@@ -33,7 +33,6 @@ private:
     QList<WireData*> innerWires, outerWires;
     QList<QList<CellInfo>> matrix;
 
-    int gridHeight, gridWidth;
     qint64 currentValue;
     int extensionAttempts;
 

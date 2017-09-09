@@ -66,27 +66,33 @@ void PermutationCompositionTest::compositionTest()
     PermutationComposition composition(grids);
     Grid* grid = composition.execute();
 
-    QVERIFY(grid->getCells().size() == 9);
-    QVERIFY(grid->getCells()[0].size() == 8);
+    QVERIFY(grid->getHeight() == 9);
+    QVERIFY(grid->getWidth() == 8);
 
     QVERIFY(grid->getRoutedWires().size() == 0);
 
-    QPoint actualPositions[] = { QPoint(0, 0), QPoint(4, 0), QPoint(0, 3), QPoint(4, 3), QPoint(2, 6) };
+    QPoint actualPositions[] = { QPoint(0, 0), QPoint(4, 0), QPoint(1, 3), QPoint(4, 3), QPoint(2, 7) };
 
     for(int i=0; i<grids.size(); i++)
     {
         Grid* g = grids[i];
         QPoint position = actualPositions[i];
 
-        for(int j=0; j<g->getCells().size(); j++)
+        for(int j=0; j<g->getHeight(); j++)
         {
-            for(int k=0; k<g->getCells()[j].size(); k++)
+            for(int k=0; k<g->getWidth(); k++)
             {
                 QVERIFY(grid->getCells()[position.y() + j][position.x() + k] ==
                         g->getCells()[j][k]);
             }
         }
     }
+
+    QVERIFY(QSize(grids[0]->getHeight(), grids[0]->getWidth()) == QSize(3, 4));
+    QVERIFY(QSize(grids[1]->getHeight(), grids[1]->getWidth()) == QSize(3, 3));
+    QVERIFY(QSize(grids[2]->getHeight(), grids[2]->getWidth()) == QSize(3, 2));
+    QVERIFY(QSize(grids[3]->getHeight(), grids[3]->getWidth()) == QSize(2, 4));
+    QVERIFY(QSize(grids[4]->getHeight(), grids[4]->getWidth()) == QSize(1, 3));
 
     for(Grid* g: grids)
         delete g;

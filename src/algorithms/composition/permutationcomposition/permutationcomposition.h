@@ -33,16 +33,15 @@ private:
 
     QSize maxSize;
     QList<GridPosition> positions;
+    QList<QPoint> offsets;
 
     int gridHeight;
     int gridWidth;
 
     void clear();
 
-    void stretchParts();
+    void fillOffsets();
     void getMaxGridSize();
-    void stretchHeight(Grid* grid, int number);
-    void stretchWidth(Grid* grid, int number);
 
     void fillPositions();
     void getGridWidth();

@@ -356,7 +356,7 @@ void JsonSerializerTest::deserializeGridTest()
         f.close();
     }
 
-    QVERIFY(g->getCells().size() == 4);
+    QVERIFY(g->getHeight() == 4);
 
     QList<Cell> list = g->getCells().at(0);
     QVERIFY(list.size() == 4);

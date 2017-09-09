@@ -24,5 +24,8 @@ public:
     QList <RoutedWireIndex>& getRoutedWires() { return routedWires; }
     QList<WireData>& getWiresData() { return wiresData; }
 
+    int getHeight();
+    int getWidth();
+
     bool operator ==(const Grid& other);
 };

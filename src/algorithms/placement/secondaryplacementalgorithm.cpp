@@ -48,8 +48,8 @@ QList<WireCoordinate> SecondaryPlacementAlgorithm::fillWireCoordinates(QList<QLi
 
     QList<WireCoordinate> res;
 
-    int gridHeight = previous->getGrid()->getCells().size();
-    int gridWidth = previous->getGrid()->getCells()[0].size();
+    int gridHeight = previous->getGrid()->getHeight();
+    int gridWidth = previous->getGrid()->getWidth();
 
     for(Wire& w: previous->getRelatedWires())
     {

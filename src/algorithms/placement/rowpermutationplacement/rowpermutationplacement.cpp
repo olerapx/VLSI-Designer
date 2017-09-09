@@ -203,7 +203,7 @@ void RowPermutationPlacement::swapRowsOnGrid(QList<QList<ElementCoordinate>>& el
     QPoint secondCoord = secondRow[0].getTopLeftCoord();
 
     int shift = getShift(firstRow, secondRow);
-    int width = previous->getGrid()->getCells()[0].size();
+    int width = previous->getGrid()->getWidth();
 
     int firstHeight = LibraryUtils::getCorrespondingElement(firstRow[0].getElement(), previous->getLibraries()).getHeight();
     int secondHeight = LibraryUtils::getCorrespondingElement(secondRow[0].getElement(), previous->getLibraries()).getHeight();

@@ -388,8 +388,8 @@ void LeeRoutingTest::extendHorizontallyTest()
 
     lee.execute();
 
-    QVERIFY(g->getCells().size() == 6);
-    QVERIFY(g->getCells()[0].size() == 12);
+    QVERIFY(g->getHeight() == 6);
+    QVERIFY(g->getWidth() == 12);
 
     QVERIFY(g->getWiresData()[0].getSrcCoord() == QPoint(8, 5));
     QVERIFY(g->getWiresData()[0].getDestCoord() == QPoint(3, 0));
@@ -459,8 +459,8 @@ void LeeRoutingTest::extendVerticallyTest()
 
      lee.execute();
 
-     QVERIFY(g->getCells().size() == 6);
-     QVERIFY(g->getCells()[0].size() == 14);
+     QVERIFY(g->getHeight() == 6);
+     QVERIFY(g->getWidth() == 14);
 
      QVERIFY(g->getWiresData()[0].getSrcCoord() == QPoint(3, 5));
      QVERIFY(g->getWiresData()[0].getDestCoord() == QPoint(10, 0));
@@ -528,8 +528,8 @@ void LeeRoutingTest::extensionIsUnavailableTest()
 
      QVERIFY(g->getRoutedWires().size() == 0);
 
-     QVERIFY(g->getCells().size() == 5);
-     QVERIFY(g->getCells()[0].size() == 12);
+     QVERIFY(g->getHeight() == 5);
+     QVERIFY(g->getWidth() == 12);
 
      delete g;
      delete s;
@@ -563,8 +563,8 @@ void LeeRoutingTest::maxExtensionAttemptsReachedTest()
 
      QVERIFY(g->getRoutedWires().size() == 0);
 
-     QVERIFY(g->getCells().size() == 1);
-     QVERIFY(g->getCells()[0].size() == 11);
+     QVERIFY(g->getHeight() == 1);
+     QVERIFY(g->getWidth() == 11);
 
      QVERIFY(g->getWiresData()[0].getSrcCoord() == QPoint(7, 0));
      QVERIFY(g->getWiresData()[0].getDestCoord() == QPoint(3, 0));

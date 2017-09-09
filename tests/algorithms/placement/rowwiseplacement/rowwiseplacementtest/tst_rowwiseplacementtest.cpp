@@ -44,8 +44,8 @@ void RowWisePlacementTest::gridSquareTest()
     PlacementResult* result = placement.execute();
     Grid* g = result->getGrid();
 
-    QVERIFY(g->getCells().size() == 18);
-    QVERIFY(g->getCells()[0].size() == 18);
+    QVERIFY(g->getHeight() == 18);
+    QVERIFY(g->getWidth() == 18);
 
     delete g;
     delete result;
@@ -59,8 +59,8 @@ void RowWisePlacementTest::gridSquareTest()
     result = placement.execute();
     g = result->getGrid();
 
-    QVERIFY(g->getCells().size() == (3 + 3 + 3) * 2);
-    QVERIFY(g->getCells()[0].size() == 7 * 2);
+    QVERIFY(g->getHeight() == (3 + 3 + 3) * 2);
+    QVERIFY(g->getWidth() == 7 * 2);
 
     delete g;
     delete result;

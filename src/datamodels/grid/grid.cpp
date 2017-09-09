@@ -7,3 +7,16 @@ bool Grid::operator ==(const Grid& other)
 
     return false;
 }
+
+int Grid::getHeight()
+{
+    return cells.size();
+}
+
+int Grid::getWidth()
+{
+    if(cells.size() == 0)
+        return 0;
+
+    return cells[0].size();
+}

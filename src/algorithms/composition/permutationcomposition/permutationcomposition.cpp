@@ -16,7 +16,7 @@ Grid* PermutationComposition::execute()
         stopped = false;
         actuallyStopped = false;
 
-        stretchParts();
+        fillOffsets();
         fillPositions();
 
         Grid* grid = buildResult();
@@ -46,22 +46,22 @@ void PermutationComposition::clear()
 {
     maxSize = QSize(0, 0);
     positions.clear();
+    offsets.clear();
 
     gridHeight = 0;
     gridWidth = 0;
 }
 
-void PermutationComposition::stretchParts()
+void PermutationComposition::fillOffsets()
 {
     getMaxGridSize();
 
     for(Grid* grid: grids)
     {
-        int diffHeight = maxSize.height() - grid->getCells().size();
-        int diffWidth = maxSize.width() - grid->getCells()[0].size();
+        int diffHeight = maxSize.height() - grid->getHeight();
+        int diffWidth = maxSize.width() - grid->getWidth();
 
-        stretchHeight(grid, diffHeight);
-        stretchWidth(grid, diffWidth);
+        offsets.append(QPoint(diffWidth / 2, diffHeight / 2));
     }
 }
 
@@ -69,41 +69,11 @@ void PermutationComposition::getMaxGridSize()
 {
     for(Grid* grid: grids)
     {
-        if(grid->getCells().size() > maxSize.height())
-            maxSize.setHeight(grid->getCells().size());
+        if(grid->getHeight() > maxSize.height())
+            maxSize.setHeight(grid->getHeight());
 
-        if(grid->getCells()[0].size() > maxSize.width())
-            maxSize.setWidth(grid->getCells()[0].size());
-    }
-}
-
-void PermutationComposition::stretchHeight(Grid* grid, int number)
-{
-    int upNumber = number / 2;
-    int downNumber = number - upNumber;
-
-    GridUtils::insertRows(grid, 0, upNumber);
-    GridUtils::insertRows(grid, grid->getCells().size(), downNumber);
-
-    for(WireData& data: grid->getWiresData())
-    {
-        data.setSrcCoord(data.getSrcCoord() + QPoint(0, upNumber));
-        data.setDestCoord(data.getDestCoord() + QPoint(0, upNumber));
-    }
-}
-
-void PermutationComposition::stretchWidth(Grid* grid, int number)
-{
-    int leftNumber = number / 2;
-    int rightNumber = number - leftNumber;
-
-    GridUtils::insertEmptyArea(grid, QPoint(0, 0), leftNumber, grid->getCells().size());
-    GridUtils::insertEmptyArea(grid, QPoint(grid->getCells()[0].size(), 0), rightNumber, grid->getCells().size());
-
-    for(WireData& data: grid->getWiresData())
-    {
-        data.setSrcCoord(data.getSrcCoord() + QPoint(leftNumber, 0));
-        data.setDestCoord(data.getDestCoord() + QPoint(rightNumber, 0));
+        if(grid->getWidth() > maxSize.width())
+            maxSize.setWidth(grid->getWidth());
     }
 }
 
@@ -172,11 +142,14 @@ Grid* PermutationComposition::buildResult()
         QPoint coord = position.coord;
         Grid* sourceGrid = grids[position.gridIndex];
 
-        for(int i=0; i<maxSize.height(); i++)
+        QPoint offset = offsets[position.gridIndex];
+
+        for(int i=0; i<sourceGrid->getHeight(); i++)
         {
-            for(int j=0; j<maxSize.width(); j++)
+            for(int j=0; j<sourceGrid->getWidth(); j++)
             {
-                grid->getCells()[coord.y() + i][coord.x() + j] = sourceGrid->getCells()[i][j];
+                grid->getCells()[coord.y() + offset.y() + i][coord.x() + offset.x() + j] =
+                        sourceGrid->getCells()[i][j];
             }
         }
     }

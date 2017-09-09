@@ -106,24 +106,22 @@ QImage GridRenderer::execute()
         stopped = false;
         actuallyStopped = false;
 
-        int gridSize = grid->getCells().size();
-
-        if(gridSize == 0)
+        if(grid->getHeight() == 0)
             throw IllegalArgumentException(tr("The grid is empty."));
 
-        int size = grid->getCells()[0].size();
+        int width = grid->getWidth();
         for(QList<Cell>& list: grid->getCells())
-            if(list.size() != size)
+            if(list.size() != width)
                 throw IllegalArgumentException(tr("The grid is not rectangular."));
 
         sendLog(tr("Preparing the canvas for rendering."));
 
-        QImage res(imageSize * grid->getCells().at(0).size(), imageSize * grid->getCells().size(), QImage::Format_ARGB32);
+        QImage res(imageSize * grid->getWidth(), imageSize * grid->getHeight(), QImage::Format_ARGB32);
         res.fill(Qt::white);
 
         sendLog(tr("Starting."));
 
-        int totalSize = gridSize * size;
+        int totalSize = grid->getHeight() * grid->getWidth();
         int i = 0;
 
         for(QList<Cell>& list: grid->getCells())
@@ -202,7 +200,7 @@ void GridRenderer::renderPin(QImage& image)
 {
     QImage tile;
 
-    if(currentY < grid->getCells().size()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
+    if(currentY < grid->getHeight()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
         tile = getImageFromCache("pin_vertical");
     else if(currentX > 0 && grid->getCells()[currentY][currentX-1].getType() == CellType::Element)
         tile = rotateImage(getImageFromCache("pin_horizontal"), 180);
@@ -219,11 +217,11 @@ void GridRenderer::renderElement(QImage& image, Cell cell)
     std::bitset<4> nearbyElements(0); // top, bottom, left, right
     if(currentY > 0 && grid->getCells()[currentY-1][currentX].getType() == CellType::Element)
         nearbyElements[3] = 1;
-    if(currentY < grid->getCells().size()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
+    if(currentY < grid->getHeight()-1 && grid->getCells()[currentY+1][currentX].getType() == CellType::Element)
         nearbyElements[2] = 1;
     if(currentX > 0 && grid->getCells()[currentY][currentX-1].getType() == CellType::Element)
         nearbyElements[1] = 1;
-    if(currentX < grid->getCells()[0].size()-1 && grid->getCells()[currentY][currentX+1].getType() == CellType::Element)
+    if(currentX < grid->getWidth()-1 && grid->getCells()[currentY][currentX+1].getType() == CellType::Element)
         nearbyElements[0] = 1;
 
     ulong res = nearbyElements.to_ulong();

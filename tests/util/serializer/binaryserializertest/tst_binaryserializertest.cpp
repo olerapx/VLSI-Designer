@@ -157,7 +157,7 @@ void BinarySerializerTest::gridTest()
 
     QVERIFY(deserializedGrid->getWiresData() == g->getWiresData());
 
-    QVERIFY(deserializedGrid->getCells().size() == g->getCells().size());
+    QVERIFY(deserializedGrid->getHeight() == g->getHeight());
     QVERIFY(deserializedGrid->getCells()[0][0].getType() == g->getCells()[0][0].getType());
     QVERIFY(deserializedGrid->getCells()[0][1].getType() == g->getCells()[0][1].getType());
 

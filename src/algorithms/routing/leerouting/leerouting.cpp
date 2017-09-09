@@ -16,9 +16,6 @@ Grid* LeeRouting::execute()
         stopped = false;
         actuallyStopped = false;
 
-        gridHeight = grid->getCells().size();
-        gridWidth = grid->getCells()[0].size();
-
         initWires();
 
         sendLog(tr("Routing inner wires."));
@@ -68,9 +65,6 @@ void LeeRouting::clear()
     matrix.clear();
     extensions.clear();
 
-    gridHeight = 0;
-    gridWidth = 0;
-
     currentValue = 0;
     extensionAttempts = 0;
 
@@ -102,8 +96,8 @@ void LeeRouting::initWires()
             outerWires.append(&data);
     }
 
-    std::sort(innerWires.begin(), innerWires.end(), WireDistanceComparator(gridHeight, gridWidth));
-    std::sort(outerWires.begin(), outerWires.end(), WireDistanceComparator(gridHeight, gridWidth));
+    std::sort(innerWires.begin(), innerWires.end(), WireDistanceComparator(grid->getHeight(), grid->getWidth()));
+    std::sort(outerWires.begin(), outerWires.end(), WireDistanceComparator(grid->getHeight(), grid->getWidth()));
 }
 
 bool LeeRouting::isWireRouted(Wire& wire)
@@ -319,9 +313,6 @@ bool LeeRouting::tryExtend()
         {
             if(extend(point, 1, direction))
             {
-                gridHeight = grid->getCells().size();
-                gridWidth = grid->getCells()[0].size();
-
                 extensions.append({ point, 1, direction });
 
                 sendLog(tr("Successful extension."));
@@ -337,9 +328,6 @@ bool LeeRouting::tryExtend()
 void LeeRouting::undoAllExtends()
 {
     undoExtends(extensions);
-
-    gridHeight = grid->getCells().size();
-    gridWidth = grid->getCells()[0].size();
 
     extensionAttempts -= extensions.size();
 }
