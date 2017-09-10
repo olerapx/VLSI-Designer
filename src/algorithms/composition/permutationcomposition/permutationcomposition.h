@@ -29,7 +29,7 @@ private:
     {
         QPoint coord;
         int gridIndex;
-    };
+    };    
 
     QSize maxSize;
     QList<GridPosition> positions;
@@ -46,6 +46,9 @@ private:
     void fillPositions();
     void getGridWidth();
     void centerLastRow();
+
+    void optimize();
+    qint64 getFitnessValue();
 
     Grid* buildResult();
     Grid* createEmptyTotalGrid();

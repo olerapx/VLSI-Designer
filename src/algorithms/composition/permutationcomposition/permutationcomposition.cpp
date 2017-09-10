@@ -20,6 +20,8 @@ Grid* PermutationComposition::execute()
         fillPositions();
         fillComposedWireData();
 
+        optimize();
+
         Grid* grid = buildResult();
 
         clear();
@@ -100,13 +102,13 @@ void PermutationComposition::fillPositions()
 
 void PermutationComposition::getGridWidth()
 {
-   int totalSquare = maxSize.height() * maxSize.width() * grids.size();
+    int totalSquare = maxSize.height() * maxSize.width() * grids.size();
 
-   gridWidth = floor(sqrt(totalSquare));
-   if(gridWidth * (gridWidth + 1) < totalSquare)
-       gridWidth ++;
+    gridWidth = floor(sqrt(totalSquare));
+    if(gridWidth * (gridWidth + 1) < totalSquare)
+        gridWidth ++;
 
-   gridWidth = gridWidth / maxSize.width() * maxSize.width();
+    gridWidth = gridWidth / maxSize.width() * maxSize.width();
 }
 
 void PermutationComposition::centerLastRow()
@@ -132,6 +134,33 @@ void PermutationComposition::centerLastRow()
 
     for(int i=lastRowIndex; i<positions.size(); i++)
         positions[i].coord = positions[i].coord + QPoint(diff/2, 0);
+}
+
+void PermutationComposition::optimize()
+{
+
+}
+
+qint64 PermutationComposition::getFitnessValue()
+{
+    qint64 res = 0;
+
+    for(GridPartWireData& data: composedInternalWireData)
+    {
+        Wire wire = SchemeUtils::findWireByIndex(scheme, data.index);
+
+        QPoint srcCoord = getActualCoord(data.srcGridIndex, data.srcCoord);
+        QPoint destCoord = getActualCoord(data.destGridIndex, data.destCoord);
+
+        int val = abs(destCoord.x() - srcCoord.x()) + abs(destCoord.y() - srcCoord.y());
+
+        if(wire.getType() == WireType::Inner)
+            val *= innerWireFitnessCoefficient;
+
+        res += val;
+    }
+
+    return res;
 }
 
 Grid* PermutationComposition::buildResult()
