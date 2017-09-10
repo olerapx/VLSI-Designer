@@ -1,7 +1,7 @@
 #include "permutationcomposition.h"
 
-PermutationComposition::PermutationComposition(QList<Grid*> grids) :
-    CompositionAlgorithm(grids)
+PermutationComposition::PermutationComposition(QList<Grid*> grids, Scheme* scheme) :
+    CompositionAlgorithm(grids, scheme)
 {
     clear();
 }
@@ -18,6 +18,7 @@ Grid* PermutationComposition::execute()
 
         fillOffsets();
         fillPositions();
+        fillComposedWireData();
 
         Grid* grid = buildResult();
 
@@ -102,10 +103,10 @@ void PermutationComposition::getGridWidth()
    int totalSquare = maxSize.height() * maxSize.width() * grids.size();
 
    gridWidth = floor(sqrt(totalSquare));
-   if(gridWidth * (gridWidth + 1) >= totalSquare)
-       return;
+   if(gridWidth * (gridWidth + 1) < totalSquare)
+       gridWidth ++;
 
-   gridWidth ++;
+   gridWidth = gridWidth / maxSize.width() * maxSize.width();
 }
 
 void PermutationComposition::centerLastRow()
@@ -154,7 +155,7 @@ Grid* PermutationComposition::buildResult()
         }
     }
 
-    // ADD WIRESDATA
+    fillWiresData(grid);
 
     return grid;
 }
@@ -174,4 +175,47 @@ Grid* PermutationComposition::createEmptyTotalGrid()
     }
 
     return grid;
+}
+
+void PermutationComposition::fillWiresData(Grid* result)
+{
+    for(GridPartWireData& data: composedInternalWireData)
+    {
+        result->getWiresData().append(WireData(data.index, getActualCoord(data.srcGridIndex, data.srcCoord),
+                                               getActualCoord(data.destGridIndex, data.destCoord), WirePosition::Internal));
+    }
+
+    for(ExternalWireData& data: composedExternalWireData)
+    {
+        result->getWiresData().append(WireData(data.index, getActualCoord(data.gridIndex, data.srcCoord), QPoint(0, 0), WirePosition::External));
+    }
+
+    for(int i=0; i<grids.size(); i++)
+    {
+        for(WireData& data: grids[i]->getWiresData())
+        {
+            if(data.getWirePosition() == WirePosition::Internal)
+                result->getWiresData().append(WireData(data.getIndex(), getActualCoord(i, data.getSrcCoord()),
+                                                       getActualCoord(i, data.getDestCoord()), WirePosition::Internal));
+        }
+    }
+}
+
+QPoint PermutationComposition::getActualCoord(int gridIndex, QPoint coord)
+{
+    QPoint position;
+    QPoint offset;
+
+    for(GridPosition& pos: positions)
+    {
+        if(pos.gridIndex == gridIndex)
+        {
+            position = pos.coord;
+            break;
+        }
+    }
+
+    offset = offsets[gridIndex];
+
+    return position + offset + coord;
 }

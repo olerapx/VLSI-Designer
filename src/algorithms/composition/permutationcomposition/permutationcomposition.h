@@ -14,7 +14,7 @@
 class PermutationComposition : public CompositionAlgorithm
 {
 public:
-    PermutationComposition(QList<Grid*> grids);
+    PermutationComposition(QList<Grid*> grids, Scheme* scheme);
 
     /**
      * @brief execute
@@ -49,4 +49,6 @@ private:
 
     Grid* buildResult();
     Grid* createEmptyTotalGrid();
+    void fillWiresData(Grid* result);
+    QPoint getActualCoord(int gridIndex, QPoint coord);
 };
