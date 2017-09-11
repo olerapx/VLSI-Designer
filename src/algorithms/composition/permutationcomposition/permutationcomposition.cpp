@@ -138,10 +138,48 @@ void PermutationComposition::centerLastRow()
 
 void PermutationComposition::optimize()
 {
+    for(int i=0; i<grids.size(); i++)
+    {
+        int positionIndex = getPositionIndexByGridIndex(i);
 
+        QList<qint64> fitnessValues;
+
+        for(int j=0; j<positions.size(); j++)
+            fitnessValues.append(getFitnessValueWithPermutation(j, positionIndex));
+
+        int optimalPositionIndex = findOptimalPositionIndex(fitnessValues);
+
+        if(fitnessValues[optimalPositionIndex] == fitnessValues[positionIndex])
+            continue;
+
+        std::swap(positions[positionIndex].gridIndex, positions[optimalPositionIndex].gridIndex);
+    }
 }
 
-qint64 PermutationComposition::getFitnessValue()
+int PermutationComposition::getPositionIndexByGridIndex(int gridIndex)
+{
+    for(int i=0; i<positions.size(); i++)
+    {
+        if(positions[i].gridIndex == gridIndex)
+            return i;
+    }
+
+    throw IllegalArgumentException(tr("Cannot find the position of grid with index %1.")
+                                   .arg(QString::number(gridIndex)));
+}
+
+qint64 PermutationComposition::getFitnessValueWithPermutation(int firstIndex, int secondIndex)
+{
+    if(firstIndex == secondIndex)
+        return getFitnessValue(positions);
+
+    QList<GridPosition> newPositions = positions;
+    std::swap(newPositions[firstIndex].gridIndex, newPositions[secondIndex].gridIndex);
+
+    return getFitnessValue(newPositions);
+}
+
+qint64 PermutationComposition::getFitnessValue(QList<GridPosition>& positions)
 {
     qint64 res = 0;
 
@@ -149,8 +187,8 @@ qint64 PermutationComposition::getFitnessValue()
     {
         Wire wire = SchemeUtils::findWireByIndex(scheme, data.index);
 
-        QPoint srcCoord = getActualCoord(data.srcGridIndex, data.srcCoord);
-        QPoint destCoord = getActualCoord(data.destGridIndex, data.destCoord);
+        QPoint srcCoord = getActualCoord(data.srcGridIndex, data.srcCoord, positions);
+        QPoint destCoord = getActualCoord(data.destGridIndex, data.destCoord, positions);
 
         int val = abs(destCoord.x() - srcCoord.x()) + abs(destCoord.y() - srcCoord.y());
 
@@ -161,6 +199,23 @@ qint64 PermutationComposition::getFitnessValue()
     }
 
     return res;
+}
+
+int PermutationComposition::findOptimalPositionIndex(QList<qint64>& fitnessValues)
+{
+    int optimalPositionIndex = 0;
+    int minFitnessValue = fitnessValues[0];
+
+    for(int j=0; j<fitnessValues.size(); j++)
+    {
+        if(fitnessValues[j] < minFitnessValue)
+        {
+            minFitnessValue = fitnessValues[j];
+            optimalPositionIndex = j;
+        }
+    }
+
+    return optimalPositionIndex;
 }
 
 Grid* PermutationComposition::buildResult()
@@ -231,6 +286,11 @@ void PermutationComposition::fillWiresData(Grid* result)
 }
 
 QPoint PermutationComposition::getActualCoord(int gridIndex, QPoint coord)
+{
+    return getActualCoord(gridIndex, coord, positions);
+}
+
+QPoint PermutationComposition::getActualCoord(int gridIndex, QPoint coord, QList<GridPosition>& positions)
 {
     QPoint position;
     QPoint offset;

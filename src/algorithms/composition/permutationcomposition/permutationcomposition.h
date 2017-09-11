@@ -48,10 +48,14 @@ private:
     void centerLastRow();
 
     void optimize();
-    qint64 getFitnessValue();
+    int getPositionIndexByGridIndex(int gridIndex);
+    qint64 getFitnessValueWithPermutation(int firstIndex, int secondIndex);
+    qint64 getFitnessValue(QList<GridPosition>& positions);
+    int findOptimalPositionIndex(QList<qint64>& fitnessValues);
 
     Grid* buildResult();
     Grid* createEmptyTotalGrid();
     void fillWiresData(Grid* result);
     QPoint getActualCoord(int gridIndex, QPoint coord);
+    QPoint getActualCoord(int gridIndex, QPoint coord, QList<GridPosition>& positions);
 };
