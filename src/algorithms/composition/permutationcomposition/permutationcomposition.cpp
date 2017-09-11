@@ -216,25 +216,10 @@ int PermutationComposition::findOptimalPositionIndex(QList<qint64>& fitnessValue
 Grid* PermutationComposition::buildResult()
 {
     Grid* grid = createEmptyTotalGrid();
-
-    for(GridPosition& position: positions)
-    {
-        QPoint coord = position.coord;
-        Grid* sourceGrid = grids[position.gridIndex];
-
-        QPoint offset = offsets[position.gridIndex];
-
-        for(int i=0; i<sourceGrid->getHeight(); i++)
-        {
-            for(int j=0; j<sourceGrid->getWidth(); j++)
-            {
-                grid->getCells()[coord.y() + offset.y() + i][coord.x() + offset.x() + j] =
-                        sourceGrid->getCells()[i][j];
-            }
-        }
-    }
+    fillTotalGrid(grid);
 
     fillWiresData(grid);
+    fillRoutedWires(grid);
 
     return grid;
 }
@@ -254,6 +239,27 @@ Grid* PermutationComposition::createEmptyTotalGrid()
     }
 
     return grid;
+}
+
+void PermutationComposition::fillTotalGrid(Grid* result)
+{
+    for(GridPosition& position: positions)
+    {
+        QPoint coord = position.coord;
+        Grid* sourceGrid = grids[position.gridIndex];
+
+        QPoint offset = offsets[position.gridIndex];
+
+        for(int i=0; i<sourceGrid->getHeight(); i++)
+        {
+            for(int j=0; j<sourceGrid->getWidth(); j++)
+            {
+                result->getCells()[coord.y() + offset.y() + i][coord.x() + offset.x() + j] =
+                        sourceGrid->getCells()[i][j];
+            }
+        }
+    }
+
 }
 
 void PermutationComposition::fillWiresData(Grid* result)
@@ -302,4 +308,12 @@ QPoint PermutationComposition::getActualCoord(int gridIndex, QPoint coord, QList
     offset = offsets[gridIndex];
 
     return position + offset + coord;
+}
+
+void PermutationComposition::fillRoutedWires(Grid* result)
+{
+    for(Grid* g: grids)
+    {
+        result->getRoutedWires().append(g->getRoutedWires());
+    }
 }

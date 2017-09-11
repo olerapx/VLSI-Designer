@@ -68,6 +68,9 @@ void PermutationCompositionTest::compositionTest()
 
     grids[4]->getCells().append(cells);
 
+    grids[0]->getRoutedWires().append({ 0, 1, 4 });
+    grids[2]->getRoutedWires().append({ 5, 8 });
+
     Scheme* s = new Scheme();
 
     PermutationComposition composition(grids, s);
@@ -76,7 +79,8 @@ void PermutationCompositionTest::compositionTest()
     QVERIFY(grid->getHeight() == 9);
     QVERIFY(grid->getWidth() == 8);
 
-    QVERIFY(grid->getRoutedWires().size() == 0);
+    QVERIFY(grid->getWiresData().size() == 0);
+    QVERIFY(grid->getRoutedWires().size() == 5);
 
     QPoint actualPositions[] = { QPoint(0, 0), QPoint(4, 0), QPoint(1, 3), QPoint(4, 3), QPoint(2, 7) };
 

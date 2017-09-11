@@ -56,7 +56,9 @@ private:
 
     Grid* buildResult();
     Grid* createEmptyTotalGrid();
+    void fillTotalGrid(Grid* result);
     void fillWiresData(Grid* result);
     QPoint getActualCoord(int gridIndex, QPoint coord);
     QPoint getActualCoord(int gridIndex, QPoint coord, QList<GridPosition>& positions);
+    void fillRoutedWires(Grid* result);
 };
