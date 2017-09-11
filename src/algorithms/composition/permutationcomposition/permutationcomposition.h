@@ -5,6 +5,7 @@
 
 #include "algorithms/composition/compositionalgorithm.h"
 #include "util/misc/gridutils.h"
+#include "util/misc/wireutils.h"
 
 /**
  * @brief The PermutationComposition class

@@ -102,13 +102,8 @@ void PermutationComposition::fillPositions()
 
 void PermutationComposition::getGridWidth()
 {
-    int totalSquare = maxSize.height() * maxSize.width() * grids.size();
-
-    gridWidth = floor(sqrt(totalSquare));
-    if(gridWidth * (gridWidth + 1) < totalSquare)
-        gridWidth ++;
-
-    gridWidth = gridWidth / maxSize.width() * maxSize.width();
+    gridWidth = floor(sqrt(grids.size()));
+    gridWidth *= maxSize.width();
 }
 
 void PermutationComposition::centerLastRow()
@@ -190,7 +185,7 @@ qint64 PermutationComposition::getFitnessValue(QList<GridPosition>& positions)
         QPoint srcCoord = getActualCoord(data.srcGridIndex, data.srcCoord, positions);
         QPoint destCoord = getActualCoord(data.destGridIndex, data.destCoord, positions);
 
-        int val = abs(destCoord.x() - srcCoord.x()) + abs(destCoord.y() - srcCoord.y());
+        int val = WireUtils::getDistance(srcCoord, destCoord, WirePosition::Internal, 0, 0);
 
         if(wire.getType() == WireType::Inner)
             val *= innerWireFitnessCoefficient;

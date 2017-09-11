@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 
 #include <algorithms/composition/permutationcomposition/permutationcomposition.h>
-#include <util/renderer/gridrenderer.h>
+
 class PermutationCompositionTest : public QObject
 {
     Q_OBJECT
@@ -13,7 +13,9 @@ public:
 
 private slots:
     void compositionTest();
+    void verifyGridPartsOnPositions(QList<Grid*>& grids, QPoint actualPositions[], Grid* grid);
     void wiresDataCompositionTest();
+    void optimizationTest();
 
     static bool wiresDataIndexComparator(WireData& first, WireData& second) { return first.getIndex() < second.getIndex(); }
 };
@@ -78,6 +80,23 @@ void PermutationCompositionTest::compositionTest()
 
     QPoint actualPositions[] = { QPoint(0, 0), QPoint(4, 0), QPoint(1, 3), QPoint(4, 3), QPoint(2, 7) };
 
+    verifyGridPartsOnPositions(grids, actualPositions, grid);
+
+    QVERIFY(QSize(grids[0]->getHeight(), grids[0]->getWidth()) == QSize(3, 4));
+    QVERIFY(QSize(grids[1]->getHeight(), grids[1]->getWidth()) == QSize(3, 3));
+    QVERIFY(QSize(grids[2]->getHeight(), grids[2]->getWidth()) == QSize(3, 2));
+    QVERIFY(QSize(grids[3]->getHeight(), grids[3]->getWidth()) == QSize(2, 4));
+    QVERIFY(QSize(grids[4]->getHeight(), grids[4]->getWidth()) == QSize(1, 3));
+
+    for(Grid* g: grids)
+        delete g;
+
+    delete s;
+    delete grid;    
+}
+
+void PermutationCompositionTest::verifyGridPartsOnPositions(QList<Grid*>& grids, QPoint actualPositions[], Grid* grid)
+{
     for(int i=0; i<grids.size(); i++)
     {
         Grid* g = grids[i];
@@ -92,18 +111,6 @@ void PermutationCompositionTest::compositionTest()
             }
         }
     }
-
-    QVERIFY(QSize(grids[0]->getHeight(), grids[0]->getWidth()) == QSize(3, 4));
-    QVERIFY(QSize(grids[1]->getHeight(), grids[1]->getWidth()) == QSize(3, 3));
-    QVERIFY(QSize(grids[2]->getHeight(), grids[2]->getWidth()) == QSize(3, 2));
-    QVERIFY(QSize(grids[3]->getHeight(), grids[3]->getWidth()) == QSize(2, 4));
-    QVERIFY(QSize(grids[4]->getHeight(), grids[4]->getWidth()) == QSize(1, 3));
-
-    for(Grid* g: grids)
-        delete g;
-
-    delete s;
-    delete grid;    
 }
 
 void PermutationCompositionTest::wiresDataCompositionTest()
@@ -189,6 +196,69 @@ void PermutationCompositionTest::wiresDataCompositionTest()
     data = grid->getWiresData()[5];
     QVERIFY(data.getWirePosition() == WirePosition::External);
     QVERIFY(data.getSrcCoord() == QPoint(1, 7));
+
+    for(Grid* g: grids)
+        delete g;
+
+    delete s;
+    delete grid;
+}
+
+void PermutationCompositionTest::optimizationTest()
+{
+    QList<Grid*> grids;
+    for(int i=0; i<4; i++)
+        grids.append(new Grid());
+
+    QList<QList<Cell>> cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Pin, 0, "p1"), Cell(CellType::Empty) },
+        { Cell(CellType::Empty), Cell(CellType::Element, 0), Cell(CellType::Pin, 0, "p2") }
+    };
+
+    grids[0]->getCells().append(cells);
+
+    grids[0]->getWiresData().append(WireData(0, QPoint(1, 0), QPoint(0, 0), WirePosition::External));
+    grids[0]->getWiresData().append(WireData(1, QPoint(2, 1), QPoint(0, 0), WirePosition::External));
+
+    cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty) },
+        { Cell(CellType::Pin, 1, "p1"), Cell(CellType::Element, 1) }
+    };
+
+    grids[1]->getCells().append(cells);
+
+    grids[1]->getWiresData().append(WireData(0, QPoint(0, 1), QPoint(0, 0), WirePosition::External));
+
+    cells =
+    {
+        { Cell(CellType::UDLR) },
+        { Cell(CellType::UDLRI) }
+    };
+
+    grids[2]->getCells().append(cells);
+
+    cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+        { Cell(CellType::Pin, 2, "p1"), Cell(CellType::Element, 2), Cell(CellType::Empty) }
+    };
+
+    grids[3]->getCells().append(cells);
+
+    grids[3]->getWiresData().append(WireData(1, QPoint(0, 1), QPoint(0, 0), WirePosition::External));
+
+    Scheme* s = new Scheme();
+    s->getWires().append(Wire(0, "p1", 1, "p1", WireType::Outer, 0));
+    s->getWires().append(Wire(0, "p2", 2, "p1", WireType::Inner, 1));
+
+    PermutationComposition composition(grids, s);
+    Grid* grid = composition.execute();
+
+    QPoint actualPositions[] = { QPoint(0, 2), QPoint(0, 0), QPoint(4, 0), QPoint(3, 2) };
+
+    verifyGridPartsOnPositions(grids, actualPositions, grid);
 
     for(Grid* g: grids)
         delete g;
