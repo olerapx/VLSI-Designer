@@ -16,6 +16,9 @@ Grid* PermutationComposition::execute()
         stopped = false;
         actuallyStopped = false;
 
+        if(grids.empty())
+            return new Grid();
+
         fillOffsets();
         fillPositions();
         fillComposedWireData();
