@@ -411,7 +411,7 @@ bool RoutingAlgorithm::extendHorizontally(QPoint coord, int number, Direction di
         if(data.getSrcCoord().x() >= insertX)
             data.setSrcCoord(data.getSrcCoord() + QPoint(number, 0));
 
-        if(data.getDestCoord().x() >= insertX)
+        if(data.getWirePosition() == WirePosition::Internal && data.getDestCoord().x() >= insertX)
             data.setDestCoord(data.getDestCoord() + QPoint(number, 0));
     }
 
@@ -466,7 +466,7 @@ bool RoutingAlgorithm::extendVertically(QPoint coord, int number, Direction dire
         if(data.getSrcCoord().y() >= insertY)
             data.setSrcCoord(data.getSrcCoord() + QPoint(0, number));
 
-        if(data.getDestCoord().y() >= insertY)
+        if(data.getWirePosition() == WirePosition::Internal && data.getDestCoord().y() >= insertY)
             data.setDestCoord(data.getDestCoord() + QPoint(0, number));
     }
 
@@ -502,7 +502,7 @@ void RoutingAlgorithm::undoHorizontalExtension(ExtensionRecord& record)
         if(data.getSrcCoord().x() >= undoX)
             data.setSrcCoord(data.getSrcCoord() - QPoint(record.number, 0));
 
-        if(data.getDestCoord().x() >= undoX)
+        if(data.getWirePosition() == WirePosition::Internal && data.getDestCoord().x() >= undoX)
             data.setDestCoord(data.getDestCoord() - QPoint(record.number, 0));
     }
 }
@@ -523,7 +523,7 @@ void RoutingAlgorithm::undoVerticalExtension(ExtensionRecord& record)
         if(data.getSrcCoord().y() >= undoY)
             data.setSrcCoord(data.getSrcCoord() - QPoint(0, record.number));
 
-        if(data.getDestCoord().y() >= undoY)
+        if(data.getWirePosition() == WirePosition::Internal && data.getDestCoord().y() >= undoY)
             data.setDestCoord(data.getDestCoord() - QPoint(0, record.number));
     }
 }

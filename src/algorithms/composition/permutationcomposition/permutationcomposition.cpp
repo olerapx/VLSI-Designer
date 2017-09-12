@@ -57,6 +57,10 @@ void PermutationComposition::clear()
 
 void PermutationComposition::fillOffsets()
 {
+    if(stopped) return;
+
+    sendLog(tr("Stretching the elements to the max size."));
+
     getMaxGridSize();
 
     for(Grid* grid: grids)
@@ -82,6 +86,10 @@ void PermutationComposition::getMaxGridSize()
 
 void PermutationComposition::fillPositions()
 {
+    if(stopped) return;
+
+    sendLog(tr("Getting initial positions."));
+
     getGridWidth();
 
     QPoint nextPosition(0, 0);
@@ -133,14 +141,23 @@ void PermutationComposition::centerLastRow()
 
 void PermutationComposition::optimize()
 {
+    sendLog(tr("Optimization."));
+
     for(int i=0; i<grids.size(); i++)
     {
+        if(stopped) return;
+
+        sendLog(tr("Optimizing position of grid %1 of %2.")
+                .arg(QString::number(i+1), QString::number(grids.size())));
+
         int positionIndex = getPositionIndexByGridIndex(i);
 
         QList<qint64> fitnessValues;
 
         for(int j=0; j<positions.size(); j++)
             fitnessValues.append(getFitnessValueWithPermutation(j, positionIndex));
+
+        if(stopped) return;
 
         int optimalPositionIndex = findOptimalPositionIndex(fitnessValues);
 
@@ -165,6 +182,8 @@ int PermutationComposition::getPositionIndexByGridIndex(int gridIndex)
 
 qint64 PermutationComposition::getFitnessValueWithPermutation(int firstIndex, int secondIndex)
 {
+    if(stopped) return 0;
+
     if(firstIndex == secondIndex)
         return getFitnessValue(positions);
 
@@ -215,6 +234,10 @@ int PermutationComposition::findOptimalPositionIndex(QList<qint64>& fitnessValue
 
 Grid* PermutationComposition::buildResult()
 {
+    if(stopped) return nullptr;
+
+    sendLog(tr("Building the result grid."));
+
     Grid* grid = createEmptyTotalGrid();
     fillTotalGrid(grid);
 

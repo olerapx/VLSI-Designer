@@ -35,6 +35,10 @@ void CompositionAlgorithm::onStart()
 
 void CompositionAlgorithm::fillComposedWireData()
 {
+    if(stopped) return;
+
+    sendLog(tr("Composing wires."));
+
     composedExternalWireData.clear();
     composedInternalWireData.clear();
 
@@ -42,6 +46,8 @@ void CompositionAlgorithm::fillComposedWireData()
 
     while(!externalData.empty())
     {
+        if(stopped) return;
+
         bool pairFound = false;
 
         if(externalData.size() == 1)
@@ -55,6 +61,8 @@ void CompositionAlgorithm::fillComposedWireData()
 
         for(int i=1; i<externalData.size(); i++)
         {
+            if(stopped) return;
+
             if(externalData[i].index == data.index)
             {
                 Wire wire = SchemeUtils::findWireByIndex(scheme, data.index);
