@@ -291,7 +291,7 @@ void PermutationComposition::fillTotalGrid(Grid* result)
 void PermutationComposition::fillWiresData(Grid* result)
 {
     for(GridPartWireData& data: composedInternalWireData)
-    {
+    {        
         result->getWiresData().append(WireData(data.index, getActualCoord(data.srcGridIndex, data.srcCoord),
                                                getActualCoord(data.destGridIndex, data.destCoord), WirePosition::Internal));
     }

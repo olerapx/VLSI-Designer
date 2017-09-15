@@ -67,8 +67,19 @@ void CompositionAlgorithm::fillComposedWireData()
             {
                 Wire wire = SchemeUtils::findWireByIndex(scheme, data.index);
 
-                composedInternalWireData.append({ data.index, data.srcCoord, data.gridIndex,
-                                       externalData[i].srcCoord, externalData[i].gridIndex, wire.getType() });
+                QPoint dataCoord = data.srcCoord;
+                qint64 index = grids[data.gridIndex]->getCells()[dataCoord.y()][dataCoord.x()].getIndex();
+                QString pinId = grids[data.gridIndex]->getCells()[dataCoord.y()][dataCoord.x()].getPinId();
+
+                if(wire.getSrcIndex() == index && wire.getSrcPinId() == pinId)
+                    composedInternalWireData.append({ data.index, data.srcCoord, data.gridIndex,
+                                           externalData[i].srcCoord, externalData[i].gridIndex, wire.getType() });
+                else if(wire.getDestIndex() == index && wire.getDestPinId() == pinId)
+                    composedInternalWireData.append({ data.index, externalData[i].srcCoord, externalData[i].gridIndex,
+                                           data.srcCoord, data.gridIndex, wire.getType() });
+                else
+                    throw Exception(tr("Cannot locate a cell pin with index %1 and pin id %1 at grid %1.")
+                                    .arg(QString::number(index), pinId, QString::number(data.index)));
 
                 externalData.removeAt(i);
                 externalData.removeAt(0);
