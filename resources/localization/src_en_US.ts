@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>CompositionAlgorithm</name>
+    <message>
+        <source>Cannot change parameters while the algorithm is working.</source>
+        <translation>Cannot change parameters while the algorithm is working.</translation>
+    </message>
+    <message>
+        <source>Composing wires.</source>
+        <translation>Composing wires.</translation>
+    </message>
+    <message>
+        <source>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</source>
+        <translation>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</translation>
+    </message>
+</context>
+<context>
     <name>DecompositionAlgorithm</name>
     <message>
         <source>The scheme cannot contain 0 elements.</source>
@@ -285,6 +300,41 @@
     <message>
         <source>Data has been written to the buffer.</source>
         <translation>Data has been written to the buffer.</translation>
+    </message>
+</context>
+<context>
+    <name>PermutationComposition</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>The algorithm is already working.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Algorithm is stopped.</translation>
+    </message>
+    <message>
+        <source>Stretching the elements to the max size.</source>
+        <translation>Stretching the elements to the max size.</translation>
+    </message>
+    <message>
+        <source>Getting initial positions.</source>
+        <translation>Getting initial positions.</translation>
+    </message>
+    <message>
+        <source>Optimization.</source>
+        <translation>Optimization.</translation>
+    </message>
+    <message>
+        <source>Optimizing position of grid %1 of %2.</source>
+        <translation>Optimizing position of grid %1 of %2.</translation>
+    </message>
+    <message>
+        <source>Cannot find the position of grid with index %1.</source>
+        <translation>Cannot find the position of grid with index %1.</translation>
+    </message>
+    <message>
+        <source>Building the result grid.</source>
+        <translation>Building the result grid.</translation>
     </message>
 </context>
 <context>

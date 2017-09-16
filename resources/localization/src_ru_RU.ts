@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>CompositionAlgorithm</name>
+    <message>
+        <source>Cannot change parameters while the algorithm is working.</source>
+        <translation>Невозможно изменить параметры, пока алгоритм работает.</translation>
+    </message>
+    <message>
+        <source>Composing wires.</source>
+        <translation>Объединение связей.</translation>
+    </message>
+    <message>
+        <source>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</source>
+        <translation>Невозможно найти ячейку с контактом с индексом %1 и id %2 в ДРП %3.</translation>
+    </message>
+</context>
+<context>
     <name>DecompositionAlgorithm</name>
     <message>
         <source>The scheme cannot contain 0 elements.</source>
@@ -285,6 +300,41 @@
     <message>
         <source>Data has been written to the buffer.</source>
         <translation>Данные записаны в буфер.</translation>
+    </message>
+</context>
+<context>
+    <name>PermutationComposition</name>
+    <message>
+        <source>The algorithm is already working.</source>
+        <translation>Алгоритм уже работает.</translation>
+    </message>
+    <message>
+        <source>Algorithm is stopped.</source>
+        <translation>Алгоритм остановлен.</translation>
+    </message>
+    <message>
+        <source>Stretching the elements to the max size.</source>
+        <translation>Растягивание элементов до максимального размера.</translation>
+    </message>
+    <message>
+        <source>Getting initial positions.</source>
+        <translation>Получение начальных позиций.</translation>
+    </message>
+    <message>
+        <source>Optimization.</source>
+        <translation>Оптимизация.</translation>
+    </message>
+    <message>
+        <source>Optimizing position of grid %1 of %2.</source>
+        <translation>Оптимизация позиции ДРП %1 из %2.</translation>
+    </message>
+    <message>
+        <source>Cannot find the position of grid with index %1.</source>
+        <translation>Невозможно найти позицию ДРП с индексом %1.</translation>
+    </message>
+    <message>
+        <source>Building the result grid.</source>
+        <translation>Построение результирующего ДРП.</translation>
     </message>
 </context>
 <context>

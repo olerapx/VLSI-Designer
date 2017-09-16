@@ -78,7 +78,7 @@ void CompositionAlgorithm::fillComposedWireData()
                     composedInternalWireData.append({ data.index, externalData[i].srcCoord, externalData[i].gridIndex,
                                            data.srcCoord, data.gridIndex, wire.getType() });
                 else
-                    throw Exception(tr("Cannot locate a cell pin with index %1 and pin id %1 at grid %1.")
+                    throw Exception(tr("Cannot locate a cell pin with index %1 and pin id %2 at grid %3.")
                                     .arg(QString::number(index), pinId, QString::number(data.index)));
 
                 externalData.removeAt(i);
