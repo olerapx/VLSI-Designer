@@ -33,7 +33,7 @@ private slots:
     void on_sendLog(QString data);
     void on_sendAddress(QHostAddress senderHost, QString hostName);
 
-    void on_dataReceived(QByteArray data,QHostAddress address,int port);
+    void on_dataReceived(QByteArray* data, QHostAddress address, int port);
 
 private:
     Ui::MainWindow *ui;

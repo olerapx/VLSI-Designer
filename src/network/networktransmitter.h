@@ -55,7 +55,7 @@ public:
      * @param address
      * @param port
      */
-    void sendData(QByteArray data, QHostAddress address, int port);
+    void sendData(QByteArray* data, QHostAddress address, int port);
 
 signals:
     /**
@@ -64,7 +64,7 @@ signals:
      * @param address - the sender's address.
      * @param port - the sender's port.
      */
-    void sendDataReceived(QByteArray data, QHostAddress address, int port);
+    void sendDataReceived(QByteArray* data, QHostAddress address, int port);
     void sendLog(QString log);
 
 private:
@@ -76,9 +76,9 @@ private:
 
     TcpSocket* findSocket(QHostAddress address, int port);
 
-    void sendData(TcpSocket* socket, QByteArray data);
+    void sendData(TcpSocket* socket, QByteArray* data);
 
 private slots:
     void on_newConnection();
-    void on_socketDisconnected(TcpSocket* socket);
+    void onSocketDisconnected(TcpSocket* socket);
 };

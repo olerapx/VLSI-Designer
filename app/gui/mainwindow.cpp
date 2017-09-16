@@ -81,7 +81,11 @@ void MainWindow::on_sendButton_clicked()
     QString ip = ui->nodeList->selectedItems()[1]->text();
     QHostAddress host(ip);
 
-    clientT->sendData(ui->sendText->text().toUtf8(), host, 40000);
+    QByteArray* data = new QByteArray(ui->sendText->text().toUtf8());
+
+    clientT->sendData(data, host, 40000);
+
+    delete data;
 }
 
 void MainWindow::log(QString text)
@@ -113,10 +117,12 @@ void MainWindow::on_saveButton_clicked()
         }
 }
 
-void MainWindow::on_dataReceived(QByteArray data, QHostAddress address, int port)
+void MainWindow::on_dataReceived(QByteArray* data, QHostAddress address, int port)
 {
     log(tr("Receiving data from %1:%2...").arg(address.toString(), port));
-    log(tr("Got data %1 from %2:%3").arg(data, address.toString(), QString::number(port)));
+    log(tr("Got data %1 from %2:%3").arg(*data, address.toString(), QString::number(port)));
+
+    delete data;
 }
 
 void MainWindow::on_generatorAction_triggered()

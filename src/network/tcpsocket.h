@@ -25,7 +25,7 @@ signals:
      * @param address - the sender's address.
      * @param port - the sender's port.
      */
-    void sendDataReceived(QByteArray data, QHostAddress address, int port);
+    void sendDataReceived(QByteArray* data, QHostAddress address, int port);
 
     /**
      * @brief sendDisconnected
@@ -39,6 +39,6 @@ private:
     qint64 blockSize;
 
 private slots:
-    void on_readyRead();
-    void on_disconnected();
+    void onReadyRead();
+    void onDisconnected();
 };

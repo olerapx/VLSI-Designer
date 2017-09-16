@@ -32,12 +32,12 @@ TcpSocket* NetworkTransmitter::addTcpSocket(QTcpSocket* qsocket)
     sockets.append(socket);
 
     connect(socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
-    connect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::on_socketDisconnected);
+    connect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::onSocketDisconnected);
 
     return socket;
 }
 
-void NetworkTransmitter::on_socketDisconnected(TcpSocket* socket)
+void NetworkTransmitter::onSocketDisconnected(TcpSocket* socket)
 {
     removeTcpSocket(socket);
 }
@@ -48,7 +48,7 @@ void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
                                                      socket->getSocket()->peerName()));
 
     disconnect(socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
-    disconnect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::on_socketDisconnected);
+    disconnect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::onSocketDisconnected);
 
     delete socket->getSocket();
     delete socket;
@@ -96,7 +96,7 @@ TcpSocket* NetworkTransmitter::findSocket(QHostAddress address, int port)
     return nullptr;
 }
 
-void NetworkTransmitter::sendData(QByteArray data, QHostAddress address, int port)
+void NetworkTransmitter::sendData(QByteArray* data, QHostAddress address, int port)
 {
     TcpSocket* socket = findSocket(address, port);
     if(socket == nullptr)
@@ -105,20 +105,20 @@ void NetworkTransmitter::sendData(QByteArray data, QHostAddress address, int por
     sendData(socket, data);
 }
 
-void NetworkTransmitter::sendData(TcpSocket* socket, QByteArray data)
+void NetworkTransmitter::sendData(TcpSocket* socket, QByteArray* data)
 {
     QTcpSocket* qsocket = socket->getSocket();
 
     sendLog(tr("Sending data to %1:%2...").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
 
-    qint64 size = data.size();
-    data.prepend(sizeof(qint64), ' ');
+    qint64 size = data->size();
+    data->prepend(sizeof(qint64), ' ');
 
-    QDataStream out (&data, QIODevice::WriteOnly);
+    QDataStream out (data, QIODevice::WriteOnly);
     out.device()->seek(0);
     out << size;
 
-    qsocket->write(data.data(), data.size());
+    qsocket->write(data->data(), data->size());
     qsocket->waitForBytesWritten();
 
     sendLog(tr("Data has been written to the buffer."));

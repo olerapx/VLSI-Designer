@@ -6,11 +6,11 @@ TcpSocket::TcpSocket(QTcpSocket* socket)
 
     blockSize = 0;
 
-    connect(socket, &QTcpSocket::readyRead, this, &TcpSocket::on_readyRead);
-    connect(socket, &QTcpSocket::disconnected, this, &TcpSocket::on_disconnected);
+    connect(socket, &QTcpSocket::readyRead, this, &TcpSocket::onReadyRead);
+    connect(socket, &QTcpSocket::disconnected, this, &TcpSocket::onDisconnected);
 }
 
-void TcpSocket::on_readyRead()
+void TcpSocket::onReadyRead()
 {
     QDataStream in(socket);
 
@@ -25,19 +25,19 @@ void TcpSocket::on_readyRead()
     if(socket->bytesAvailable() < blockSize)
         return;
 
-    QByteArray data;
-    data.resize(blockSize);
-    in.readRawData(data.data(), blockSize);
+    QByteArray* data = new QByteArray();
+    data->resize(blockSize);
+    in.readRawData(data->data(), blockSize);
 
     sendDataReceived(data, socket->peerAddress(), socket->peerPort());
 
     blockSize = 0;
 }
 
-void TcpSocket::on_disconnected()
+void TcpSocket::onDisconnected()
 {
-    connect(socket, &QTcpSocket::readyRead, this, &TcpSocket::on_readyRead);
-    connect(socket, &QTcpSocket::disconnected, this, &TcpSocket::on_disconnected);
+    connect(socket, &QTcpSocket::readyRead, this, &TcpSocket::onReadyRead);
+    connect(socket, &QTcpSocket::disconnected, this, &TcpSocket::onDisconnected);
 
     sendDisconnected(this);
 }
