@@ -110,6 +110,10 @@ void JsonSerializerTest::serializeSchemeTest()
 {
     Scheme* s = new Scheme();
 
+    s->getUsedLibraries().append(QPair<QString, double>("lib1", 2.0));
+    s->getUsedLibraries().append(QPair<QString, double>("lib2", 1.5));
+    s->getUsedLibraries().append(QPair<QString, double>("lib3", 0.13));
+
     SchemeElement el1("library id", "aoi43242", Q_INT64_C(9223372036854775807));
     el1.setAlias("GFA");
 
@@ -125,8 +129,17 @@ void JsonSerializerTest::serializeSchemeTest()
     QJsonDocument j = QJsonDocument::fromJson(arr);
     QJsonObject obj = j.object().value("scheme").toObject();
 
+    QVERIFY(obj.value("used-libraries").toArray().size() == 3);
     QVERIFY(obj.value("elements").toArray().size() == 2);
     QVERIFY(obj.value("wires").toArray().size() == 1);
+
+    QJsonObject usedLibrary = obj.value("used-libraries").toArray().at(0).toObject();
+    QVERIFY(usedLibrary.value("library-id").toString() == s->getUsedLibraries()[0].first);
+    QVERIFY(usedLibrary.value("version").toDouble() == s->getUsedLibraries()[0].second);
+
+    usedLibrary = obj.value("used-libraries").toArray().at(2).toObject();
+    QVERIFY(usedLibrary.value("library-id").toString() == s->getUsedLibraries()[2].first);
+    QVERIFY(usedLibrary.value("version").toDouble() == s->getUsedLibraries()[2].second);
 
     QJsonObject element = obj.value("elements").toArray().at(0).toObject();
     QVERIFY(element.value("library-id").toString() == el1.getLibraryId());
@@ -317,8 +330,13 @@ void JsonSerializerTest::deserializeSchemeTest()
         f.close();
     }
 
+    QVERIFY(s->getUsedLibraries().size() == 2);
     QVERIFY(s->getElements().size() == 3);
     QVERIFY(s->getWires().size() == 3);
+
+    QPair<QString, double> ul = s->getUsedLibraries().at(1);
+    QVERIFY(ul.first == "another");
+    QVERIFY(ul.second == 0.3);
 
     SchemeElement el = s->getElements().at(0);
     QVERIFY(el.getLibraryId() == "generic");

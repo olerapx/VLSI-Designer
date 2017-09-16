@@ -44,8 +44,9 @@ protected:
     QJsonObject serializePin(Pin p);
 
     QByteArray serializeScheme(Scheme* s);
+    QJsonObject serializeUsedLibrary(QString libraryId, double version);
     QJsonObject serializeSchemeElement(SchemeElement el);
-    QJsonObject serializeWire(Wire w);
+    QJsonObject serializeWire(Wire w);    
 
     QByteArray serializeGrid(Grid* g);
     QJsonObject serializeCell(Cell c);
@@ -59,8 +60,9 @@ protected:
     Pin deserializePin(QJsonObject obj);
 
     Scheme* deserializeScheme(QJsonObject obj);
+    QPair<QString, double> deserializeUsedLibrary(QJsonObject obj);
     SchemeElement deserializeSchemeElement(QJsonObject obj);
-    Wire deserializeWire(QJsonObject obj);
+    Wire deserializeWire(QJsonObject obj);    
 
     Grid* deserializeGrid(QJsonObject obj);
     Cell deserializeCell(QJsonObject obj);

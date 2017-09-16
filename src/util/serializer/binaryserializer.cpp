@@ -62,6 +62,10 @@ QByteArray BinarySerializer::serializeScheme(Scheme* s)
 
     stream << QString("scheme");
 
+    stream << (qint32)s->getUsedLibraries().size();
+    for(QPair<QString, double>& usedLibrary: s->getUsedLibraries())
+        serializeUsedLibrary(usedLibrary.first, usedLibrary.second, stream);
+
     stream << (qint32)s->getElements().size();
     for(SchemeElement el: s->getElements())
         serializeSchemeElement(el, stream);
@@ -71,6 +75,14 @@ QByteArray BinarySerializer::serializeScheme(Scheme* s)
         serializeWire(w, stream);
 
     return array;
+}
+
+QDataStream& BinarySerializer::serializeUsedLibrary(QString libraryId, double version, QDataStream& stream)
+{
+    stream << libraryId;
+    stream << version;
+
+    return stream;
 }
 
 QDataStream& BinarySerializer::serializeSchemeElement(SchemeElement el, QDataStream& stream)
@@ -246,6 +258,12 @@ Scheme* BinarySerializer::deserializeScheme(QDataStream& stream)
     qint32 size;
     stream >> size;
 
+    s->getUsedLibraries().reserve(size);
+    for(int i=0; i<size; i++)
+        s->getUsedLibraries().append(deserializeUsedLibrary(stream));
+
+    stream >> size;
+
     s->getElements().reserve(size);
     for(int i=0; i<size; i++)
         s->getElements().append(deserializeSchemeElement(stream));
@@ -257,6 +275,16 @@ Scheme* BinarySerializer::deserializeScheme(QDataStream& stream)
         s->getWires().append(deserializeWire(stream));
 
     return s;
+}
+
+QPair<QString, double> BinarySerializer::deserializeUsedLibrary(QDataStream& stream)
+{
+    QString libraryId;
+    double version;
+
+    stream >> libraryId >> version;
+
+    return QPair<QString, double>(libraryId, version);
 }
 
 SchemeElement BinarySerializer::deserializeSchemeElement(QDataStream& stream)

@@ -42,6 +42,7 @@ protected:
     QDataStream& serializePin(Pin p, QDataStream& stream);
 
     QByteArray serializeScheme(Scheme* s);
+    QDataStream& serializeUsedLibrary(QString libraryId, double version, QDataStream& stream);
     QDataStream& serializeSchemeElement(SchemeElement el, QDataStream& stream);
     QDataStream& serializeWire(Wire w, QDataStream& stream);
 
@@ -57,6 +58,7 @@ protected:
     Pin deserializePin(QDataStream& stream);
 
     Scheme* deserializeScheme(QDataStream& stream);
+    QPair<QString, double> deserializeUsedLibrary(QDataStream& stream);
     SchemeElement deserializeSchemeElement(QDataStream& stream);
     Wire deserializeWire(QDataStream& stream);
 

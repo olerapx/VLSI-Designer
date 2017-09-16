@@ -1,8 +1,12 @@
 {"scheme": {
+	"used-libraries": [
+		{"library-id": "generic", "version": 1.0},
+		{"library-id": "another", "version": 0.3}
+	],
 	"elements": [
 		{"library-id": "generic", "element-id": "an2", "index": "9223372036854775807"},
 		{"library-id": "generic", "element-id": "an2", "index": "1"},
-		{"library-id": "generic", "element-id": "aoi21", "index": "2"}
+		{"library-id": "another", "element-id": "aoi21", "index": "2"}
 	],
 	"wires": [
 		{"src-index": "9223372036854775807", "src-pin-id": "z", "dest-index": "1", "dest-pin-id": "a", "type": "inner", "index": "0"},

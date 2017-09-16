@@ -71,7 +71,10 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
 {
     QJsonObject json;
 
-    QJsonArray elements, wires;
+    QJsonArray usedLibraries, elements, wires;
+
+    for(QPair<QString, double>& usedLibrary: s->getUsedLibraries())
+        usedLibraries.append(serializeUsedLibrary(usedLibrary.first, usedLibrary.second));
 
     for(SchemeElement el: s->getElements())
         elements.append(serializeSchemeElement(el));
@@ -79,6 +82,7 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
     for(Wire w: s->getWires())
         wires.append(serializeWire(w));
 
+    json["used-libraries"] = usedLibraries;
     json["elements"] = elements;
     json["wires"] = wires;
 
@@ -87,6 +91,16 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
 
     QJsonDocument doc(res);
     return doc.toJson();
+}
+
+QJsonObject JsonSerializer::serializeUsedLibrary(QString libraryId, double version)
+{
+    QJsonObject json;
+
+    json["library-id"] = libraryId;
+    json["version"] = version;
+
+    return json;
 }
 
 QJsonObject JsonSerializer::serializeSchemeElement(SchemeElement el)
@@ -285,6 +299,10 @@ Scheme* JsonSerializer::deserializeScheme(QJsonObject obj)
 {
     Scheme* scheme = new Scheme();
 
+    QJsonArray usedLibraries = obj.value("used-libraries").toArray();
+    for(QJsonValue val: usedLibraries)
+        scheme->getUsedLibraries().append(deserializeUsedLibrary(val.toObject()));
+
     QJsonArray elements = obj.value("elements").toArray();
     for (QJsonValue val: elements)
         scheme->getElements().append(deserializeSchemeElement(val.toObject()));
@@ -294,6 +312,14 @@ Scheme* JsonSerializer::deserializeScheme(QJsonObject obj)
         scheme->getWires().append(deserializeWire(val.toObject()));
 
     return scheme;
+}
+
+QPair<QString, double> JsonSerializer::deserializeUsedLibrary(QJsonObject obj)
+{
+    QString libraryId = obj.value("library-id").toString();
+    double version = obj.value("version").toDouble();
+
+    return QPair<QString, double>(libraryId, version);
 }
 
 SchemeElement JsonSerializer::deserializeSchemeElement(QJsonObject obj)

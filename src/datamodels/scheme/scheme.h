@@ -12,8 +12,10 @@
 class Scheme : public Serializable
 {
 protected:
+    QList<QPair<QString, double>> usedLibraries;
+
     QList<SchemeElement> elements;
-    QList<Wire> wires;
+    QList<Wire> wires;    
 
 public:
     Scheme() {}
@@ -21,6 +23,8 @@ public:
 
     QList<SchemeElement>& getElements() { return elements; }
     QList<Wire>& getWires() { return wires; }
+
+    QList<QPair<QString, double>>& getUsedLibraries() { return usedLibraries; }
 
     bool operator ==(const Scheme& other);
 };

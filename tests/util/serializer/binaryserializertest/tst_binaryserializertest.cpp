@@ -87,6 +87,9 @@ void BinarySerializerTest::schemeTest()
 {
     Scheme* s = new Scheme();
 
+    s->getUsedLibraries().append(QPair<QString, double>("lib1", 2.0));
+    s->getUsedLibraries().append(QPair<QString, double>("lib2", 0.13));
+
     SchemeElement el1("library id", "aoi43242", Q_INT64_C(9223372036854775807));
     el1.setAlias("FV2");
 
@@ -101,8 +104,11 @@ void BinarySerializerTest::schemeTest()
     QByteArray array = serializer.serialize(s);
     Scheme* deserializedScheme = static_cast<Scheme*>(serializer.deserialize(array));
 
+    QVERIFY(deserializedScheme->getUsedLibraries().size() == s->getUsedLibraries().size());
     QVERIFY(deserializedScheme->getElements().size() == s->getElements().size());
     QVERIFY(deserializedScheme->getWires().size() == s->getWires().size());
+
+    QVERIFY(deserializedScheme->getUsedLibraries() == s->getUsedLibraries());
 
     SchemeElement deserializedElement(deserializedScheme->getElements()[0]);
     QVERIFY(deserializedElement.getElementId() == el1.getElementId());
