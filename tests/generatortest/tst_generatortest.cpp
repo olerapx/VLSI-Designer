@@ -60,6 +60,10 @@ void GeneratorTest::generateTest()
     Generator* g = new Generator(param);
     Scheme* s = g->execute();
 
+    QVERIFY(s->getUsedLibraries().size() == 1);
+    QVERIFY(s->getUsedLibraries()[0].first == "generic");
+    QVERIFY(s->getUsedLibraries()[0].second == 0.1);
+
     for(int i=0; i<s->getWires().size(); i++)
     {
         Wire w = s->getWires()[i];

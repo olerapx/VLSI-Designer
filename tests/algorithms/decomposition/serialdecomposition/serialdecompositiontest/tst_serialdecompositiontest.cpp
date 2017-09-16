@@ -22,6 +22,9 @@ void SerialDecompositionTest::decompositionTest()
 {
     Scheme* s = new Scheme();
 
+    s->getUsedLibraries().append(QPair<QString, double>("generic", 1.4));
+    s->getUsedLibraries().append(QPair<QString, double>("another", 0.2));
+
     for(int i=0; i<7; i++)
         s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
 
@@ -35,6 +38,9 @@ void SerialDecompositionTest::decompositionTest()
 
     SerialDecomposition decomposition(s, 3);
     QList<Scheme*> list = decomposition.execute();
+
+    for(Scheme* scheme: list)
+        QVERIFY(scheme->getUsedLibraries() == s->getUsedLibraries());
 
     QVERIFY(list.size() == 3);
     QVERIFY(list[0]->getElements().size() == 3);

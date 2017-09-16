@@ -210,5 +210,8 @@ QList<Scheme*> SerialDecomposition::buildSubschemes()
         res.append(s);
     }
 
+    for(Scheme* s: res)
+        s->getUsedLibraries().append(scheme->getUsedLibraries());
+
     return res;
 }

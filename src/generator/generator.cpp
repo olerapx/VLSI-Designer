@@ -56,6 +56,9 @@ Scheme* Generator::execute()
 
         Scheme* scheme = new Scheme();
 
+        for(Library* l: param.getLibraries())
+            scheme->getUsedLibraries().append(QPair<QString, double>(l->getId(), l->getVersion()));
+
         for(NodeElement* el: elements)
             scheme->getElements().append(el->getElement());
 
