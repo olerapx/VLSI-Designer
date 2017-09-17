@@ -20,19 +20,24 @@ HEADERS += \
     gui/generatorwindow/generatorwindow.h \
     viewmodels/nodeviewmodel.h \
     gui/addnodesdialog/addnodesdialog.h \
-    viewmodels/addnodeviewmodel.h
+    viewmodels/addnodeviewmodel.h \
+    config/config.h \
+    gui/networkconfigurationwindow/networkconfigurationdialog.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
     gui/generatorwindow/generatorwindow.cpp \
     viewmodels/nodeviewmodel.cpp \
     gui/addnodesdialog/addnodesdialog.cpp \
-    viewmodels/addnodeviewmodel.cpp
+    viewmodels/addnodeviewmodel.cpp \
+    config/config.cpp \
+    gui/networkconfigurationwindow/networkconfigurationdialog.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \
     gui/generatorwindow/generatorwindow.ui \
-    gui/addnodesdialog/addnodesdialog.ui
+    gui/addnodesdialog/addnodesdialog.ui \
+    gui/networkconfigurationwindow/networkconfigurationwindow.ui
 
 TRANSLATIONS = \
     ../resources/localization/app_en_US.ts  \

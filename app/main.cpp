@@ -2,7 +2,7 @@
 #include <QStyleFactory>
 #include <QTranslator>
 
-#include "gui/mainwindow.h"
+#include "gui/mainwindow/mainwindow.h"
 
 void setStyle(QApplication& a);
 

@@ -1,47 +1,19 @@
 #include "addnodesdialog.h"
 #include "ui_addnodesdialog.h"
 
-AddNodesDialog::AddNodesDialog(PoolManager& manager, QWidget* parent) :
+AddNodesDialog::AddNodesDialog(PoolManager& manager, NetworkScanner& scanner, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::AddNodesDialog),
-    manager(manager)
+    manager(manager),
+    scanner(scanner)
 {
     ui->setupUi(this);
 
     addNodeViewModel = new AddNodeViewModel(this, foundNodes, manager.getPort());
     ui->nodesTable->setModel(addNodeViewModel);
 
-    if(manager.getUsedInterface() == nullptr)
-    {
-        fillNetworkInterfaces();
-    }
-    else
-    {
-        ui->networkInterfaceBox->setEnabled(false);
-        ui->networkInterfaceBox->addItem(manager.getUsedInterface()->humanReadableName());
-        ui->networkInterfaceBox->setCurrentIndex(0);
-
-        ui->ipv4Radio->setEnabled(false);
-        ui->ipv6Radio->setEnabled(false);
-
-        if(manager.getUsedMode() == Mode::IPv4)
-            ui->ipv4Radio->setChecked(true);
-        else
-            ui->ipv6Radio->setChecked(true);
-
-        interfaces.append(*manager.getUsedInterface());
-    }
-
     connect(&scanner, &NetworkScanner::sendLog, this, &AddNodesDialog::onSendLog);
     connect(&scanner, &NetworkScanner::sendAddress, this, &AddNodesDialog::onSendAddress);
-}
-
-void AddNodesDialog::fillNetworkInterfaces()
-{
-    interfaces = QNetworkInterface::allInterfaces();
-
-    for (QNetworkInterface& i: interfaces)
-        ui->networkInterfaceBox->addItem(i.humanReadableName());
 }
 
 AddNodesDialog::~AddNodesDialog()
@@ -61,26 +33,12 @@ void AddNodesDialog::on_scanButton_clicked()
 
         return;
     }
-    //TODO: move to port from config
-    if(ui->ipv4Radio->isChecked())
-        scanner.initIPv4Broadcast(interfaces[ui->networkInterfaceBox->currentIndex()], 41000, 41001);
-    else
-        scanner.initIPv6Multicast(QHostAddress(ui->ipv6AddressText->text()), interfaces[ui->networkInterfaceBox->currentIndex()],
-                41000, 41001);
 
     ui->scanButton->setText("Stop");
 
     addNodeViewModel->clear();
 
     scanner.scanNetwork();
-}
-
-void AddNodesDialog::on_ipv4Radio_toggled(bool checked)
-{
-    if(checked)
-        ui->ipv6AddressText->setEnabled(false);
-    else
-        ui->ipv6AddressText->setEnabled(true);
 }
 
 void AddNodesDialog::onSendLog(QString data)

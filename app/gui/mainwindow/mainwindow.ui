@@ -259,17 +259,29 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Инструменты</string>
+     <string>Tools</string>
     </property>
     <addaction name="generatorAction"/>
    </widget>
-   <addaction name="menu"/>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="networkConfigurationAction"/>
+   </widget>
+   <addaction name="menuTools"/>
+   <addaction name="menuSettings"/>
   </widget>
   <action name="generatorAction">
    <property name="text">
-    <string>Генератор</string>
+    <string>Generator</string>
+   </property>
+  </action>
+  <action name="networkConfigurationAction">
+   <property name="text">
+    <string>Network configuration</string>
    </property>
   </action>
  </widget>

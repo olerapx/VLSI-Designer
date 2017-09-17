@@ -34,7 +34,7 @@ QVariant AddNodeViewModel::data(const QModelIndex &index, int role) const
         case 0:
             return info.getHostName();
         case 1:
-            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(port));
+            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(port));// TODO use info's port
         }
     }
     if(role == Qt::TextAlignmentRole)
