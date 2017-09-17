@@ -30,6 +30,8 @@ SOURCES += \
     algorithms/routing/leerouting/leerouting.cpp \
     algorithms/routing/leerouting/wiredistancecomparator.cpp \
     algorithms/routing/leerouting/pointdistancecomparator.cpp \
+    control/manager/poolmanager.cpp \
+    control/manager/poolnodeinfo.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \

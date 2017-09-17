@@ -18,16 +18,21 @@ LIBS += -L../src -lvlsi
 HEADERS += \
     gui/mainwindow/mainwindow.h \
     gui/generatorwindow/generatorwindow.h \
-    viewmodels/nodeviewmodel.h
+    viewmodels/nodeviewmodel.h \
+    gui/addnodesdialog/addnodesdialog.h \
+    viewmodels/addnodeviewmodel.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
     gui/generatorwindow/generatorwindow.cpp \
-    viewmodels/nodeviewmodel.cpp
+    viewmodels/nodeviewmodel.cpp \
+    gui/addnodesdialog/addnodesdialog.cpp \
+    viewmodels/addnodeviewmodel.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \
-    gui/generatorwindow/generatorwindow.ui
+    gui/generatorwindow/generatorwindow.ui \
+    gui/addnodesdialog/addnodesdialog.ui
 
 TRANSLATIONS = \
     ../resources/localization/app_en_US.ts  \
