@@ -17,9 +17,8 @@ public:
     void setMode(Mode mode);
     void setMulticastAddress(QHostAddress multicastAddress);
 
-    QNetworkInterface getNetworkInterface() { return *networkInterface; }
+    QNetworkInterface getNetworkInterface() { return networkInterface; }
     void setNetworkInterface(QNetworkInterface interface);
-    bool isInterfaceSet() { return (networkInterface != nullptr); }
 
     int getUdpPort() { return udpPort; }
     int getTcpPort() { return tcpPort; }
@@ -31,7 +30,7 @@ private:
     Mode mode;
     QHostAddress multicastAddress;
 
-    QNetworkInterface* networkInterface;
+    QNetworkInterface networkInterface;
 
     int udpPort;
     int tcpPort;

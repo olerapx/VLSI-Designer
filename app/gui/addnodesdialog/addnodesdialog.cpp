@@ -8,12 +8,15 @@ AddNodesDialog::AddNodesDialog(PoolManager& manager, NetworkScanner& scanner, QW
     scanner(scanner)
 {
     ui->setupUi(this);
+    this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     addNodeViewModel = new AddNodeViewModel(this, foundNodes, manager.getPort());
     ui->nodesTable->setModel(addNodeViewModel);
 
     connect(&scanner, &NetworkScanner::sendLog, this, &AddNodesDialog::onSendLog);
     connect(&scanner, &NetworkScanner::sendAddress, this, &AddNodesDialog::onSendAddress);
+
+    on_scanButton_clicked();
 }
 
 AddNodesDialog::~AddNodesDialog()
@@ -24,6 +27,12 @@ AddNodesDialog::~AddNodesDialog()
     delete ui;
 }
 
+void AddNodesDialog::closeEvent(QCloseEvent* event)
+{
+    scanner.stopScanning();
+    QDialog::closeEvent(event);
+}
+
 void AddNodesDialog::on_scanButton_clicked()
 {
     if (!scanner.isStopped())
@@ -31,19 +40,21 @@ void AddNodesDialog::on_scanButton_clicked()
         scanner.stopScanning();
         ui->scanButton->setText("Scan");
 
+        ui->statusLabel->clear();
+
         return;
     }
 
     ui->scanButton->setText("Stop");
 
-    addNodeViewModel->clear();
+    addNodeViewModel->clear();    
 
     scanner.scanNetwork();
 }
 
 void AddNodesDialog::onSendLog(QString data)
 {
-    //TODO
+    ui->statusLabel->setText(data);
 }
 
 void AddNodesDialog::onSendAddress(QHostAddress senderHost, QString hostName)
@@ -63,4 +74,24 @@ bool AddNodesDialog::hasAddress(QHostAddress address)
     }
 
     return false;
+}
+
+void AddNodesDialog::on_addSelectedButton_clicked()
+{
+    QItemSelectionModel* model = ui->nodesTable->selectionModel();
+    QModelIndexList list = model->selectedRows();
+
+    for(QModelIndex& index: list)
+    {
+        int row = index.row();
+        selectedNodes.append(foundNodes[row]);
+    }
+
+    this->accept();
+}
+
+void AddNodesDialog::on_addAllButton_clicked()
+{
+    selectedNodes = foundNodes;
+    this->accept();
 }

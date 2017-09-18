@@ -67,3 +67,21 @@ QVariant NodeViewModel::headerData(int section, Qt::Orientation orientation, int
     }
     return QVariant();
 }
+
+void NodeViewModel::appendRow(PoolNodeInfo info, const QModelIndex& parent)
+{
+    beginInsertRows(parent, manager.getPoolNodes().size(), manager.getPoolNodes().size());
+
+    manager.getPoolNodes().append(info);
+
+    endInsertRows();
+}
+
+void NodeViewModel::appendRows(QList<PoolNodeInfo>& list, const QModelIndex& parent)
+{
+    beginInsertRows(parent, manager.getPoolNodes().size(), manager.getPoolNodes().size() + list.size() - 1);
+
+    manager.getPoolNodes().append(list);
+
+    endInsertRows();
+}

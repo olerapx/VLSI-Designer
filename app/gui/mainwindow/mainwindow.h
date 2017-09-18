@@ -32,7 +32,7 @@ private slots:
 
     void on_generatorAction_triggered();
     void on_networkConfigurationAction_triggered();
-    void initScanner();
+    void changeNetworkConfig(bool firstTime);
 
     void on_addNodesButton_clicked();
 
@@ -41,6 +41,8 @@ private:
 
     PoolManager manager;
     NetworkScanner scanner;
+
+    NodeViewModel* nodeViewModel;
 
     Config config;
 };

@@ -1,11 +1,12 @@
 #include "networkconfigurationdialog.h"
 #include "ui_networkconfigurationwindow.h"
 
-NetworkConfigurationDialog::NetworkConfigurationDialog(Config& config, PoolManager& manager, QWidget* parent) :
+NetworkConfigurationDialog::NetworkConfigurationDialog(Config& config, PoolManager& manager, bool firstTime, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::NetworkConfigurationWindow),
     config(config),
-    manager(manager)
+    manager(manager),
+    firstTime(firstTime)
 {
     ui->setupUi(this);
     this->setFixedSize(this->sizeHint());
@@ -31,16 +32,33 @@ void NetworkConfigurationDialog::fillNetworkInterfaces()
 {
     interfaces = QNetworkInterface::allInterfaces();
 
-    for (QNetworkInterface& i: interfaces)
+    for(QNetworkInterface& i: interfaces)
         ui->networkInterfaceBox->addItem(i.humanReadableName());
 }
 
 void NetworkConfigurationDialog::readConfig()
 {
+    if(!firstTime)
+    {
+        int index = config.getNetworkInterface().index();
+
+        for(int i=0; i<interfaces.size(); i++)
+        {
+            if(interfaces[i].index() == index)
+                ui->networkInterfaceBox->setCurrentIndex(i);
+        }
+    }
+
     if(config.getMode() == Mode::IPv6)
+    {
+        ui->ipv4Radio->setChecked(false);
         ui->ipv6AddressText->setEnabled(true);
+    }
     else
+    {
+        ui->ipv4Radio->setChecked(true);
         ui->ipv6AddressText->setEnabled(false);
+    }
 
     ui->ipv6AddressText->setText(config.getMulticastAddress().toString());
 
@@ -50,7 +68,7 @@ void NetworkConfigurationDialog::readConfig()
 
 void NetworkConfigurationDialog::closeEvent(QCloseEvent* event)
 {
-    if(!config.isInterfaceSet())
+    if(firstTime)
         writeConfig();
 
     QDialog::closeEvent(event);
@@ -71,16 +89,14 @@ void NetworkConfigurationDialog::writeConfig()
     config.setUdpPort(ui->udpPortText->text().toInt());
     config.setTcpPort(ui->tcpPortText->text().toInt());
 
-    config.setMulticastAddress(QHostAddress(ui->ipv6AddressText->text()));
-
-    manager.setPort(ui->tcpPortText->text().toInt());
+    config.setMulticastAddress(QHostAddress(ui->ipv6AddressText->text()));    
     config.setNetworkInterface(interfaces[ui->networkInterfaceBox->currentIndex()]);
 }
 
 void NetworkConfigurationDialog::on_okButton_clicked()
 {
     writeConfig();
-    this->close();
+    this->accept();
 }
 
 void NetworkConfigurationDialog::on_ipv4Radio_toggled(bool checked)

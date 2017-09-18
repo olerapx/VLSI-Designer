@@ -15,7 +15,7 @@ class NetworkConfigurationDialog : public QDialog
     Q_OBJECT
 
 public:
-    NetworkConfigurationDialog(Config& config, PoolManager& manager, QWidget* parent = 0);
+    NetworkConfigurationDialog(Config& config, PoolManager& manager, bool firstTime = false, QWidget* parent = 0);
     void fillNetworkInterfaces();
     void readConfig();
 
@@ -40,4 +40,6 @@ private:
     PoolManager& manager;
 
     QList<QNetworkInterface> interfaces;
+
+    bool firstTime;
 };

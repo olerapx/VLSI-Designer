@@ -7,8 +7,6 @@ Config::Config()
 
     setUdpPort(40000);
     setTcpPort(40001);
-
-    networkInterface = nullptr;
 }
 
 void Config::setMode(Mode mode)
@@ -23,8 +21,7 @@ void Config::setMulticastAddress(QHostAddress multicastAddress)
 
 void Config::setNetworkInterface(QNetworkInterface interface)
 {
-    delete networkInterface;
-    networkInterface = new QNetworkInterface(interface);
+    networkInterface = interface;
 }
 
 void Config::setUdpPort(int udpPort)

@@ -10,7 +10,7 @@ namespace Ui
 {
     class AddNodesDialog;
 }
-// TODO: on close - set manager parameters
+
 class AddNodesDialog : public QDialog
 {
     Q_OBJECT
@@ -21,6 +21,9 @@ public:
 
     QList<PoolNodeInfo>& getSelectedNodes() { return selectedNodes; }
 
+protected:
+    void closeEvent(QCloseEvent* event);
+
 private slots:
     void on_scanButton_clicked();
 
@@ -28,6 +31,10 @@ private slots:
     void onSendAddress(QHostAddress senderHost, QString hostName);
 
     bool hasAddress(QHostAddress address);
+
+    void on_addSelectedButton_clicked();
+
+    void on_addAllButton_clicked();
 
 private:
     Ui::AddNodesDialog *ui;

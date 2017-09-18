@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     ui->setupUi(this);
 
-    ui->nodesTable->setModel(new NodeViewModel(ui->nodesTable, manager));
+    nodeViewModel = new NodeViewModel(this, manager);
+    ui->nodesTable->setModel(nodeViewModel);
 }
 
 MainWindow::~MainWindow()
@@ -24,23 +25,44 @@ void MainWindow::showEvent(QShowEvent* event)
 
 void MainWindow::onShow()
 {
-    on_networkConfigurationAction_triggered();
-    initScanner();
+    changeNetworkConfig(true);
 }
 
 void MainWindow::on_networkConfigurationAction_triggered()
 {
-    NetworkConfigurationDialog window(config, manager);
-    window.exec();
+    changeNetworkConfig(false);
 }
 
-void MainWindow::initScanner()
-{//TODO: use one port from config
-    //TODO: try-catch here
-    if(config.getMode() == Mode::IPv4)
-        scanner.initIPv4Broadcast(config.getNetworkInterface(), 40000, 40001);
-    else
-        scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), 40000, 40001);
+void MainWindow::changeNetworkConfig(bool firstTime)
+{
+    bool success = false;
+
+    while(!success)
+    {
+        try
+        {
+            NetworkConfigurationDialog dialog(config, manager, firstTime);
+
+            if(dialog.exec() || firstTime)
+            {
+                manager.setPort(config.getTcpPort());
+
+                //TODO: use one port from config
+                if(config.getMode() == Mode::IPv4)
+                    scanner.initIPv4Broadcast(config.getNetworkInterface(), 40000, 40001);
+                else
+                    scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), 40000, 40001);
+
+            }
+            success = true;
+        }
+        catch(Exception& e)
+        {
+            QMessageBox::critical(this, tr("Network error"), tr("A network error detected while trying to initialize scanner:\n\n%1\n\n"
+                                                         "Try set different parameters.").arg(e.what()));
+
+        }
+    }
 }
 
 void MainWindow::on_generatorAction_triggered()
@@ -54,7 +76,6 @@ void MainWindow::on_addNodesButton_clicked()
     AddNodesDialog dialog(manager, scanner);
     if(dialog.exec())
     {
-        manager.getPoolNodes().append(dialog.getSelectedNodes());
-        // TODO: UPDATE TABLE
+        nodeViewModel->appendRows(dialog.getSelectedNodes());
     }
 }
