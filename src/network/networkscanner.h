@@ -5,6 +5,7 @@
 #include <QNetworkAddressEntry>
 #include <QUuid>
 #include <QHostInfo>
+#include <QDataStream>
 
 #include "networkexception.h"
 
@@ -32,7 +33,7 @@ class NetworkScanner : public QObject
     Q_OBJECT
 
 public:
-    NetworkScanner() {}
+    NetworkScanner(int& tcpPort);
     ~NetworkScanner();
 
     /**
@@ -40,20 +41,18 @@ public:
      * Initializes NetworkScanner to use IPv6 multicast requests.
      * @param scanningAddress - the IPv6 multicast address
      * @param interface
-     * @param scanningPort
-     * @param responsePort
+     * @param port
      * @throw NetworkException
      */
-    void initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface, int scanningPort, int responsePort);
+    void initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface, int port);
 
     /**
      * @brief initIPv4Broadcast
      * Initializes the scanner to use IPv4 broadcast requests.
      * @param interface
-     * @param scanningPort
-     * @param responsePort
+     * @param port
      */
-    void initIPv4Broadcast(QNetworkInterface interface, int scanningPort, int responsePort);
+    void initIPv4Broadcast(QNetworkInterface interface, int port);
 
     /**
      * @brief scanNetwork
@@ -79,18 +78,24 @@ signals:
      * @param senderHost - the address and port.
      * @param hostName - the human readable name.
      */
-    void sendAddress(QHostAddress senderHost, QString hostName);
+    void sendAddress(QHostAddress senderHost, QString hostName, int tcpPort);
 
 private:
-    QUdpSocket* scanningUpstreamSocket;
-    QUdpSocket* scanningDownstreamSocket;
-    QUdpSocket* responseDownstreamSocket;
+    enum class DatagramType
+    {
+        Scan,
+        Response
+    };
+
+    int& tcpPort;
+
+    QUdpSocket* upstreamSocket;
+    QUdpSocket* downstreamSocket;
 
     QNetworkInterface interface;
 
     QHostAddress scanningAddress;
-    int scanningPort;
-    int responsePort;
+    int port;
 
     bool stopped = true;
     Mode mode = Mode::None;
@@ -101,7 +106,12 @@ private:
     QHostAddress findAnyBroadcastAddress();
     void deleteSockets();
 
+    void handleDatagram(QByteArray datagram, QHostAddress senderHost);
+    void processScanningDatagram(QByteArray datagram, QHostAddress senderHost);
+    void processResponseDatagram(QByteArray datagram, QHostAddress senderHost);
+
+    void prependDatagramType(QByteArray& datagram, DatagramType type);
+
 private slots:
-    void processScanningDatagrams();
-    void processResponseDatagrams();
+    void processDatagrams();
 };

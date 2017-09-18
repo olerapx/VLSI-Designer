@@ -24,10 +24,10 @@ class NetworkTransmitter : public QObject
 public:
     /**
      * @brief NetworkTransmitter
-     * @param serverPort - the port the transmitter will be listen to.
+     * @param port - the port the transmitter will be listen to.
      * @throw NetworkException
      */
-    NetworkTransmitter(int serverPort);
+    NetworkTransmitter(int port);
     ~NetworkTransmitter();
 
     /**

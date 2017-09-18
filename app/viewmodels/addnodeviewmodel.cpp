@@ -1,9 +1,8 @@
 #include "addnodeviewmodel.h"
 
-AddNodeViewModel::AddNodeViewModel(QObject* parent, QList<PoolNodeInfo>& nodes, int port)
+AddNodeViewModel::AddNodeViewModel(QObject* parent, QList<PoolNodeInfo>& nodes)
     : QAbstractTableModel(parent),
-      nodes(nodes),
-      port(port)
+      nodes(nodes)
 {
 }
 
@@ -34,7 +33,7 @@ QVariant AddNodeViewModel::data(const QModelIndex &index, int role) const
         case 0:
             return info.getHostName();
         case 1:
-            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(port));// TODO use info's port
+            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(info.getTcpPort()));
         }
     }
     if(role == Qt::TextAlignmentRole)

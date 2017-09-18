@@ -10,7 +10,7 @@ AddNodesDialog::AddNodesDialog(PoolManager& manager, NetworkScanner& scanner, QW
     ui->setupUi(this);
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    addNodeViewModel = new AddNodeViewModel(this, foundNodes, manager.getPort());
+    addNodeViewModel = new AddNodeViewModel(this, foundNodes);
     ui->nodesTable->setModel(addNodeViewModel);
 
     connect(&scanner, &NetworkScanner::sendLog, this, &AddNodesDialog::onSendLog);
@@ -38,16 +38,16 @@ void AddNodesDialog::on_scanButton_clicked()
     if (!scanner.isStopped())
     {
         scanner.stopScanning();
-        ui->scanButton->setText("Scan");
+        ui->scanButton->setText(tr("Scan"));
 
         ui->statusLabel->clear();
 
         return;
     }
 
-    ui->scanButton->setText("Stop");
+    ui->scanButton->setText(tr("Stop"));
 
-    addNodeViewModel->clear();    
+    addNodeViewModel->clear();
 
     scanner.scanNetwork();
 }
@@ -57,12 +57,12 @@ void AddNodesDialog::onSendLog(QString data)
     ui->statusLabel->setText(data);
 }
 
-void AddNodesDialog::onSendAddress(QHostAddress senderHost, QString hostName)
+void AddNodesDialog::onSendAddress(QHostAddress senderHost, QString hostName, int tcpPort)
 {
     if(hasAddress(senderHost))
         return;
 
-    addNodeViewModel->appendRow(PoolNodeInfo(hostName, senderHost));
+    addNodeViewModel->appendRow(PoolNodeInfo(hostName, senderHost, tcpPort));
 }
 
 bool AddNodesDialog::hasAddress(QHostAddress address)
@@ -81,6 +81,9 @@ void AddNodesDialog::on_addSelectedButton_clicked()
     QItemSelectionModel* model = ui->nodesTable->selectionModel();
     QModelIndexList list = model->selectedRows();
 
+    if(list.empty())
+        return;
+
     for(QModelIndex& index: list)
     {
         int row = index.row();
@@ -88,10 +91,15 @@ void AddNodesDialog::on_addSelectedButton_clicked()
     }
 
     this->accept();
+    this->close();
 }
 
 void AddNodesDialog::on_addAllButton_clicked()
 {
     selectedNodes = foundNodes;
+
+    scanner.stopScanning();
+
     this->accept();
+    this->close();
 }

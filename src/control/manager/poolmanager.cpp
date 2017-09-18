@@ -8,5 +8,5 @@ PoolManager::PoolManager(int port) :
 
 void PoolManager::setPort(int port)
 {
-    this->port = port; // TODO: add checking is manager working
+    this->port = port; //TODO: add checking is manager working
 }

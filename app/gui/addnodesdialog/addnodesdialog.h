@@ -28,7 +28,7 @@ private slots:
     void on_scanButton_clicked();
 
     void onSendLog(QString data);
-    void onSendAddress(QHostAddress senderHost, QString hostName);
+    void onSendAddress(QHostAddress senderHost, QString hostName, int tcpPort);
 
     bool hasAddress(QHostAddress address);
 

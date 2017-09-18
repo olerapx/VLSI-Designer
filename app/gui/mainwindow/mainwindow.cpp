@@ -3,7 +3,8 @@
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    scanner(config.getTcpPort())
 {
     ui->setupUi(this);
 
@@ -47,11 +48,10 @@ void MainWindow::changeNetworkConfig(bool firstTime)
             {
                 manager.setPort(config.getTcpPort());
 
-                //TODO: use one port from config
                 if(config.getMode() == Mode::IPv4)
-                    scanner.initIPv4Broadcast(config.getNetworkInterface(), 40000, 40001);
+                    scanner.initIPv4Broadcast(config.getNetworkInterface(), config.getUdpPort());
                 else
-                    scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), 40000, 40001);
+                    scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), config.getUdpPort());
 
             }
             success = true;

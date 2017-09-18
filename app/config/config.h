@@ -20,8 +20,8 @@ public:
     QNetworkInterface getNetworkInterface() { return networkInterface; }
     void setNetworkInterface(QNetworkInterface interface);
 
-    int getUdpPort() { return udpPort; }
-    int getTcpPort() { return tcpPort; }
+    int& getUdpPort() { return udpPort; }
+    int& getTcpPort() { return tcpPort; }
 
     void setUdpPort(int udpPort);
     void setTcpPort(int tcpPort);

@@ -9,7 +9,7 @@ class AddNodeViewModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    AddNodeViewModel(QObject* parent, QList<PoolNodeInfo>& nodes, int port);
+    AddNodeViewModel(QObject* parent, QList<PoolNodeInfo>& nodes);
 
     int rowCount(const QModelIndex& = QModelIndex()) const override;
     int columnCount(const QModelIndex& = QModelIndex()) const override;

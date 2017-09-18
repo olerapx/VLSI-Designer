@@ -37,7 +37,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         case 2:
             return ((info.getProgramVersion() == 0.0)? "" : QVariant(info.getProgramVersion()));
         case 3:
-            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(manager.getPort())); // TODO use info's port
+            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(info.getTcpPort()));
         }
     }
     if(role == Qt::TextAlignmentRole)
@@ -79,6 +79,9 @@ void NodeViewModel::appendRow(PoolNodeInfo info, const QModelIndex& parent)
 
 void NodeViewModel::appendRows(QList<PoolNodeInfo>& list, const QModelIndex& parent)
 {
+    if(list.size() == 0)
+        return;
+
     beginInsertRows(parent, manager.getPoolNodes().size(), manager.getPoolNodes().size() + list.size() - 1);
 
     manager.getPoolNodes().append(list);

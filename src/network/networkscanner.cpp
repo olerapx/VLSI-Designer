@@ -1,48 +1,47 @@
 #include "networkscanner.h"
 
+NetworkScanner::NetworkScanner(int& tcpPort) :
+    tcpPort(tcpPort)
+{
+
+}
+
 NetworkScanner::~NetworkScanner()
 {
     if (mode != Mode::None)
         deleteSockets();
 }
 
-void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface,
-                                       int scanningPort, int responsePort)
+void NetworkScanner::initIPv6Multicast(QHostAddress scanningAddress, QNetworkInterface interface, int port)
 {
     stopScanning();
 
     this->scanningAddress = scanningAddress;
     this->interface = interface;
-    this->scanningPort = scanningPort;
-    this->responsePort = responsePort;
+    this->port = port;
 
     initScanningSockets();
 
-    scanningUpstreamSocket->bind();
-    if(!scanningDownstreamSocket->bind(QHostAddress::AnyIPv6, this->scanningPort,
+    upstreamSocket->bind();
+    if(!downstreamSocket->bind(QHostAddress::AnyIPv6, this->port,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(tr("Cannot bind socket to port %1.").arg(scanningPort));
+        throw NetworkException(tr("Cannot bind socket to port %1.").arg(port));
 
-    if(!responseDownstreamSocket->bind(this->responsePort,
-                                        QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(tr("Cannot bind socket to port %1.").arg(responsePort));
+    upstreamSocket->setMulticastInterface(this->interface);
+    downstreamSocket->joinMulticastGroup(this->scanningAddress, this->interface);
 
-    scanningUpstreamSocket->setMulticastInterface(this->interface);
-    scanningDownstreamSocket->joinMulticastGroup(this->scanningAddress, this->interface);
-
-    scanningUpstreamSocket->setSocketOption(QAbstractSocket::MulticastLoopbackOption, QVariant(1));
-    scanningDownstreamSocket->setSocketOption(QAbstractSocket::MulticastLoopbackOption, QVariant(1));
+    upstreamSocket->setSocketOption(QAbstractSocket::MulticastLoopbackOption, QVariant(1));
+    downstreamSocket->setSocketOption(QAbstractSocket::MulticastLoopbackOption, QVariant(1));
 
     mode = Mode::IPv6;
 }
 
-void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanningPort, int responsePort)
+void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int port)
 {
     stopScanning();
 
     this->interface = interface;
-    this->scanningPort = scanningPort;
-    this->responsePort = responsePort;
+    this->port = port;
 
     initScanningSockets();
 
@@ -50,15 +49,11 @@ void NetworkScanner::initIPv4Broadcast(QNetworkInterface interface, int scanning
     if(scanningAddress == QHostAddress::Null) throw NetworkException(tr("No broadcast address found for interface: %1.")
                                                                       .arg(interface.humanReadableName()));
 
-    scanningUpstreamSocket->bind();
+    upstreamSocket->bind();
 
-    if(!scanningDownstreamSocket->bind(QHostAddress::AnyIPv4, this->scanningPort,
+    if(!downstreamSocket->bind(QHostAddress::AnyIPv4, this->port,
                                         QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(tr("Cannot bind socket to port %1.").arg(scanningPort));
-
-    if(!responseDownstreamSocket->bind(this->responsePort,
-                                        QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
-        throw NetworkException(tr("Cannot bind socket to port %1.").arg(responsePort));
+        throw NetworkException(tr("Cannot bind socket to port %1.").arg(port));
 
     mode = Mode::IPv4;
 }
@@ -82,79 +77,97 @@ void NetworkScanner::initScanningSockets()
         deleteSockets();
     mode = Mode::None;
 
-    scanningUpstreamSocket = new QUdpSocket(this);
-    scanningDownstreamSocket = new QUdpSocket(this);
-    responseDownstreamSocket = new QUdpSocket(this);
+    upstreamSocket = new QUdpSocket(this);
+    downstreamSocket = new QUdpSocket(this);
 
-    connect(scanningDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processScanningDatagrams);
-    connect(responseDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processResponseDatagrams);
+    connect(downstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processDatagrams);
 }
 
 void NetworkScanner::deleteSockets()
 {
-    scanningUpstreamSocket->close();
-    scanningDownstreamSocket->close();
-    responseDownstreamSocket->close();
+    upstreamSocket->close();
+    downstreamSocket->close();
 
-    disconnect(scanningDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processScanningDatagrams);
-    disconnect(responseDownstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processResponseDatagrams);
+    disconnect(downstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processDatagrams);
 
-    delete scanningUpstreamSocket;
-    delete scanningDownstreamSocket;
-    delete responseDownstreamSocket;
+    delete upstreamSocket;
+    delete downstreamSocket;
 }
 
-void NetworkScanner::processScanningDatagrams()
+void NetworkScanner::processDatagrams()
 {
-    while (scanningDownstreamSocket->hasPendingDatagrams())
+    while(downstreamSocket->hasPendingDatagrams())
     {
         QByteArray datagram;
-        datagram.resize(scanningDownstreamSocket->pendingDatagramSize());
+        datagram.resize(downstreamSocket->pendingDatagramSize());
 
         QHostAddress senderHost;
 
-        scanningDownstreamSocket->readDatagram(datagram.data(), datagram.size(), &senderHost);
+        downstreamSocket->readDatagram(datagram.data(), datagram.size(), &senderHost);
 
-        sendLog(tr("[Client] Got request: %1.").arg(QString::fromUtf8(datagram)));
-        sendLog(tr("[Client] Sending response to %1.").arg(senderHost.toString()));
-
-        datagram.append("@"+QHostInfo::localHostName());
-
-        QUdpSocket* udpSocket = new QUdpSocket(this);
-
-        udpSocket->writeDatagram(datagram.data(), datagram.size(), senderHost, responsePort);
-
-        udpSocket->close();
-        delete udpSocket;
+        handleDatagram(datagram, senderHost);
     }
 }
 
-void NetworkScanner::processResponseDatagrams()
+void NetworkScanner::handleDatagram(QByteArray datagram, QHostAddress senderHost)
 {
-    while(responseDownstreamSocket->hasPendingDatagrams() && !stopped)
+    QDataStream stream(&datagram, QIODevice::ReadOnly);
+    qint32 type = 0;
+    stream >> type;
+
+    DatagramType datagramType = static_cast<DatagramType>(type);
+
+    datagram.remove(0, sizeof(qint32));
+
+    if(datagramType == DatagramType::Scan)
+        processScanningDatagram(datagram, senderHost);
+    else
+        processResponseDatagram(datagram, senderHost);
+}
+
+void NetworkScanner::processScanningDatagram(QByteArray datagram, QHostAddress senderHost)
+{
+    sendLog(tr("[Client] Got request: %1.").arg(QString::fromUtf8(datagram)));
+    sendLog(tr("[Client] Sending response to %1.").arg(senderHost.toString()));
+
+    datagram.append("@" + QHostInfo::localHostName());
+    datagram.append("@" + QString::number(tcpPort));
+    prependDatagramType(datagram, DatagramType::Response);
+
+    QUdpSocket* udpSocket = new QUdpSocket(this);
+
+    udpSocket->writeDatagram(datagram.data(), datagram.size(), senderHost, port);
+
+    udpSocket->close();
+    delete udpSocket;
+}
+
+void NetworkScanner::prependDatagramType(QByteArray& datagram, DatagramType type)
+{
+    datagram.prepend(sizeof(qint32), ' ');
+
+    QDataStream stream(&datagram, QIODevice::WriteOnly);
+    stream.device()->seek(0);
+    stream << static_cast<qint32>(type);
+}
+
+void NetworkScanner::processResponseDatagram(QByteArray datagram, QHostAddress senderHost)
+{
+    sendLog(tr("[Server] Got response from %1:%2.").arg(senderHost.toString(), QString::fromUtf8(datagram)));
+
+    QString datagramString = QString(datagram);
+
+    QString token = datagramString.section("@", 0, 0);
+
+    if(token == currentScanToken.toUtf8())
     {
-        QByteArray datagram;
-        datagram.resize(responseDownstreamSocket->pendingDatagramSize());
+        QString hostName = datagramString.section("@", 1, 1);
+        int hostTcpPort = datagramString.section("@", 2, 2).toInt();
 
-        QHostAddress senderHost;
-
-        responseDownstreamSocket->readDatagram(datagram.data(), datagram.size(), &senderHost);
-
-        sendLog(tr("[Server] Got response from %1:%2.").arg(senderHost.toString(), QString::fromUtf8(datagram)));
-
-        QString datagramString = QString(datagram);
-
-        QString token = datagramString.section("@", 0, 0);
-
-        if(token == currentScanToken.toUtf8())
-        {
-            QString hostName = datagramString.section("@", 1);
-
-            sendLog(tr("[Server] Auth confirmed: %1.").arg(hostName));
-            sendAddress(senderHost, hostName);
-        }
-        else sendLog(tr("[Server] Wrong auth token, ignored."));
+        sendLog(tr("[Server] Auth confirmed: %1.").arg(hostName));
+        sendAddress(senderHost, hostName, hostTcpPort);
     }
+    else sendLog(tr("[Server] Wrong auth token, ignored."));
 }
 
 void NetworkScanner::scanNetwork()
@@ -172,7 +185,9 @@ void NetworkScanner::scanNetwork()
     sendLog(tr("[Server] Sending auth request with token: %1.").arg(currentScanToken));
 
     QByteArray data = currentScanToken.toUtf8();
-    scanningUpstreamSocket->writeDatagram(data.data(), data.size(), scanningAddress, scanningPort);
+    prependDatagramType(data, DatagramType::Scan);
+
+    upstreamSocket->writeDatagram(data.data(), data.size(), scanningAddress, port);
 }
 
 void NetworkScanner::stopScanning()

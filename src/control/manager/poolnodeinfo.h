@@ -22,16 +22,19 @@ enum class NodeStatus
 class PoolNodeInfo
 {
 public:
-    PoolNodeInfo(QString hostName, QHostAddress address);
+    PoolNodeInfo(QString hostName, QHostAddress address, int tcpPort);
 
     QString getHostName() { return hostName; }
     NodeStatus getStatus() { return status; }
     double getProgramVersion() { return programVersion; }
     QHostAddress getAddress() { return address; }
+    int getTcpPort() { return tcpPort; }
 
 private:
     QString hostName;
     NodeStatus status;
     double programVersion;
     QHostAddress address;
+
+    int tcpPort;
 };
