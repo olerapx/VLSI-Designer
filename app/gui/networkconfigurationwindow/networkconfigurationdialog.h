@@ -1,5 +1,4 @@
-#ifndef NETWORKCONFIGURATIONWINDOW_H
-#define NETWORKCONFIGURATIONWINDOW_H
+#pragma once
 
 #include <QDialog>
 
@@ -24,12 +23,17 @@ public:
 
     ~NetworkConfigurationDialog();
 
+protected:
+    void closeEvent(QCloseEvent* event);
+
 private slots:
     void on_okButton_clicked();
 
     void on_ipv4Radio_toggled(bool checked);
 
 private:
+    void setValidators();
+
     Ui::NetworkConfigurationWindow* ui;
 
     Config& config;
@@ -37,5 +41,3 @@ private:
 
     QList<QNetworkInterface> interfaces;
 };
-
-#endif // NETWORKCONFIGURATIONWINDOW_H

@@ -37,7 +37,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         case 2:
             return ((info.getProgramVersion() == 0.0)? "" : QVariant(info.getProgramVersion()));
         case 3:
-            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(manager.getPort()));
+            return QString("%1:%2").arg(info.getAddress().toString(), QString::number(manager.getPort())); // TODO use info's port
         }
     }
     if(role == Qt::TextAlignmentRole)

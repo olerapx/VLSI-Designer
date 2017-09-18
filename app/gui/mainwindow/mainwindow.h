@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include "config/config.h"
 #include "control/manager/poolmanager.h"
@@ -20,15 +21,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = 0);
-    void readConfig();
-
+    MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 protected:
     void showEvent(QShowEvent* event);
 
 private slots:
+    void onShow();
+
     void on_generatorAction_triggered();
     void on_networkConfigurationAction_triggered();
     void initScanner();

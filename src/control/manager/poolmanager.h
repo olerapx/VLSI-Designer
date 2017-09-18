@@ -16,18 +16,11 @@ public:
 
     QList<PoolNodeInfo>& getPoolNodes() { return poolNodes; }
 
-    QNetworkInterface* getUsedInterface() { return usedInterface; }
-
     int getPort() { return port; }
-
-    void setUsedInterface(QNetworkInterface& interface);
-
     void setPort(int port);
 
 private:
     QList<PoolNodeInfo> poolNodes;
-
-    QNetworkInterface* usedInterface;
 
     int port;
 };

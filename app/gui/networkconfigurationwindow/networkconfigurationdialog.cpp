@@ -8,9 +8,23 @@ NetworkConfigurationDialog::NetworkConfigurationDialog(Config& config, PoolManag
     manager(manager)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->sizeHint());
+    this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+    setValidators();
 
     fillNetworkInterfaces();
     readConfig();
+}
+
+void NetworkConfigurationDialog::setValidators()
+{
+    QIntValidator* intValidator = new QIntValidator(this);
+    intValidator->setBottom(0);
+    intValidator->setTop(65535);
+
+    ui->udpPortText->setValidator(intValidator);
+    ui->tcpPortText->setValidator(intValidator);
 }
 
 void NetworkConfigurationDialog::fillNetworkInterfaces()
@@ -24,18 +38,22 @@ void NetworkConfigurationDialog::fillNetworkInterfaces()
 void NetworkConfigurationDialog::readConfig()
 {
     if(config.getMode() == Mode::IPv6)
-    {
-        ui->ipv6Radio->setEnabled(true);
         ui->ipv6AddressText->setEnabled(true);
-    }
     else
-    {
-        ui->ipv6Radio->setEnabled(false);
         ui->ipv6AddressText->setEnabled(false);
-    }
 
     ui->ipv6AddressText->setText(config.getMulticastAddress().toString());
-    ui->portText->setText(QString::number(config.getPort()));
+
+    ui->udpPortText->setText(QString::number(config.getUdpPort()));
+    ui->tcpPortText->setText(QString::number(config.getTcpPort()));
+}
+
+void NetworkConfigurationDialog::closeEvent(QCloseEvent* event)
+{
+    if(!config.isInterfaceSet())
+        writeConfig();
+
+    QDialog::closeEvent(event);
 }
 
 NetworkConfigurationDialog::~NetworkConfigurationDialog()
@@ -50,29 +68,25 @@ void NetworkConfigurationDialog::writeConfig()
     else
         config.setMode(Mode::IPv6);
 
-    config.setPort(ui->portText->text().toInt());
+    config.setUdpPort(ui->udpPortText->text().toInt());
+    config.setTcpPort(ui->tcpPortText->text().toInt());
 
     config.setMulticastAddress(QHostAddress(ui->ipv6AddressText->text()));
 
-    manager.setPort(ui->portText->text().toInt()); //TODO: is it a bad idea to set parameters in manager here?
-    manager.setUsedInterface(interfaces[ui->networkInterfaceBox->currentIndex()]);
+    manager.setPort(ui->tcpPortText->text().toInt());
+    config.setNetworkInterface(interfaces[ui->networkInterfaceBox->currentIndex()]);
 }
 
 void NetworkConfigurationDialog::on_okButton_clicked()
 {
+    writeConfig();
     this->close();
 }
 
 void NetworkConfigurationDialog::on_ipv4Radio_toggled(bool checked)
 {
     if(checked)
-    {
-        ui->ipv6Radio->setEnabled(false);
         ui->ipv6AddressText->setEnabled(false);
-    }
     else
-    {
-        ui->ipv6Radio->setEnabled(true);
         ui->ipv6AddressText->setEnabled(true);
-    }
 }

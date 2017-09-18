@@ -44,6 +44,12 @@ signals:
     void sendStop();
 
 private:
+    void setValidators();
+
+    GeneratorParameters buildParameters();
+
+    void saveScheme(Scheme s);
+
     Ui::GeneratorWindow *ui;
 
     QStringList libraryFiles;
@@ -51,10 +57,4 @@ private:
     Generator* generator;
 
     QThread generatorThread;
-
-    void setValidators();
-
-    GeneratorParameters buildParameters();
-
-    void saveScheme(Scheme s);
 };

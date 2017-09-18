@@ -6,14 +6,8 @@ MainWindow::MainWindow(QWidget* parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-}
 
-void MainWindow::readConfig()
-{
-    //TODO: read from file
-    config.setMode(Mode::IPv6);
-    config.setMulticastAddress(QHostAddress("FF02::1"));
-    config.setPort(40000);
+    ui->nodesTable->setModel(new NodeViewModel(ui->nodesTable, manager));
 }
 
 MainWindow::~MainWindow()
@@ -25,16 +19,13 @@ void MainWindow::showEvent(QShowEvent* event)
 {
     QMainWindow::showEvent(event);
 
-    readConfig();
+    QTimer::singleShot(50, this, &MainWindow::onShow);
+}
 
-    manager.setPort(40000); //TODO: is it a bad idea to set parameters in manager here?
-    manager.setUsedInterface(QNetworkInterface::allInterfaces()[0]);
-
+void MainWindow::onShow()
+{
     on_networkConfigurationAction_triggered();
     initScanner();
-
-manager.getPoolNodes().append(PoolNodeInfo("asda", QHostAddress::LocalHost)); // TODO: temp, test
-    ui->nodesTable->setModel(new NodeViewModel(ui->nodesTable, manager));
 }
 
 void MainWindow::on_networkConfigurationAction_triggered()
@@ -45,10 +36,11 @@ void MainWindow::on_networkConfigurationAction_triggered()
 
 void MainWindow::initScanner()
 {//TODO: use one port from config
+    //TODO: try-catch here
     if(config.getMode() == Mode::IPv4)
-        scanner.initIPv4Broadcast(*(manager.getUsedInterface()), 40000, 40001);
+        scanner.initIPv4Broadcast(config.getNetworkInterface(), 40000, 40001);
     else
-        scanner.initIPv6Multicast(config.getMulticastAddress(), *(manager.getUsedInterface()), 40000, 40001);
+        scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), 40000, 40001);
 }
 
 void MainWindow::on_generatorAction_triggered()

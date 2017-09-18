@@ -9,21 +9,30 @@
 class Config
 {
 public:
-    Config();
+    Config(); //TODO: read from config.json, init by default on fallback
 
     Mode getMode() { return mode; }
     QHostAddress getMulticastAddress() { return multicastAddress; }
 
-    int getPort() { return port; }
-
     void setMode(Mode mode);
     void setMulticastAddress(QHostAddress multicastAddress);
 
-    void setPort(int port);
+    QNetworkInterface getNetworkInterface() { return *networkInterface; }
+    void setNetworkInterface(QNetworkInterface interface);
+    bool isInterfaceSet() { return (networkInterface != nullptr); }
+
+    int getUdpPort() { return udpPort; }
+    int getTcpPort() { return tcpPort; }
+
+    void setUdpPort(int udpPort);
+    void setTcpPort(int tcpPort);
 
 private:
     Mode mode;
     QHostAddress multicastAddress;
 
-    int port;
+    QNetworkInterface* networkInterface;
+
+    int udpPort;
+    int tcpPort;
 };

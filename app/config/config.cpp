@@ -2,8 +2,13 @@
 
 Config::Config()
 {
-    mode = Mode::None;
-    port = 0;
+    setMode(Mode::IPv6);
+    setMulticastAddress(QHostAddress("FF02::1"));
+
+    setUdpPort(40000);
+    setTcpPort(40001);
+
+    networkInterface = nullptr;
 }
 
 void Config::setMode(Mode mode)
@@ -16,7 +21,18 @@ void Config::setMulticastAddress(QHostAddress multicastAddress)
     this->multicastAddress = multicastAddress;
 }
 
-void Config::setPort(int port)
+void Config::setNetworkInterface(QNetworkInterface interface)
 {
-    this->port = port;
+    delete networkInterface;
+    networkInterface = new QNetworkInterface(interface);
+}
+
+void Config::setUdpPort(int udpPort)
+{
+    this->udpPort = udpPort;
+}
+
+void Config::setTcpPort(int port)
+{
+    this->tcpPort = port;
 }
