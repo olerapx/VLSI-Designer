@@ -5,6 +5,7 @@
 
 #include "config/config.h"
 #include "control/manager/poolmanager.h"
+#include "control/node/poolnode.h"
 #include "network/networkscanner.h"
 #include "viewmodels/nodeviewmodel.h"
 #include "gui/networkconfigurationwindow/networkconfigurationdialog.h"
@@ -40,6 +41,8 @@ private:
     Ui::MainWindow *ui;
 
     PoolManager manager;
+    PoolNode node;
+
     NetworkScanner scanner;
 
     NodeViewModel* nodeViewModel;

@@ -26,8 +26,7 @@ public:
     int& getNodeTcpPort() { return nodeTcpPort; }
 
     void setUdpPort(int udpPort);
-    void setManagerTcpPort(int tcpPort);
-    void setNodeTcpPort(int tcpPort);
+    void setTcpPorts(int managerTcpPort, int nodeTcpPort);
 
 private:
     void validatePort(int port);

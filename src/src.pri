@@ -24,8 +24,11 @@ HEADERS += \
     $$PWD/algorithms/routing/leerouting/leerouting.h \
     $$PWD/algorithms/routing/leerouting/wiredistancecomparator.h \
     $$PWD/algorithms/routing/leerouting/pointdistancecomparator.h \
+    $$PWD/control/poolentity.h \
     $$PWD/control/manager/poolmanager.h \
     $$PWD/control/manager/poolnodeinfo.h \
+    $$PWD/control/node/poolnode.h \
+    $$PWD/control/node/poolmanagerinfo.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \

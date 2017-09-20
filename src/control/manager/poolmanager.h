@@ -1,26 +1,31 @@
 #pragma once
 
-#include <QNetworkInterface>
-#include "network/networkscanner.h"
-
+#include "control/poolentity.h"
 #include "poolnodeinfo.h"
 
 /**
  * @brief The PoolManager class
  * Provides the management of the VLSI design process.
  */
-class PoolManager
+class PoolManager : public PoolEntity
 {
+    Q_OBJECT
+
 public:
-    PoolManager(int port = 0);
+    PoolManager(int selfPort = 0);
 
     QList<PoolNodeInfo>& getPoolNodes() { return poolNodes; }
 
-    int getPort() { return port; }
-    void setPort(int port);
+    void connectToUnconnectedNodes();
+
+    void enableTransmitter();
+    void disableTransmitter();
+
+private slots:
+    void onNewConnection(QString, QHostAddress address, int tcpPort);
 
 private:
-    QList<PoolNodeInfo> poolNodes;
+    bool tryConnect(PoolNodeInfo& info);
 
-    int port;
+    QList<PoolNodeInfo> poolNodes;
 };

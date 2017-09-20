@@ -3,7 +3,7 @@
 NetworkTransmitter::NetworkTransmitter(int port)
 {
     server = new QTcpServer(this);
-    connect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
+    connect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
 
     if(!server->listen(QHostAddress::Any, port))
     {
@@ -14,16 +14,19 @@ NetworkTransmitter::NetworkTransmitter(int port)
 
 NetworkTransmitter::~NetworkTransmitter()
 {
-    disconnect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::on_newConnection);
+    for(TcpSocket* socket: sockets)
+        removeTcpSocket(socket);
+
+    disconnect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
     delete server;
 }
 
-void NetworkTransmitter::on_newConnection()
+void NetworkTransmitter::onNewConnection()
 {
     QTcpSocket* qsocket = server->nextPendingConnection();
     addTcpSocket(qsocket);
 
-    sendLog(tr("Got a new connection from %1:%2.").arg(qsocket->peerAddress().toString(), qsocket->peerName()));
+    sendNewConnection(qsocket->peerName(), qsocket->peerAddress(), qsocket->peerPort());
 }
 
 TcpSocket* NetworkTransmitter::addTcpSocket(QTcpSocket* qsocket)
@@ -58,8 +61,10 @@ void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
 
 TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)
 {
-    if(findSocket(address, port) != nullptr)
-        throw NetworkException(tr("Already connected to %1:%2.").arg(address.toString(), port));
+    TcpSocket* existingSocket = findSocket(address, port);
+
+    if(existingSocket != nullptr)
+        return existingSocket;
 
     QTcpSocket* qsocket = new QTcpSocket(this);
     qsocket->connectToHost(address, port);
@@ -78,7 +83,7 @@ TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)
 
 void NetworkTransmitter::disconnectFromHost(QHostAddress address, int port)
 {
-    TcpSocket* socket = findSocket (address, port);
+    TcpSocket* socket = findSocket(address, port);
     if(socket == nullptr)
         throw NetworkException(tr("Cannot disconnect from %1:%2: no socket found.").arg(address.toString(), port));
 

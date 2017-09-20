@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <QNetworkInterface>
 
+#include "network/networkscanner.h"
 #include "control/manager/poolmanager.h"
 #include "viewmodels/addnodeviewmodel.h"
 
@@ -26,17 +27,15 @@ protected:
 
 private slots:
     void on_scanButton_clicked();
+    void on_addSelectedButton_clicked();
+    void on_addAllButton_clicked();
 
     void onSendLog(QString data);
     void onSendAddress(QHostAddress senderHost, QString hostName, int tcpPort);
 
+private:
     bool hasAddress(QHostAddress address);
 
-    void on_addSelectedButton_clicked();
-
-    void on_addAllButton_clicked();
-
-private:
     Ui::AddNodesDialog *ui;
 
     PoolManager& manager;

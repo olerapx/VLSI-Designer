@@ -49,7 +49,8 @@ public:
     void disconnectFromHost(QHostAddress address, int port);
 
     /**
-     * @brief Sends the specified byte array to the host.
+     * @brief sendData
+     * Sends the specified byte array to the host.
      * The data is placed to TCP buffer almost immediately and transmitted asyncronously.
      * @param data
      * @param address
@@ -59,7 +60,8 @@ public:
 
 signals:
     /**
-     * @brief Emits when a full data is received.
+     * @brief sendDataReceived
+     * Emits when a full data is received.
      * @param data - the received data.
      * @param address - the sender's address.
      * @param port - the sender's port.
@@ -67,10 +69,18 @@ signals:
     void sendDataReceived(QByteArray* data, QHostAddress address, int port);
     void sendLog(QString log);
 
-private:
-    QTcpServer* server;
-    QList <TcpSocket*> sockets;
+    /**
+     * @brief sendNewConnection
+     * Emits when a new connection is established.
+     *
+     */
+    void sendNewConnection(QString hostName, QHostAddress address, int tcpPort);
 
+private slots:
+    void onNewConnection();
+    void onSocketDisconnected(TcpSocket* socket);
+
+private:
     TcpSocket* addTcpSocket(QTcpSocket* qsocket);
     void removeTcpSocket(TcpSocket* socket);
 
@@ -78,7 +88,6 @@ private:
 
     void sendData(TcpSocket* socket, QByteArray* data);
 
-private slots:
-    void on_newConnection();
-    void onSocketDisconnected(TcpSocket* socket);
+    QTcpServer* server;
+    QList<TcpSocket*> sockets;
 };

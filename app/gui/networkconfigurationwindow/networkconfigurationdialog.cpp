@@ -97,8 +97,7 @@ void NetworkConfigurationDialog::writeConfig()
         config.setMode(Mode::IPv6);
 
     config.setUdpPort(ui->udpPortText->text().toInt());
-    config.setManagerTcpPort(ui->managerTcpPortText->text().toInt());
-    config.setNodeTcpPort(ui->nodeTcpPortText->text().toInt());
+    config.setTcpPorts(ui->managerTcpPortText->text().toInt(), ui->nodeTcpPortText->text().toInt());
 
     config.setMulticastAddress(QHostAddress(ui->ipv6AddressText->text()));
     config.setNetworkInterface(interfaces[ui->networkInterfaceBox->currentIndex()]);

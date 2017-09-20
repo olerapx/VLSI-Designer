@@ -6,8 +6,7 @@ Config::Config()
     setMulticastAddress(QHostAddress("FF02::1"));
 
     setUdpPort(40000);
-    setManagerTcpPort(40000);
-    setNodeTcpPort(40001);
+    setTcpPorts(40000, 40001);
 }
 
 void Config::setMode(Mode mode)
@@ -34,24 +33,16 @@ void Config::setUdpPort(int udpPort)
     this->udpPort = udpPort;
 }
 
-void Config::setManagerTcpPort(int tcpPort)
+void Config::setTcpPorts(int managerTcpPort, int nodeTcpPort)
 {
-    validatePort(tcpPort);
+    validatePort(managerTcpPort);
+    validatePort(nodeTcpPort);
 
-    if(nodeTcpPort == tcpPort)
+    if(managerTcpPort == nodeTcpPort)
         throw IllegalArgumentException(QObject::tr("Manager and node tcp ports cannot be equal."));
 
-    this->managerTcpPort = tcpPort;
-}
-
-void Config::setNodeTcpPort(int tcpPort)
-{
-    validatePort(tcpPort);
-
-    if(managerTcpPort == tcpPort)
-        throw IllegalArgumentException(QObject::tr("Manager and node tcp ports cannot be equal."));
-
-    this->nodeTcpPort = tcpPort;
+    this->managerTcpPort = managerTcpPort;
+    this->nodeTcpPort = nodeTcpPort;
 }
 
 void Config::validatePort(int port)

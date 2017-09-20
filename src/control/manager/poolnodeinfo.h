@@ -26,6 +26,7 @@ public:
 
     QString getHostName() { return hostName; }
     NodeStatus getStatus() { return status; }
+    void setStatus(NodeStatus status);
     double getProgramVersion() { return programVersion; }
     QHostAddress getAddress() { return address; }
     int getTcpPort() { return tcpPort; }

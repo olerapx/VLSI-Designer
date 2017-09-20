@@ -10,6 +10,12 @@ MainWindow::MainWindow(QWidget* parent) :
 
     nodeViewModel = new NodeViewModel(this, manager);
     ui->nodesTable->setModel(nodeViewModel);
+
+    NetworkTransmitter t1(31000); //TODO: test, remove
+    NetworkTransmitter t2(31001);
+
+  //  t1.connectToHost(QHostAddress("127.0.0.1"), 31001);
+  //  t1.sendData(new QByteArray("123"), QHostAddress("127.0.0.1"), 31001);
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +44,9 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 {
     bool success = false;
 
+    manager.disableTransmitter();
+    node.disableTransmitter();
+
     while(!success)
     {
         try
@@ -46,7 +55,8 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 
             if(dialog.exec() || firstTime)
             {
-                manager.setPort(config.getManagerTcpPort());
+                manager.setSelfPort(config.getManagerTcpPort());
+                node.setSelfPort(config.getNodeTcpPort());
 
                 if(config.getMode() == Mode::IPv4)
                     scanner.initIPv4Broadcast(config.getNetworkInterface(), config.getUdpPort());
@@ -63,6 +73,9 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 
         }
     }
+
+    manager.enableTransmitter();
+    node.enableTransmitter();
 }
 
 void MainWindow::on_generatorAction_triggered()
@@ -77,5 +90,7 @@ void MainWindow::on_addNodesButton_clicked()
     if(dialog.exec())
     {
         nodeViewModel->appendRows(dialog.getSelectedNodes());
+        manager.connectToUnconnectedNodes();
+    //    QMessageBox::critical(0, "", node.getPoolManager()->getHostName()); //TODO: test, remove
     }
 }

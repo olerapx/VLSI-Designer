@@ -30,7 +30,6 @@ protected:
 
 private slots:
     void on_okButton_clicked();
-
     void on_ipv4Radio_toggled(bool checked);
 
 private:
