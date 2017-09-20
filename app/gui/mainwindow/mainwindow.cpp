@@ -10,12 +10,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     nodeViewModel = new NodeViewModel(this, manager);
     ui->nodesTable->setModel(nodeViewModel);
-
-    NetworkTransmitter t1(31000); //TODO: test, remove
-    NetworkTransmitter t2(31001);
-
-  //  t1.connectToHost(QHostAddress("127.0.0.1"), 31001);
-  //  t1.sendData(new QByteArray("123"), QHostAddress("127.0.0.1"), 31001);
 }
 
 MainWindow::~MainWindow()
@@ -91,6 +85,5 @@ void MainWindow::on_addNodesButton_clicked()
     {
         nodeViewModel->appendRows(dialog.getSelectedNodes());
         manager.connectToUnconnectedNodes();
-    //    QMessageBox::critical(0, "", node.getPoolManager()->getHostName()); //TODO: test, remove
     }
 }

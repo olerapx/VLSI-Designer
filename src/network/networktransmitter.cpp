@@ -2,14 +2,10 @@
 
 NetworkTransmitter::NetworkTransmitter(int port)
 {
-    server = new QTcpServer(this);
-    connect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
+    connect(&server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
 
-    if(!server->listen(QHostAddress::Any, port))
-    {
-        delete server;
+    if(!server.listen(QHostAddress::Any, port))
         throw NetworkException(tr("Cannot listen to port %1.").arg(port));
-    }
 }
 
 NetworkTransmitter::~NetworkTransmitter()
@@ -17,13 +13,12 @@ NetworkTransmitter::~NetworkTransmitter()
     for(TcpSocket* socket: sockets)
         removeTcpSocket(socket);
 
-    disconnect(server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
-    delete server;
+    disconnect(&server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
 }
 
 void NetworkTransmitter::onNewConnection()
 {
-    QTcpSocket* qsocket = server->nextPendingConnection();
+    QTcpSocket* qsocket = server.nextPendingConnection();
     addTcpSocket(qsocket);
 
     sendNewConnection(qsocket->peerName(), qsocket->peerAddress(), qsocket->peerPort());

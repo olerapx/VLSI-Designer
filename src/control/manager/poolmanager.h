@@ -14,7 +14,7 @@ class PoolManager : public PoolEntity
 public:
     PoolManager(int selfPort = 0);
 
-    QList<PoolNodeInfo>& getPoolNodes() { return poolNodes; }
+    QList<PoolNodeInfo>& getPoolNodesInfo() { return poolNodes; }
 
     void connectToUnconnectedNodes();
 

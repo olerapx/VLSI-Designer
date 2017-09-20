@@ -67,7 +67,7 @@ void AddNodesDialog::onSendAddress(QHostAddress senderHost, QString hostName, in
 
 bool AddNodesDialog::hasAddress(QHostAddress address)
 {
-    for(PoolNodeInfo& info: manager.getPoolNodes())
+    for(PoolNodeInfo& info: manager.getPoolNodesInfo())
     {
         if(info.getAddress().isEqual(address))
             return true;

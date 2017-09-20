@@ -8,7 +8,7 @@ NodeViewModel::NodeViewModel(QObject* parent, PoolManager& manager) :
 
 int NodeViewModel::rowCount(const QModelIndex&) const
 {
-    return manager.getPoolNodes().size();
+    return manager.getPoolNodesInfo().size();
 }
 
 int NodeViewModel::columnCount(const QModelIndex&) const
@@ -26,7 +26,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         int row = index.row();
         int col = index.column();
 
-        PoolNodeInfo& info = manager.getPoolNodes()[row];
+        PoolNodeInfo& info = manager.getPoolNodesInfo()[row];
 
         switch(col)
         {
@@ -70,9 +70,9 @@ QVariant NodeViewModel::headerData(int section, Qt::Orientation orientation, int
 
 void NodeViewModel::appendRow(PoolNodeInfo info, const QModelIndex& parent)
 {
-    beginInsertRows(parent, manager.getPoolNodes().size(), manager.getPoolNodes().size());
+    beginInsertRows(parent, manager.getPoolNodesInfo().size(), manager.getPoolNodesInfo().size());
 
-    manager.getPoolNodes().append(info);
+    manager.getPoolNodesInfo().append(info);
 
     endInsertRows();
 }
@@ -82,9 +82,9 @@ void NodeViewModel::appendRows(QList<PoolNodeInfo>& list, const QModelIndex& par
     if(list.size() == 0)
         return;
 
-    beginInsertRows(parent, manager.getPoolNodes().size(), manager.getPoolNodes().size() + list.size() - 1);
+    beginInsertRows(parent, manager.getPoolNodesInfo().size(), manager.getPoolNodesInfo().size() + list.size() - 1);
 
-    manager.getPoolNodes().append(list);
+    manager.getPoolNodesInfo().append(list);
 
     endInsertRows();
 }

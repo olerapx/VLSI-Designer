@@ -88,6 +88,6 @@ private:
 
     void sendData(TcpSocket* socket, QByteArray* data);
 
-    QTcpServer* server;
+    QTcpServer server;
     QList<TcpSocket*> sockets;
 };

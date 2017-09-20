@@ -15,7 +15,7 @@ public:
     PoolNode(int selfPort = 0);
     ~PoolNode();
 
-    PoolManagerInfo* getPoolManager() { return poolManager; }
+    PoolManagerInfo* getPoolManagerInfo() { return poolManager; }
 
     void enableTransmitter();
     void disableTransmitter();

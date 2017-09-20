@@ -28,17 +28,14 @@ protected:
 
 private slots:
     void on_librariesButton_clicked();
-
     void on_generateButton_clicked();
-
     void on_closeButton_clicked();
+    void on_stopButton_clicked();
 
     void onSendScheme(Scheme* s);
     void onSendError(QString error);
     void onSendLog(QString log);
     void onSendFinish();
-
-    void on_stopButton_clicked();
 
 signals:
     void sendStop();
