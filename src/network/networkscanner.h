@@ -33,7 +33,7 @@ class NetworkScanner : public QObject
     Q_OBJECT
 
 public:
-    NetworkScanner(int& tcpPort);
+    NetworkScanner(int& nodeTcpPort);
     ~NetworkScanner();
 
     /**
@@ -78,7 +78,7 @@ signals:
      * @param senderHost - the address and port.
      * @param hostName - the human readable name.
      */
-    void sendAddress(QHostAddress senderHost, QString hostName, int tcpPort);
+    void sendAddress(QHostAddress senderHost, QString hostName, int nodeTcpPort);
 
 private:
     enum class DatagramType
@@ -87,7 +87,7 @@ private:
         Response
     };
 
-    int& tcpPort;
+    int& nodeTcpPort;
 
     QUdpSocket* upstreamSocket;
     QUdpSocket* downstreamSocket;

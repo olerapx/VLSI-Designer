@@ -25,7 +25,8 @@ void NetworkConfigurationDialog::setValidators()
     intValidator->setTop(65535);
 
     ui->udpPortText->setValidator(intValidator);
-    ui->tcpPortText->setValidator(intValidator);
+    ui->managerTcpPortText->setValidator(intValidator);
+    ui->nodeTcpPortText->setValidator(intValidator);
 }
 
 void NetworkConfigurationDialog::fillNetworkInterfaces()
@@ -63,15 +64,24 @@ void NetworkConfigurationDialog::readConfig()
     ui->ipv6AddressText->setText(config.getMulticastAddress().toString());
 
     ui->udpPortText->setText(QString::number(config.getUdpPort()));
-    ui->tcpPortText->setText(QString::number(config.getTcpPort()));
+    ui->managerTcpPortText->setText(QString::number(config.getManagerTcpPort()));
+    ui->nodeTcpPortText->setText(QString::number(config.getNodeTcpPort()));
 }
 
 void NetworkConfigurationDialog::closeEvent(QCloseEvent* event)
 {
-    if(firstTime)
-        writeConfig();
+    try
+    {
+        if(firstTime)
+            writeConfig();
 
-    QDialog::closeEvent(event);
+        QDialog::closeEvent(event);
+    }
+    catch(Exception& e)
+    {
+        QMessageBox::critical(this, tr("Error"), e.what());
+        event->ignore();
+    }
 }
 
 NetworkConfigurationDialog::~NetworkConfigurationDialog()
@@ -87,16 +97,24 @@ void NetworkConfigurationDialog::writeConfig()
         config.setMode(Mode::IPv6);
 
     config.setUdpPort(ui->udpPortText->text().toInt());
-    config.setTcpPort(ui->tcpPortText->text().toInt());
+    config.setManagerTcpPort(ui->managerTcpPortText->text().toInt());
+    config.setNodeTcpPort(ui->nodeTcpPortText->text().toInt());
 
-    config.setMulticastAddress(QHostAddress(ui->ipv6AddressText->text()));    
+    config.setMulticastAddress(QHostAddress(ui->ipv6AddressText->text()));
     config.setNetworkInterface(interfaces[ui->networkInterfaceBox->currentIndex()]);
 }
 
 void NetworkConfigurationDialog::on_okButton_clicked()
 {
-    writeConfig();
-    this->accept();
+    try
+    {
+        writeConfig();
+        this->accept();
+    }
+    catch(Exception& e)
+    {
+        QMessageBox::critical(this, tr("Error"), e.what());
+    }
 }
 
 void NetworkConfigurationDialog::on_ipv4Radio_toggled(bool checked)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "network/networkscanner.h"
+#include "exception/illegalargumentexception.h"
 
 /**
  * @brief The Config class
@@ -9,7 +10,7 @@
 class Config
 {
 public:
-    Config(); //TODO: read from config.json, init by default on fallback
+    Config(); //TODO: add class ConfigSerializer: read from config.json, init by default on fallback
 
     Mode getMode() { return mode; }
     QHostAddress getMulticastAddress() { return multicastAddress; }
@@ -21,17 +22,22 @@ public:
     void setNetworkInterface(QNetworkInterface interface);
 
     int& getUdpPort() { return udpPort; }
-    int& getTcpPort() { return tcpPort; }
+    int& getManagerTcpPort() { return managerTcpPort; }
+    int& getNodeTcpPort() { return nodeTcpPort; }
 
     void setUdpPort(int udpPort);
-    void setTcpPort(int tcpPort);
+    void setManagerTcpPort(int tcpPort);
+    void setNodeTcpPort(int tcpPort);
 
 private:
+    void validatePort(int port);
+
     Mode mode;
     QHostAddress multicastAddress;
 
     QNetworkInterface networkInterface;
 
     int udpPort;
-    int tcpPort;
+    int managerTcpPort;
+    int nodeTcpPort;
 };

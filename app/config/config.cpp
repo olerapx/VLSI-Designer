@@ -6,7 +6,8 @@ Config::Config()
     setMulticastAddress(QHostAddress("FF02::1"));
 
     setUdpPort(40000);
-    setTcpPort(40001);
+    setManagerTcpPort(40000);
+    setNodeTcpPort(40001);
 }
 
 void Config::setMode(Mode mode)
@@ -16,6 +17,9 @@ void Config::setMode(Mode mode)
 
 void Config::setMulticastAddress(QHostAddress multicastAddress)
 {
+    if(multicastAddress == QHostAddress::Null)
+        throw IllegalArgumentException(QObject::tr("Multicast address is invalid."));
+
     this->multicastAddress = multicastAddress;
 }
 
@@ -26,10 +30,32 @@ void Config::setNetworkInterface(QNetworkInterface interface)
 
 void Config::setUdpPort(int udpPort)
 {
+    validatePort(udpPort);
     this->udpPort = udpPort;
 }
 
-void Config::setTcpPort(int port)
+void Config::setManagerTcpPort(int tcpPort)
 {
-    this->tcpPort = port;
+    validatePort(tcpPort);
+
+    if(nodeTcpPort == tcpPort)
+        throw IllegalArgumentException(QObject::tr("Manager and node tcp ports cannot be equal."));
+
+    this->managerTcpPort = tcpPort;
+}
+
+void Config::setNodeTcpPort(int tcpPort)
+{
+    validatePort(tcpPort);
+
+    if(managerTcpPort == tcpPort)
+        throw IllegalArgumentException(QObject::tr("Manager and node tcp ports cannot be equal."));
+
+    this->nodeTcpPort = tcpPort;
+}
+
+void Config::validatePort(int port)
+{
+    if(port < 0 || port > 65535)
+        throw IllegalArgumentException(QObject::tr("Port is out of range, passed: %1.").arg(QString::number(port)));
 }

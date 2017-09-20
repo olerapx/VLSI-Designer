@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QDialog>
+#include <QMessageBox>
+#include <QCloseEvent>
 
 #include "config/config.h"
 #include "control/manager/poolmanager.h"

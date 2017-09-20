@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
-    <height>121</height>
+    <width>647</width>
+    <height>148</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -153,16 +153,43 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
-           <widget class="QLabel" name="tcpPortLabel">
+           <widget class="QLabel" name="managerTcpPortLabel">
             <property name="text">
-             <string>TCP</string>
+             <string>Manager TCP</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="tcpPortText">
+           <widget class="QLineEdit" name="managerTcpPortText">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>40000</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="nodeTcpPortLabel">
+            <property name="text">
+             <string>Node TCP</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="nodeTcpPortText">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>

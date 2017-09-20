@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    scanner(config.getTcpPort())
+    scanner(config.getNodeTcpPort())
 {
     ui->setupUi(this);
 
@@ -46,7 +46,7 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 
             if(dialog.exec() || firstTime)
             {
-                manager.setPort(config.getTcpPort());
+                manager.setPort(config.getManagerTcpPort());
 
                 if(config.getMode() == Mode::IPv4)
                     scanner.initIPv4Broadcast(config.getNetworkInterface(), config.getUdpPort());

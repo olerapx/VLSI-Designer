@@ -1,7 +1,7 @@
 #include "networkscanner.h"
 
-NetworkScanner::NetworkScanner(int& tcpPort) :
-    tcpPort(tcpPort)
+NetworkScanner::NetworkScanner(int& nodeTcpPort) :
+    nodeTcpPort(nodeTcpPort)
 {
 
 }
@@ -131,7 +131,7 @@ void NetworkScanner::processScanningDatagram(QByteArray datagram, QHostAddress s
     sendLog(tr("[Client] Sending response to %1.").arg(senderHost.toString()));
 
     datagram.append("@" + QHostInfo::localHostName());
-    datagram.append("@" + QString::number(tcpPort));
+    datagram.append("@" + QString::number(nodeTcpPort));
     prependDatagramType(datagram, DatagramType::Response);
 
     QUdpSocket* udpSocket = new QUdpSocket(this);
