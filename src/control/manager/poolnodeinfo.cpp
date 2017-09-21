@@ -13,3 +13,11 @@ void PoolNodeInfo::setStatus(NodeStatus status)
 {
     this->status = status;
 }
+
+bool PoolNodeInfo::operator ==(const PoolNodeInfo &other)
+{
+    if(address == other.getAddress() && tcpPort == other.getTcpPort())
+        return true;
+
+    return false;
+}

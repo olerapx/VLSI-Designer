@@ -35,7 +35,7 @@ private slots:
     void onSendScheme(Scheme* s);
     void onSendError(QString error);
     void onSendLog(QString log);
-    void onSendFinish();
+    void onFinish();
 
 signals:
     void sendStop();

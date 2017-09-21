@@ -45,7 +45,7 @@ void GeneratorWindow::onSendLog(QString log)
     ui->textBrowser->append(QString("[%1] %2").arg(QTime::currentTime().toString(), log));
 }
 
-void GeneratorWindow::onSendFinish()
+void GeneratorWindow::onFinish()
 {
     disconnect(&generatorThread, &QThread::started, generator, &Generator::onStart);
     disconnect(this, &GeneratorWindow::sendStop, generator, &Generator::onStop);
@@ -53,7 +53,7 @@ void GeneratorWindow::onSendFinish()
     disconnect(generator, &Generator::sendResult, this, &GeneratorWindow::onSendScheme);
     disconnect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
     disconnect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
-    disconnect(generator, &Generator::sendFinish, this, &GeneratorWindow::onSendFinish);
+    disconnect(generator, &Generator::sendFinish, this, &GeneratorWindow::onFinish);
     disconnect(generator, &Generator::sendFinish, &generatorThread, &QThread::quit);
 
     delete generator;
@@ -129,7 +129,7 @@ void GeneratorWindow::on_generateButton_clicked()
         connect(generator, &Generator::sendResult, this, &GeneratorWindow::onSendScheme);
         connect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
         connect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
-        connect(generator, &Generator::sendFinish, this, &GeneratorWindow::onSendFinish);
+        connect(generator, &Generator::sendFinish, this, &GeneratorWindow::onFinish);
         connect(generator, &Generator::sendFinish, &generatorThread, &QThread::quit);
 
         generator->moveToThread(&generatorThread);

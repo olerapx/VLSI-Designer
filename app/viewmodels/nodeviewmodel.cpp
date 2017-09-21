@@ -4,6 +4,14 @@ NodeViewModel::NodeViewModel(QObject* parent, PoolManager& manager) :
     QAbstractTableModel(parent),
     manager(manager)
 {
+    connect(&manager, &PoolManager::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
+    connect(&manager, &PoolManager::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
+}
+
+NodeViewModel::~NodeViewModel()
+{
+    disconnect(&manager, &PoolManager::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
+    disconnect(&manager, &PoolManager::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
 }
 
 int NodeViewModel::rowCount(const QModelIndex&) const
@@ -40,8 +48,10 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
             return QString("%1:%2").arg(info.getAddress().toString(), QString::number(info.getTcpPort()));
         }
     }
+
     if(role == Qt::TextAlignmentRole)
         return Qt::AlignCenter;
+
     return QVariant();
 }
 
@@ -87,4 +97,16 @@ void NodeViewModel::appendRows(QList<PoolNodeInfo>& list, const QModelIndex& par
     manager.getPoolNodesInfo().append(list);
 
     endInsertRows();
+}
+
+void NodeViewModel::onUpdateNodeInfo(PoolNodeInfo& info)
+{
+    int rowIndex = manager.getPoolNodesInfo().indexOf(info);
+    dataChanged(createIndex(rowIndex, 0), createIndex(rowIndex, 3));
+}
+
+void NodeViewModel::onRemoveNodeInfo(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    endRemoveRows();
 }

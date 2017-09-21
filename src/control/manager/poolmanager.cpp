@@ -9,20 +9,79 @@ PoolManager::PoolManager(int selfPort) :
 void PoolManager::onNewConnection(QString, QHostAddress address, int tcpPort)
 {
     transmitter->disconnectFromHost(address, tcpPort);
+
+    sendLog(tr("Got an unexpected new connection from %1:%2. The connection was terminated.")
+            .arg(address.toString(), QString::number(tcpPort)));
+}
+
+void PoolManager::onDisconnected(QString, QHostAddress address, int tcpPort)
+{
+    PoolNodeInfo& info = getInfoByAddressAndPort(address, tcpPort);
+
+    info.setStatus(NodeStatus::NotResponding);
+    sendUpdateNodeInfo(info);
+
+    sendLog(tr("Lost connection with node at %1:%2.")
+            .arg(address.toString(), QString::number(tcpPort)));
+}
+
+void PoolManager::onDataReceived(QByteArray* /*data*/, QHostAddress /*address*/, int /*tcpPort*/)
+{
+    // TODO
 }
 
 void PoolManager::connectToUnconnectedNodes()
 {
     for(PoolNodeInfo& info: poolNodes)
+        connectToNode(info);
+}
+
+
+void PoolManager::enableTransmitter()
+{
+    PoolEntity::enableTransmitter();
+    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
+    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived);
+    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolManager::onDisconnected);
+
+    sendLog(tr("Pool manager is enabled."));
+}
+
+void PoolManager::disableTransmitter()
+{
+    if(transmitter == nullptr)
+        return;
+
+    disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
+    disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived);
+    disconnect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolManager::onDisconnected);
+    PoolEntity::disableTransmitter();
+
+    sendLog(tr("Pool manager is disabled."));
+}
+
+void PoolManager::connectToNode(PoolNodeInfo &info)
+{
+    if(info.getStatus() != NodeStatus::Unconnected)
+        return;
+
+    sendLog(tr("Connecting to %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+
+    info.setStatus(NodeStatus::Connecting);
+    sendUpdateNodeInfo(info);
+
+    if(tryConnect(info))
     {
-        if(info.getStatus() == NodeStatus::Unconnected)
-        {
-            if(tryConnect(info))
-                info.setStatus(NodeStatus::Ready); // TODO: CALL IN MODEL
-            else
-                info.setStatus(NodeStatus::NotResponding);
-        }
+        info.setStatus(NodeStatus::Ready);
+        sendLog(tr("Success."));
     }
+    else
+    {
+        info.setStatus(NodeStatus::NotResponding);
+        sendLog(tr("Connection failed."));
+    }
+
+    sendUpdateNodeInfo(info);
 }
 
 bool PoolManager::tryConnect(PoolNodeInfo& info)
@@ -38,17 +97,33 @@ bool PoolManager::tryConnect(PoolNodeInfo& info)
     }
 }
 
-void PoolManager::enableTransmitter()
+void PoolManager::removeNode(PoolNodeInfo& info)
 {
-    PoolEntity::enableTransmitter();
-    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
+    disconnectFromNode(info);
+
+    int index = poolNodes.indexOf(info);
+    poolNodes.removeAt(index);
+    sendRemoveNodeInfo(index);
 }
 
-void PoolManager::disableTransmitter()
+void PoolManager::disconnectFromNode(PoolNodeInfo& info)
 {
-    if(transmitter == nullptr)
-        return;
+    sendLog(tr("Disconnecting from %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
-    disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
-    PoolEntity::disableTransmitter();
+    transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
+
+    info.setStatus(NodeStatus::Unconnected);
+    sendUpdateNodeInfo(info);
+}
+
+PoolNodeInfo& PoolManager::getInfoByAddressAndPort(QHostAddress address, int port)
+{
+    for(PoolNodeInfo& info: poolNodes)
+    {
+        if(info.getAddress() == address && info.getTcpPort() == port)
+            return info;
+    }
+
+    throw IllegalArgumentException(tr("Trying to access pool node at %1:%2 but node existed.")
+                                   .arg(address.toString(), QString::number(port)));
 }

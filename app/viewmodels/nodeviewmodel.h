@@ -23,6 +23,7 @@ class NodeViewModel : public QAbstractTableModel
 
 public:
     NodeViewModel(QObject* parent, PoolManager& manager);
+    ~NodeViewModel();
 
     int rowCount(const QModelIndex& = QModelIndex()) const override;
     int columnCount(const QModelIndex& = QModelIndex()) const override;
@@ -32,6 +33,10 @@ public:
 
     void appendRow(PoolNodeInfo info, const QModelIndex& parent = QModelIndex());
     void appendRows(QList<PoolNodeInfo>& list, const QModelIndex& parent = QModelIndex());
+
+private slots:
+    void onUpdateNodeInfo(PoolNodeInfo& info);
+    void onRemoveNodeInfo(int index);
 
 private:
     PoolManager& manager;

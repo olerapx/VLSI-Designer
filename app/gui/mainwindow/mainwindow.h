@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QTime>
+#include <QMenu>
 
 #include "config/config.h"
 #include "control/manager/poolmanager.h"
@@ -32,13 +34,26 @@ private slots:
     void onShow();
 
     void on_generatorAction_triggered();
-    void on_networkConfigurationAction_triggered();
-    void changeNetworkConfig(bool firstTime);
-
+    void on_networkConfigurationAction_triggered();    
     void on_addNodesButton_clicked();
 
+    void onTableContextMenuRequested(QPoint pos);
+    void onRemove();
+    void onReconnect();
+
+    void onSendManagerLog(QString log);
+    void onSendNodeLog(QString log);
+
 private:
+    void changeNetworkConfig(bool firstTime);
+    bool tryChangeNetworkConfig(bool firstTime);
+
+    void prependCurrentTime(QString& string);
+    void createTableContextMenu();
+
     Ui::MainWindow *ui;
+    QMenu tableContextMenu;
+    QModelIndex lastContextActionIndex;
 
     PoolManager manager;
     PoolNode node;

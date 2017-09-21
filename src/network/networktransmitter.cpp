@@ -45,13 +45,15 @@ void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
     sendLog(tr("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(),
                                                      socket->getSocket()->peerName()));
 
+    sendDisconnected(socket->getSocket()->peerName(), socket->getSocket()->peerAddress(), socket->getSocket()->peerPort());
+
     disconnect(socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
     disconnect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::onSocketDisconnected);
 
-    delete socket->getSocket();
-    delete socket;
-
     sockets.removeAll(socket);
+
+    delete socket->getSocket();
+    delete socket;   
 }
 
 TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)

@@ -20,8 +20,13 @@ public:
     void enableTransmitter();
     void disableTransmitter();
 
+signals:
+    void sendLog(QString log);
+
 private slots:
     void onNewConnection(QString hostName, QHostAddress address, int tcpPort);
+    void onDisconnected(QString, QHostAddress, int);
+    void onDataReceived(QByteArray*, QHostAddress, int);
 
 private:
     void disconnectFromManager();
