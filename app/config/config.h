@@ -3,15 +3,17 @@
 #include "network/networkscanner.h"
 #include "exception/illegalargumentexception.h"
 
+class ConfigBuilder;
+
 /**
  * @brief The Config class
  * Represents the application configuration.
  */
 class Config
 {
-public:
-    Config(); //TODO: add class ConfigBuilder: read from config.json, init by default on fallback. Make this constructor private, with friend access to builder.
+    friend class ConfigBuilder;
 
+public:
     Mode getMode() { return mode; }
     QHostAddress getMulticastAddress() { return multicastAddress; }
 
@@ -29,6 +31,8 @@ public:
     void setTcpPorts(int managerTcpPort, int nodeTcpPort);
 
 private:
+    Config() {}
+
     void validatePort(int port);
 
     Mode mode;

@@ -1,14 +1,5 @@
 #include "config.h"
 
-Config::Config()
-{
-    setMode(Mode::IPv6);
-    setMulticastAddress(QHostAddress("FF02::1"));
-
-    setUdpPort(40000);
-    setTcpPorts(40000, 40001);
-}
-
 void Config::setMode(Mode mode)
 {
     this->mode = mode;

@@ -4,6 +4,7 @@
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    config(ConfigBuilder::readConfig()),
     scanner(config.getNodeTcpPort())
 {
     ui->setupUi(this);
@@ -107,6 +108,16 @@ void MainWindow::on_addNodesButton_clicked()
         manager.connectToUnconnectedNodes();
     }
 }
+
+void MainWindow::on_setupButton_clicked()
+{
+    SetupSessionDialog dialog;
+    if(dialog.exec())
+    {
+        //TODO: grab parameters
+    }
+}
+
 
 void MainWindow::onTableContextMenuRequested(QPoint pos)
 {

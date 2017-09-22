@@ -9,11 +9,14 @@ HEADERS += \
     $$PWD/algorithms/composition/compositionalgorithmfactory.h \
     $$PWD/algorithms/composition/permutationcomposition/permutationcomposition.h \
     $$PWD/algorithms/decomposition/decompositionalgorithm.h \
+    $$PWD/algorithms/decomposition/decompositionalgorithmfactory.h \
     $$PWD/algorithms/decomposition/serialdecomposition/serialdecomposition.h \
     $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \
     $$PWD/algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h \
     $$PWD/algorithms/placement/primaryplacementalgorithm.h \
+    $$PWD/algorithms/placement/primaryplacementalgorithmfactory.h \
     $$PWD/algorithms/placement/secondaryplacementalgorithm.h \
+    $$PWD/algorithms/placement/secondaryplacementalgorithmfactory.h \
     $$PWD/algorithms/placement/placementresult.h \
     $$PWD/algorithms/placement/elementcoordinate.h \
     $$PWD/algorithms/placement/wirecoordinate.h \
@@ -21,6 +24,7 @@ HEADERS += \
     $$PWD/algorithms/placement/rowwiseplacement/elementheightcomparator.h \
     $$PWD/algorithms/placement/rowpermutationplacement/rowpermutationplacement.h \
     $$PWD/algorithms/routing/routingalgorithm.h \
+    $$PWD/algorithms/routing/routingalgorithmfactory.h \
     $$PWD/algorithms/routing/routingexception.h \
     $$PWD/algorithms/routing/leerouting/leerouting.h \
     $$PWD/algorithms/routing/leerouting/wiredistancecomparator.h \

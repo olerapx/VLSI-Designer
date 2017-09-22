@@ -5,7 +5,7 @@
 #include <QTime>
 #include <QMenu>
 
-#include "config/config.h"
+#include "config/configbuilder.h"
 #include "control/manager/poolmanager.h"
 #include "control/node/poolnode.h"
 #include "network/networkscanner.h"
@@ -13,6 +13,7 @@
 #include "gui/networkconfigurationwindow/networkconfigurationdialog.h"
 #include "gui/generatorwindow/generatorwindow.h"
 #include "gui/addnodesdialog/addnodesdialog.h"
+#include "gui/setupsessiondialog/setupsessiondialog.h"
 
 namespace Ui
 {
@@ -36,13 +37,14 @@ private slots:
     void on_generatorAction_triggered();
     void on_networkConfigurationAction_triggered();    
     void on_addNodesButton_clicked();
+    void on_setupButton_clicked();
 
     void onTableContextMenuRequested(QPoint pos);
     void onRemove();
     void onReconnect();
 
     void onSendManagerLog(QString log);
-    void onSendNodeLog(QString log);
+    void onSendNodeLog(QString log);    
 
 private:
     void changeNetworkConfig(bool firstTime);
@@ -55,12 +57,12 @@ private:
     QMenu tableContextMenu;
     QModelIndex lastContextActionIndex;
 
+    Config config;
+
     PoolManager manager;
-    PoolNode node;
+    PoolNode node;    
 
     NetworkScanner scanner;
 
-    NodeViewModel* nodeViewModel;
-
-    Config config;
+    NodeViewModel* nodeViewModel;    
 };

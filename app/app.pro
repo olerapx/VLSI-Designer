@@ -22,7 +22,9 @@ HEADERS += \
     gui/addnodesdialog/addnodesdialog.h \
     viewmodels/addnodeviewmodel.h \
     config/config.h \
-    gui/networkconfigurationwindow/networkconfigurationdialog.h
+    gui/networkconfigurationwindow/networkconfigurationdialog.h \
+    gui/setupsessiondialog/setupsessiondialog.h \
+    config/configbuilder.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
@@ -31,13 +33,16 @@ SOURCES +=  main.cpp \
     gui/addnodesdialog/addnodesdialog.cpp \
     viewmodels/addnodeviewmodel.cpp \
     config/config.cpp \
-    gui/networkconfigurationwindow/networkconfigurationdialog.cpp
+    gui/networkconfigurationwindow/networkconfigurationdialog.cpp \
+    gui/setupsessiondialog/setupsessiondialog.cpp \
+    config/configbuilder.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \
     gui/generatorwindow/generatorwindow.ui \
     gui/addnodesdialog/addnodesdialog.ui \
-    gui/networkconfigurationwindow/networkconfigurationwindow.ui
+    gui/networkconfigurationwindow/networkconfigurationwindow.ui \
+    gui/setupsessiondialog/setupsessiondialog.ui
 
 TRANSLATIONS = \
     ../resources/localization/app_en_US.ts  \

@@ -1,18 +1,16 @@
 #pragma once
 
-#include <QMap>
-
 #include "algorithms/composition/permutationcomposition/permutationcomposition.h"
 
-static const QMap<QString, QString> algorithmsMap
+static const QList<QString> algorithms
 {
-    {"permutation", QT_TR_NOOP("Permutation composition")}
+    { QObject::tr("Permutation") }
 };
 
 class CompositionAlgorithmFactory
 {
 public:
-   static CompositionAlgorithm* createAlgorithm(QString key, QList<Grid*> grids, Scheme* scheme);
+   static CompositionAlgorithm* createAlgorithm(int index, QList<Grid*> grids, Scheme* scheme);
 
 private:
    CompositionAlgorithmFactory() {}

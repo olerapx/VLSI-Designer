@@ -17,6 +17,17 @@
     </message>
 </context>
 <context>
+    <name>CompositionAlgorithmFactory</name>
+    <message>
+        <source>Cannot instantiate an algorithm with type %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permutation composition</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DecompositionAlgorithm</name>
     <message>
         <source>The scheme cannot contain 0 elements.</source>
@@ -271,7 +282,7 @@
     </message>
     <message>
         <source>Got a new connection from %1:%2.</source>
-        <translation>Новое соединение от %1:%2.</translation>
+        <translation type="vanished">Новое соединение от %1:%2.</translation>
     </message>
     <message>
         <source>Disconnected from %1:%2.</source>
@@ -279,7 +290,7 @@
     </message>
     <message>
         <source>Already connected to %1:%2.</source>
-        <translation>Уже подключено к %1:%2.</translation>
+        <translation type="vanished">Уже подключено к %1:%2.</translation>
     </message>
     <message>
         <source>Cannot connect to %1:%2.</source>
@@ -335,6 +346,79 @@
     <message>
         <source>Building the result grid.</source>
         <translation>Построение результирующего ДРП.</translation>
+    </message>
+</context>
+<context>
+    <name>PoolEntity</name>
+    <message>
+        <source>Cannot set the port while the transmitter is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PoolManager</name>
+    <message>
+        <source>Pool manager is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pool manager is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting to %1:%2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Success.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnecting from %1:%2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying to access pool node at %1:%2 but node existed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Got an unexpected new connection from %1:%2. The connection was terminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lost connection with node at %1:%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PoolNode</name>
+    <message>
+        <source>Pool node is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pool node is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnected from manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Got a new connection from %1:%2 but already have a connected pool manager.The connection was terminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Got a new connection from %1:%2.</source>
+        <translation type="unfinished">Новое соединение от %1:%2.</translation>
+    </message>
+    <message>
+        <source>Lost connection with manager.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
