@@ -1,13 +1,19 @@
 #include "architecture.h"
 
-Architecture::Architecture(DistributionType type)
+Architecture::Architecture(DistributionType type, AlgorithmIndexes indexes)
 {
     setDistributionType(type);
+    setAlgorithmIndexes(indexes);
 }
 
 void Architecture::setDistributionType(DistributionType type)
 {
     this->type = type;
+}
+
+void Architecture::setAlgorithmIndexes(AlgorithmIndexes indexes)
+{
+    this->indexes = indexes;
 }
 
 bool Architecture::operator ==(const Architecture& other)

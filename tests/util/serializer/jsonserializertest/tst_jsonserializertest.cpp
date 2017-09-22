@@ -246,7 +246,13 @@ void JsonSerializerTest::serializeGridTest()
 
 void JsonSerializerTest::serializeArchitectureTest()
 {
-    Architecture* a = new Architecture(DistributionType::Default);
+    AlgorithmIndexes i;
+    i.setCompositionAlgorithmIndex(0);
+    i.setPrimaryPlacementAlgorithmIndex(2);
+    i.setSecondaryPlacementAlgorithmIndex(3);
+    i.setRoutingAlgorithmIndex(4);
+
+    Architecture* a = new Architecture(DistributionType::Default, i);
     a->getModel().append(1);
     a->getModel().append(2);
     a->getModel().append(4);
@@ -259,6 +265,14 @@ void JsonSerializerTest::serializeArchitectureTest()
     QVERIFY(obj.value("model").toArray().size() == 3);
     QVERIFY(obj.value("model").toArray().at(1) == 2);
     QVERIFY(obj.value("distribution-type").toString() == "default");
+
+    obj = obj.value("algorithm-indexes").toObject();
+
+    QVERIFY(obj.value("composition").toInt() == 0);
+    QVERIFY(obj.value("decomposition").toInt() == 0);
+    QVERIFY(obj.value("primary-placement").toInt() == 2);
+    QVERIFY(obj.value("secondary-placement").toInt() == 3);
+    QVERIFY(obj.value("routing").toInt() == 4);
 
     delete a;
 }
@@ -433,6 +447,12 @@ void JsonSerializerTest::deserializeArchitectureTest()
        QVERIFY_EXCEPTION_THROWN(json.deserialize(f.readAll()), IllegalArgumentException);
        f.close();
     }
+
+    QVERIFY(a->getAlgorithmIndexes().getCompositionAlgorithmIndex() == 0);
+    QVERIFY(a->getAlgorithmIndexes().getDecompositionAlgorithmIndex() == 1);
+    QVERIFY(a->getAlgorithmIndexes().getPrimaryPlacementAlgorithmIndex() == 2);
+    QVERIFY(a->getAlgorithmIndexes().getSecondaryPlacementAlgorithmIndex() == 3);
+    QVERIFY(a->getAlgorithmIndexes().getRoutingAlgorithmIndex() == 4);
 
     delete a;
 }

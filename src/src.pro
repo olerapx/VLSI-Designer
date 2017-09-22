@@ -55,6 +55,7 @@ SOURCES += \
     datamodels/grid/routedwireindex.cpp \
     datamodels/architecture/architecture.cpp \
     datamodels/architecture/clientsnumber.cpp \
+    datamodels/architecture/algorithmindexes.cpp \
     exception/exception.cpp \
     util/serializer/serializer.cpp \
     util/serializer/jsonserializer.cpp \

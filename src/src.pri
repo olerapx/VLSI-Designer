@@ -48,6 +48,7 @@ HEADERS += \
     $$PWD/datamodels/grid/cell.h \
     $$PWD/datamodels/grid/wiredata.h \
     $$PWD/datamodels/architecture/architecture.h \
+    $$PWD/datamodels/architecture/algorithmindexes.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \
     $$PWD/exception/threadstoppedexception.h \

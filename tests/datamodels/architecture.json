@@ -1,4 +1,11 @@
 {"architecture": {
 	"model": [2, 3, 2],
-	"distribution-type": "greedy"
+	"distribution-type": "greedy",
+	"algorithm-indexes" : {
+		"composition": 0,
+		"decomposition": 1,
+		"primary-placement": 2,
+		"secondary-placement": 3,
+		"routing": 4	
+	}
 }}

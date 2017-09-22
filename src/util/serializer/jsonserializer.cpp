@@ -217,11 +217,27 @@ QByteArray JsonSerializer::serializeArchitecture(Architecture* a)
     json["model"] = model;
     json["distribution-type"] = distributionTypeMap.key(a->getDistributionType());
 
+    QJsonObject indexes = serializeAlgorithmIndexes(a->getAlgorithmIndexes());
+    json["algorithm-indexes"] = indexes;
+
     QJsonObject res;
     res["architecture"] = json;
 
     QJsonDocument doc(res);
     return doc.toJson();
+}
+
+QJsonObject JsonSerializer::serializeAlgorithmIndexes(AlgorithmIndexes i)
+{
+    QJsonObject json;
+
+    json["composition"] = i.getCompositionAlgorithmIndex();
+    json["decomposition"] = i.getDecompositionAlgorithmIndex();
+    json["primary-placement"] = i.getPrimaryPlacementAlgorithmIndex();
+    json["secondary-placement"] = i.getSecondaryPlacementAlgorithmIndex();
+    json["routing"] = i.getRoutingAlgorithmIndex();
+
+    return json;
 }
 
 Serializable* JsonSerializer::deserialize(QByteArray jsonData)
@@ -453,11 +469,27 @@ Architecture* JsonSerializer::deserializeArchitecture(QJsonObject obj)
     else
         throw IllegalArgumentException(QObject::tr("Invalid distribution type specified, got: %1.").arg(t));
 
-    Architecture* architecture = new Architecture(type);
+    QJsonObject indexes = obj.value("algorithm-indexes").toObject();
+    AlgorithmIndexes i = deserializeAlgorithmIndexes(indexes);
+
+    Architecture* architecture = new Architecture(type, i);
 
     QJsonArray model = obj.value("model").toArray();
     for (QJsonValue val: model)
         architecture->getModel().append(val.toInt());
 
     return architecture;
+}
+
+AlgorithmIndexes JsonSerializer::deserializeAlgorithmIndexes(QJsonObject obj)
+{
+    AlgorithmIndexes res;
+
+    res.setCompositionAlgorithmIndex(obj.value("composition").toInt());
+    res.setDecompositionAlgorithmIndex(obj.value("decomposition").toInt());
+    res.setPrimaryPlacementAlgorithmIndex(obj.value("primary-placement").toInt());
+    res.setSecondaryPlacementAlgorithmIndex(obj.value("secondary-placement").toInt());
+    res.setRoutingAlgorithmIndex(obj.value("routing").toInt());
+
+    return res;
 }

@@ -51,6 +51,7 @@ protected:
     QDataStream& serializeWireData(WireData d, QDataStream& stream);
 
     QByteArray serializeArchitecture(Architecture* a);
+    QDataStream& serializeAlgorithmIndexes(AlgorithmIndexes i, QDataStream& stream);
 
 
     Library* deserializeLibrary(QDataStream& stream);
@@ -67,4 +68,5 @@ protected:
     WireData deserializeWireData(QDataStream& stream);
 
     Architecture* deserializeArchitecture(QDataStream& stream);
+    AlgorithmIndexes deserializeAlgorithmIndexes(QDataStream& stream);
 };

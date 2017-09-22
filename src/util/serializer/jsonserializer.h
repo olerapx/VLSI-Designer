@@ -53,6 +53,7 @@ protected:
     QJsonObject serializeWireData(WireData data);
 
     QByteArray serializeArchitecture(Architecture* a);
+    QJsonObject serializeAlgorithmIndexes(AlgorithmIndexes i);
 
 
     Library* deserializeLibrary(QJsonObject obj);
@@ -69,4 +70,5 @@ protected:
     WireData deserializeWireData(QJsonObject obj);
 
     Architecture* deserializeArchitecture(QJsonObject obj);
+    AlgorithmIndexes deserializeAlgorithmIndexes(QJsonObject obj);
 };

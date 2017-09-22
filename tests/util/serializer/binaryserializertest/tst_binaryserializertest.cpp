@@ -180,7 +180,13 @@ void BinarySerializerTest::gridTest()
 
 void BinarySerializerTest::architectureTest()
 {
-    Architecture* a = new Architecture(DistributionType::Default);
+    AlgorithmIndexes i;
+    i.setCompositionAlgorithmIndex(0);
+    i.setPrimaryPlacementAlgorithmIndex(2);
+    i.setSecondaryPlacementAlgorithmIndex(3);
+    i.setRoutingAlgorithmIndex(4);
+
+    Architecture* a = new Architecture(DistributionType::Default, i);
     a->getModel().append(1);
     a->getModel().append(2);
     a->getModel().append(4);
@@ -193,6 +199,8 @@ void BinarySerializerTest::architectureTest()
     QVERIFY(deserializedArchitecture->getModel().size() == a->getModel().size());
 
     QVERIFY(deserializedArchitecture->getModel()[1] == a->getModel()[1]);
+
+    QVERIFY(deserializedArchitecture->getAlgorithmIndexes() == i);
 
     delete a;
     delete deserializedArchitecture;
