@@ -33,6 +33,11 @@ class NetworkScanner : public QObject
     Q_OBJECT
 
 public:
+    /**
+     * @brief NetworkScanner
+     * Constructs the object.
+     * @param nodeTcpPort - the reference to the pool node port which will be transmitted in auth response.
+     */
     NetworkScanner(int& nodeTcpPort);
     ~NetworkScanner();
 
@@ -71,7 +76,7 @@ public:
     bool isStopped() const { return this->stopped; }
 
 signals:
-    void sendLog (QString data);
+    void sendLog(QString data);
 
     /**
      * @brief Emits when a new host is discovered.

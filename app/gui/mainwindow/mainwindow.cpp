@@ -53,14 +53,14 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 {
     bool success = false;
 
-    manager.disableTransmitter();
-    node.disableTransmitter();
+    manager.disable();
+    node.disable();
 
     while(!success)
         success = tryChangeNetworkConfig(firstTime);
 
-    manager.enableTransmitter();
-    node.enableTransmitter();
+    manager.enable();
+    node.enable();
 }
 
 bool MainWindow::tryChangeNetworkConfig(bool firstTime)

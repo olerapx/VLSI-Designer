@@ -72,7 +72,6 @@ signals:
     /**
      * @brief sendNewConnection
      * Emits when a new connection is established.
-     *
      */
     void sendNewConnection(QString hostName, QHostAddress address, int tcpPort);
 

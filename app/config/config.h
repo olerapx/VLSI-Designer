@@ -10,7 +10,7 @@
 class Config
 {
 public:
-    Config(); //TODO: add class ConfigSerializer: read from config.json, init by default on fallback
+    Config(); //TODO: add class ConfigBuilder: read from config.json, init by default on fallback. Make this constructor private, with friend access to builder.
 
     Mode getMode() { return mode; }
     QHostAddress getMulticastAddress() { return multicastAddress; }

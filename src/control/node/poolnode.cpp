@@ -12,6 +12,42 @@ PoolNode::~PoolNode()
     delete poolManager;
 }
 
+void PoolNode::enable()
+{
+    if(transmitter != nullptr)
+        return;
+
+    PoolEntity::enableTransmitter();
+    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection);
+    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
+    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
+
+    sendLog(tr("Pool node is enabled."));
+}
+
+void PoolNode::disable()
+{
+    if(transmitter == nullptr)
+        return;
+
+    disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection);
+    disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
+    disconnect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
+    PoolEntity::disableTransmitter();
+
+    sendLog(tr("Pool node is disabled."));
+}
+
+void PoolNode::disconnectFromManager()
+{
+    transmitter->disconnectFromHost(poolManager->getAddress(), poolManager->getTcpPort());
+
+    sendLog(tr("Disconnected from manager."));
+
+    delete poolManager;
+    poolManager = nullptr;
+}
+
 void PoolNode::onNewConnection(QString hostName, QHostAddress address, int tcpPort)
 {
     if(poolManager != nullptr)
@@ -39,37 +75,4 @@ void PoolNode::onDisconnected(QString, QHostAddress, int)
 void PoolNode::onDataReceived(QByteArray* /*data*/, QHostAddress /*address*/, int /*tcpPort*/)
 {
     // TODO
-}
-
-void PoolNode::disconnectFromManager()
-{
-    transmitter->disconnectFromHost(poolManager->getAddress(), poolManager->getTcpPort());
-
-    sendLog(tr("Disconnected from manager."));
-
-    delete poolManager;
-    poolManager = nullptr;
-}
-
-void PoolNode::enableTransmitter()
-{
-    PoolEntity::enableTransmitter();
-    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection);
-    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
-    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
-
-    sendLog(tr("Pool node is enabled."));
-}
-
-void PoolNode::disableTransmitter()
-{
-    if(transmitter == nullptr)
-        return;
-
-    disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection);
-    disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
-    disconnect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
-    PoolEntity::disableTransmitter();
-
-    sendLog(tr("Pool node is disabled."));
 }

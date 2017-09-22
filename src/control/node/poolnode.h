@@ -6,19 +6,25 @@
 /**
  * @brief The PoolNode class
  * Represents a node performing a design process.
+ * In order to get node working, you should call enable().
  */
 class PoolNode : public PoolEntity
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief PoolNode
+     * Constructs the object.
+     * @param selfPort - the port the transmitter will be set to.
+     */
     PoolNode(int selfPort = 0);
     ~PoolNode();
 
-    PoolManagerInfo* getPoolManagerInfo() { return poolManager; }
+    void enable();
+    void disable();
 
-    void enableTransmitter();
-    void disableTransmitter();
+    PoolManagerInfo* getPoolManagerInfo() { return poolManager; }
 
 signals:
     void sendLog(QString log);

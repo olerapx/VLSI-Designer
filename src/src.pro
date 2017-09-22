@@ -13,6 +13,7 @@ include(src.pri)
 SOURCES += \
     threadable.cpp \
     algorithms/composition/compositionalgorithm.cpp \
+    algorithms/composition/compositionalgorithmfactory.cpp \
     algorithms/composition/permutationcomposition/permutationcomposition.cpp \
     algorithms/decomposition/decompositionalgorithm.cpp \
     algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \

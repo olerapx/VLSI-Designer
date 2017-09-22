@@ -15,8 +15,8 @@ public:
     int getSelfPort() { return selfPort; }
     void setSelfPort(int selfPort);
 
-    virtual void enableTransmitter();
-    virtual void disableTransmitter();
+    void enableTransmitter();
+    void disableTransmitter();
 
     bool isTransmitterEnabled() { return (transmitter != nullptr); }
 
