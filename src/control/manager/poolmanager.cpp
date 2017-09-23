@@ -3,7 +3,12 @@
 PoolManager::PoolManager(int selfPort) :
     PoolEntity(selfPort)
 {
+    data = new SessionData();
+}
 
+PoolManager::~PoolManager()
+{
+    delete data;
 }
 
 void PoolManager::enable()
@@ -107,6 +112,12 @@ PoolNodeInfo& PoolManager::getInfoByAddressAndPort(QHostAddress address, int por
 
     throw IllegalArgumentException(tr("Trying to access pool node at %1:%2 but node existed.")
                                    .arg(address.toString(), QString::number(port)));
+}
+
+void PoolManager::setSessionData(SessionData* data)
+{
+    delete this->data;
+    this->data = data;
 }
 
 void PoolManager::onNewConnection(QString, QHostAddress address, int tcpPort)

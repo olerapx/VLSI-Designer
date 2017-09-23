@@ -41,3 +41,16 @@ void Config::validatePort(int port)
     if(port < 0 || port > 65535)
         throw IllegalArgumentException(QObject::tr("Port is out of range, passed: %1.").arg(QString::number(port)));
 }
+
+QString Config::getLibrariesPath()
+{
+    QDir dir = QDir::currentPath();
+    dir.cdUp();
+
+    return dir.absolutePath() + "/" + librariesPath;
+}
+
+void Config::setLibrariesPath(QString path)
+{
+    this->librariesPath = path;
+}

@@ -158,30 +158,30 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="splittingGroup">
+    <widget class="QGroupBox" name="distributionGroup">
      <property name="title">
-      <string>Splitting</string>
+      <string>Distribution</string>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
-       <widget class="QLabel" name="splittingTypeLabel">
+       <widget class="QLabel" name="distributionTypeLabel">
         <property name="text">
          <string>Type</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="splittingTypeBox"/>
+       <widget class="QComboBox" name="distributionTypeBox"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="splittingConfigurationLabel">
+       <widget class="QLabel" name="distributionModelLabel">
         <property name="text">
-         <string>Configuration</string>
+         <string>Model</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="splittingConfigurationText">
+       <widget class="QLineEdit" name="distributionModelText">
         <property name="text">
          <string>2, 2, 2</string>
         </property>
@@ -223,6 +223,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="okButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -248,8 +251,8 @@
   <tabstop>primaryPlacementBox</tabstop>
   <tabstop>secondaryPlacementBox</tabstop>
   <tabstop>routingBox</tabstop>
-  <tabstop>splittingTypeBox</tabstop>
-  <tabstop>splittingConfigurationText</tabstop>
+  <tabstop>distributionTypeBox</tabstop>
+  <tabstop>distributionModelText</tabstop>
   <tabstop>okButton</tabstop>
  </tabstops>
  <resources/>

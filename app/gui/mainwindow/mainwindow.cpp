@@ -95,7 +95,7 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
 
 void MainWindow::on_generatorAction_triggered()
 {
-    GeneratorWindow* window = new GeneratorWindow(this);
+    GeneratorWindow* window = new GeneratorWindow(config, this);
     window->show();
 }
 
@@ -111,10 +111,11 @@ void MainWindow::on_addNodesButton_clicked()
 
 void MainWindow::on_setupButton_clicked()
 {
-    SetupSessionDialog dialog;
+    SetupSessionDialog dialog(config, manager);
     if(dialog.exec())
     {
-        //TODO: grab parameters
+        manager.setSessionData(new SessionData(dialog.getScheme(), dialog.getArchitecture(), dialog.getLibraries()));
+        ui->startButton->setEnabled(true);
     }
 }
 

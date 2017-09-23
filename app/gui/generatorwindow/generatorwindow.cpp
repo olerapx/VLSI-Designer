@@ -1,9 +1,10 @@
 #include "generatorwindow.h"
 #include "ui_generatorwindow.h"
 
-GeneratorWindow::GeneratorWindow(QWidget *parent) :
+GeneratorWindow::GeneratorWindow(Config& config, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::GeneratorWindow)
+    ui(new Ui::GeneratorWindow),
+    config(config)
 {
     ui->setupUi(this);
     this->setFixedSize(this->sizeHint());
@@ -98,8 +99,7 @@ void GeneratorWindow::setValidators()
 
 void GeneratorWindow::on_librariesButton_clicked()
 {
-    QDir dir = QDir::currentPath();
-    libraryFiles = QFileDialog::getOpenFileNames(this, tr("Libraries choosing"), dir.absolutePath(), tr("All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)"));
+    libraryFiles = QFileDialog::getOpenFileNames(this, tr("Libraries choosing"), config.getLibrariesPath(), tr("All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)"));
 
     QString files = "";
 

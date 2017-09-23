@@ -15,5 +15,7 @@ Config ConfigBuilder::createDefault()
     config.setUdpPort(40000);
     config.setTcpPorts(40000, 40001);
 
+    config.setLibrariesPath("libraries");
+
     return config;
 }

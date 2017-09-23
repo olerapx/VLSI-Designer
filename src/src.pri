@@ -27,6 +27,7 @@ HEADERS += \
     $$PWD/control/poolentity.h \
     $$PWD/control/manager/poolmanager.h \
     $$PWD/control/manager/poolnodeinfo.h \
+    $$PWD/control/manager/sessiondata.h \
     $$PWD/control/node/poolnode.h \
     $$PWD/control/node/poolmanagerinfo.h \
     $$PWD/network/networkscanner.h \

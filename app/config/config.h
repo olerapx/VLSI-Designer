@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QDir>
+
 #include "network/networkscanner.h"
 #include "exception/illegalargumentexception.h"
 
@@ -30,6 +32,9 @@ public:
     void setUdpPort(int udpPort);
     void setTcpPorts(int managerTcpPort, int nodeTcpPort);
 
+    QString getLibrariesPath();
+    void setLibrariesPath(QString path);
+
 private:
     Config() {}
 
@@ -43,4 +48,6 @@ private:
     int udpPort;
     int managerTcpPort;
     int nodeTcpPort;
+
+    QString librariesPath;
 };

@@ -3,6 +3,7 @@
 #include "control/poolentity.h"
 #include "poolnodeinfo.h"
 #include "exception/illegalargumentexception.h"
+#include "sessiondata.h"
 
 /**
  * @brief The PoolManager class
@@ -19,7 +20,8 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolManager(int selfPort = 0);   
+    PoolManager(int selfPort = 0);
+    ~PoolManager();
 
     void enable();
     void disable();
@@ -30,6 +32,9 @@ public:
     void removeNode(PoolNodeInfo& info);
 
     QList<PoolNodeInfo>& getPoolNodesInfo() { return poolNodes; }
+
+    SessionData* getSessionData() { return data; }
+    void setSessionData(SessionData* data);
 
 signals:
     void sendUpdateNodeInfo(PoolNodeInfo& info);
@@ -48,4 +53,5 @@ private:
     void disconnectFromNode(PoolNodeInfo& info);
 
     QList<PoolNodeInfo> poolNodes;
+    SessionData* data;
 };

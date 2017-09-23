@@ -22,5 +22,4 @@ public:
 
 private:
     QList<PoolNodeInfo>& nodes;
-    int port;
 };

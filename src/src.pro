@@ -33,6 +33,7 @@ SOURCES += \
     control/poolentity.cpp \
     control/manager/poolmanager.cpp \
     control/manager/poolnodeinfo.cpp \
+    control/manager/sessiondata.cpp \
     control/node/poolnode.cpp \
     control/node/poolmanagerinfo.cpp \
     network/networkscanner.cpp \

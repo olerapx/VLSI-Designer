@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QTime>
 
+#include "config/config.h"
 #include "generator/generator.h"
 #include "util/serializer/serializerstrategy.h"
 
@@ -19,7 +20,7 @@ class GeneratorWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GeneratorWindow(QWidget *parent = 0);
+    explicit GeneratorWindow(Config& config, QWidget *parent = 0);
     ~GeneratorWindow();
 
 protected:
@@ -47,6 +48,8 @@ private:
     void saveScheme(Scheme* s);
 
     Ui::GeneratorWindow *ui;
+
+    Config& config;
 
     QStringList libraryFiles;
     QList<Library*> libraries;
