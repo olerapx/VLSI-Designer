@@ -13,17 +13,13 @@ include(src.pri)
 SOURCES += \
     threadable.cpp \
     algorithms/composition/compositionalgorithm.cpp \
-    algorithms/composition/compositionalgorithmfactory.cpp \
     algorithms/composition/permutationcomposition/permutationcomposition.cpp \
     algorithms/decomposition/decompositionalgorithm.cpp \
-    algorithms/decomposition/decompositionalgorithmfactory.cpp \
     algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \
     algorithms/decomposition/serialdecomposition/schemevertex.cpp \
     algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
     algorithms/placement/primaryplacementalgorithm.cpp \
-    algorithms/placement/primaryplacementalgorithmfactory.cpp \
     algorithms/placement/secondaryplacementalgorithm.cpp \
-    algorithms/placement/secondaryplacementalgorithmfactory.cpp \
     algorithms/placement/placementresult.cpp \
     algorithms/placement/elementcoordinate.cpp \
     algorithms/placement/wirecoordinate.cpp \
@@ -31,7 +27,6 @@ SOURCES += \
     algorithms/placement/rowwiseplacement/elementheightcomparator.cpp \
     algorithms/placement/rowpermutationplacement/rowpermutationplacement.cpp \
     algorithms/routing/routingalgorithm.cpp \
-    algorithms/routing/routingalgorithmfactory.cpp \
     algorithms/routing/leerouting/leerouting.cpp \
     algorithms/routing/leerouting/wiredistancecomparator.cpp \
     algorithms/routing/leerouting/pointdistancecomparator.cpp \
@@ -57,7 +52,7 @@ SOURCES += \
     datamodels/architecture/clientsnumber.cpp \
     datamodels/architecture/algorithmindexes.cpp \
     exception/exception.cpp \
-    util/serializer/serializer.cpp \
+    util/serializer/serializerstrategy.cpp \
     util/serializer/jsonserializer.cpp \
     util/serializer/binaryserializer.cpp \
     util/misc/libraryutils.cpp \
@@ -69,7 +64,12 @@ SOURCES += \
     generator/generator.cpp \
     generator/nodeelement.cpp \
     util/renderer/gridrenderer.cpp \
-    util/aliaser/aliaser.cpp
+    util/aliaser/aliaser.cpp \
+    algorithms/composition/compositionstrategy.cpp \
+    algorithms/decomposition/decompositionstrategy.cpp \
+    algorithms/placement/primaryplacementstrategy.cpp \
+    algorithms/placement/secondaryplacementstrategy.cpp \
+    algorithms/routing/routingstrategy.cpp
 
 TRANSLATIONS = \
     ../resources/localization/src_en_US.ts  \

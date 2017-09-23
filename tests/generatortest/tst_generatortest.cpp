@@ -45,7 +45,7 @@ void GeneratorTest::readLibraries()
     QFile f(datamodelsDir+"/datamodels/library_generator.json");
     f.open(QIODevice::ReadOnly);
     JsonSerializer json;
-    libraries.append(static_cast<Library*>(json.deserialize(f.readAll())));
+    libraries.append(dynamic_cast<Library*>(json.deserialize(f.readAll())));
     f.close();
 }
 

@@ -30,7 +30,7 @@ void GeneratorWindow::closeEvent(QCloseEvent* event)
 
 void GeneratorWindow::onSendScheme(Scheme* s)
 {
-    saveScheme(*s);
+    saveScheme(s);
 
     delete s;
 }
@@ -145,23 +145,22 @@ void GeneratorWindow::on_generateButton_clicked()
 
 GeneratorParameters GeneratorWindow::buildParameters()
 {
-    JsonSerializer jsonSerializer;
-    BinarySerializer binarySerializer;
-
     for(QString file: libraryFiles)
     {
         QFile f(file);
+
+        Serializer* serializer = SerializerStrategy::createSerializer(f);
+
         f.open(QIODevice::ReadOnly);
-
-        QFileInfo info(f);
         Library* l;
+        l = dynamic_cast<Library*>(serializer->deserialize(f.readAll()));
 
-        if(info.suffix().toLower() == "bin")
-            l = static_cast<Library*>(binarySerializer.deserialize(f.readAll()));
-        else
-            l = static_cast<Library*>(jsonSerializer.deserialize(f.readAll()));
+        if(l == nullptr)
+            throw Exception(tr("The chosen file does not contain a library."));
 
         f.close();
+
+        delete serializer;
 
         libraries.append(l);
     }
@@ -183,12 +182,10 @@ GeneratorParameters GeneratorWindow::buildParameters()
     return param;
 }
 
-void GeneratorWindow::saveScheme(Scheme s)
+void GeneratorWindow::saveScheme(Scheme* s)
 {
     onSendLog(tr("Serialization..."));
 
-    JsonSerializer jsonSerializer;
-    BinarySerializer binarySerializer;
     QByteArray array;
 
     QDir dir = QDir::currentPath();
@@ -199,16 +196,14 @@ void GeneratorWindow::saveScheme(Scheme s)
         return;
 
     QFile f(file);
+
+    Serializer* serializer = SerializerStrategy::createSerializer(f);
+    array = serializer->serialize(s);
+
+    delete serializer;
+
     f.open(QIODevice::WriteOnly);
-
-    QFileInfo info(f);
-    if(info.suffix().toLower() == "bin")
-        array = binarySerializer.serialize(&s);
-    else
-        array = jsonSerializer.serialize(&s);
-
     f.write(array);
-
     f.close();
 }
 

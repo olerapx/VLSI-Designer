@@ -1,6 +1,11 @@
-#include "routingalgorithmfactory.h"
+#include "routingstrategy.h"
 
-RoutingAlgorithm* RoutingAlgorithmFactory::createAlgorithm(int index, Grid* grid, Scheme* scheme, int maxExtensionAttempts)
+RoutingStrategy::RoutingStrategy()
+{
+    algorithms.append(QObject::tr("Lee algorithm"));
+}
+
+RoutingAlgorithm* RoutingStrategy::createAlgorithm(int index, Grid* grid, Scheme* scheme, int maxExtensionAttempts)
 {
     switch(index)
     {

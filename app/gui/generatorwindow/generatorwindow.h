@@ -7,8 +7,7 @@
 #include <QTime>
 
 #include "generator/generator.h"
-#include "util/serializer/binaryserializer.h"
-#include "util/serializer/jsonserializer.h"
+#include "util/serializer/serializerstrategy.h"
 
 namespace Ui
 {
@@ -45,7 +44,7 @@ private:
 
     GeneratorParameters buildParameters();
 
-    void saveScheme(Scheme s);
+    void saveScheme(Scheme* s);
 
     Ui::GeneratorWindow *ui;
 

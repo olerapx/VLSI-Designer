@@ -59,7 +59,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>Choose libraries</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -68,7 +68,7 @@
          <bool>true</bool>
         </property>
         <property name="placeholderText">
-         <string>Выберите библиотеки</string>
+         <string>Choose libraries</string>
         </property>
        </widget>
       </item>

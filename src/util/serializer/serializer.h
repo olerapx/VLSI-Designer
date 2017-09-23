@@ -58,7 +58,7 @@ class Serializer
 {
 public:
     Serializer() {}
-    virtual ~Serializer() = 0;
+    virtual ~Serializer() {}
 
     virtual QByteArray serialize(Serializable* s) = 0;
     virtual Serializable* deserialize(QByteArray data) = 0;

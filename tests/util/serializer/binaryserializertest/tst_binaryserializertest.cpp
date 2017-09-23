@@ -58,7 +58,7 @@ void BinarySerializerTest::libraryTest()
     BinarySerializer serializer;
 
     QByteArray arr = serializer.serialize(l);
-    Library* deserializedLibrary = static_cast<Library*>(serializer.deserialize(arr));
+    Library* deserializedLibrary = dynamic_cast<Library*>(serializer.deserialize(arr));
 
     QVERIFY(deserializedLibrary->getId() == l->getId());
     QVERIFY(deserializedLibrary->getName() == l->getName());
@@ -102,7 +102,7 @@ void BinarySerializerTest::schemeTest()
 
     BinarySerializer serializer;
     QByteArray array = serializer.serialize(s);
-    Scheme* deserializedScheme = static_cast<Scheme*>(serializer.deserialize(array));
+    Scheme* deserializedScheme = dynamic_cast<Scheme*>(serializer.deserialize(array));
 
     QVERIFY(deserializedScheme->getUsedLibraries().size() == s->getUsedLibraries().size());
     QVERIFY(deserializedScheme->getElements().size() == s->getElements().size());
@@ -156,7 +156,7 @@ void BinarySerializerTest::gridTest()
 
     BinarySerializer serializer;
     QByteArray array = serializer.serialize(g);
-    Grid* deserializedGrid = static_cast<Grid*>(serializer.deserialize(array));
+    Grid* deserializedGrid = dynamic_cast<Grid*>(serializer.deserialize(array));
 
     QVERIFY(deserializedGrid->getRoutedWires() == g->getRoutedWires());
     QVERIFY(deserializedGrid->getRoutedWires()[2] == g->getRoutedWires()[2]);
@@ -193,7 +193,7 @@ void BinarySerializerTest::architectureTest()
 
     BinarySerializer serializer;
     QByteArray array = serializer.serialize(a);
-    Architecture* deserializedArchitecture = static_cast<Architecture*>(serializer.deserialize(array));
+    Architecture* deserializedArchitecture = dynamic_cast<Architecture*>(serializer.deserialize(array));
 
     QVERIFY(deserializedArchitecture->getDistributionType() == a->getDistributionType());
     QVERIFY(deserializedArchitecture->getModel().size() == a->getModel().size());

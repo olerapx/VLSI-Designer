@@ -300,7 +300,7 @@ void JsonSerializerTest::deserializeLibraryTest()
         QFile f(datamodelsDir+"/library.json");
         f.open(QIODevice::ReadOnly);
 
-        l = static_cast<Library*>(json.deserialize(f.readAll()));
+        l = dynamic_cast<Library*>(json.deserialize(f.readAll()));
         f.close();
     }
 
@@ -340,7 +340,7 @@ void JsonSerializerTest::deserializeSchemeTest()
         QFile f(datamodelsDir+"/scheme.json");
         f.open(QIODevice::ReadOnly);
 
-        s = static_cast<Scheme*>(json.deserialize(f.readAll()));
+        s = dynamic_cast<Scheme*>(json.deserialize(f.readAll()));
         f.close();
     }
 
@@ -384,7 +384,7 @@ void JsonSerializerTest::deserializeGridTest()
         QFile f(datamodelsDir+"/grid.json");
         f.open(QIODevice::ReadOnly);
 
-        g = static_cast<Grid*>(json.deserialize(f.readAll()));
+        g = dynamic_cast<Grid*>(json.deserialize(f.readAll()));
         f.close();
     }
 
@@ -432,7 +432,7 @@ void JsonSerializerTest::deserializeArchitectureTest()
         QFile f(datamodelsDir+"/architecture.json");
         f.open(QIODevice::ReadOnly);
 
-        a = static_cast<Architecture*>(json.deserialize(f.readAll()));
+        a = dynamic_cast<Architecture*>(json.deserialize(f.readAll()));
         f.close();
     }
 

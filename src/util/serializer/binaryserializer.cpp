@@ -4,13 +4,13 @@ QByteArray BinarySerializer::serialize(Serializable* s)
 {
     const std::type_info& info = typeid(*s);
     if (info == typeid(Library))
-        return serializeLibrary(static_cast<Library*>(s));
+        return serializeLibrary(dynamic_cast<Library*>(s));
     else if (info == typeid(Scheme))
-        return serializeScheme(static_cast<Scheme*>(s));
+        return serializeScheme(dynamic_cast<Scheme*>(s));
     else if (info == typeid(Grid))
-        return serializeGrid(static_cast<Grid*>(s));
+        return serializeGrid(dynamic_cast<Grid*>(s));
     else if (info == typeid(Architecture))
-        return serializeArchitecture(static_cast<Architecture*>(s));
+        return serializeArchitecture(dynamic_cast<Architecture*>(s));
     else
         throw IllegalArgumentException(QObject::tr("The passed object's type is not supported: %1.").arg(info.name()));
 }
