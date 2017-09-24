@@ -88,8 +88,6 @@ void NetworkScanner::deleteSockets()
     upstreamSocket->close();
     downstreamSocket->close();
 
-    disconnect(downstreamSocket, &QUdpSocket::readyRead, this, &NetworkScanner::processDatagrams);
-
     delete upstreamSocket;
     delete downstreamSocket;
 }
@@ -157,9 +155,9 @@ void NetworkScanner::processResponseDatagram(QByteArray datagram, QHostAddress s
 
     QString datagramString = QString(datagram);
 
-    QString token = datagramString.section("@", 0, 0);
+    QUuid token(datagramString.section("@", 0, 0));
 
-    if(token == currentScanToken.toUtf8())
+    if(token == currentScanToken)
     {
         QString hostName = datagramString.section("@", 1, 1);
         int hostTcpPort = datagramString.section("@", 2, 2).toInt();
@@ -180,11 +178,11 @@ void NetworkScanner::scanNetwork()
 
     stopped = false;
 
-    currentScanToken = QUuid::createUuid().toString();
+    currentScanToken = QUuid::createUuid();
 
-    sendLog(tr("[Server] Sending auth request with token: %1.").arg(currentScanToken));
+    sendLog(tr("[Server] Sending auth request with token: %1.").arg(currentScanToken.toString()));
 
-    QByteArray data = currentScanToken.toUtf8();
+    QByteArray data = currentScanToken.toString().toUtf8();
     prependDatagramType(data, DatagramType::Scan);
 
     upstreamSocket->writeDatagram(data.data(), data.size(), scanningAddress, port);

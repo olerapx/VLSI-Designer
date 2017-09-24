@@ -48,15 +48,6 @@ void GeneratorWindow::onSendLog(QString log)
 
 void GeneratorWindow::onFinish()
 {
-    disconnect(&generatorThread, &QThread::started, generator, &Generator::onStart);
-    disconnect(this, &GeneratorWindow::sendStop, generator, &Generator::onStop);
-
-    disconnect(generator, &Generator::sendResult, this, &GeneratorWindow::onSendScheme);
-    disconnect(generator, &Generator::sendError, this, &GeneratorWindow::onSendError);
-    disconnect(generator, &Generator::sendLog, this, &GeneratorWindow::onSendLog);
-    disconnect(generator, &Generator::sendFinish, this, &GeneratorWindow::onFinish);
-    disconnect(generator, &Generator::sendFinish, &generatorThread, &QThread::quit);
-
     delete generator;
     generator = nullptr;
 

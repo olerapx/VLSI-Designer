@@ -31,6 +31,9 @@ SOURCES += \
     algorithms/routing/leerouting/wiredistancecomparator.cpp \
     algorithms/routing/leerouting/pointdistancecomparator.cpp \
     control/poolentity.cpp \
+    control/command/command.cpp \
+    control/command/commanddispatcher.cpp \
+    control/manager/commandhistoryentry.cpp \
     control/manager/poolmanager.cpp \
     control/manager/poolnodeinfo.cpp \
     control/manager/sessiondata.cpp \

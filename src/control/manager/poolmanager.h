@@ -4,6 +4,7 @@
 #include "poolnodeinfo.h"
 #include "exception/illegalargumentexception.h"
 #include "sessiondata.h"
+#include "commandhistoryentry.h"
 
 /**
  * @brief The PoolManager class
@@ -42,9 +43,15 @@ signals:
     void sendLog(QString log);
 
 private slots:
-    void onNewConnection(QString, QHostAddress address, int tcpPort);
+    void onNewConnection(QHostAddress address, int tcpPort);
     void onDisconnected(QString, QHostAddress, int tcpPort);
-    void onDataReceived(QByteArray*, QHostAddress, int);
+    void onDataReceived(QByteArray* data, QHostAddress, int);
+
+    void onSendVersion(QUuid uuid, double version);
+    CommandHistoryEntry& getCommandHistoryEntry(QUuid uuid);
+
+protected:
+    void connectDispatcher();
 
 private:
     bool tryConnect(PoolNodeInfo& info);
@@ -52,6 +59,11 @@ private:
 
     void disconnectFromNode(PoolNodeInfo& info);
 
+    void sendCommand(PoolNodeInfo& info, CommandType type, QByteArray* body = new QByteArray());
+    void sendResponse(PoolNodeInfo& info, CommandType type, QUuid uuid, QByteArray* body = new QByteArray());
+
     QList<PoolNodeInfo> poolNodes;
     SessionData* data;
+
+    QList<CommandHistoryEntry> sentCommands;
 };

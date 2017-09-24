@@ -10,14 +10,12 @@
 class PoolManagerInfo
 {
 public:
-    PoolManagerInfo(QString hostName, QHostAddress address, int tcpPort);
+    PoolManagerInfo(QHostAddress address, int tcpPort);
 
-    QString getHostName() const { return hostName; }
     QHostAddress getAddress() const { return address; }
     int getTcpPort() const { return tcpPort; }
 
 private:
-    QString hostName;
     QHostAddress address;
     int tcpPort;
 };

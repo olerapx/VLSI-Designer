@@ -12,8 +12,6 @@ NetworkTransmitter::~NetworkTransmitter()
 {
     for(TcpSocket* socket: sockets)
         removeTcpSocket(socket);
-
-    disconnect(&server, &QTcpServer::newConnection, this, &NetworkTransmitter::onNewConnection);
 }
 
 void NetworkTransmitter::onNewConnection()
@@ -21,7 +19,7 @@ void NetworkTransmitter::onNewConnection()
     QTcpSocket* qsocket = server.nextPendingConnection();
     addTcpSocket(qsocket);
 
-    sendNewConnection(qsocket->peerName(), qsocket->peerAddress(), qsocket->peerPort());
+    sendNewConnection(qsocket->peerAddress(), qsocket->peerPort());
 }
 
 TcpSocket* NetworkTransmitter::addTcpSocket(QTcpSocket* qsocket)
@@ -47,13 +45,11 @@ void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
 
     sendDisconnected(socket->getSocket()->peerName(), socket->getSocket()->peerAddress(), socket->getSocket()->peerPort());
 
-    disconnect(socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
-    disconnect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::onSocketDisconnected);
-
     sockets.removeAll(socket);
 
     delete socket->getSocket();
-    delete socket;   
+    delete socket;
+    socket = nullptr;
 }
 
 TcpSocket* NetworkTransmitter::connectToHost(QHostAddress address, int port)

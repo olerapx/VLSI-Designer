@@ -26,10 +26,15 @@ public:
     PoolNodeInfo(QString hostName, QHostAddress address, int tcpPort);
 
     QString getHostName() const { return hostName; }
+
     NodeStatus getStatus() const { return status; }
     void setStatus(NodeStatus status);
+
     double getProgramVersion() { return programVersion; }
+    void setProgramVersion(double version);
+
     QHostAddress getAddress() const { return address; }
+
     int getTcpPort() const { return tcpPort; }
 
     bool operator ==(const PoolNodeInfo& other);

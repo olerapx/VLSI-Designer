@@ -1,6 +1,7 @@
 #pragma once
 
 #include "network/networktransmitter.h"
+#include "control/command/commanddispatcher.h"
 
 /**
  * @brief The PoolEntity class
@@ -22,6 +23,9 @@ public:
 
 protected:
     NetworkTransmitter* transmitter;
+    CommandDispatcher dispatcher;
 
     int selfPort;
+
+    virtual void connectDispatcher() = 0;
 };

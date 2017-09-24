@@ -8,12 +8,6 @@ NodeViewModel::NodeViewModel(QObject* parent, PoolManager& manager) :
     connect(&manager, &PoolManager::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
 }
 
-NodeViewModel::~NodeViewModel()
-{
-    disconnect(&manager, &PoolManager::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
-    disconnect(&manager, &PoolManager::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
-}
-
 int NodeViewModel::rowCount(const QModelIndex&) const
 {
     return manager.getPoolNodesInfo().size();

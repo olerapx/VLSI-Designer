@@ -23,7 +23,6 @@ class NodeViewModel : public QAbstractTableModel
 
 public:
     NodeViewModel(QObject* parent, PoolManager& manager);
-    ~NodeViewModel();
 
     int rowCount(const QModelIndex& = QModelIndex()) const override;
     int columnCount(const QModelIndex& = QModelIndex()) const override;

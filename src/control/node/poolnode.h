@@ -30,12 +30,20 @@ signals:
     void sendLog(QString log);
 
 private slots:
-    void onNewConnection(QString hostName, QHostAddress address, int tcpPort);
+    void onNewConnection(QHostAddress address, int tcpPort);
     void onDisconnected(QString, QHostAddress, int);
-    void onDataReceived(QByteArray*, QHostAddress, int);
+    void onDataReceived(QByteArray* data, QHostAddress, int);
+
+    void onGetVersion(QUuid uuid);
+
+protected:
+    void connectDispatcher();
 
 private:
     void disconnectFromManager();
+
+    void sendCommand(CommandType type, QByteArray* body = new QByteArray());
+    void sendResponse(CommandType type, QUuid uuid, QByteArray* body = new QByteArray());
 
     PoolManagerInfo* poolManager;
 };

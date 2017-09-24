@@ -1,7 +1,6 @@
 #include "poolmanagerinfo.h"
 
-PoolManagerInfo::PoolManagerInfo(QString hostName, QHostAddress address, int tcpPort) :
-    hostName(hostName),
+PoolManagerInfo::PoolManagerInfo(QHostAddress address, int tcpPort) :
     address(address),
     tcpPort(tcpPort)
 {

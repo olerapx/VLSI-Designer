@@ -105,7 +105,7 @@ private:
     bool stopped = true;
     Mode mode = Mode::None;
 
-    QString currentScanToken;
+    QUuid currentScanToken;
 
     void initScanningSockets();
     QHostAddress findAnyBroadcastAddress();

@@ -4,12 +4,17 @@ PoolNode::PoolNode(int selfPort) :
     PoolEntity(selfPort),
     poolManager(nullptr)
 {
-
+    connectDispatcher();
 }
 
 PoolNode::~PoolNode()
 {
-    delete poolManager;
+    disable();
+}
+
+void PoolNode::connectDispatcher()
+{
+    connect(&dispatcher, &CommandDispatcher::sendGetVersion, this, &PoolNode::onGetVersion);
 }
 
 void PoolNode::enable()
@@ -33,6 +38,10 @@ void PoolNode::disable()
     disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection);
     disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
     disconnect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
+
+    if(poolManager != nullptr)
+        delete poolManager;
+
     PoolEntity::disableTransmitter();
 
     sendLog(tr("Pool node is disabled."));
@@ -48,7 +57,23 @@ void PoolNode::disconnectFromManager()
     poolManager = nullptr;
 }
 
-void PoolNode::onNewConnection(QString hostName, QHostAddress address, int tcpPort)
+void PoolNode::sendCommand(CommandType type, QByteArray* body)
+{
+    Command* command = dispatcher.createCommand(type, body);
+    transmitter->sendData(command->toByteArray(), poolManager->getAddress(), poolManager->getTcpPort());
+
+    delete command;
+}
+
+void PoolNode::sendResponse(CommandType type, QUuid uuid, QByteArray* body)
+{
+    Command* command = dispatcher.createCommand(type, uuid, body);
+    transmitter->sendData(command->toByteArray(), poolManager->getAddress(), poolManager->getTcpPort());
+
+    delete command;
+}
+
+void PoolNode::onNewConnection(QHostAddress address, int tcpPort)
 {
     if(poolManager != nullptr)
     {
@@ -61,7 +86,7 @@ void PoolNode::onNewConnection(QString hostName, QHostAddress address, int tcpPo
 
     sendLog(tr("Got a new connection from %1:%2.").arg(address.toString(), QString::number(tcpPort)));
 
-    poolManager = new PoolManagerInfo(hostName, address, tcpPort);
+    poolManager = new PoolManagerInfo(address, tcpPort);
 }
 
 void PoolNode::onDisconnected(QString, QHostAddress, int)
@@ -72,7 +97,23 @@ void PoolNode::onDisconnected(QString, QHostAddress, int)
     sendLog(tr("Lost connection with manager."));
 }
 
-void PoolNode::onDataReceived(QByteArray* /*data*/, QHostAddress /*address*/, int /*tcpPort*/)
+void PoolNode::onDataReceived(QByteArray* data, QHostAddress, int)
 {
-    // TODO
+    Command* command = new Command(data);
+    dispatcher.dispatchCommand(command);
+
+    delete command;
+}
+
+void PoolNode::onGetVersion(QUuid uuid)
+{
+    QByteArray* body = new QByteArray();
+    QDataStream stream(body, QIODevice::WriteOnly);
+
+    double d = 1.3;
+    stream << d; // TODO
+
+    sendLog(tr("Sending response on program version request."));
+
+    sendResponse(CommandType::SendVersion, uuid, body);
 }
