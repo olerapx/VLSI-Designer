@@ -32,7 +32,7 @@ signals:
      * Emits when the socket is disconnected.
      * @param socket - this.
      */
-    void sendDisconnected(TcpSocket* socket);
+    void sendDisconnected(TcpSocket* socket, QHostAddress address, int port);
 
 private:
     QTcpSocket* socket;

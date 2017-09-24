@@ -15,7 +15,7 @@ PoolManager::~PoolManager()
 
 void PoolManager::connectDispatcher()
 {
-    connect(&dispatcher, &CommandDispatcher::sendSendVersion, this, &PoolManager::onSendVersion);
+    connect(&dispatcher, &CommandDispatcher::sendSendVersion, this, &PoolManager::onSendVersion, Qt::QueuedConnection);
 }
 
 void PoolManager::enable()
@@ -24,9 +24,9 @@ void PoolManager::enable()
         return;
 
     PoolEntity::enableTransmitter();
-    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
-    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived);
-    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolManager::onDisconnected);
+    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection, Qt::QueuedConnection);
+    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived, Qt::QueuedConnection);
+    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolManager::onDisconnected, Qt::QueuedConnection);
 
     sendLog(tr("Pool manager is enabled."));
 }
@@ -35,6 +35,11 @@ void PoolManager::disable()
 {
     if(transmitter == nullptr)
         return;
+
+    for(int i=0; i<poolNodes.size(); i++)
+        sendRemoveNodeInfo(0);
+
+    poolNodes.clear();
 
     disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
     disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived);
@@ -157,15 +162,22 @@ void PoolManager::onNewConnection(QHostAddress address, int tcpPort)
             .arg(address.toString(), QString::number(tcpPort)));
 }
 
-void PoolManager::onDisconnected(QString, QHostAddress address, int tcpPort)
+void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
 {
-    PoolNodeInfo& info = getInfoByAddressAndPort(address, tcpPort);
+    try
+    {
+        PoolNodeInfo& info = getInfoByAddressAndPort(address, tcpPort);
 
-    info.setStatus(NodeStatus::NotResponding);
-    sendUpdateNodeInfo(info);
+        info.setStatus(NodeStatus::NotResponding);
+        sendUpdateNodeInfo(info);
 
-    sendLog(tr("Lost connection with node at %1:%2.")
-            .arg(address.toString(), QString::number(tcpPort)));
+        sendLog(tr("Lost connection with node at %1:%2.")
+                .arg(address.toString(), QString::number(tcpPort)));
+    }
+    catch(Exception&)
+    {
+
+    }
 }
 
 void PoolManager::onDataReceived(QByteArray* data, QHostAddress, int)

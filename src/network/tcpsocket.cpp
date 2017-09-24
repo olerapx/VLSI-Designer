@@ -36,8 +36,8 @@ void TcpSocket::onReadyRead()
 
 void TcpSocket::onDisconnected()
 {
-    connect(socket, &QTcpSocket::readyRead, this, &TcpSocket::onReadyRead);
-    connect(socket, &QTcpSocket::disconnected, this, &TcpSocket::onDisconnected);
+    disconnect(socket, &QTcpSocket::readyRead, this, &TcpSocket::onReadyRead);
+    disconnect(socket, &QTcpSocket::disconnected, this, &TcpSocket::onDisconnected);
 
-    sendDisconnected(this);
+    sendDisconnected(this, socket->peerAddress(), socket->peerPort());
 }

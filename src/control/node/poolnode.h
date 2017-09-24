@@ -31,7 +31,7 @@ signals:
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
-    void onDisconnected(QString, QHostAddress, int);
+    void onDisconnected(QHostAddress, int);
     void onDataReceived(QByteArray* data, QHostAddress, int);
 
     void onGetVersion(QUuid uuid);

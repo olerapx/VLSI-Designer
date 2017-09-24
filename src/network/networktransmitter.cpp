@@ -11,7 +11,7 @@ NetworkTransmitter::NetworkTransmitter(int port)
 NetworkTransmitter::~NetworkTransmitter()
 {
     for(TcpSocket* socket: sockets)
-        removeTcpSocket(socket);
+        removeTcpSocket(socket, socket->getSocket()->peerAddress(), socket->getSocket()->peerPort());
 }
 
 void NetworkTransmitter::onNewConnection()
@@ -27,25 +27,25 @@ TcpSocket* NetworkTransmitter::addTcpSocket(QTcpSocket* qsocket)
     TcpSocket* socket = new TcpSocket(qsocket);
     sockets.append(socket);
 
-    connect(socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived);
-    connect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::onSocketDisconnected);
+    connect(socket, &TcpSocket::sendDataReceived, this, &NetworkTransmitter::sendDataReceived, Qt::QueuedConnection);
+    connect(socket, &TcpSocket::sendDisconnected, this, &NetworkTransmitter::onSocketDisconnected, Qt::QueuedConnection);
 
     return socket;
 }
 
-void NetworkTransmitter::onSocketDisconnected(TcpSocket* socket)
+void NetworkTransmitter::onSocketDisconnected(TcpSocket* socket, QHostAddress address, int port)
 {
-    removeTcpSocket(socket);
+    removeTcpSocket(socket, address, port);
 }
 
-void NetworkTransmitter::removeTcpSocket(TcpSocket* socket)
+void NetworkTransmitter::removeTcpSocket(TcpSocket* socket, QHostAddress address, int port)
 {
     sendLog(tr("Disconnected from %1:%2.").arg(socket->getSocket()->peerAddress().toString(),
                                                      socket->getSocket()->peerName()));
 
-    sendDisconnected(socket->getSocket()->peerName(), socket->getSocket()->peerAddress(), socket->getSocket()->peerPort());
-
     sockets.removeAll(socket);
+
+    sendDisconnected(address, port);
 
     delete socket->getSocket();
     delete socket;

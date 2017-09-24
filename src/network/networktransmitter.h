@@ -79,15 +79,15 @@ signals:
      * @brief sendDisconnected
      * Emits when a connection is over.
      */
-    void sendDisconnected(QString hostName, QHostAddress address, int tcpPort);
+    void sendDisconnected(QHostAddress address, int tcpPort);
 
 private slots:
     void onNewConnection();
-    void onSocketDisconnected(TcpSocket* socket);
+    void onSocketDisconnected(TcpSocket* socket, QHostAddress address, int port);
 
 private:
     TcpSocket* addTcpSocket(QTcpSocket* qsocket);
-    void removeTcpSocket(TcpSocket* socket);
+    void removeTcpSocket(TcpSocket* socket, QHostAddress address, int port);
 
     TcpSocket* findSocket(QHostAddress address, int port);
 

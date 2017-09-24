@@ -14,7 +14,7 @@ PoolNode::~PoolNode()
 
 void PoolNode::connectDispatcher()
 {
-    connect(&dispatcher, &CommandDispatcher::sendGetVersion, this, &PoolNode::onGetVersion);
+    connect(&dispatcher, &CommandDispatcher::sendGetVersion, this, &PoolNode::onGetVersion, Qt::QueuedConnection);
 }
 
 void PoolNode::enable()
@@ -23,9 +23,9 @@ void PoolNode::enable()
         return;
 
     PoolEntity::enableTransmitter();
-    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection);
-    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
-    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
+    connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection, Qt::QueuedConnection);
+    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived, Qt::QueuedConnection);
+    connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected, Qt::QueuedConnection);
 
     sendLog(tr("Pool node is enabled."));
 }
@@ -41,6 +41,8 @@ void PoolNode::disable()
 
     if(poolManager != nullptr)
         delete poolManager;
+
+    poolManager = nullptr;
 
     PoolEntity::disableTransmitter();
 
@@ -89,7 +91,7 @@ void PoolNode::onNewConnection(QHostAddress address, int tcpPort)
     poolManager = new PoolManagerInfo(address, tcpPort);
 }
 
-void PoolNode::onDisconnected(QString, QHostAddress, int)
+void PoolNode::onDisconnected(QHostAddress, int)
 {
     delete poolManager;
     poolManager = nullptr;
