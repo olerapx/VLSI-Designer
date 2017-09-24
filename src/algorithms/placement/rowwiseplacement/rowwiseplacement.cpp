@@ -1,7 +1,7 @@
 #include "rowwiseplacement.h"
 
-RowWisePlacement::RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandCoefficient) :
-    PrimaryPlacementAlgorithm(scheme, libraries, expandCoefficient),
+RowWisePlacement::RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandingCoefficient) :
+    PrimaryPlacementAlgorithm(scheme, libraries, expandingCoefficient),
     comparator(libraries)
 {
     clear();
@@ -179,7 +179,7 @@ void RowWisePlacement::expandRows()
 
 QVector<int> RowWisePlacement::getIntervals(int totalSize, int count)
 {
-    int diff = round(totalSize * expandCoefficient) - totalSize;
+    int diff = round(totalSize * expandingCoefficient) - totalSize;
 
     int quotient = diff / count;
     int remainder = diff % count;
@@ -256,8 +256,8 @@ void RowWisePlacement::buildGrid(QList<QPoint>& topLeftCoords)
 
     int currentIndex = 0;
 
-    int totalWidth = round(packingWidth * expandCoefficient);
-    int totalHeight = round(totalRowsHeight * expandCoefficient);
+    int totalWidth = round(packingWidth * expandingCoefficient);
+    int totalHeight = round(totalRowsHeight * expandingCoefficient);
 
     for(int i=0; i< totalHeight; i++)
     {

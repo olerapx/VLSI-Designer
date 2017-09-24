@@ -7,5 +7,9 @@
 		"primary-placement": 2,
 		"secondary-placement": 3,
 		"routing": 4	
+	},
+	"algorithm-parameters": {
+		"expanding-coefficient": 2.5,
+		"max-extension-attempts": 10
 	}
 }}

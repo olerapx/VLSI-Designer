@@ -45,6 +45,7 @@ HEADERS += \
     $$PWD/datamodels/grid/wiredata.h \
     $$PWD/datamodels/architecture/architecture.h \
     $$PWD/datamodels/architecture/algorithmindexes.h \
+    $$PWD/datamodels/architecture/algorithmparameters.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \
     $$PWD/exception/threadstoppedexception.h \

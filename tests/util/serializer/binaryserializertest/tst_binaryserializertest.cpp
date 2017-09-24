@@ -186,7 +186,11 @@ void BinarySerializerTest::architectureTest()
     i.setSecondaryPlacementAlgorithmIndex(3);
     i.setRoutingAlgorithmIndex(4);
 
-    Architecture* a = new Architecture(DistributionType::Default, i);
+    AlgorithmParameters p;
+    p.setExpandingCoefficient(1.5);
+    p.setMaxExtensionAttempts(10);
+
+    Architecture* a = new Architecture(DistributionType::Default, i, p);
     a->getModel().append(1);
     a->getModel().append(2);
     a->getModel().append(4);
@@ -201,6 +205,7 @@ void BinarySerializerTest::architectureTest()
     QVERIFY(deserializedArchitecture->getModel()[1] == a->getModel()[1]);
 
     QVERIFY(deserializedArchitecture->getAlgorithmIndexes() == i);
+    QVERIFY(deserializedArchitecture->getAlgorithmParameters() == p);
 
     delete a;
     delete deserializedArchitecture;

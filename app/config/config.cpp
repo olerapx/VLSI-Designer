@@ -45,7 +45,10 @@ void Config::validatePort(int port)
 QString Config::getLibrariesPath()
 {
     QDir dir = QDir::currentPath();
-    dir.cdUp();
+
+    #ifdef QT_DEBUG
+        dir.cdUp();
+    #endif
 
     return dir.absolutePath() + "/" + librariesPath;
 }

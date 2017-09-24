@@ -15,7 +15,7 @@ class PrimaryPlacementAlgorithm : public Threadable
     Q_OBJECT
 
 public:
-    PrimaryPlacementAlgorithm(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
+    PrimaryPlacementAlgorithm(Scheme* scheme, QList<Library*> libraries, double expandingCoefficient);
 
     /**
      * @brief setParameters
@@ -24,7 +24,7 @@ public:
      * @param number
      * @throw Exception
      */
-    void setParameters(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
+    void setParameters(Scheme* scheme, QList<Library*> libraries, double expandingCoefficient);
 
     /**
      * @brief execute
@@ -51,5 +51,5 @@ public slots:
 protected:
     Scheme* scheme;
     QList<Library*> libraries;
-    double expandCoefficient;
+    double expandingCoefficient;
 };

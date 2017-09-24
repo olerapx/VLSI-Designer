@@ -220,6 +220,9 @@ QByteArray JsonSerializer::serializeArchitecture(Architecture* a)
     QJsonObject indexes = serializeAlgorithmIndexes(a->getAlgorithmIndexes());
     json["algorithm-indexes"] = indexes;
 
+    QJsonObject parameters = serializeAlgorithmParameters(a->getAlgorithmParameters());
+    json["algorithm-parameters"] = parameters;
+
     QJsonObject res;
     res["architecture"] = json;
 
@@ -236,6 +239,16 @@ QJsonObject JsonSerializer::serializeAlgorithmIndexes(AlgorithmIndexes i)
     json["primary-placement"] = i.getPrimaryPlacementAlgorithmIndex();
     json["secondary-placement"] = i.getSecondaryPlacementAlgorithmIndex();
     json["routing"] = i.getRoutingAlgorithmIndex();
+
+    return json;
+}
+
+QJsonObject JsonSerializer::serializeAlgorithmParameters(AlgorithmParameters p)
+{
+    QJsonObject json;
+
+    json["expanding-coefficient"] = p.getExpandingCoefficient();
+    json["max-extension-attempts"] = p.getMaxExtensionAttempts();
 
     return json;
 }
@@ -469,10 +482,13 @@ Architecture* JsonSerializer::deserializeArchitecture(QJsonObject obj)
     else
         throw IllegalArgumentException(QObject::tr("Invalid distribution type specified, got: %1.").arg(t));
 
-    QJsonObject indexes = obj.value("algorithm-indexes").toObject();
-    AlgorithmIndexes i = deserializeAlgorithmIndexes(indexes);
+    QJsonObject json = obj.value("algorithm-indexes").toObject();
+    AlgorithmIndexes i = deserializeAlgorithmIndexes(json);
 
-    Architecture* architecture = new Architecture(type, i);
+    json = obj.value("algorithm-parameters").toObject();
+    AlgorithmParameters p = deserializeAlgorithmParameters(json);
+
+    Architecture* architecture = new Architecture(type, i, p);
 
     QJsonArray model = obj.value("model").toArray();
     for (QJsonValue val: model)
@@ -490,6 +506,16 @@ AlgorithmIndexes JsonSerializer::deserializeAlgorithmIndexes(QJsonObject obj)
     res.setPrimaryPlacementAlgorithmIndex(obj.value("primary-placement").toInt());
     res.setSecondaryPlacementAlgorithmIndex(obj.value("secondary-placement").toInt());
     res.setRoutingAlgorithmIndex(obj.value("routing").toInt());
+
+    return res;
+}
+
+AlgorithmParameters JsonSerializer::deserializeAlgorithmParameters(QJsonObject obj)
+{
+    AlgorithmParameters res;
+
+    res.setExpandingCoefficient(obj.value("expanding-coefficient").toDouble());
+    res.setMaxExtensionAttempts(obj.value("max-extension-attempts").toInt());
 
     return res;
 }

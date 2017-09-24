@@ -52,6 +52,7 @@ SOURCES += \
     datamodels/architecture/architecture.cpp \
     datamodels/architecture/clientsnumber.cpp \
     datamodels/architecture/algorithmindexes.cpp \
+    datamodels/architecture/algorithmparameters.cpp \
     exception/exception.cpp \
     util/serializer/serializerstrategy.cpp \
     util/serializer/jsonserializer.cpp \

@@ -43,6 +43,8 @@ private slots:
     void on_okButton_clicked();
 
 private:
+    void setValidators();
+
     void initParameters();
     void fillAlgorithms();
     void fillSplittingTypes();

@@ -24,6 +24,11 @@ void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, int maxExtensio
 {
     this->grid = grid;
     this->scheme = scheme;
+
+    if(maxExtensionAttempts < 0)
+        throw IllegalArgumentException(tr("Max extension attempts cannot be lesser than 0, passed: %1.")
+                                       .arg(QString::number(maxExtensionAttempts)));
+
     this->maxExtensionAttempts = maxExtensionAttempts;
 }
 

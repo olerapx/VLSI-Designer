@@ -14,7 +14,7 @@
 class RowWisePlacement : public PrimaryPlacementAlgorithm
 {
 public:
-    RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandCoefficient);
+    RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandingCoefficient);
 
     /**
      * @brief execute

@@ -169,6 +169,7 @@ QByteArray BinarySerializer::serializeArchitecture(Architecture* a)
 
     stream << (qint32)a->getDistributionType();
     serializeAlgorithmIndexes(a->getAlgorithmIndexes(), stream);
+    serializeAlgorithmParameters(a->getAlgorithmParameters(), stream);
 
     stream << (qint32)a->getModel().size();
     for(ClientsNumber number: a->getModel())
@@ -182,6 +183,14 @@ QDataStream& BinarySerializer::serializeAlgorithmIndexes(AlgorithmIndexes i, QDa
     stream << i.getCompositionAlgorithmIndex() << i.getDecompositionAlgorithmIndex();
     stream << i.getPrimaryPlacementAlgorithmIndex() << i.getSecondaryPlacementAlgorithmIndex();
     stream << i.getRoutingAlgorithmIndex();
+
+    return stream;
+}
+
+QDataStream& BinarySerializer::serializeAlgorithmParameters(AlgorithmParameters p, QDataStream& stream)
+{
+    stream << p.getExpandingCoefficient();
+    stream << p.getMaxExtensionAttempts();
 
     return stream;
 }
@@ -396,8 +405,9 @@ Architecture* BinarySerializer::deserializeArchitecture(QDataStream& stream)
     stream >> type;
 
     AlgorithmIndexes i = deserializeAlgorithmIndexes(stream);
+    AlgorithmParameters p = deserializeAlgorithmParameters(stream);
 
-    Architecture* a = new Architecture((DistributionType)type, i);
+    Architecture* a = new Architecture((DistributionType)type, i, p);
 
     qint32 size;
     stream >> size;
@@ -435,4 +445,21 @@ AlgorithmIndexes BinarySerializer::deserializeAlgorithmIndexes(QDataStream& stre
     i.setRoutingAlgorithmIndex(index);
 
     return i;
+}
+
+AlgorithmParameters BinarySerializer::deserializeAlgorithmParameters(QDataStream& stream)
+{
+    AlgorithmParameters p;
+
+    double coefficient;
+
+    stream >> coefficient;
+    p.setExpandingCoefficient(coefficient);
+
+    int attempts;
+    stream >> attempts;
+
+    p.setMaxExtensionAttempts(attempts);
+
+    return p;
 }

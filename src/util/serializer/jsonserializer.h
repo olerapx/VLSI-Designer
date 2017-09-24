@@ -54,7 +54,7 @@ protected:
 
     QByteArray serializeArchitecture(Architecture* a);
     QJsonObject serializeAlgorithmIndexes(AlgorithmIndexes i);
-
+    QJsonObject serializeAlgorithmParameters(AlgorithmParameters p);
 
     Library* deserializeLibrary(QJsonObject obj);
     LibraryElement deserializeLibraryElement(QJsonObject obj);
@@ -71,4 +71,5 @@ protected:
 
     Architecture* deserializeArchitecture(QJsonObject obj);
     AlgorithmIndexes deserializeAlgorithmIndexes(QJsonObject obj);
+    AlgorithmParameters deserializeAlgorithmParameters(QJsonObject obj);
 };

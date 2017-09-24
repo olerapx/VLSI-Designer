@@ -52,6 +52,7 @@ protected:
 
     QByteArray serializeArchitecture(Architecture* a);
     QDataStream& serializeAlgorithmIndexes(AlgorithmIndexes i, QDataStream& stream);
+    QDataStream& serializeAlgorithmParameters(AlgorithmParameters p, QDataStream& stream);
 
 
     Library* deserializeLibrary(QDataStream& stream);
@@ -69,4 +70,5 @@ protected:
 
     Architecture* deserializeArchitecture(QDataStream& stream);
     AlgorithmIndexes deserializeAlgorithmIndexes(QDataStream& stream);
+    AlgorithmParameters deserializeAlgorithmParameters(QDataStream& stream);
 };

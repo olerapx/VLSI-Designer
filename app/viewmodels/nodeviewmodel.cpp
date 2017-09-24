@@ -41,7 +41,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         case 0:
             return info.getHostName();
         case 1:
-            return nodeStatusMap.value(info.getStatus());
+            return QObject::tr(nodeStatusMap.value(info.getStatus()).toLocal8Bit().constData());
         case 2:
             return ((info.getProgramVersion() == 0.0)? "" : QVariant(info.getProgramVersion()));
         case 3:

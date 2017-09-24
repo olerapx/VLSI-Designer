@@ -12,12 +12,32 @@ SetupSessionDialog::SetupSessionDialog(Config& config, PoolManager& manager, QWi
     ui->setupUi(this);
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
+    setValidators();
     initParameters();
 }
 
 SetupSessionDialog::~SetupSessionDialog()
 {
     delete ui;
+}
+
+void SetupSessionDialog::setValidators()
+{
+    QRegExpValidator* modelValidator = new QRegExpValidator(QRegExp("^([1-9]+,)+$"), this);
+    ui->distributionModelText->setValidator(modelValidator);
+
+    QDoubleValidator* doubleValidator = new QDoubleValidator(this);
+    QLocale loc = QLocale::c();
+    loc.setNumberOptions(QLocale::RejectGroupSeparator | QLocale::OmitGroupSeparator);
+    doubleValidator->setLocale(loc);
+    doubleValidator->setBottom(0.0);
+    doubleValidator->setNotation(QDoubleValidator::StandardNotation);
+
+    ui->expandingCoefficientText->setValidator(doubleValidator);
+
+    QIntValidator* intValidator = new QIntValidator(this);
+    intValidator->setBottom(0);
+    ui->maxExtensionAttemptsText->setValidator(intValidator);
 }
 
 void SetupSessionDialog::initParameters()
@@ -81,6 +101,10 @@ void SetupSessionDialog::fillParametersFromData(SessionData* data)
     ui->primaryPlacementBox->setCurrentIndex(indexes.getPrimaryPlacementAlgorithmIndex());
     ui->secondaryPlacementBox->setCurrentIndex(indexes.getSecondaryPlacementAlgorithmIndex());
     ui->routingBox->setCurrentIndex(indexes.getRoutingAlgorithmIndex());
+
+    AlgorithmParameters parameters = data->getArchitecture()->getAlgorithmParameters();
+    ui->expandingCoefficientText->setText(QString::number(parameters.getExpandingCoefficient()));
+    ui->maxExtensionAttemptsText->setText(QString::number(parameters.getMaxExtensionAttempts()));
 
     DistributionType type = data->getArchitecture()->getDistributionType();
     if(type == DistributionType::Default)
@@ -264,7 +288,16 @@ void SetupSessionDialog::on_librariesButton_clicked()
 
 void SetupSessionDialog::on_okButton_clicked()
 {
-    writeParameters();
+    try
+    {
+        writeParameters();
+    }
+    catch(Exception& e)
+    {
+        QMessageBox::critical(this, tr("Error"), e.what());
+        return;
+    }
+
 
     accept();
     this->close();
@@ -281,7 +314,11 @@ void SetupSessionDialog::writeParameters()
     indexes.setSecondaryPlacementAlgorithmIndex(ui->secondaryPlacementBox->currentIndex());
     indexes.setRoutingAlgorithmIndex(ui->routingBox->currentIndex());
 
-    architecture = new Architecture(type, indexes);
+    AlgorithmParameters parameters;
+    parameters.setExpandingCoefficient(ui->expandingCoefficientText->text().toDouble());
+    parameters.setMaxExtensionAttempts(ui->maxExtensionAttemptsText->text().toInt());
+
+    architecture = new Architecture(type, indexes, parameters);
 
     QString clientsNumber = ui->distributionModelText->text();
     QRegExp rx("(\\,)");

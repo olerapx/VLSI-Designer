@@ -252,7 +252,11 @@ void JsonSerializerTest::serializeArchitectureTest()
     i.setSecondaryPlacementAlgorithmIndex(3);
     i.setRoutingAlgorithmIndex(4);
 
-    Architecture* a = new Architecture(DistributionType::Default, i);
+    AlgorithmParameters p;
+    p.setExpandingCoefficient(1.5);
+    p.setMaxExtensionAttempts(10);
+
+    Architecture* a = new Architecture(DistributionType::Default, i, p);
     a->getModel().append(1);
     a->getModel().append(2);
     a->getModel().append(4);
@@ -266,13 +270,17 @@ void JsonSerializerTest::serializeArchitectureTest()
     QVERIFY(obj.value("model").toArray().at(1) == 2);
     QVERIFY(obj.value("distribution-type").toString() == "default");
 
-    obj = obj.value("algorithm-indexes").toObject();
+    QJsonObject obj1 = obj.value("algorithm-indexes").toObject();
 
-    QVERIFY(obj.value("composition").toInt() == 0);
-    QVERIFY(obj.value("decomposition").toInt() == 0);
-    QVERIFY(obj.value("primary-placement").toInt() == 2);
-    QVERIFY(obj.value("secondary-placement").toInt() == 3);
-    QVERIFY(obj.value("routing").toInt() == 4);
+    QVERIFY(obj1.value("composition").toInt() == 0);
+    QVERIFY(obj1.value("decomposition").toInt() == 0);
+    QVERIFY(obj1.value("primary-placement").toInt() == 2);
+    QVERIFY(obj1.value("secondary-placement").toInt() == 3);
+    QVERIFY(obj1.value("routing").toInt() == 4);
+
+    obj1 = obj.value("algorithm-parameters").toObject();
+    QVERIFY(obj1.value("expanding-coefficient").toDouble() == 1.5);
+    QVERIFY(obj1.value("max-extension-attempts").toInt() == 10);
 
     delete a;
 }
@@ -288,7 +296,8 @@ void JsonSerializerTest::deserializeTest()
     QByteArray invalidTypeJson = "{ \"dummy\": { }}";
     QVERIFY_EXCEPTION_THROWN(json.deserialize(invalidTypeJson), IllegalArgumentException);
 
-    QByteArray normalJson = "{ \"architecture\": { \"distribution-type\": \"default\" }}";
+    QByteArray normalJson = "{ \"architecture\": { \"distribution-type\": \"default\", "
+                            "\"algorithm-parameters\": {\"expanding-coefficient\": 2.5,\"max-extension-attempts\": 10} }}";
     QVERIFY(json.deserialize(normalJson));
 }
 
@@ -453,6 +462,9 @@ void JsonSerializerTest::deserializeArchitectureTest()
     QVERIFY(a->getAlgorithmIndexes().getPrimaryPlacementAlgorithmIndex() == 2);
     QVERIFY(a->getAlgorithmIndexes().getSecondaryPlacementAlgorithmIndex() == 3);
     QVERIFY(a->getAlgorithmIndexes().getRoutingAlgorithmIndex() == 4);
+
+    QVERIFY(a->getAlgorithmParameters().getExpandingCoefficient() == 2.5);
+    QVERIFY(a->getAlgorithmParameters().getMaxExtensionAttempts() == 10);
 
     delete a;
 }

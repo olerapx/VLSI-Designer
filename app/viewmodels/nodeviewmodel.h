@@ -7,14 +7,14 @@
 
 static const QMap<NodeStatus, QString> nodeStatusMap
 {
-    { NodeStatus::Ready, QObject::tr("Ready") },
-    { NodeStatus::Unconnected, QObject::tr("Unconnected") },
-    { NodeStatus::NotResponding, QObject::tr("Not responding") },
-    { NodeStatus::Initialization, QObject::tr("Initialization") },
-    { NodeStatus::Assigned, QObject::tr("Assigned") },
-    { NodeStatus::Working, QObject::tr("Working") },
-    { NodeStatus::Error, QObject::tr("Error") },
-    { NodeStatus::Incompatible, QObject::tr("Incompatible") }
+    { NodeStatus::Ready, QT_TR_NOOP("Ready") },
+    { NodeStatus::Unconnected, QT_TR_NOOP("Unconnected") },
+    { NodeStatus::NotResponding, QT_TR_NOOP("Not responding") },
+    { NodeStatus::Initialization, QT_TR_NOOP("Initialization") },
+    { NodeStatus::Assigned, QT_TR_NOOP("Assigned") },
+    { NodeStatus::Working, QT_TR_NOOP("Working") },
+    { NodeStatus::Error, QT_TR_NOOP("Error") },
+    { NodeStatus::Incompatible, QT_TR_NOOP("Incompatible") }
 };
 
 class NodeViewModel : public QAbstractTableModel
