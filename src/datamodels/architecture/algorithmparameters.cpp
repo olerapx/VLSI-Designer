@@ -23,7 +23,7 @@ void AlgorithmParameters::setMaxExtensionAttempts(int attempts)
     this->maxExtensionAttempts = attempts;
 }
 
-bool AlgorithmParameters::operator ==(const AlgorithmParameters& other)
+bool AlgorithmParameters::operator ==(const AlgorithmParameters& other) const
 {
     if(expandingCoefficient == other.expandingCoefficient &&
             maxExtensionAttempts == other.maxExtensionAttempts)

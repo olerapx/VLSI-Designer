@@ -34,5 +34,5 @@ public:
      * @param other
      * @return true if elements are equal regardless of their indexes, false otherwise.
      */
-    bool operator ==(const SchemeElement& other);
+    bool operator ==(const SchemeElement& other) const;
 };

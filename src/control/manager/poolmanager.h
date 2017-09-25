@@ -34,7 +34,7 @@ public:
 
     QList<PoolNodeInfo>& getPoolNodesInfo() { return poolNodes; }
 
-    SessionData* getSessionData() { return data; }
+    SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
 
 signals:

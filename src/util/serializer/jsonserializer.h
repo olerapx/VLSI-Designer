@@ -44,7 +44,7 @@ protected:
     QJsonObject serializePin(Pin p);
 
     QByteArray serializeScheme(Scheme* s);
-    QJsonObject serializeUsedLibrary(QString libraryId, double version);
+    QJsonObject serializeUsedLibrary(QString libraryId, Version version);
     QJsonObject serializeSchemeElement(SchemeElement el);
     QJsonObject serializeWire(Wire w);    
 
@@ -61,7 +61,7 @@ protected:
     Pin deserializePin(QJsonObject obj);
 
     Scheme* deserializeScheme(QJsonObject obj);
-    QPair<QString, double> deserializeUsedLibrary(QJsonObject obj);
+    QPair<QString, Version> deserializeUsedLibrary(QJsonObject obj);
     SchemeElement deserializeSchemeElement(QJsonObject obj);
     Wire deserializeWire(QJsonObject obj);    
 

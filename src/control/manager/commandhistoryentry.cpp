@@ -9,7 +9,7 @@ CommandHistoryEntry::CommandHistoryEntry(QHostAddress address, int port, Command
 
 }
 
-bool CommandHistoryEntry::operator ==(const CommandHistoryEntry& other)
+bool CommandHistoryEntry::operator ==(const CommandHistoryEntry& other) const
 {
     if(uuid == other.uuid)
         return true;

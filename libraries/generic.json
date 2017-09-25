@@ -1,6 +1,6 @@
 {"library": {
 	"id": "generic",
-	"version": 0.2,
+	"version": "1.0",
 	"name": "Generic Standard Element Library",
 	"elements": [
 	{

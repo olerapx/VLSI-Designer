@@ -6,7 +6,7 @@ OuterConnectionsNumberComparator::OuterConnectionsNumberComparator(QList<SchemeV
 
 }
 
-bool OuterConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVertex* v2)
+bool OuterConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVertex* v2) const
 {
     int firstConnectionsNumber = 0;
     int secondConnectionsNumber = 0;

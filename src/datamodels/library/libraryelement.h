@@ -39,5 +39,5 @@ public:
 
     QList<Pin>& getPins() { return pins; }
 
-    bool operator ==(const LibraryElement& other);
+    bool operator ==(const LibraryElement& other) const;
 };

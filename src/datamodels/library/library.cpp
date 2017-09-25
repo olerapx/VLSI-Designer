@@ -1,6 +1,6 @@
 #include "library.h"
 
-Library::Library(QString id, double version)
+Library::Library(QString id, Version version)
 {
     setId(id);
     setVersion(version);
@@ -15,11 +15,8 @@ void Library::setId(QString id)
     this->id = id;
 }
 
-void Library::setVersion(double version)
+void Library::setVersion(Version version)
 {
-    if (version < 0.0)
-        throw IllegalArgumentException (QObject::tr("Library version cannot be negative, passed: %1.")
-                                        .arg(QString::number(version)));
     this->version = version;
 }
 
@@ -28,7 +25,7 @@ void Library::setName(QString name)
     this->name = name;
 }
 
-bool Library::operator ==(const Library& other)
+bool Library::operator ==(const Library& other) const
 {
     if(id == other.id && version == other.version &&
        name == other.name && elements == other.elements)

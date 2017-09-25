@@ -54,7 +54,7 @@ void Wire::setIndex(qint64 index)
     this->index = index;
 }
 
-bool Wire::operator ==(const Wire& other)
+bool Wire::operator ==(const Wire& other) const
 {
     if(srcIndex == other.srcIndex && srcPinId == other.srcPinId &&
             destIndex == other.getDestIndex() && destPinId == other.getDestPinId() &&

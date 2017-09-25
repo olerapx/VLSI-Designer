@@ -11,7 +11,7 @@ void SchemeVertex::setDistributed(bool distributed)
     this->distributed = distributed;
 }
 
-bool SchemeVertex::operator ==(SchemeVertex* other)
+bool SchemeVertex::operator ==(SchemeVertex* other) const
 {
     return (element == other->getElement());
 }

@@ -44,5 +44,5 @@ public:
 
     WirePosition getWirePosition() const { return position; }
 
-    bool operator ==(const WireData& other);
+    bool operator ==(const WireData& other) const;
 };

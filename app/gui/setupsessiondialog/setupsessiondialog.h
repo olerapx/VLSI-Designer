@@ -68,5 +68,5 @@ private:
     QList<Library*> libraries;
     Architecture* architecture;
 
-    QList<QPair<QString, double>> usedLibraries;
+    QList<QPair<QString, Version>> usedLibraries;
 };

@@ -1,13 +1,5 @@
 #include "grid.h"
 
-bool Grid::operator ==(const Grid& other)
-{
-    if(cells == other.cells && routedWires == other.routedWires && wiresData == other.wiresData)
-        return true;
-
-    return false;
-}
-
 int Grid::getHeight()
 {
     return cells.size();
@@ -19,4 +11,12 @@ int Grid::getWidth()
         return 0;
 
     return cells[0].size();
+}
+
+bool Grid::operator ==(const Grid& other) const
+{
+    if(cells == other.cells && routedWires == other.routedWires && wiresData == other.wiresData)
+        return true;
+
+    return false;
 }

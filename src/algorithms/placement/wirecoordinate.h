@@ -16,7 +16,7 @@ class WireCoordinate
 public:
     WireCoordinate(Wire& wire, QList<QList<ElementCoordinate>>& elementCoordinates, QList<Library*>& libraries, int gridHeight, int gridWidth);
 
-    Wire* getWire() { return wire; }
+    Wire* getWire() const { return wire; }
 
     QPoint getSrcCoordinate();
     QPoint getDestCoordinate();
@@ -25,7 +25,7 @@ public:
 
     qint64 getFitnessValue();
 
-    bool operator ==(WireCoordinate& other);
+    bool operator ==(WireCoordinate& other) const;
 
 private:
     static const int innerWireFitnessCoefficient = 10;

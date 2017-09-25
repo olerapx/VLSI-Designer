@@ -16,7 +16,7 @@ public:
     bool isDistributed() const { return distributed; }
 
     void setDistributed(bool distributed);
-    bool operator ==(SchemeVertex* other);
+    bool operator ==(SchemeVertex* other) const;
 
 private:
     SchemeElement* element;

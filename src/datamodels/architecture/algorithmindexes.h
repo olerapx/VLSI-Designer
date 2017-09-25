@@ -19,13 +19,13 @@ public:
     void setSecondaryPlacementAlgorithmIndex(int index);
     void setRoutingAlgorithmIndex(int index);
 
-    int getCompositionAlgorithmIndex() { return compositionAlgorithmIndex; }
-    int getDecompositionAlgorithmIndex() { return decompositionAlgorithmIndex; }
-    int getPrimaryPlacementAlgorithmIndex() { return primaryPlacementAlgorithmIndex; }
-    int getSecondaryPlacementAlgorithmIndex() { return secondaryPlacementAlgorithmIndex; }
-    int getRoutingAlgorithmIndex() { return routingAlgorithmIndex; }
+    int getCompositionAlgorithmIndex() const { return compositionAlgorithmIndex; }
+    int getDecompositionAlgorithmIndex() const { return decompositionAlgorithmIndex; }
+    int getPrimaryPlacementAlgorithmIndex() const { return primaryPlacementAlgorithmIndex; }
+    int getSecondaryPlacementAlgorithmIndex() const { return secondaryPlacementAlgorithmIndex; }
+    int getRoutingAlgorithmIndex() const { return routingAlgorithmIndex; }
 
-    bool operator ==(const AlgorithmIndexes& other);
+    bool operator ==(const AlgorithmIndexes& other) const;
 
 private:
     void validateIndex(int index);

@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS += algorithms util generatortest
+SUBDIRS += algorithms util generator datamodels
 
 copydata.commands = $(COPY_DIR) $$shell_path($$PWD/datamodels) $$shell_path($$OUT_PWD/datamodels)
 first.depends = $(first) copydata

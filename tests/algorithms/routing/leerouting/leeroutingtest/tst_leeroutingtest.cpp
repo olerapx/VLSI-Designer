@@ -31,7 +31,7 @@ private:
 
 LeeRoutingTest::LeeRoutingTest()
 {
-    Library* library = new Library("lib", 1.0);
+    Library* library = new Library("lib", Version(1, 0, 0, 0));
 
     LibraryElement el1("el1", 4, 3);
     el1.getPins().append(Pin("p1", 0, 1, PinType::Input));

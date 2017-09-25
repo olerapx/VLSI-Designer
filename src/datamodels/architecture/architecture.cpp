@@ -22,7 +22,7 @@ void Architecture::setAlgorithmParameters(AlgorithmParameters parameters)
     this->parameters = parameters;
 }
 
-bool Architecture::operator ==(const Architecture& other)
+bool Architecture::operator ==(const Architecture& other) const
 {
     if(model == other.model && type == other.type && indexes == other.indexes && parameters == other.parameters)
         return true;

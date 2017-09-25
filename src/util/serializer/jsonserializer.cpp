@@ -20,7 +20,7 @@ QByteArray JsonSerializer::serializeLibrary(Library* l)
     QJsonObject json;
 
     json["id"] = l->getId();
-    json["version"] = l->getVersion();
+    json["version"] = l->getVersion().toString();
     json["name"] = l->getName();
 
     QJsonArray elements;
@@ -73,7 +73,7 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
 
     QJsonArray usedLibraries, elements, wires;
 
-    for(QPair<QString, double>& usedLibrary: s->getUsedLibraries())
+    for(QPair<QString, Version>& usedLibrary: s->getUsedLibraries())
         usedLibraries.append(serializeUsedLibrary(usedLibrary.first, usedLibrary.second));
 
     for(SchemeElement el: s->getElements())
@@ -93,12 +93,12 @@ QByteArray JsonSerializer::serializeScheme(Scheme* s)
     return doc.toJson();
 }
 
-QJsonObject JsonSerializer::serializeUsedLibrary(QString libraryId, double version)
+QJsonObject JsonSerializer::serializeUsedLibrary(QString libraryId, Version version)
 {
     QJsonObject json;
 
     json["library-id"] = libraryId;
-    json["version"] = version;
+    json["version"] = version.toString();
 
     return json;
 }
@@ -277,7 +277,7 @@ Serializable* JsonSerializer::deserialize(QByteArray jsonData)
 Library* JsonSerializer::deserializeLibrary(QJsonObject obj)
 {
     QString id = obj.value("id").toString();
-    double version = obj.value("version").toDouble(-1.0);
+    Version version(obj.value("version").toString());
 
     Library* library = new Library(id, version);
     library->setName(obj.value("name").toString());
@@ -343,12 +343,12 @@ Scheme* JsonSerializer::deserializeScheme(QJsonObject obj)
     return scheme;
 }
 
-QPair<QString, double> JsonSerializer::deserializeUsedLibrary(QJsonObject obj)
+QPair<QString, Version> JsonSerializer::deserializeUsedLibrary(QJsonObject obj)
 {
     QString libraryId = obj.value("library-id").toString();
-    double version = obj.value("version").toDouble();
+    Version version(obj.value("version").toString());
 
-    return QPair<QString, double>(libraryId, version);
+    return QPair<QString, Version>(libraryId, version);
 }
 
 SchemeElement JsonSerializer::deserializeSchemeElement(QJsonObject obj)

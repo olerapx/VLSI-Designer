@@ -13,13 +13,13 @@ class AlgorithmParameters
 public:
     AlgorithmParameters();
 
-    double getExpandingCoefficient() { return expandingCoefficient; }
+    double getExpandingCoefficient() const { return expandingCoefficient; }
     void setExpandingCoefficient(double coefficient);
 
-    int getMaxExtensionAttempts() { return maxExtensionAttempts; }
+    int getMaxExtensionAttempts() const { return maxExtensionAttempts; }
     void setMaxExtensionAttempts(int attempts);
 
-    bool operator ==(const AlgorithmParameters& other);
+    bool operator ==(const AlgorithmParameters& other) const;
 
 private:
     double expandingCoefficient;

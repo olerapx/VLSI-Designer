@@ -232,7 +232,7 @@ void SetupSessionDialog::tryOpenLibrary(QString path)
         if(l == nullptr)
             throw Exception(tr("The chosen file does not contain a library."));
 
-        QPair<QString, double> libraryData(l->getId(), l->getVersion());
+        QPair<QString, Version> libraryData(l->getId(), l->getVersion());
 
         if(usedLibraries.contains(libraryData))
         {
@@ -260,8 +260,8 @@ void SetupSessionDialog::messageMissingLibraries()
 {
     QString missingLibraries = "The following libraries used to generate scheme were not found:\n\n";
 
-    for(QPair<QString, double>& u: usedLibraries)
-        missingLibraries.append(QString("%1: %2\n").arg(u.first, QString::number(u.second)));
+    for(QPair<QString, Version>& u: usedLibraries)
+        missingLibraries.append(QString("%1: %2\n").arg(u.first, u.second.toString()));
 
     missingLibraries.append("\nYou can try to locate necessary libraries manually.");
 

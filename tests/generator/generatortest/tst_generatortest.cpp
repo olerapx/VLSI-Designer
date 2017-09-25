@@ -62,7 +62,7 @@ void GeneratorTest::generateTest()
 
     QVERIFY(s->getUsedLibraries().size() == 1);
     QVERIFY(s->getUsedLibraries()[0].first == "generic");
-    QVERIFY(s->getUsedLibraries()[0].second == 0.1);
+    QVERIFY(s->getUsedLibraries()[0].second == Version(0, 1, 0, 0));
 
     for(int i=0; i<s->getWires().size(); i++)
     {

@@ -43,5 +43,5 @@ public:
     AlgorithmIndexes getAlgorithmIndexes() { return indexes; }
     AlgorithmParameters getAlgorithmParameters() { return parameters; }
 
-    bool operator ==(const Architecture& other);
+    bool operator ==(const Architecture& other) const;
 };

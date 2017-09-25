@@ -27,5 +27,5 @@ public:
     int getHeight();
     int getWidth();
 
-    bool operator ==(const Grid& other);
+    bool operator ==(const Grid& other) const;
 };

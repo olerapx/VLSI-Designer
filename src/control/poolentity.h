@@ -13,7 +13,7 @@ public:
     PoolEntity(int selfPort = 0);
     virtual ~PoolEntity();
 
-    int getSelfPort() { return selfPort; }
+    int getSelfPort() const { return selfPort; }
     void setSelfPort(int selfPort);
 
     void enableTransmitter();

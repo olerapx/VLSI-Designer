@@ -2,6 +2,7 @@
 
 #include <QList>
 
+#include "datamodels/version/version.h"
 #include "schemeelement.h"
 #include "wire.h"
 
@@ -12,7 +13,7 @@
 class Scheme : public Serializable
 {
 protected:
-    QList<QPair<QString, double>> usedLibraries;
+    QList<QPair<QString, Version>> usedLibraries;
 
     QList<SchemeElement> elements;
     QList<Wire> wires;    
@@ -24,7 +25,7 @@ public:
     QList<SchemeElement>& getElements() { return elements; }
     QList<Wire>& getWires() { return wires; }
 
-    QList<QPair<QString, double>>& getUsedLibraries() { return usedLibraries; }
+    QList<QPair<QString, Version>>& getUsedLibraries() { return usedLibraries; }
 
-    bool operator ==(const Scheme& other);
+    bool operator ==(const Scheme& other) const;
 };

@@ -19,7 +19,7 @@ void PoolNodeInfo::setProgramVersion(double version)
     this->programVersion = version;
 }
 
-bool PoolNodeInfo::operator ==(const PoolNodeInfo &other)
+bool PoolNodeInfo::operator ==(const PoolNodeInfo &other) const
 {
     if(address == other.getAddress() && tcpPort == other.getTcpPort())
         return true;

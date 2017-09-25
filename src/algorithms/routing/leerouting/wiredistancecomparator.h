@@ -8,7 +8,7 @@ class WireDistanceComparator
 public:
     WireDistanceComparator(int gridHeight, int gridWidth);
 
-    bool operator ()(WireData* first, WireData* second);
+    bool operator ()(WireData* first, WireData* second) const;
 
 private:
     int height, width;

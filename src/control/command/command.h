@@ -36,9 +36,9 @@ public:
 
     ~Command();
 
-    CommandType getType() { return type; }
-    QUuid getUuid() { return uuid; }
-    QByteArray* getBody() { return body; }
+    CommandType getType() const { return type; }
+    QUuid getUuid() const { return uuid; }
+    QByteArray* getBody() const { return body; }
 
     /**
      * @brief toByteArray
@@ -47,7 +47,7 @@ public:
      */
     QByteArray* toByteArray();
 
-    bool operator ==(const Command& other);
+    bool operator ==(const Command& other) const;
 
 private:
     CommandType type;

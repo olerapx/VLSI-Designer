@@ -41,7 +41,7 @@ void AlgorithmIndexes::validateIndex(int index)
         throw IllegalArgumentException(QObject::tr("Algorithm index cannot be negative, passed: %1.").arg(QString::number(index)));
 }
 
-bool AlgorithmIndexes::operator ==(const AlgorithmIndexes& other)
+bool AlgorithmIndexes::operator ==(const AlgorithmIndexes& other) const
 {
     if(compositionAlgorithmIndex == other.compositionAlgorithmIndex &&
             decompositionAlgorithmIndex == other.decompositionAlgorithmIndex &&

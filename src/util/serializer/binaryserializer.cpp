@@ -23,7 +23,7 @@ QByteArray BinarySerializer::serializeLibrary(Library* l)
     stream << QString("library");
 
     stream << l->getId();
-    stream << l->getVersion();
+    stream << l->getVersion().toString();
     stream << l->getName();
 
     stream << (qint32)l->getElements().size();
@@ -63,7 +63,7 @@ QByteArray BinarySerializer::serializeScheme(Scheme* s)
     stream << QString("scheme");
 
     stream << (qint32)s->getUsedLibraries().size();
-    for(QPair<QString, double>& usedLibrary: s->getUsedLibraries())
+    for(QPair<QString, Version>& usedLibrary: s->getUsedLibraries())
         serializeUsedLibrary(usedLibrary.first, usedLibrary.second, stream);
 
     stream << (qint32)s->getElements().size();
@@ -77,10 +77,10 @@ QByteArray BinarySerializer::serializeScheme(Scheme* s)
     return array;
 }
 
-QDataStream& BinarySerializer::serializeUsedLibrary(QString libraryId, double version, QDataStream& stream)
+QDataStream& BinarySerializer::serializeUsedLibrary(QString libraryId, Version version, QDataStream& stream)
 {
     stream << libraryId;
-    stream << version;
+    stream << version.toString();
 
     return stream;
 }
@@ -217,12 +217,12 @@ Serializable* BinarySerializer::deserialize(QByteArray binaryData)
 Library* BinarySerializer::deserializeLibrary(QDataStream& stream)
 {
     QString id;
-    double version;
+    QString version;
     QString name;
 
     stream >> id >> version >> name;
 
-    Library* l = new Library(id, version);
+    Library* l = new Library(id, Version(version));
 
     l->setName(name);
 
@@ -296,14 +296,14 @@ Scheme* BinarySerializer::deserializeScheme(QDataStream& stream)
     return s;
 }
 
-QPair<QString, double> BinarySerializer::deserializeUsedLibrary(QDataStream& stream)
+QPair<QString, Version> BinarySerializer::deserializeUsedLibrary(QDataStream& stream)
 {
     QString libraryId;
-    double version;
+    QString version;
 
     stream >> libraryId >> version;
 
-    return QPair<QString, double>(libraryId, version);
+    return QPair<QString, Version>(libraryId, Version(version));
 }
 
 SchemeElement BinarySerializer::deserializeSchemeElement(QDataStream& stream)

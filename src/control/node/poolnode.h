@@ -24,7 +24,7 @@ public:
     void enable();
     void disable();
 
-    PoolManagerInfo* getPoolManagerInfo() { return poolManager; }
+    PoolManagerInfo* getPoolManagerInfo() const { return poolManager; }
 
 signals:
     void sendLog(QString log);

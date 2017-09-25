@@ -1,7 +1,7 @@
 {"scheme": {
 	"used-libraries": [
-		{"library-id": "generic", "version": 1.0},
-		{"library-id": "another", "version": 0.3}
+		{"library-id": "generic", "version": "1.0"},
+		{"library-id": "another", "version": "0.3.2-45"}
 	],
 	"elements": [
 		{"library-id": "generic", "element-id": "an2", "index": "9223372036854775807"},

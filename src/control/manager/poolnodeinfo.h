@@ -3,6 +3,8 @@
 #include <QString>
 #include <QHostAddress>
 
+#include "datamodels/version/version.h"
+
 enum class NodeStatus
 {
     Ready,
@@ -37,7 +39,7 @@ public:
 
     int getTcpPort() const { return tcpPort; }
 
-    bool operator ==(const PoolNodeInfo& other);
+    bool operator ==(const PoolNodeInfo& other) const;
 
 private:
     QString hostName;

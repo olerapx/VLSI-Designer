@@ -45,7 +45,7 @@ void Cell::setPinId(QString pinId)
     this->pinId = pinId;
 }
 
-bool Cell::operator ==(const Cell& other)
+bool Cell::operator ==(const Cell& other) const
 {
     if(type != other.type)
         return false;

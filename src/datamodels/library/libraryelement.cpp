@@ -41,7 +41,7 @@ void LibraryElement::setWidth(int width)
     this->width = width;
 }
 
-bool LibraryElement::operator ==(const LibraryElement& other)
+bool LibraryElement::operator ==(const LibraryElement& other) const
 {
     if(id == other.id && name == other.name && model == other.model &&
             height == other.height && width == other.width &&

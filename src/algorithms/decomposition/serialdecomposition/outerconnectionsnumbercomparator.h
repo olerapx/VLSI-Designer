@@ -6,7 +6,7 @@ class OuterConnectionsNumberComparator
 {
 public:
     OuterConnectionsNumberComparator(QList<SchemeVertex*>& list);
-    bool operator ()(SchemeVertex* v1, SchemeVertex* v2);
+    bool operator ()(SchemeVertex* v1, SchemeVertex* v2) const;
 
 private:
     QList<SchemeVertex*>& list;

@@ -23,7 +23,7 @@ private:
 
 RowWisePlacementTest::RowWisePlacementTest()
 {
-    Library* library = new Library("lib", 1.0);
+    Library* library = new Library("lib", Version(1, 0, 0, 0));
 
     library->getElements().append(LibraryElement("el1", 3, 3));
     library->getElements().append(LibraryElement("el2", 3, 4));

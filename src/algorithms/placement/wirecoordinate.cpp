@@ -84,7 +84,7 @@ qint64 WireCoordinate::getFitnessValue()
     return res;
 }
 
-bool WireCoordinate::operator ==(WireCoordinate& other)
+bool WireCoordinate::operator ==(WireCoordinate& other) const
 {
-    return ((*wire) == (*other.getWire()));
+    return ((*wire) == (*other.wire));
 }

@@ -60,7 +60,7 @@ QPoint WireData::getDestCoord()
     return QPoint(destX, destY);
 }
 
-bool WireData::operator ==(const WireData& other)
+bool WireData::operator ==(const WireData& other) const
 {
     if(index == other.index && srcX == other.srcX && srcY == other.srcY &&
             destX == other.destX && destY == other.destY &&

@@ -13,12 +13,12 @@ class CommandHistoryEntry
 public:
     CommandHistoryEntry(QHostAddress address, int port, CommandType type, QUuid uuid);
 
-    QHostAddress getAddress() { return address; }
-    int getPort() { return port; }
-    CommandType getType() { return type; }
-    QUuid getUuid() { return uuid; }
+    QHostAddress getAddress() const { return address; }
+    int getPort() const { return port; }
+    CommandType getType() const { return type; }
+    QUuid getUuid() const { return uuid; }
 
-    bool operator ==(const CommandHistoryEntry& other);
+    bool operator ==(const CommandHistoryEntry& other) const;
 
 private:
     QHostAddress address;

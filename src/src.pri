@@ -49,6 +49,7 @@ HEADERS += \
     $$PWD/datamodels/architecture/architecture.h \
     $$PWD/datamodels/architecture/algorithmindexes.h \
     $$PWD/datamodels/architecture/algorithmparameters.h \
+    $$PWD/datamodels/version/version.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \
     $$PWD/exception/threadstoppedexception.h \

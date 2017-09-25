@@ -52,5 +52,5 @@ public:
      * @param other
      * @return true if wires are equal regardless to their indexes, false otherwise.
      */
-    bool operator ==(const Wire& other);
+    bool operator ==(const Wire& other) const;
 };

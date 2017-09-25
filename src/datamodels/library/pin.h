@@ -33,5 +33,5 @@ public:
     int getY() const { return y; }
     PinType getType() const { return type; }
 
-    bool operator ==(const Pin& other);
+    bool operator ==(const Pin& other) const;
 };

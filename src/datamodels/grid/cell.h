@@ -39,7 +39,7 @@ public:
     qint64 getIndex() const { return index; }
     QString getPinId() const { return pinId; }
 
-    bool operator ==(const Cell& other);
+    bool operator ==(const Cell& other) const;
 
     bool isWire() const;
 };

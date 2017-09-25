@@ -30,7 +30,7 @@ void BinarySerializerTest::serializeTest()
 {
     BinarySerializer serializer;
 
-    Library* l = new Library("test_id", 10.0);
+    Library* l = new Library("test_id", Version(10, 0, 0, 0));
     serializer.serialize(l);
     delete l;
 
@@ -41,7 +41,7 @@ void BinarySerializerTest::serializeTest()
 
 void BinarySerializerTest::libraryTest()
 {
-    Library* l = new Library("test_id", 10.001);
+    Library* l = new Library("test_id", Version(10, 1, 0, 0));
     l->setName("Test standard cell library с кириллическими знаками");
 
     LibraryElement el("el", 10, 100);
@@ -87,8 +87,8 @@ void BinarySerializerTest::schemeTest()
 {
     Scheme* s = new Scheme();
 
-    s->getUsedLibraries().append(QPair<QString, double>("lib1", 2.0));
-    s->getUsedLibraries().append(QPair<QString, double>("lib2", 0.13));
+    s->getUsedLibraries().append(QPair<QString, Version>("lib1", Version(2, 0, 0, 0)));
+    s->getUsedLibraries().append(QPair<QString, Version>("lib2", Version(0, 13, 0, 0)));
 
     SchemeElement el1("library id", "aoi43242", Q_INT64_C(9223372036854775807));
     el1.setAlias("FV2");

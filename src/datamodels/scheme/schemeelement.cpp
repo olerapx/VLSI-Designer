@@ -34,7 +34,7 @@ void SchemeElement::setAlias(QString alias)
     this->alias = alias;
 }
 
-bool SchemeElement::operator ==(const SchemeElement& other)
+bool SchemeElement::operator ==(const SchemeElement& other) const
 {
     if(libraryId == other.libraryId && elementId == other.elementId)
         return true;

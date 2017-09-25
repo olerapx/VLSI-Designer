@@ -16,8 +16,8 @@ public:
     void setElement(SchemeElement element);
     void setTopLeftCoord(QPoint topLeftCoord);
 
-    SchemeElement getElement() { return element; }
-    QPoint getTopLeftCoord() { return topLeftCoord; }
+    SchemeElement getElement() const { return element; }
+    QPoint getTopLeftCoord() const { return topLeftCoord; }
 
 private:
     SchemeElement element;

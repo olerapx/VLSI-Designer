@@ -47,7 +47,7 @@ QByteArray* Command::toByteArray()
     return array;
 }
 
-bool Command::operator ==(const Command& other)
+bool Command::operator ==(const Command& other) const
 {
     if(type == other.type && uuid == other.uuid && *body == *(other.body))
         return true;

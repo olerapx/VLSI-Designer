@@ -15,8 +15,8 @@ public:
     SessionData(Scheme* s, Architecture* a, QList<Library*> libraries);
     ~SessionData();
 
-    Scheme* getScheme() { return scheme; }
-    Architecture* getArchitecture() { return architecture; }
+    Scheme* getScheme() const { return scheme; }
+    Architecture* getArchitecture() const { return architecture; }
     QList<Library*> getLibraries() { return libraries; }
 
     bool isEmpty() { return empty; }
