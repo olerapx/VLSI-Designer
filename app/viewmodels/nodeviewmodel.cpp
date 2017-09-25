@@ -4,6 +4,7 @@ NodeViewModel::NodeViewModel(QObject* parent, PoolManager& manager) :
     QAbstractTableModel(parent),
     manager(manager)
 {
+    connect(&manager, &PoolManager::sendClearNodesInfo, this, &NodeViewModel::onClearNodeInfo);
     connect(&manager, &PoolManager::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
     connect(&manager, &PoolManager::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
 }
@@ -37,7 +38,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         case 1:
             return QObject::tr(nodeStatusMap.value(info.getStatus()).toLocal8Bit().constData());
         case 2:
-            return ((info.getProgramVersion() == 0.0)? "" : QVariant(info.getProgramVersion()));
+            return ((info.getProgramVersion() == 0.0) ? "" : QVariant(info.getProgramVersion()));
         case 3:
             return QString("%1:%2").arg(info.getAddress().toString(), QString::number(info.getTcpPort()));
         }
@@ -91,6 +92,12 @@ void NodeViewModel::appendRows(QList<PoolNodeInfo>& list, const QModelIndex& par
     manager.getPoolNodesInfo().append(list);
 
     endInsertRows();
+}
+
+void NodeViewModel::onClearNodeInfo()
+{
+    beginResetModel();
+    endResetModel();
 }
 
 void NodeViewModel::onUpdateNodeInfo(PoolNodeInfo& info)

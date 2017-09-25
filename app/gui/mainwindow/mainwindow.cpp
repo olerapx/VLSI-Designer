@@ -85,7 +85,7 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
     }
     catch(Exception& e)
     {
-        QMessageBox::critical(this, tr("Network error"), tr("A network error detected while trying to initialize scanner:\n\n%1\n\n"
+        QMessageBox::warning(this, tr("Network error"), tr("Cannot initialize network scanner:\n\n%1\n\n"
                                                             "Try set different parameters.").arg(e.what()));
 
     }

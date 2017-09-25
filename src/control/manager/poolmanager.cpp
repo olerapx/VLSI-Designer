@@ -36,8 +36,7 @@ void PoolManager::disable()
     if(transmitter == nullptr)
         return;
 
-    for(int i=0; i<poolNodes.size(); i++)
-        sendRemoveNodeInfo(0);
+    sendClearNodesInfo();
 
     poolNodes.clear();
 
@@ -176,7 +175,7 @@ void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
     }
     catch(Exception&)
     {
-
+        sendLog(tr("Disconnected."));
     }
 }
 

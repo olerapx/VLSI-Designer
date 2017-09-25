@@ -38,6 +38,7 @@ public:
     void setSessionData(SessionData* data);
 
 signals:
+    void sendClearNodesInfo();
     void sendUpdateNodeInfo(PoolNodeInfo& info);
     void sendRemoveNodeInfo(int index);
     void sendLog(QString log);

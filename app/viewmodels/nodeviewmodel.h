@@ -34,6 +34,7 @@ public:
     void appendRows(QList<PoolNodeInfo>& list, const QModelIndex& parent = QModelIndex());
 
 private slots:
+    void onClearNodeInfo();
     void onUpdateNodeInfo(PoolNodeInfo& info);
     void onRemoveNodeInfo(int index);
 
