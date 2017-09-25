@@ -2,6 +2,7 @@
 
 #include "control/poolentity.h"
 #include "poolmanagerinfo.h"
+#include "datamodels/version/version.h"
 
 /**
  * @brief The PoolNode class
@@ -18,7 +19,7 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolNode(int selfPort = 0);
+    PoolNode(Version programVersion, int selfPort = 0);
     ~PoolNode();
 
     void enable();
@@ -45,5 +46,6 @@ private:
     void sendCommand(CommandType type, QByteArray* body = new QByteArray());
     void sendResponse(CommandType type, QUuid uuid, QByteArray* body = new QByteArray());
 
+    Version programVersion;
     PoolManagerInfo* poolManager;
 };

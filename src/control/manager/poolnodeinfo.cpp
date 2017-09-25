@@ -6,7 +6,6 @@ PoolNodeInfo::PoolNodeInfo(QString hostName, QHostAddress address, int tcpPort) 
     tcpPort(tcpPort)
 {
     status = NodeStatus::Unconnected;
-    programVersion = 0.0;
 }
 
 void PoolNodeInfo::setStatus(NodeStatus status)
@@ -14,7 +13,7 @@ void PoolNodeInfo::setStatus(NodeStatus status)
     this->status = status;
 }
 
-void PoolNodeInfo::setProgramVersion(double version)
+void PoolNodeInfo::setProgramVersion(Version version)
 {
     this->programVersion = version;
 }

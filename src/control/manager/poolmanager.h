@@ -21,7 +21,7 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolManager(int selfPort = 0);
+    PoolManager(Version programVersion, int selfPort = 0);
     ~PoolManager();
 
     void enable();
@@ -48,7 +48,7 @@ private slots:
     void onDisconnected(QHostAddress, int tcpPort);
     void onDataReceived(QByteArray* data, QHostAddress, int);
 
-    void onSendVersion(QUuid uuid, double version);
+    void onSendVersion(QUuid uuid, QString version);
     CommandHistoryEntry& getCommandHistoryEntry(QUuid uuid);
 
 protected:
@@ -66,5 +66,6 @@ private:
     QList<PoolNodeInfo> poolNodes;
     SessionData* data;
 
+    Version programVersion;
     QList<CommandHistoryEntry> sentCommands;
 };

@@ -25,7 +25,7 @@ public:
 
 signals:
     void sendGetVersion(QUuid uuid);
-    void sendSendVersion(QUuid uuid, double version);
+    void sendSendVersion(QUuid uuid, QString version);
 
 private:
     void handleSendVersion(Command* command);

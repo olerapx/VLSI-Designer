@@ -32,8 +32,8 @@ public:
     NodeStatus getStatus() const { return status; }
     void setStatus(NodeStatus status);
 
-    double getProgramVersion() { return programVersion; }
-    void setProgramVersion(double version);
+    Version getProgramVersion() { return programVersion; }
+    void setProgramVersion(Version version);
 
     QHostAddress getAddress() const { return address; }
 
@@ -44,7 +44,7 @@ public:
 private:
     QString hostName;
     NodeStatus status;
-    double programVersion;
+    Version programVersion;
     QHostAddress address;
 
     int tcpPort;

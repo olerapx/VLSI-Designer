@@ -25,7 +25,8 @@ HEADERS += \
     gui/networkconfigurationwindow/networkconfigurationdialog.h \
     gui/setupsessiondialog/setupsessiondialog.h \
     config/configbuilder.h \
-    loader/loader.h
+    loader/loader.h \
+    app.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
@@ -37,7 +38,8 @@ SOURCES +=  main.cpp \
     gui/networkconfigurationwindow/networkconfigurationdialog.cpp \
     gui/setupsessiondialog/setupsessiondialog.cpp \
     config/configbuilder.cpp \
-    loader/loader.cpp
+    loader/loader.cpp \
+    app.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \

@@ -5,6 +5,7 @@
 #include <QTime>
 #include <QMenu>
 
+#include "app.h"
 #include "config/configbuilder.h"
 #include "control/manager/poolmanager.h"
 #include "control/node/poolnode.h"

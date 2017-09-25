@@ -38,7 +38,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         case 1:
             return QObject::tr(nodeStatusMap.value(info.getStatus()).toLocal8Bit().constData());
         case 2:
-            return ((info.getProgramVersion() == 0.0) ? "" : QVariant(info.getProgramVersion()));
+            return ((info.getProgramVersion() == Version()) ? "" : info.getProgramVersion().toString());
         case 3:
             return QString("%1:%2").arg(info.getAddress().toString(), QString::number(info.getTcpPort()));
         }

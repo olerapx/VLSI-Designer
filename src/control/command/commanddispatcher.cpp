@@ -28,7 +28,7 @@ void CommandDispatcher::handleSendVersion(Command* command)
     QByteArray* array = command->getBody();
     QDataStream stream(array, QIODevice::ReadOnly);
 
-    double version;
+    QString version;
     stream >> version;
 
     sendSendVersion(command->getUuid(), version);

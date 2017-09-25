@@ -75,6 +75,15 @@ bool Version::operator ==(const Version& other) const
     return false;
 }
 
+bool Version::operator !=(const Version& other) const
+{
+    if(major != other.major || minor != other.minor ||
+            build != other.build || revision != other.revision)
+        return true;
+
+    return false;
+}
+
 bool Version::operator >(const Version& other) const
 {
     if(major != other.major)

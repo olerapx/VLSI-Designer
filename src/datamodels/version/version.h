@@ -46,6 +46,7 @@ public:
     QString toString() const;
 
     bool operator ==(const Version& other) const;
+    bool operator !=(const Version& other) const;
     bool operator >(const Version& other) const;
     bool operator <(const Version& other) const;
 

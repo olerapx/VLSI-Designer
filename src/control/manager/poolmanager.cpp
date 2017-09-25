@@ -1,7 +1,8 @@
 #include "poolmanager.h"
 
-PoolManager::PoolManager(int selfPort) :
-    PoolEntity(selfPort)
+PoolManager::PoolManager(Version programVersion, int selfPort) :
+    PoolEntity(selfPort),
+    programVersion(programVersion)
 {
     data = new SessionData();
     connectDispatcher();
@@ -167,7 +168,10 @@ void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
     {
         PoolNodeInfo& info = getInfoByAddressAndPort(address, tcpPort);
 
-        info.setStatus(NodeStatus::NotResponding);
+        if(info.getProgramVersion() != programVersion)
+            info.setStatus(NodeStatus::Incompatible);
+        else
+            info.setStatus(NodeStatus::NotResponding);
         sendUpdateNodeInfo(info);
 
         sendLog(tr("Lost connection with node at %1:%2.")
@@ -187,7 +191,7 @@ void PoolManager::onDataReceived(QByteArray* data, QHostAddress, int)
     delete command;
 }
 
-void PoolManager::onSendVersion(QUuid uuid, double version)
+void PoolManager::onSendVersion(QUuid uuid, QString version)
 {
     CommandHistoryEntry& entry = getCommandHistoryEntry(uuid);
     PoolNodeInfo& info = getInfoByAddressAndPort(entry.getAddress(), entry.getPort());
@@ -196,10 +200,14 @@ void PoolManager::onSendVersion(QUuid uuid, double version)
     sendLog(tr("Received a program version from %1:%2.")
             .arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
-    info.setProgramVersion(version);
+    info.setProgramVersion(Version(version));
     sendUpdateNodeInfo(info);
 
-    // TODO: check version
+    if(info.getProgramVersion() != programVersion)
+    {
+        disconnectFromNode(info);
+        sendLog(tr("The node has an incompatible program version, disconnecting."));
+    }
 }
 
 CommandHistoryEntry& PoolManager::getCommandHistoryEntry(QUuid uuid)

@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     config(ConfigBuilder::readConfig()),
+    manager(App::APP_VERSION),
+    node(App::APP_VERSION),
     scanner(config.getNodeTcpPort())
 {
     ui->setupUi(this);

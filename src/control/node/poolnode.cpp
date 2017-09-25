@@ -1,7 +1,8 @@
 #include "poolnode.h"
 
-PoolNode::PoolNode(int selfPort) :
+PoolNode::PoolNode(Version programVersion, int selfPort) :
     PoolEntity(selfPort),
+    programVersion(programVersion),
     poolManager(nullptr)
 {
     connectDispatcher();
@@ -112,8 +113,7 @@ void PoolNode::onGetVersion(QUuid uuid)
     QByteArray* body = new QByteArray();
     QDataStream stream(body, QIODevice::WriteOnly);
 
-    double d = 1.3;
-    stream << d; // TODO
+    stream << programVersion.toString();
 
     sendLog(tr("Sending response on program version request."));
 
