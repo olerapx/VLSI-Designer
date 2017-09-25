@@ -98,10 +98,8 @@ bool PoolManager::tryConnect(PoolNodeInfo& info)
 
 void PoolManager::removeNode(PoolNodeInfo& info)
 {
-    if(info.getStatus() == NodeStatus::Unconnected || info.getStatus() == NodeStatus::NotResponding)
-        return;
-
-    disconnectFromNode(info);
+    if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+        disconnectFromNode(info);
 
     int index = poolNodes.indexOf(info);
     poolNodes.removeAt(index);

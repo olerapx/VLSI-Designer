@@ -81,7 +81,6 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
                 scanner.initIPv4Broadcast(config.getNetworkInterface(), config.getUdpPort());
             else
                 scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), config.getUdpPort());
-
         }
         return true;
     }
@@ -135,9 +134,6 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
         a->setEnabled(true);
 
     PoolNodeInfo& info = manager.getPoolNodesInfo()[index.row()];
-
-    if(info.getStatus() == NodeStatus::NotResponding || info.getStatus() == NodeStatus::Unconnected)
-        tableContextMenu.actions()[0]->setEnabled(false);
 
     if(info.getStatus() != NodeStatus::NotResponding && info.getStatus() != NodeStatus::Unconnected)
         tableContextMenu.actions()[1]->setEnabled(false);
