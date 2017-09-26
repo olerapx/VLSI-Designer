@@ -60,7 +60,7 @@ void PoolManager::connectToNode(PoolNodeInfo &info)
     if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
         return;
 
-    sendLog(tr("Connecting to %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+    sendLog(tr("Connecting to %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
 
     info.setStatus(NodeStatus::Connecting);
     sendUpdateNodeInfo(info);
@@ -69,16 +69,16 @@ void PoolManager::connectToNode(PoolNodeInfo &info)
     {
         info.setStatus(NodeStatus::Ready);
         sendUpdateNodeInfo(info);
-        sendLog(tr("Success."));
+        sendLog(tr("Success."), LogType::Success);
 
-        sendLog(tr("Requesting for program version..."));
+        sendLog(tr("Requesting for program version..."), LogType::Information);
         sendCommand(info, CommandType::GetVersion);
     }
     else
     {
         info.setStatus(NodeStatus::NotResponding);
         sendUpdateNodeInfo(info);
-        sendLog(tr("Connection failed."));
+        sendLog(tr("Connection failed."), LogType::Warning);
     }
 }
 
@@ -108,7 +108,7 @@ void PoolManager::removeNode(PoolNodeInfo& info)
 
 void PoolManager::disconnectFromNode(PoolNodeInfo& info)
 {
-    sendLog(tr("Disconnecting from %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+    sendLog(tr("Disconnecting from %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
 
     transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
 
@@ -173,11 +173,11 @@ void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
         sendUpdateNodeInfo(info);
 
         sendLog(tr("Lost connection with node at %1:%2.")
-                .arg(address.toString(), QString::number(tcpPort)));
+                .arg(address.toString(), QString::number(tcpPort)), LogType::Warning);
     }
     catch(Exception&)
     {
-        sendLog(tr("Disconnected."));
+        sendLog(tr("Disconnected."), LogType::Information);
     }
 }
 
@@ -196,15 +196,20 @@ void PoolManager::onSendVersion(QUuid uuid, QString version)
     sentCommands.removeAll(entry);
 
     sendLog(tr("Received a program version from %1:%2.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
 
     info.setProgramVersion(Version(version));
     sendUpdateNodeInfo(info);
 
     if(info.getProgramVersion() != programVersion)
     {
-        sendLog(tr("The node has an incompatible program version, disconnecting."));
+        sendLog(tr("The node %1:%2 has an incompatible program version, disconnecting.")
+                .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Warning);
         disconnectFromNode(info);        
+    }
+    else
+    {
+        sendLog(tr("Version is compatible."), LogType::Success);
     }
 }
 

@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(&manager, &PoolManager::sendLog, this, &MainWindow::onSendManagerLog);
     connect(&node, &PoolNode::sendLog, this, &MainWindow::onSendNodeLog);
+    connect(&manager, &PoolManager::sendError, this, &MainWindow::onSendManagerError);
+    connect(&node, &PoolNode::sendError, this, &MainWindow::onSendNodeError);
+
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
 
@@ -161,20 +164,64 @@ void MainWindow::onReconnect()
     manager.connectToNode(info);
 }
 
-void MainWindow::onSendManagerLog(QString log)
+void MainWindow::onSendManagerLog(QString log, LogType type)
 {
+    colorizeLog(log, type);
     prependCurrentTime(log);
     ui->managerLogText->append(log);
 }
 
-void MainWindow::onSendNodeLog(QString log)
+void MainWindow::onSendNodeLog(QString log, LogType type)
 {
+    colorizeLog(log, type);
     prependCurrentTime(log);
     ui->nodeLogText->append(log);
 }
 
+void MainWindow::colorizeLog(QString &string, LogType type)
+{
+    if(type == LogType::Common)
+        return;
+
+    switch(type)
+    {
+    case LogType::Information:
+        string.prepend("<font color=\"#0080ff\">");
+        string.append("<font/>");
+        break;
+    case LogType::Success:
+        string.prepend("<font color=\"green\">");
+        string.append("<font/>");
+        break;
+    case LogType::Warning:
+        string.prepend("<font color=\"#ff9900\">");
+        string.append("<font/>");
+        break;
+    case LogType::Error:
+        string.prepend("<font color=\"#ff3300\">");
+        string.append("<font/>");
+        break;
+    default:
+        return;
+    }
+}
+
 void MainWindow::prependCurrentTime(QString& string)
 {
-    QString time = QString("[%1] ").arg(QTime::currentTime().toString("hh:mm:ss.zzz"));
+    QString time = QString("[%1] ").arg(QTime::currentTime().toString("hh:mm:ss"));
     string.prepend(time);
+}
+
+void MainWindow::onSendManagerError(QString error)
+{
+    colorizeLog(error, LogType::Error);
+    prependCurrentTime(error);
+    ui->managerLogText->append(error);
+}
+
+void MainWindow::onSendNodeError(QString error)
+{
+    colorizeLog(error, LogType::Error);
+    prependCurrentTime(error);
+    ui->nodeLogText->append(error);
 }

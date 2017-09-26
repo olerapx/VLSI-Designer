@@ -3,6 +3,15 @@
 #include "network/networktransmitter.h"
 #include "control/command/commanddispatcher.h"
 
+enum class LogType
+{
+    Common,
+    Information,
+    Success,
+    Warning,
+    Error
+};
+
 /**
  * @brief The PoolEntity class
  * Base class for pool objects such as manager and node.

@@ -41,7 +41,9 @@ signals:
     void sendClearNodesInfo();
     void sendUpdateNodeInfo(PoolNodeInfo& info);
     void sendRemoveNodeInfo(int index);
-    void sendLog(QString log);
+
+    void sendLog(QString log, LogType type = LogType::Common);
+    void sendError(QString error);
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);

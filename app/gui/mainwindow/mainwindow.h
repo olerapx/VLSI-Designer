@@ -45,13 +45,17 @@ private slots:
     void onRemove();
     void onReconnect();
 
-    void onSendManagerLog(QString log);
-    void onSendNodeLog(QString log);        
+    void onSendManagerLog(QString log, LogType type);
+    void onSendNodeLog(QString log, LogType type);
+
+    void onSendManagerError(QString error);
+    void onSendNodeError(QString error);
 
 private:
     void changeNetworkConfig(bool firstTime);
     bool tryChangeNetworkConfig(bool firstTime);
 
+    void colorizeLog(QString& string, LogType type);
     void prependCurrentTime(QString& string);
     void createTableContextMenu();
 

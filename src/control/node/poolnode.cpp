@@ -54,7 +54,7 @@ void PoolNode::disconnectFromManager()
 {
     transmitter->disconnectFromHost(poolManager->getAddress(), poolManager->getTcpPort());
 
-    sendLog(tr("Disconnected from manager."));
+    sendLog(tr("Disconnected from manager."), LogType::Information);
 
     delete poolManager;
     poolManager = nullptr;
@@ -81,13 +81,13 @@ void PoolNode::onNewConnection(QHostAddress address, int tcpPort)
     if(poolManager != nullptr)
     {
         sendLog(tr("Got a new connection from %1:%2 but already have a connected pool manager."
-                   "The connection was terminated.").arg(address.toString(), QString::number(tcpPort)));
+                   "The connection was terminated.").arg(address.toString(), QString::number(tcpPort)), LogType::Warning);
 
         transmitter->disconnectFromHost(address, tcpPort);
         return;
     }
 
-    sendLog(tr("Got a new connection from %1:%2.").arg(address.toString(), QString::number(tcpPort)));
+    sendLog(tr("Got a new connection from %1:%2.").arg(address.toString(), QString::number(tcpPort)), LogType::Information);
 
     poolManager = new PoolManagerInfo(address, tcpPort);
 }
@@ -97,7 +97,7 @@ void PoolNode::onDisconnected(QHostAddress, int)
     delete poolManager;
     poolManager = nullptr;
 
-    sendLog(tr("Lost connection with manager."));
+    sendLog(tr("Lost connection with manager."), LogType::Warning);
 }
 
 void PoolNode::onDataReceived(QByteArray* data, QHostAddress, int)
@@ -115,7 +115,7 @@ void PoolNode::onGetVersion(QUuid uuid)
 
     stream << programVersion.toString();
 
-    sendLog(tr("Sending response on program version request."));
+    sendLog(tr("Sending response on program version request."), LogType::Information);
 
     sendResponse(CommandType::SendVersion, uuid, body);
 }
