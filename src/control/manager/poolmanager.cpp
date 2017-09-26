@@ -37,9 +37,8 @@ void PoolManager::disable()
     if(transmitter == nullptr)
         return;
 
-    sendClearNodesInfo();
-
     poolNodes.clear();
+    sendClearNodesInfo();
 
     disconnect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection);
     disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived);
@@ -102,6 +101,7 @@ void PoolManager::removeNode(PoolNodeInfo& info)
         disconnectFromNode(info);
 
     int index = poolNodes.indexOf(info);
+
     poolNodes.removeAt(index);
     sendRemoveNodeInfo(index);
 }
@@ -203,8 +203,8 @@ void PoolManager::onSendVersion(QUuid uuid, QString version)
 
     if(info.getProgramVersion() != programVersion)
     {
-        disconnectFromNode(info);
         sendLog(tr("The node has an incompatible program version, disconnecting."));
+        disconnectFromNode(info);        
     }
 }
 

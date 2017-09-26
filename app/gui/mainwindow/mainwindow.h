@@ -39,13 +39,14 @@ private slots:
     void on_networkConfigurationAction_triggered();    
     void on_addNodesButton_clicked();
     void on_setupButton_clicked();
+    void on_startButton_clicked();
 
     void onTableContextMenuRequested(QPoint pos);
     void onRemove();
     void onReconnect();
 
     void onSendManagerLog(QString log);
-    void onSendNodeLog(QString log);    
+    void onSendNodeLog(QString log);        
 
 private:
     void changeNetworkConfig(bool firstTime);

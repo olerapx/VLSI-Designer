@@ -53,8 +53,8 @@ public:
 private:
     void checkNumber(int number);
 
-    int major;
-    int minor;
-    int build;
-    int revision;
+    int _major;
+    int _minor;
+    int _build;
+    int _revision;
 };

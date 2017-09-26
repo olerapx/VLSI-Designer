@@ -120,6 +120,14 @@ void MainWindow::on_setupButton_clicked()
     }
 }
 
+void MainWindow::on_startButton_clicked()
+{
+    if(manager.getPoolNodesInfo().isEmpty())
+    {
+        QMessageBox::information(this, tr("No nodes added"), tr("Cannot start work without any node added. Add nodes and try again."));
+        return;
+    }
+}
 
 void MainWindow::onTableContextMenuRequested(QPoint pos)
 {

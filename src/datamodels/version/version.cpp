@@ -1,10 +1,10 @@
 #include "version.h"
 
 Version::Version() :
-    major(0),
-    minor(0),
-    build(0),
-    revision(0)
+    _major(0),
+    _minor(0),
+    _build(0),
+    _revision(0)
 {
 
 }
@@ -16,10 +16,10 @@ Version::Version(int major, int minor, int build, int revision)
     checkNumber(build);
     checkNumber(revision);
 
-    this->major = major;
-    this->minor = minor;
-    this->build = build;
-    this->revision = revision;
+    this->_major = major;
+    this->_minor = minor;
+    this->_build = build;
+    this->_revision = revision;
 }
 
 void Version::checkNumber(int number)
@@ -31,45 +31,42 @@ void Version::checkNumber(int number)
 
 Version::Version(QString version)
 {
-    major = minor = build = revision = 0;
+    _major = _minor = _build = _revision = 0;
 
     QList<QString> list = version.split('.');
     for(int i=list.size(); i<3; i++)
         list.append("");
 
-    major = list[0].toInt();
-    minor = list[1].toInt();
+    _major = list[0].toInt();
+    _minor = list[1].toInt();
 
     list = list[2].split('-');
     if(list.size() < 2)
         list.append("");
 
-    build = list[0].toInt();
-    revision = list[1].toInt();
+    _build = list[0].toInt();
+    _revision = list[1].toInt();
 }
 
 QString Version::toString() const
 {
     QString res;
 
-    if(revision != 0)
-        res = QString("-%1").arg(QString::number(revision));
+    if(_revision != 0)
+        res = QString("-%1").arg(QString::number(_revision));
 
-    if(build != 0 || revision != 0)
-        res.prepend(QString(".%1").arg(QString::number(build)));
+    if(_build != 0 || _revision != 0)
+        res.prepend(QString(".%1").arg(QString::number(_build)));
 
-    if(minor != 0 || build != 0 || revision != 0)
-        res.prepend(QString(".%1").arg(QString::number(minor)));
-
-    res.prepend(QString("%1").arg(QString::number(major)));
+    res.prepend(QString("%1.%2").arg(QString::number(_major), QString::number(_minor)));
 
     return res;
 }
 
 bool Version::operator ==(const Version& other) const
 {
-    if(major == other.major && minor == other.minor &&
-            build == other.build && revision == other.revision)
+    if(_major == other._major && _minor == other._minor &&
+            _build == other._build && _revision == other._revision)
         return true;
 
     return false;
@@ -77,8 +74,8 @@ bool Version::operator ==(const Version& other) const
 
 bool Version::operator !=(const Version& other) const
 {
-    if(major != other.major || minor != other.minor ||
-            build != other.build || revision != other.revision)
+    if(_major != other._major || _minor != other._minor ||
+            _build != other._build || _revision != other._revision)
         return true;
 
     return false;
@@ -86,28 +83,28 @@ bool Version::operator !=(const Version& other) const
 
 bool Version::operator >(const Version& other) const
 {
-    if(major != other.major)
-        return (major > other.major);
+    if(_major != other._major)
+        return (_major > other._major);
 
-    if(minor != other.minor)
-        return (minor > other.minor);
+    if(_minor != other._minor)
+        return (_minor > other._minor);
 
-    if(build != other.build)
-        return (build > other.build);
+    if(_build != other._build)
+        return (_build > other._build);
 
-    return (revision > other.revision);
+    return (_revision > other._revision);
 }
 
 bool Version::operator <(const Version& other) const
 {
-    if(major != other.major)
-        return (major < other.major);
+    if(_major != other._major)
+        return (_major < other._major);
 
-    if(minor != other.minor)
-        return (minor < other.minor);
+    if(_minor != other._minor)
+        return (_minor < other._minor);
 
-    if(build != other.build)
-        return (build < other.build);
+    if(_build != other._build)
+        return (_build < other._build);
 
-    return (revision < other.revision);
+    return (_revision < other._revision);
 }
