@@ -45,9 +45,11 @@ signals:
     void sendLog(QString log, LogType type = LogType::Common);
     void sendError(QString error);
 
+    void sendDisconnected(QHostAddress address, int tcpPort);
+
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
-    void onDisconnected(QHostAddress, int tcpPort);
+    void onDisconnected(QHostAddress address, int tcpPort);
     void onDataReceived(QByteArray* data, QHostAddress, int);
 
     void onSendVersion(QUuid uuid, QString version);
@@ -61,6 +63,7 @@ private:
     PoolNodeInfo& getInfoByAddressAndPort(QHostAddress address, int port);
 
     void disconnectFromNode(PoolNodeInfo& info);
+    void disconnectFromNodeWithoutNotification(PoolNodeInfo& info);
 
     void sendCommand(PoolNodeInfo& info, CommandType type, QByteArray* body = new QByteArray());
     void sendResponse(PoolNodeInfo& info, CommandType type, QUuid uuid, QByteArray* body = new QByteArray());
