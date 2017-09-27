@@ -1,10 +1,8 @@
 #pragma once
 
-#include "control/poolentity.h"
-#include "poolnodeinfo.h"
+#include "control/pool/poolentity.h"
 #include "exception/illegalargumentexception.h"
 #include "sessiondata.h"
-#include "commandhistoryentry.h"
 
 /**
  * @brief The PoolManager class
@@ -28,18 +26,18 @@ public:
     void disable();
 
     void connectToUnconnectedNodes();
-    void connectToNode(PoolNodeInfo& info);
+    void connectToNode(PoolEntityInfo& info);
 
-    void removeNode(PoolNodeInfo& info);
+    void removeNode(PoolEntityInfo& info);
 
-    QList<PoolNodeInfo>& getPoolNodesInfo() { return poolNodes; }
+    QList<PoolEntityInfo>& getPoolNodesInfo() { return connectedEntities; }
 
     SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
 
 signals:
     void sendClearNodesInfo();
-    void sendUpdateNodeInfo(PoolNodeInfo& info);
+    void sendUpdateNodeInfo(PoolEntityInfo& info);
     void sendRemoveNodeInfo(int index);
 
     void sendLog(QString log, LogType type = LogType::Common);
@@ -52,25 +50,20 @@ private slots:
     void onDisconnected(QHostAddress address, int tcpPort);
     void onDataReceived(QByteArray* data, QHostAddress, int);
 
-    void onSendVersion(QUuid uuid, QString version);
-    CommandHistoryEntry& getCommandHistoryEntry(QUuid uuid);
+    void onSendVersion(QUuid uuid, Version version);
 
 protected:
     void connectDispatcher();
 
 private:
-    bool tryConnect(PoolNodeInfo& info);
-    PoolNodeInfo& getInfoByAddressAndPort(QHostAddress address, int port);
+    bool tryConnect(PoolEntityInfo& info);
 
-    void disconnectFromNode(PoolNodeInfo& info);
-    void disconnectFromNodeWithoutNotification(PoolNodeInfo& info);
+    void disconnectFromNode(PoolEntityInfo& info);
+    void disconnectFromNodeWithoutNotification(PoolEntityInfo& info);
 
-    void sendCommand(PoolNodeInfo& info, CommandType type, QByteArray* body = new QByteArray());
-    void sendResponse(PoolNodeInfo& info, CommandType type, QUuid uuid, QByteArray* body = new QByteArray());
+    static const EntityType entityType = EntityType::Manager;
 
-    QList<PoolNodeInfo> poolNodes;
     SessionData* data;
 
-    Version programVersion;
-    QList<CommandHistoryEntry> sentCommands;
+    Version programVersion;    
 };

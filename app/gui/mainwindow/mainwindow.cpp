@@ -144,7 +144,7 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
     for(QAction* a: tableContextMenu.actions())
         a->setEnabled(true);
 
-    PoolNodeInfo& info = manager.getPoolNodesInfo()[index.row()];
+    PoolEntityInfo& info = manager.getPoolNodesInfo()[index.row()];
 
     if(info.getStatus() != NodeStatus::NotResponding && info.getStatus() != NodeStatus::Unconnected)
         tableContextMenu.actions()[1]->setEnabled(false);
@@ -154,13 +154,13 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
 
 void MainWindow::onRemove()
 {
-    PoolNodeInfo& info = manager.getPoolNodesInfo()[lastContextActionIndex.row()];
+    PoolEntityInfo& info = manager.getPoolNodesInfo()[lastContextActionIndex.row()];
     manager.removeNode(info);
 }
 
 void MainWindow::onReconnect()
 {
-    PoolNodeInfo& info = manager.getPoolNodesInfo()[lastContextActionIndex.row()];
+    PoolEntityInfo& info = manager.getPoolNodesInfo()[lastContextActionIndex.row()];
     manager.connectToNode(info);
 }
 

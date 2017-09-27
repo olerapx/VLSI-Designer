@@ -30,12 +30,12 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    void appendRow(PoolNodeInfo info, const QModelIndex& parent = QModelIndex());
-    void appendRows(QList<PoolNodeInfo>& list, const QModelIndex& parent = QModelIndex());
+    void appendRow(PoolEntityInfo info, const QModelIndex& parent = QModelIndex());
+    void appendRows(QList<PoolEntityInfo>& list, const QModelIndex& parent = QModelIndex());
 
 private slots:
     void onClearNodeInfo();
-    void onUpdateNodeInfo(PoolNodeInfo& info);
+    void onUpdateNodeInfo(PoolEntityInfo& info);
     void onRemoveNodeInfo(int index);
 
 private:

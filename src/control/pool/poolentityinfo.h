@@ -19,13 +19,13 @@ enum class NodeStatus
 };
 
 /**
- * @brief The PoolNodeInfo class
- * Encapsulates the information and current status of pool node hold by pool manager.
+ * @brief The PoolEntityInfo class
+ * Encapsulates the information and current status of pool node or pool manager.
  */
-class PoolNodeInfo
+class PoolEntityInfo
 {
 public:
-    PoolNodeInfo(QString hostName, QHostAddress address, int tcpPort);
+    PoolEntityInfo(QString hostName, QHostAddress address, int tcpPort);
 
     QString getHostName() const { return hostName; }
 
@@ -39,7 +39,7 @@ public:
 
     int getTcpPort() const { return tcpPort; }
 
-    bool operator ==(const PoolNodeInfo& other) const;
+    bool operator ==(const PoolEntityInfo& other) const;
 
 private:
     QString hostName;

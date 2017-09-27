@@ -1,6 +1,6 @@
-#include "poolnodeinfo.h"
+#include "poolentityinfo.h"
 
-PoolNodeInfo::PoolNodeInfo(QString hostName, QHostAddress address, int tcpPort) :
+PoolEntityInfo::PoolEntityInfo(QString hostName, QHostAddress address, int tcpPort) :
     hostName(hostName),
     address(address),
     tcpPort(tcpPort)
@@ -8,17 +8,17 @@ PoolNodeInfo::PoolNodeInfo(QString hostName, QHostAddress address, int tcpPort) 
     status = NodeStatus::Unconnected;
 }
 
-void PoolNodeInfo::setStatus(NodeStatus status)
+void PoolEntityInfo::setStatus(NodeStatus status)
 {
     this->status = status;
 }
 
-void PoolNodeInfo::setProgramVersion(Version version)
+void PoolEntityInfo::setProgramVersion(Version version)
 {
     this->programVersion = version;
 }
 
-bool PoolNodeInfo::operator ==(const PoolNodeInfo &other) const
+bool PoolEntityInfo::operator ==(const PoolEntityInfo &other) const
 {
     if(address == other.getAddress() && tcpPort == other.getTcpPort())
         return true;

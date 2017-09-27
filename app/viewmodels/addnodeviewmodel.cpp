@@ -1,6 +1,6 @@
 #include "addnodeviewmodel.h"
 
-AddNodeViewModel::AddNodeViewModel(QObject* parent, QList<PoolNodeInfo>& nodes)
+AddNodeViewModel::AddNodeViewModel(QObject* parent, QList<PoolEntityInfo>& nodes)
     : QAbstractTableModel(parent),
       nodes(nodes)
 {
@@ -26,7 +26,7 @@ QVariant AddNodeViewModel::data(const QModelIndex &index, int role) const
         int row = index.row();
         int col = index.column();
 
-        PoolNodeInfo& info = nodes[row];
+        PoolEntityInfo& info = nodes[row];
 
         switch (col)
         {
@@ -60,7 +60,7 @@ QVariant AddNodeViewModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
-void AddNodeViewModel::appendRow(PoolNodeInfo info, const QModelIndex& parent)
+void AddNodeViewModel::appendRow(PoolEntityInfo info, const QModelIndex& parent)
 {
     beginInsertRows(parent, nodes.size(), nodes.size());
 

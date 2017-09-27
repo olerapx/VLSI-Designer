@@ -1,7 +1,6 @@
 #pragma once
 
 #include "control/poolentity.h"
-#include "poolmanagerinfo.h"
 #include "datamodels/version/version.h"
 
 /**
@@ -25,28 +24,28 @@ public:
     void enable();
     void disable();
 
-    PoolManagerInfo* getPoolManagerInfo() const { return poolManager; }
+    PoolEntityInfo* getPoolManagerInfo() const { return poolManager; }
 
 signals:
     void sendLog(QString log, LogType type = LogType::Common);
     void sendError(QString error);
 
+    void sendConnectionIdentified();
+
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
-    void onDisconnected(QHostAddress, int);
-    void onDataReceived(QByteArray* data, QHostAddress, int);
+    void onDisconnected(QHostAddress address, int port);
+    void onDataReceived(QByteArray* data, QHostAddress address, int port);
 
+    void onIdentify(QUuid uuid, EntityType type);
     void onGetVersion(QUuid uuid);
 
 protected:
     void connectDispatcher();
 
 private:
-    void disconnectFromManager();
-
-    void sendCommand(CommandType type, QByteArray* body = new QByteArray());
-    void sendResponse(CommandType type, QUuid uuid, QByteArray* body = new QByteArray());
+    static const EntityType entityType = EntityType::Node;
 
     Version programVersion;
-    PoolManagerInfo* poolManager;
+    PoolEntityInfo* poolManager;
 };

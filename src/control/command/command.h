@@ -5,6 +5,7 @@
 
 enum class CommandType
 {
+    Identify,
     GetVersion,
     SendVersion
 };

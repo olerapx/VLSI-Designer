@@ -29,9 +29,10 @@ void TcpSocket::onReadyRead()
     data->resize(blockSize);
     in.readRawData(data->data(), blockSize);
 
-    sendDataReceived(data, socket->peerAddress(), socket->peerPort());
-
     blockSize = 0;
+
+    sendDataReceived(data, socket->peerAddress(), socket->peerPort());
+    onReadyRead();
 }
 
 void TcpSocket::onDisconnected()

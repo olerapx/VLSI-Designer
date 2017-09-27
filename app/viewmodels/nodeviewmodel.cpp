@@ -29,7 +29,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
         int row = index.row();
         int col = index.column();
 
-        PoolNodeInfo& info = manager.getPoolNodesInfo()[row];
+        PoolEntityInfo& info = manager.getPoolNodesInfo()[row];
 
         switch(col)
         {
@@ -73,7 +73,7 @@ QVariant NodeViewModel::headerData(int section, Qt::Orientation orientation, int
     return QVariant();
 }
 
-void NodeViewModel::appendRow(PoolNodeInfo info, const QModelIndex& parent)
+void NodeViewModel::appendRow(PoolEntityInfo info, const QModelIndex& parent)
 {
     beginInsertRows(parent, manager.getPoolNodesInfo().size(), manager.getPoolNodesInfo().size());
 
@@ -82,7 +82,7 @@ void NodeViewModel::appendRow(PoolNodeInfo info, const QModelIndex& parent)
     endInsertRows();
 }
 
-void NodeViewModel::appendRows(QList<PoolNodeInfo>& list, const QModelIndex& parent)
+void NodeViewModel::appendRows(QList<PoolEntityInfo>& list, const QModelIndex& parent)
 {
     if(list.size() == 0)
         return;
@@ -100,7 +100,7 @@ void NodeViewModel::onClearNodeInfo()
     endResetModel();
 }
 
-void NodeViewModel::onUpdateNodeInfo(PoolNodeInfo& info)
+void NodeViewModel::onUpdateNodeInfo(PoolEntityInfo& info)
 {
     int rowIndex = manager.getPoolNodesInfo().indexOf(info);
     dataChanged(createIndex(rowIndex, 0), createIndex(rowIndex, 3));

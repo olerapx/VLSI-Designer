@@ -20,7 +20,7 @@ public:
     AddNodesDialog(PoolManager& manager, NetworkScanner& scanner, QWidget* parent = 0);
     ~AddNodesDialog();
 
-    QList<PoolNodeInfo>& getSelectedNodes() { return selectedNodes; }
+    QList<PoolEntityInfo>& getSelectedNodes() { return selectedNodes; }
 
 protected:
     void closeEvent(QCloseEvent* event);
@@ -43,7 +43,7 @@ private:
 
     AddNodeViewModel* addNodeViewModel;
 
-    QList<PoolNodeInfo> foundNodes;
-    QList<PoolNodeInfo> selectedNodes;
+    QList<PoolEntityInfo> foundNodes;
+    QList<PoolEntityInfo> selectedNodes;
     QList<QNetworkInterface> interfaces;
 };

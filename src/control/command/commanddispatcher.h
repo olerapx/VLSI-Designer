@@ -3,6 +3,8 @@
 #include <QHostAddress>
 
 #include "command.h"
+#include "control/pool/entitytype.h"
+#include "datamodels/version/version.h"
 
 /**
  * @brief The CommandDispatcher class
@@ -21,12 +23,17 @@ public:
 
     Command* createCommand(CommandType type, QByteArray* body);
     Command* createCommand(CommandType type, QUuid uuid, QByteArray* body);
-    void dispatchCommand(Command* command);
+
+    static bool isRequest(CommandType type);
+
+    void dispatchCommand(Command* command);    
 
 signals:
+    void sendIdentify(QUuid uuid, EntityType type);
     void sendGetVersion(QUuid uuid);
-    void sendSendVersion(QUuid uuid, QString version);
+    void sendSendVersion(QUuid uuid, Version version);
 
 private:
+    void handleIdentify(Command* command);
     void handleSendVersion(Command* command);
 };
