@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui(new Ui::MainWindow),
     config(ConfigBuilder::readConfig()),
     manager(App::APP_VERSION),
-    node(App::APP_VERSION),
+    node(config.getSessionsPath(), App::APP_VERSION),
     scanner(config.getNodeTcpPort())
 {
     ui->setupUi(this);
@@ -59,8 +59,11 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 {
     bool success = false;
 
-    manager.disable();
-    node.disable();
+    if(!manager.isStarted())
+    {
+        manager.disable();
+        node.disable();
+    }
 
     while(!success)
         success = tryChangeNetworkConfig(firstTime);
@@ -125,11 +128,18 @@ void MainWindow::on_setupButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
+    if(manager.isStarted())
+        return;
+
     if(manager.getPoolNodesInfo().isEmpty())
     {
         QMessageBox::information(this, tr("No nodes added"), tr("Cannot start work without any node added. Add nodes and try again."));
         return;
     }
+
+    ui->setupButton->setEnabled(false);
+
+    manager.start();
 }
 
 void MainWindow::onTableContextMenuRequested(QPoint pos)
@@ -145,6 +155,9 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
         a->setEnabled(true);
 
     PoolEntityInfo& info = manager.getPoolNodesInfo()[index.row()];
+
+    if(manager.isStarted())
+        tableContextMenu.actions()[0]->setEnabled(false);
 
     if(info.getStatus() != NodeStatus::NotResponding && info.getStatus() != NodeStatus::Unconnected)
         tableContextMenu.actions()[1]->setEnabled(false);

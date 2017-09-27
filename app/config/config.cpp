@@ -57,3 +57,19 @@ void Config::setLibrariesPath(QString path)
 {
     this->librariesPath = path;
 }
+
+QString Config::getSessionsPath()
+{
+    QDir dir = QDir::currentPath();
+
+    #ifdef QT_DEBUG
+        dir.cdUp();
+    #endif
+
+    return dir.absolutePath() + "/" + sessionsPath;
+}
+
+void Config::setSessionsPath(QString path)
+{
+    this->sessionsPath = path;
+}

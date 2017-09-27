@@ -18,7 +18,7 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolNode(Version programVersion, int selfPort = 0);
+    PoolNode(QString sessionPath, Version programVersion, int selfPort = 0);
     ~PoolNode();
 
     void enable();
@@ -45,6 +45,8 @@ protected:
 
 private:
     static const EntityType entityType = EntityType::Node;
+
+    QString sessionPath;
 
     Version programVersion;
     PoolEntityInfo* poolManager;

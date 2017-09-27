@@ -2,6 +2,7 @@
 
 PoolManager::PoolManager(Version programVersion, int selfPort) :
     PoolEntity(selfPort),
+    started(false),
     programVersion(programVersion)
 {
     data = new SessionData();
@@ -36,6 +37,8 @@ void PoolManager::disable()
 {
     if(transmitter == nullptr)
         return;
+
+    started = false;
 
     sendClearNodesInfo();
 
@@ -156,6 +159,25 @@ void PoolManager::setSessionData(SessionData* data)
 {
     delete this->data;
     this->data = data;
+}
+
+void PoolManager::start()
+{
+    started = true;
+
+    setStatusOfAllConnectedNodes(NodeStatus::Initialization);
+}
+
+void PoolManager::setStatusOfAllConnectedNodes(NodeStatus status)
+{
+    for(PoolEntityInfo& info: connectedEntities)
+    {
+        if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+        {
+            info.setStatus(status);
+            sendUpdateNodeInfo(info);
+        }
+    }
 }
 
 void PoolManager::onNewConnection(QHostAddress address, int tcpPort)

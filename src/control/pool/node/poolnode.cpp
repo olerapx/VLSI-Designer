@@ -1,7 +1,8 @@
 #include "poolnode.h"
 
-PoolNode::PoolNode(Version programVersion, int selfPort) :
+PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
     PoolEntity(selfPort),
+    sessionPath(sessionPath),
     programVersion(programVersion),
     poolManager(nullptr)
 {

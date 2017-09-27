@@ -21,6 +21,8 @@ public:
     void fillNetworkInterfaces();
     void readConfig();
 
+    void disableIfManagerIsStarted();
+
     void writeConfig();
 
     ~NetworkConfigurationDialog();

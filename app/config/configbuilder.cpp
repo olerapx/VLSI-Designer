@@ -16,6 +16,7 @@ Config ConfigBuilder::createDefault()
     config.setTcpPorts(40000, 40001);
 
     config.setLibrariesPath("libraries");
+    config.setSessionsPath("sessions");
 
     return config;
 }

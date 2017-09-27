@@ -16,6 +16,8 @@ NetworkConfigurationDialog::NetworkConfigurationDialog(Config& config, PoolManag
 
     fillNetworkInterfaces();
     readConfig();
+
+    disableIfManagerIsStarted();
 }
 
 void NetworkConfigurationDialog::setValidators()
@@ -66,6 +68,25 @@ void NetworkConfigurationDialog::readConfig()
     ui->udpPortText->setText(QString::number(config.getUdpPort()));
     ui->managerTcpPortText->setText(QString::number(config.getManagerTcpPort()));
     ui->nodeTcpPortText->setText(QString::number(config.getNodeTcpPort()));
+}
+
+void NetworkConfigurationDialog::disableIfManagerIsStarted()
+{
+    if(!manager.isStarted())
+        return;
+
+    ui->ipv4Radio->setEnabled(false);
+    ui->ipv6Radio->setEnabled(false);
+
+    ui->networkInterfaceBox->setEnabled(false);
+
+    ui->udpPortText->setEnabled(false);
+    ui->managerTcpPortText->setEnabled(false);
+    ui->nodeTcpPortText->setEnabled(false);
+
+    ui->ipv6AddressText->setEnabled(false);
+
+    ui->okButton->setEnabled(false);
 }
 
 void NetworkConfigurationDialog::closeEvent(QCloseEvent* event)

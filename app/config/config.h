@@ -35,6 +35,9 @@ public:
     QString getLibrariesPath();
     void setLibrariesPath(QString path);
 
+    QString getSessionsPath();
+    void setSessionsPath(QString path);
+
 private:
     Config() {}
 
@@ -50,4 +53,5 @@ private:
     int nodeTcpPort;
 
     QString librariesPath;
+    QString sessionsPath;
 };

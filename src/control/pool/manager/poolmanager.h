@@ -30,6 +30,9 @@ public:
 
     void removeNode(PoolEntityInfo& info);
 
+    void start();
+    bool isStarted() const { return started; }
+
     QList<PoolEntityInfo>& getPoolNodesInfo() { return connectedEntities; }
 
     SessionData* getSessionData() const { return data; }
@@ -61,9 +64,12 @@ private:
     void disconnectFromNode(PoolEntityInfo& info);
     void disconnectFromNodeWithoutNotification(PoolEntityInfo& info);
 
+    void setStatusOfAllConnectedNodes(NodeStatus status);
+
     static const EntityType entityType = EntityType::Manager;
 
     SessionData* data;
+    bool started;
 
     Version programVersion;    
 };
