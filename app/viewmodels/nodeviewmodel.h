@@ -3,7 +3,7 @@
 #include <QAbstractTableModel>
 #include <QMap>
 
-#include "control/manager/poolmanager.h"
+#include "control/pool/manager/poolmanager.h"
 
 static const QMap<NodeStatus, QString> nodeStatusMap
 {

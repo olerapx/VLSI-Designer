@@ -7,7 +7,7 @@
 
 #include "gui/mainwindow/mainwindow.h"
 #include "datamodels/version/version.h"
-#include "control/entitytype.h"
+#include "control/pool/entitytype.h"
 
 Q_DECLARE_METATYPE(QHostAddress)
 Q_DECLARE_METATYPE(Version)

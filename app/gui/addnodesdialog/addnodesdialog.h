@@ -4,7 +4,7 @@
 #include <QNetworkInterface>
 
 #include "network/networkscanner.h"
-#include "control/manager/poolmanager.h"
+#include "control/pool/manager/poolmanager.h"
 #include "viewmodels/addnodeviewmodel.h"
 
 namespace Ui

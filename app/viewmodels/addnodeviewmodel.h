@@ -2,7 +2,7 @@
 
 #include <QAbstractTableModel>
 
-#include "control/poolentityinfo.h"
+#include "control/pool/poolentityinfo.h"
 
 class AddNodeViewModel : public QAbstractTableModel
 {

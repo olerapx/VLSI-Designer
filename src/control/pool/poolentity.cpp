@@ -57,9 +57,9 @@ CommandHistoryEntry& PoolEntity::getCommandHistoryEntry(QList<CommandHistoryEntr
 void PoolEntity::sendRequest(QHostAddress address, int port, CommandType type, QByteArray* body)
 {
     Command* command = dispatcher.createCommand(type, body);
-    transmitter->sendData(command->toByteArray(), address, port);
 
     outcomingRequests.append(CommandHistoryEntry(address, port, command->getType(), command->getUuid()));
+    transmitter->sendData(command->toByteArray(), address, port);    
 
     delete command;
 }

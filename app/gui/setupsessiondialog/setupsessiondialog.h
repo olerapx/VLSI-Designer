@@ -6,7 +6,7 @@
 #include <QMessageBox>
 
 #include "config/config.h"
-#include "control/manager/poolmanager.h"
+#include "control/pool/manager/poolmanager.h"
 #include "datamodels/architecture/architecture.h"
 #include "algorithms/composition/compositionstrategy.h"
 #include "algorithms/decomposition/decompositionstrategy.h"

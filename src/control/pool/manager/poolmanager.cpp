@@ -161,9 +161,7 @@ void PoolManager::setSessionData(SessionData* data)
 void PoolManager::onNewConnection(QHostAddress address, int tcpPort)
 {
     transmitter->disconnectFromHost(address, tcpPort);
-
-    sendLog(tr("Got an unexpected new connection from %1:%2. The connection was terminated.")
-            .arg(address.toString(), QString::number(tcpPort)));
+    sendLog(tr("Got an unexpected new connection from %1:%2. The connection was terminated.").arg(address.toString(), QString::number(tcpPort)));
 }
 
 void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
@@ -173,8 +171,7 @@ void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
     info.setStatus(NodeStatus::NotResponding);
     sendUpdateNodeInfo(info);
 
-    sendLog(tr("Lost connection with node at %1:%2.")
-            .arg(address.toString(), QString::number(tcpPort)), LogType::Warning);
+    sendLog(tr("Lost connection with node at %1:%2.").arg(address.toString(), QString::number(tcpPort)), LogType::Warning);
 
     sendDisconnected(address, tcpPort);
 }
@@ -193,8 +190,7 @@ void PoolManager::onSendVersion(QUuid uuid, Version version)
 {
     PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
 
-    sendLog(tr("Received a program version from %1:%2.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+    sendLog(tr("Received a program version from %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
 
     info.setProgramVersion(version);
     sendUpdateNodeInfo(info);

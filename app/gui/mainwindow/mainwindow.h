@@ -7,8 +7,8 @@
 
 #include "app.h"
 #include "config/configbuilder.h"
-#include "control/manager/poolmanager.h"
-#include "control/node/poolnode.h"
+#include "control/pool/manager/poolmanager.h"
+#include "control/pool/node/poolnode.h"
 #include "network/networkscanner.h"
 #include "viewmodels/nodeviewmodel.h"
 #include "gui/networkconfigurationwindow/networkconfigurationdialog.h"

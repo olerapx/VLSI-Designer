@@ -5,7 +5,7 @@
 #include <QCloseEvent>
 
 #include "config/config.h"
-#include "control/manager/poolmanager.h"
+#include "control/pool/manager/poolmanager.h"
 
 namespace Ui
 {

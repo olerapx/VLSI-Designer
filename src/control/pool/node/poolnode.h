@@ -1,6 +1,6 @@
 #pragma once
 
-#include "control/poolentity.h"
+#include "control/pool/poolentity.h"
 #include "datamodels/version/version.h"
 
 /**
