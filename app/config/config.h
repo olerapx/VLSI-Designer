@@ -53,5 +53,5 @@ private:
     int nodeTcpPort;
 
     QString librariesPath;
-    QString sessionsPath;
+    QString sessionsPath;    
 };

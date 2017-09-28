@@ -50,7 +50,7 @@ protected:
 
     int selfPort;
 
-    QList<PoolEntityInfo> connectedEntities;
+    QList<PoolEntityInfo> knownEntities;
 
     QList<CommandHistoryEntry> outcomingRequests;
     QList<CommandHistoryEntry> incomingRequests;

@@ -5,9 +5,15 @@
 
 enum class CommandType
 {
+    OK,
+    Error,
     Identify,
     GetVersion,
-    SendVersion
+    SendVersion,
+    SendSessionDirectoryName,
+    SendLibraryList,
+    SendArchitecture,
+    Assign
 };
 
 /**

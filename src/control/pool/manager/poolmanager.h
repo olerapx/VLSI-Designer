@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QTime>
+
 #include "control/pool/poolentity.h"
 #include "exception/illegalargumentexception.h"
 #include "sessiondata.h"
@@ -33,7 +35,7 @@ public:
     void start();
     bool isStarted() const { return started; }
 
-    QList<PoolEntityInfo>& getPoolNodesInfo() { return connectedEntities; }
+    QList<PoolEntityInfo>& getPoolNodesInfo() { return knownEntities; }
 
     SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
@@ -53,6 +55,8 @@ private slots:
     void onDisconnected(QHostAddress address, int tcpPort);
     void onDataReceived(QByteArray* data, QHostAddress, int);
 
+    void onOK(QUuid uuid);
+    void onError(QUuid uuid, QString what);
     void onSendVersion(QUuid uuid, Version version);
 
 protected:
@@ -65,6 +69,11 @@ private:
     void disconnectFromNodeWithoutNotification(PoolEntityInfo& info);
 
     void setStatusOfAllConnectedNodes(NodeStatus status);
+
+    void createSession();
+    void sendLibraryListToNode(PoolEntityInfo& info);
+    void sendArchitectureToNode(PoolEntityInfo& info);
+    void markNodeInitialized(PoolEntityInfo& info);
 
     static const EntityType entityType = EntityType::Manager;
 

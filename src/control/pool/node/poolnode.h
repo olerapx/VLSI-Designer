@@ -1,7 +1,10 @@
 #pragma once
 
+#include <QDir>
+
 #include "control/pool/poolentity.h"
 #include "datamodels/version/version.h"
+#include "util/serializer/jsonserializer.h"
 
 /**
  * @brief The PoolNode class
@@ -37,17 +40,31 @@ private slots:
     void onDisconnected(QHostAddress address, int port);
     void onDataReceived(QByteArray* data, QHostAddress address, int port);
 
+    void onOK(QUuid uuid);
+    void onError(QUuid uuid, QString what);
     void onIdentify(QUuid uuid, EntityType type);
     void onGetVersion(QUuid uuid);
+    void onSendSessionDirectoryName(QUuid uuid, QString name);
+    void onSendLibraryList(QUuid uuid, QList<Library*> libraries);
+    void onSendArchitecture(QUuid uuid, Architecture* architecture);
+    void onAssign(QUuid uuid);
 
 protected:
     void connectDispatcher();
 
 private:
+    QString getCurrentSessionPath();
+
     static const EntityType entityType = EntityType::Node;
 
     QString sessionPath;
+    QString currentSessionName;
 
     Version programVersion;
     PoolEntityInfo* poolManager;
+
+    QList<Library*> libraries;
+    Architecture* architecture;
+
+    bool acceptNodeConnection;
 };

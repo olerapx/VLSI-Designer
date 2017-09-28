@@ -42,4 +42,5 @@ void Loader::registerMetaTypes()
     qRegisterMetaType<QHostAddress>("QHostAddress");
     qRegisterMetaType<Version>("Version");
     qRegisterMetaType<EntityType>("EntityType");
+    qRegisterMetaType<QList<Library*>>("QList<Library*>");
 }

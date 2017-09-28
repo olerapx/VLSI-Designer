@@ -17,6 +17,8 @@ PoolManager::~PoolManager()
 
 void PoolManager::connectDispatcher()
 {
+    connect(&dispatcher, &CommandDispatcher::sendOK, this, &PoolManager::onOK, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendError, this, &PoolManager::onError, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendVersion, this, &PoolManager::onSendVersion, Qt::QueuedConnection);
 }
 
@@ -53,7 +55,7 @@ void PoolManager::disable()
 
 void PoolManager::connectToUnconnectedNodes()
 {
-    for(PoolEntityInfo& info: connectedEntities)
+    for(PoolEntityInfo& info: knownEntities)
         connectToNode(info);
 }
 
@@ -107,8 +109,8 @@ void PoolManager::removeNode(PoolEntityInfo& info)
 {
     if(info.getStatus() == NodeStatus::Unconnected || info.getStatus() == NodeStatus::NotResponding)
     {
-        int index = connectedEntities.indexOf(info);
-        connectedEntities.removeAt(index);
+        int index = knownEntities.indexOf(info);
+        knownEntities.removeAt(index);
         sendRemoveNodeInfo(index);
 
         return;
@@ -119,9 +121,9 @@ void PoolManager::removeNode(PoolEntityInfo& info)
     {
         if(address == info.getAddress() && tcpPort == info.getTcpPort())
         {
-            int index = connectedEntities.indexOf(info);
+            int index = knownEntities.indexOf(info);
 
-            connectedEntities.removeAt(index);
+            knownEntities.removeAt(index);
             sendRemoveNodeInfo(index);
 
             obj->deleteLater();
@@ -166,11 +168,12 @@ void PoolManager::start()
     started = true;
 
     setStatusOfAllConnectedNodes(NodeStatus::Initialization);
+    createSession();
 }
 
 void PoolManager::setStatusOfAllConnectedNodes(NodeStatus status)
 {
-    for(PoolEntityInfo& info: connectedEntities)
+    for(PoolEntityInfo& info: knownEntities)
     {
         if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
         {
@@ -178,6 +181,80 @@ void PoolManager::setStatusOfAllConnectedNodes(NodeStatus status)
             sendUpdateNodeInfo(info);
         }
     }
+}
+
+void PoolManager::createSession()
+{
+    QString sessionDirectoryName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+    sendLog(tr("Sending session directory name to all nodes."), LogType::Information);
+
+    for(PoolEntityInfo& info: knownEntities)
+    {
+        if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+        {
+            QByteArray* body = new QByteArray();
+            body->append(sessionDirectoryName);
+            sendRequest(info.getAddress(), info.getTcpPort(), CommandType::SendSessionDirectoryName, body);
+        }
+    }
+}
+
+void PoolManager::sendLibraryListToNode(PoolEntityInfo& info)
+{
+    sendLog(tr("Current session name was accepted by node %1:%2. Sending library list.")
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+
+    QByteArray* body = new QByteArray();
+    QDataStream stream(body, QIODevice::WriteOnly);
+
+    stream << (qint32) data->getLibraries().size();
+    BinarySerializer serializer;
+
+    for(Library* library: data->getLibraries())
+    {
+        QByteArray array = serializer.serialize(library);
+        stream << static_cast<quint32>(array.size());
+        stream.writeRawData(array.constData(), array.size());
+    }
+
+    sendRequest(info.getAddress(), info.getTcpPort(), CommandType::SendLibraryList, body);
+}
+
+void PoolManager::sendArchitectureToNode(PoolEntityInfo& info)
+{
+    sendLog(tr("Library list was accepted by node %1:%2. Sending architecture.")
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+
+    BinarySerializer serializer;
+    QByteArray architecture = serializer.serialize(data->getArchitecture());
+
+    QByteArray* body = new QByteArray(architecture);
+
+    sendRequest(info.getAddress(), info.getTcpPort(), CommandType::SendArchitecture, body);
+}
+
+void PoolManager::markNodeInitialized(PoolEntityInfo& info)
+{
+    sendLog(tr("Node %1:%2 is initialized.")
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Success);
+
+    info.setStatus(NodeStatus::Ready);
+    sendUpdateNodeInfo(info);
+
+    bool allInitialized = true;
+    for(PoolEntityInfo& info: knownEntities)
+    {
+        if(info.getStatus() == NodeStatus::Initialization)
+        {
+            allInitialized = false;
+            break;
+        }
+    }
+
+    if(!allInitialized)
+        return;
+
+    sendLog(tr("Initialization finished."), LogType::Success);
 }
 
 void PoolManager::onNewConnection(QHostAddress address, int tcpPort)
@@ -206,6 +283,37 @@ void PoolManager::onDataReceived(QByteArray* data, QHostAddress, int)
         dispatcher.dispatchCommand(command);
 
     delete command;
+}
+
+void PoolManager::onOK(QUuid uuid)
+{
+    CommandType previousCommandType = getCommandHistoryEntry(outcomingRequests, uuid).getType();
+    PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
+
+    switch(previousCommandType)
+    {
+    case CommandType::SendSessionDirectoryName:
+        sendLibraryListToNode(info);
+        break;
+    case CommandType::SendLibraryList:
+        sendArchitectureToNode(info);
+        break;
+    case CommandType::SendArchitecture:
+        markNodeInitialized(info);
+        break;
+    default:
+        return;
+    }
+}
+
+void PoolManager::onError(QUuid uuid, QString what)
+{
+    sendError(what);
+
+    PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
+
+    info.setStatus(NodeStatus::Error);
+    sendUpdateNodeInfo(info);
 }
 
 void PoolManager::onSendVersion(QUuid uuid, Version version)

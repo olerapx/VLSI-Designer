@@ -31,7 +31,7 @@ void PoolEntity::enableTransmitter()
 
 void PoolEntity::disableTransmitter()
 {
-    connectedEntities.clear();
+    knownEntities.clear();
     outcomingRequests.clear();
     incomingRequests.clear();
 
@@ -92,7 +92,7 @@ PoolEntityInfo& PoolEntity::removeRequestFromList(QList<CommandHistoryEntry>& li
 
 PoolEntityInfo& PoolEntity::getInfoByAddressAndPort(QHostAddress address, int port)
 {
-    for(PoolEntityInfo& info: connectedEntities)
+    for(PoolEntityInfo& info: knownEntities)
     {
         if(info.getAddress() == address && info.getTcpPort() == port)
             return info;
