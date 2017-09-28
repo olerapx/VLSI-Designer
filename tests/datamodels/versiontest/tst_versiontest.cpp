@@ -29,7 +29,7 @@ void VersionTest::toStringTest()
     QVERIFY(version3.toString() == "1.2");
 
     Version version4(0, 0, 0, 0);
-    QVERIFY(version4.toString() == "0");
+    QVERIFY(version4.toString() == "0.0");
 
     Version version5(1, 0, 3, 4);
     QVERIFY(version5.toString() == "1.0.3-4");

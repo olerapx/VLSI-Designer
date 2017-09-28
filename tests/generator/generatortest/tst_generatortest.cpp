@@ -33,6 +33,7 @@ GeneratorTest::GeneratorTest()
 {
     QDir dir (QApplication::applicationDirPath());
     dir.cdUp();
+    dir.cdUp();
     datamodelsDir = dir.absolutePath();
 
     readLibraries();
