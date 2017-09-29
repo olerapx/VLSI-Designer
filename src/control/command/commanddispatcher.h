@@ -33,11 +33,12 @@ signals:
     void sendError(QUuid uuid, QString what);
     void sendIdentify(QUuid uuid, EntityType type);
     void sendGetVersion(QUuid uuid);
-    void sendSendVersion(QUuid uuid, Version version);
-    void sendAssign(QUuid uuid);
+    void sendSendVersion(QUuid uuid, Version version);    
+    void sendDisableManager(QUuid uuid);
     void sendSendSessionDirectoryName(QUuid uuid, QString name);
     void sendSendLibraryList(QUuid uuid, QList<Library*> libraries);
     void sendSendArchitecture(QUuid uuid, Architecture* architecture);
+    void sendAssign(QUuid uuid);
 
 private:
     void handleError(Command* command);

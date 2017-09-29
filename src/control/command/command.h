@@ -10,6 +10,7 @@ enum class CommandType
     Identify,
     GetVersion,
     SendVersion,
+    DisableManager,
     SendSessionDirectoryName,
     SendLibraryList,
     SendArchitecture,

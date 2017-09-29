@@ -20,13 +20,15 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&manager, &PoolManager::sendError, this, &MainWindow::onSendManagerError);
     connect(&node, &PoolNode::sendError, this, &MainWindow::onSendNodeError);
 
+    connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager);
+
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
 
 MainWindow::~MainWindow()
 {
-    disconnect(&manager, &PoolManager::sendLog, this, &MainWindow::onSendManagerLog);
-    disconnect(&node, &PoolNode::sendLog, this, &MainWindow::onSendNodeLog);
+    disconnect(&manager, 0, 0, 0);
+    disconnect(&node, 0, 0, 0);
     disconnect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 
     delete ui;
@@ -138,6 +140,7 @@ void MainWindow::on_startButton_clicked()
     }
 
     ui->setupButton->setEnabled(false);
+    ui->stopButton->setEnabled(true);
 
     manager.start();
 }
@@ -237,4 +240,15 @@ void MainWindow::onSendNodeError(QString error)
     colorizeLog(error, LogType::Error);
     prependCurrentTime(error);
     ui->nodeLogText->append(error);
+}
+
+void MainWindow::onDisableManager()
+{
+    manager.disable();
+
+    if(manager.isStarted())
+        return;
+
+    ui->managerWidget->setMaximumSize(QSize(0, 0));
+    ui->logLayout->setSpacing(0);
 }

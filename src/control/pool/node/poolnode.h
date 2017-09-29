@@ -32,8 +32,7 @@ public:
 signals:
     void sendLog(QString log, LogType type = LogType::Common);
     void sendError(QString error);
-
-    void sendConnectionIdentified();
+    void sendDisableManager();
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
@@ -44,6 +43,7 @@ private slots:
     void onError(QUuid uuid, QString what);
     void onIdentify(QUuid uuid, EntityType type);
     void onGetVersion(QUuid uuid);
+    void onDisableManager(QUuid uuid);
     void onSendSessionDirectoryName(QUuid uuid, QString name);
     void onSendLibraryList(QUuid uuid, QList<Library*> libraries);
     void onSendArchitecture(QUuid uuid, Architecture* architecture);

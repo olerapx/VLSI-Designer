@@ -22,6 +22,7 @@ void PoolNode::connectDispatcher()
     connect(&dispatcher, &CommandDispatcher::sendError, this, &PoolNode::onError, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendIdentify, this, &PoolNode::onIdentify, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendGetVersion, this, &PoolNode::onGetVersion, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendDisableManager, this, &PoolNode::onDisableManager, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendSessionDirectoryName, this, &PoolNode::onSendSessionDirectoryName, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendLibraryList, this, &PoolNode::onSendLibraryList, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendArchitecture, this, &PoolNode::onSendArchitecture, Qt::QueuedConnection);
@@ -115,7 +116,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
     QString typeString = ((type == EntityType::Manager) ? tr("manager") : tr("node"));
 
     sendLog(tr("Connection from %1:%2 identified as %3.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort()), typeString));
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort()), typeString), LogType::Information);
 
     if(type == EntityType::Manager)
     {
@@ -123,7 +124,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
         {
             transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
             sendLog(tr("Connection with %1:%2 was aborted: already have a connected pool manager.")
-                    .arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+                    .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Warning);
 
             knownEntities.removeAll(info);
 
@@ -142,7 +143,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
 
     transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
     sendLog(tr("Connection with %1:%2 was aborted: have not received the assigning command.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Warning);
 
     knownEntities.removeAll(info);
 }
@@ -158,6 +159,14 @@ void PoolNode::onGetVersion(QUuid uuid)
 
     sendLog(tr("Sending response on program version request."), LogType::Information);
     sendResponse(info.getAddress(), info.getTcpPort(), CommandType::SendVersion, uuid, body);
+}
+
+void PoolNode::onDisableManager(QUuid uuid)
+{
+    removeRequestFromList(incomingRequests, uuid);
+
+    sendLog(tr("Received a request to disable the manager."), LogType::Information);
+    sendDisableManager();
 }
 
 void PoolNode::onSendSessionDirectoryName(QUuid uuid, QString name)

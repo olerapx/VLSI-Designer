@@ -70,6 +70,7 @@ private:
 
     void setStatusOfAllConnectedNodes(NodeStatus status);
 
+    void disableManagers();
     void createSession();
     void sendLibraryListToNode(PoolEntityInfo& info);
     void sendArchitectureToNode(PoolEntityInfo& info);

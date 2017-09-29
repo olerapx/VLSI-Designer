@@ -37,7 +37,7 @@ void PoolManager::enable()
 
 void PoolManager::disable()
 {
-    if(transmitter == nullptr)
+    if(transmitter == nullptr || isStarted())
         return;
 
     started = false;
@@ -168,6 +168,7 @@ void PoolManager::start()
     started = true;
 
     setStatusOfAllConnectedNodes(NodeStatus::Initialization);
+    disableManagers();
     createSession();
 }
 
@@ -183,10 +184,19 @@ void PoolManager::setStatusOfAllConnectedNodes(NodeStatus status)
     }
 }
 
+void PoolManager::disableManagers()
+{
+    for(PoolEntityInfo& info: knownEntities)
+    {
+        if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+            sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::DisableManager);
+    }
+}
+
 void PoolManager::createSession()
 {
     QString sessionDirectoryName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
-    sendLog(tr("Sending session directory name to all nodes."), LogType::Information);
+    sendLog(tr("Sending session name to all nodes."), LogType::Information);
 
     for(PoolEntityInfo& info: knownEntities)
     {

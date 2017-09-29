@@ -24,6 +24,8 @@ bool CommandDispatcher::isRequest(CommandType type)
         return true;
     case CommandType::SendVersion:
         return false;
+    case CommandType::DisableManager:
+        return true;
     case CommandType::SendSessionDirectoryName:
         return true;
     case CommandType::SendLibraryList:
@@ -55,6 +57,9 @@ void CommandDispatcher::dispatchCommand(Command* command)
         break;
     case CommandType::SendVersion:
         handleSendVersion(command);
+        break;
+    case CommandType::DisableManager:
+        sendDisableManager(command->getUuid());
         break;
     case CommandType::SendSessionDirectoryName:
         handleSendSessionDirectoryName(command);

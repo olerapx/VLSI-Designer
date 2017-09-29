@@ -50,6 +50,8 @@ private slots:
     void onSendManagerError(QString error);
     void onSendNodeError(QString error);
 
+    void onDisableManager();
+
 private:
     void changeNetworkConfig(bool firstTime);
     bool tryChangeNetworkConfig(bool firstTime);
