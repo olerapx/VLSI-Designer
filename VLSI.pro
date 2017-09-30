@@ -8,7 +8,9 @@ CONFIG(debug, debug|release) {
     tests.depends = src
 }
 
-copydata.commands = $(COPY_DIR) $$shell_path($$PWD/libraries) $$shell_path($$OUT_PWD/libraries)
+win32: copydata.commands = $(COPY_DIR) $$shell_path($$PWD/libraries) $$shell_path($$OUT_PWD/libraries)
+!win32: copydata.commands = $(COPY_DIR) $$shell_path($$PWD/libraries) $$shell_path($$OUT_PWD)
+
 first.depends = $(first) copydata
 
 export(first.depends)
