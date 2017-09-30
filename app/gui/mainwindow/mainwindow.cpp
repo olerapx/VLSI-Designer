@@ -69,6 +69,9 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 
     while(!success)
         success = tryChangeNetworkConfig(firstTime);
+
+    manager.enable();
+    node.enable();
 }
 
 bool MainWindow::tryChangeNetworkConfig(bool firstTime)

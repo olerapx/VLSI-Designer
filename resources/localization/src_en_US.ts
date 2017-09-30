@@ -5,19 +5,23 @@
     <name>Client</name>
     <message>
         <source>Decomposition is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Decomposition is finished.</translation>
     </message>
     <message>
         <source>Primary placement is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Primary placement is finished.</translation>
     </message>
     <message>
         <source>Secondary placement is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Secondary placement is finished.</translation>
     </message>
     <message>
         <source>Routing is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Routing is finished.</translation>
+    </message>
+    <message>
+        <source>Composition is finished.</source>
+        <translation>Composition is finished.</translation>
     </message>
 </context>
 <context>
@@ -352,157 +356,157 @@
     <name>PoolEntity</name>
     <message>
         <source>Cannot set the port while the transmitter is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot set the port while the transmitter is enabled.</translation>
     </message>
     <message>
         <source>Cannot find the command history entry with uuid %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot find the command history entry with UUID %1.</translation>
     </message>
     <message>
         <source>Trying to access pool node at %1:%2 but node does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trying to access pool node at %1:%2 but node does not exist.</translation>
     </message>
 </context>
 <context>
     <name>PoolManager</name>
     <message>
         <source>Pool manager is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pool manager is enabled.</translation>
     </message>
     <message>
         <source>Pool manager is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pool manager is disabled.</translation>
     </message>
     <message>
         <source>Connecting to %1:%2...</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecting to %1:%2...</translation>
     </message>
     <message>
         <source>Success.</source>
-        <translation type="unfinished"></translation>
+        <translation>Success.</translation>
     </message>
     <message>
         <source>Connection failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection failed.</translation>
     </message>
     <message>
         <source>Disconnecting from %1:%2...</source>
-        <translation type="unfinished"></translation>
+        <translation>Disconnecting from %1:%2...</translation>
     </message>
     <message>
         <source>Got an unexpected new connection from %1:%2. The connection was terminated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Got an unexpected new connection from %1:%2. The connection was terminated.</translation>
     </message>
     <message>
         <source>Lost connection with node at %1:%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lost connection with node at %1:%2.</translation>
     </message>
     <message>
         <source>Requesting for program version...</source>
-        <translation type="unfinished"></translation>
+        <translation>Requesting for program version...</translation>
     </message>
     <message>
         <source>Sending session name to all nodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sending session name to all nodes.</translation>
     </message>
     <message>
         <source>Current session name was accepted by node %1:%2. Sending library list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Current session name was accepted by node %1:%2. Sending library list.</translation>
     </message>
     <message>
         <source>Library list was accepted by node %1:%2. Sending architecture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Library list was accepted by node %1:%2. Sending architecture.</translation>
     </message>
     <message>
         <source>Node %1:%2 is initialized.</source>
-        <translation type="unfinished"></translation>
+        <translation>Node %1:%2 is initialized.</translation>
     </message>
     <message>
         <source>Initialization finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Initialization finished.</translation>
     </message>
     <message>
         <source>Received a program version from %1:%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Received a program version from %1:%2.</translation>
     </message>
     <message>
         <source>Version is compatible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Version is compatible.</translation>
     </message>
     <message>
         <source>The node %1:%2 has an incompatible program version, disconnecting.</source>
-        <translation type="unfinished"></translation>
+        <translation>The node %1:%2 has an incompatible program version, disconnecting.</translation>
     </message>
 </context>
 <context>
     <name>PoolNode</name>
     <message>
         <source>Pool node is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pool node is enabled.</translation>
     </message>
     <message>
         <source>Pool node is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pool node is disabled.</translation>
     </message>
     <message>
         <source>Got a new connection from %1:%2, waiting for identification.</source>
-        <translation type="unfinished"></translation>
+        <translation>Got a new connection from %1:%2, waiting for identification.</translation>
     </message>
     <message>
         <source>Lost connection with %1:%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lost connection with %1:%2.</translation>
     </message>
     <message>
         <source>Connection with manager was lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection with manager was lost.</translation>
     </message>
     <message>
         <source>manager</source>
-        <translation type="unfinished"></translation>
+        <translation>manager</translation>
     </message>
     <message>
         <source>node</source>
-        <translation type="unfinished"></translation>
+        <translation>node</translation>
     </message>
     <message>
         <source>Connection from %1:%2 identified as %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection from %1:%2 identified as %3.</translation>
     </message>
     <message>
         <source>Connection with %1:%2 was aborted: already have a connected pool manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection with %1:%2 was aborted: already have a connected pool manager.</translation>
     </message>
     <message>
         <source>Connection with %1:%2 was aborted: have not received the assigning command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection with %1:%2 was aborted: have not received the assigning command.</translation>
     </message>
     <message>
         <source>Sending response on program version request.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sending response on program version request.</translation>
     </message>
     <message>
         <source>Received a request to disable the manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Received a request to disable the manager.</translation>
     </message>
     <message>
         <source>Received current session name from manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Received current session name from manager.</translation>
     </message>
     <message>
         <source>Received libraries list from manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Received libraries list from manager.</translation>
     </message>
     <message>
         <source>Received architecture from manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Received architecture from manager.</translation>
     </message>
     <message>
         <source>Assigning request denied, already assigned to a node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Assigning request denied, already assigned to a node.</translation>
     </message>
     <message>
         <source>Assigning request approved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Assigning request approved.</translation>
     </message>
 </context>
 <context>
@@ -716,43 +720,43 @@
     </message>
     <message>
         <source>Permutation</source>
-        <translation type="unfinished"></translation>
+        <translation>Permutation</translation>
     </message>
     <message>
         <source>Cannot instantiate an algorithm with type %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot instantiate an algorithm with type %1.</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>Serial</translation>
     </message>
     <message>
         <source>Row-wise</source>
-        <translation type="unfinished"></translation>
+        <translation>Row-wise</translation>
     </message>
     <message>
         <source>Row permutation</source>
-        <translation type="unfinished"></translation>
+        <translation>Row permutation</translation>
     </message>
     <message>
         <source>Lee algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>Lee algorithm</translation>
     </message>
     <message>
         <source>Algorithm index cannot be negative, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Algorithm index cannot be negative, passed: %1.</translation>
     </message>
     <message>
         <source>Expanding coefficient must be bigger than 1, passed: %1.</source>
-        <translation type="unfinished">Expanding coefficient must be bigger than 1, passed: %1.</translation>
+        <translation>Expanding coefficient must be bigger than 1, passed: %1.</translation>
     </message>
     <message>
         <source>Max extension attempts cannot be lesser than 0, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Max extension attempts cannot be lesser than 0, passed: %1.</translation>
     </message>
     <message>
         <source>The version number cannot be negative, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>The version number cannot be negative, passed: %1.</translation>
     </message>
 </context>
 <context>
@@ -779,7 +783,7 @@
     </message>
     <message>
         <source>Max extension attempts cannot be lesser than 0, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Max extension attempts cannot be lesser than 0, passed: %1.</translation>
     </message>
 </context>
 <context>
@@ -854,13 +858,6 @@
     <message>
         <source>Distinguishing the scheme-related wires.</source>
         <translation>Distinguishing the scheme-related wires.</translation>
-    </message>
-</context>
-<context>
-    <name>SecondaryPlacementAlgorithm</name>
-    <message>
-        <source>Preparing.</source>
-        <translation type="vanished">Preparing.</translation>
     </message>
 </context>
 <context>

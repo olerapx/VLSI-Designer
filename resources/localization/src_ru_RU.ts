@@ -5,19 +5,23 @@
     <name>Client</name>
     <message>
         <source>Decomposition is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Декомпозиция завершена.</translation>
     </message>
     <message>
         <source>Primary placement is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Первичное размещение завершено.</translation>
     </message>
     <message>
         <source>Secondary placement is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вторичное размещение завершено.</translation>
     </message>
     <message>
         <source>Routing is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Трассировка завершена.</translation>
+    </message>
+    <message>
+        <source>Composition is finished.</source>
+        <translation>Композиция завершена.</translation>
     </message>
 </context>
 <context>
@@ -352,157 +356,157 @@
     <name>PoolEntity</name>
     <message>
         <source>Cannot set the port while the transmitter is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно установить порт, пока трансмиттер включен.</translation>
     </message>
     <message>
         <source>Cannot find the command history entry with uuid %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно найти запись из истории команд с UUID %1.</translation>
     </message>
     <message>
         <source>Trying to access pool node at %1:%2 but node does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Проводится попытка доступа к узлу на %1:%2, но узел не существует.</translation>
     </message>
 </context>
 <context>
     <name>PoolManager</name>
     <message>
         <source>Pool manager is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер пула включен.</translation>
     </message>
     <message>
         <source>Pool manager is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер пула выключен.</translation>
     </message>
     <message>
         <source>Connecting to %1:%2...</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключение к %1:%2...</translation>
     </message>
     <message>
         <source>Success.</source>
-        <translation type="unfinished"></translation>
+        <translation>Успешно.</translation>
     </message>
     <message>
         <source>Connection failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключение не удалось.</translation>
     </message>
     <message>
         <source>Disconnecting from %1:%2...</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключение от %1:%2...</translation>
     </message>
     <message>
         <source>Got an unexpected new connection from %1:%2. The connection was terminated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получено неожиданное новое соединение от %1:%2. Соединение было прервано.</translation>
     </message>
     <message>
         <source>Lost connection with node at %1:%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Потеряно соединение с узлом на %1:%2.</translation>
     </message>
     <message>
         <source>Requesting for program version...</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрос версии программы...</translation>
     </message>
     <message>
         <source>Sending session name to all nodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправка имени сессии всем узлам.</translation>
     </message>
     <message>
         <source>Current session name was accepted by node %1:%2. Sending library list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя текущей сессии было принято узлом %1:%2. Отправка списка библиотек.</translation>
     </message>
     <message>
         <source>Library list was accepted by node %1:%2. Sending architecture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Список библиотек был принят узлом %1:%2. Отправка архитектуры.</translation>
     </message>
     <message>
         <source>Node %1:%2 is initialized.</source>
-        <translation type="unfinished"></translation>
+        <translation>Узел %1:%2 инициализирован.</translation>
     </message>
     <message>
         <source>Initialization finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализация завершена.</translation>
     </message>
     <message>
         <source>Received a program version from %1:%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получена версия программы от %1:%2.</translation>
     </message>
     <message>
         <source>Version is compatible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия совместима.</translation>
     </message>
     <message>
         <source>The node %1:%2 has an incompatible program version, disconnecting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Узел %1:%2 имеет несовместимую версию программы, отключение.</translation>
     </message>
 </context>
 <context>
     <name>PoolNode</name>
     <message>
         <source>Pool node is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Узел пула включен.</translation>
     </message>
     <message>
         <source>Pool node is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Узел пула выключен.</translation>
     </message>
     <message>
         <source>Got a new connection from %1:%2, waiting for identification.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получено новое соединение от %1:%2, ожидание идентификации.</translation>
     </message>
     <message>
         <source>Lost connection with %1:%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Потеряно соединение с %1:%2.</translation>
     </message>
     <message>
         <source>Connection with manager was lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение с менеджером утеряно.</translation>
     </message>
     <message>
         <source>manager</source>
-        <translation type="unfinished"></translation>
+        <translation>менеджер</translation>
     </message>
     <message>
         <source>node</source>
-        <translation type="unfinished"></translation>
+        <translation>узел</translation>
     </message>
     <message>
         <source>Connection from %1:%2 identified as %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение от %1:%2 идентифицировалось как %3.</translation>
     </message>
     <message>
         <source>Connection with %1:%2 was aborted: already have a connected pool manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение с %1:%2 было прервано: уже имеется подключенный менеджер пула.</translation>
     </message>
     <message>
         <source>Connection with %1:%2 was aborted: have not received the assigning command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение с %1:%2 было прервано: команда о назначении не была получена.</translation>
     </message>
     <message>
         <source>Sending response on program version request.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправка ответа на запрос версии программы.</translation>
     </message>
     <message>
         <source>Received a request to disable the manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получен запрос выключить менеджер.</translation>
     </message>
     <message>
         <source>Received current session name from manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получено имя текущей сессии от менеджера.</translation>
     </message>
     <message>
         <source>Received libraries list from manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получен список библиотек от менеджера.</translation>
     </message>
     <message>
         <source>Received architecture from manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Получена архитектура от менеджера.</translation>
     </message>
     <message>
         <source>Assigning request denied, already assigned to a node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрос о назначении отклонен, уже назначено к узлу.</translation>
     </message>
     <message>
         <source>Assigning request approved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрос на назначение принят.</translation>
     </message>
 </context>
 <context>
@@ -716,43 +720,43 @@
     </message>
     <message>
         <source>Permutation</source>
-        <translation type="unfinished"></translation>
+        <translation>Перестановками</translation>
     </message>
     <message>
         <source>Cannot instantiate an algorithm with type %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно инстанцировать алгоритм с типом %1.</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>Последовательная</translation>
     </message>
     <message>
         <source>Row-wise</source>
-        <translation type="unfinished"></translation>
+        <translation>Построчное</translation>
     </message>
     <message>
         <source>Row permutation</source>
-        <translation type="unfinished"></translation>
+        <translation>Перестановками строк</translation>
     </message>
     <message>
         <source>Lee algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>Алгоритм Ли</translation>
     </message>
     <message>
         <source>Algorithm index cannot be negative, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Индекс алгоритма не может быть отрицательным, передано: %1.</translation>
     </message>
     <message>
         <source>Expanding coefficient must be bigger than 1, passed: %1.</source>
-        <translation type="unfinished">Коэффициент раздвижения должен быть больше, чем 1, передано: %1.</translation>
+        <translation>Коэффициент раздвижения должен быть больше, чем 1, передано: %1.</translation>
     </message>
     <message>
         <source>Max extension attempts cannot be lesser than 0, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное число попыток раздвижения не можеть быть меньше 0, передано: %1.</translation>
     </message>
     <message>
         <source>The version number cannot be negative, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия не может быть отрицательной, передано: %1.</translation>
     </message>
 </context>
 <context>
@@ -779,7 +783,7 @@
     </message>
     <message>
         <source>Max extension attempts cannot be lesser than 0, passed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное число попыток раздвижения не можеть быть меньше 0, передано: %1.</translation>
     </message>
 </context>
 <context>
@@ -854,13 +858,6 @@
     <message>
         <source>Distinguishing the scheme-related wires.</source>
         <translation>Выделение соединений, относящихся к схеме.</translation>
-    </message>
-</context>
-<context>
-    <name>SecondaryPlacementAlgorithm</name>
-    <message>
-        <source>Preparing.</source>
-        <translation type="vanished">Подготовка.</translation>
     </message>
 </context>
 <context>

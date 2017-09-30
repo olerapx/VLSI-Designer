@@ -258,12 +258,12 @@ void SetupSessionDialog::tryOpenLibrary(QString path)
 
 void SetupSessionDialog::messageMissingLibraries()
 {
-    QString missingLibraries = "The following libraries used to generate scheme were not found:\n\n";
+    QString missingLibraries = tr("The following libraries used to generate scheme were not found:\n\n");
 
     for(QPair<QString, Version>& u: usedLibraries)
         missingLibraries.append(QString("%1: %2\n").arg(u.first, u.second.toString()));
 
-    missingLibraries.append("\nYou can try to locate necessary libraries manually.");
+    missingLibraries.append(tr("\nYou can try to locate necessary libraries manually."));
 
     QMessageBox::information(this, tr("Missing libraries"), missingLibraries);
 }

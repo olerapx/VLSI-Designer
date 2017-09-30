@@ -1,6 +1,4 @@
 #include "poolnode.h"
-#include "generator/generator.h"
-#include "util/renderer/gridrenderer.h"
 
 PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
     PoolEntity(selfPort),

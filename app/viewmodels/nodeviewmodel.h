@@ -7,14 +7,14 @@
 
 static const QMap<NodeStatus, QString> nodeStatusMap
 {
-    { NodeStatus::Ready, QT_TR_NOOP("Ready") },
-    { NodeStatus::Unconnected, QT_TR_NOOP("Unconnected") },
-    { NodeStatus::NotResponding, QT_TR_NOOP("Not responding") },
-    { NodeStatus::Initialization, QT_TR_NOOP("Initialization") },
-    { NodeStatus::Assigned, QT_TR_NOOP("Assigned") },
-    { NodeStatus::Working, QT_TR_NOOP("Working") },
-    { NodeStatus::Error, QT_TR_NOOP("Error") },
-    { NodeStatus::Incompatible, QT_TR_NOOP("Incompatible") }
+    { NodeStatus::Ready, QT_TRANSLATE_NOOP("NodeViewModel", "Ready") },
+    { NodeStatus::Unconnected, QT_TRANSLATE_NOOP("NodeViewModel", "Unconnected") },
+    { NodeStatus::NotResponding, QT_TRANSLATE_NOOP("NodeViewModel", "Not responding") },
+    { NodeStatus::Initialization, QT_TRANSLATE_NOOP("NodeViewModel", "Initialization") },
+    { NodeStatus::Assigned, QT_TRANSLATE_NOOP("NodeViewModel", "Assigned") },
+    { NodeStatus::Working, QT_TRANSLATE_NOOP("NodeViewModel", "Working") },
+    { NodeStatus::Error, QT_TRANSLATE_NOOP("NodeViewModel", "Error") },
+    { NodeStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") }
 };
 
 class NodeViewModel : public QAbstractTableModel
