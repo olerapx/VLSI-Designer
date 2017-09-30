@@ -44,8 +44,6 @@ void SecondaryPlacementAlgorithm::fillWiresData(PlacementResult* result, QList<W
 
 QList<WireCoordinate> SecondaryPlacementAlgorithm::fillWireCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates)
 {
-    sendLog(tr("Preparing."));
-
     QList<WireCoordinate> res;
 
     int gridHeight = previous->getGrid()->getHeight();

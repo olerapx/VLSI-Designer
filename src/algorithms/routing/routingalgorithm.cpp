@@ -159,8 +159,6 @@ bool RoutingAlgorithm::draw(Cell& cell, Direction from, Direction to)
     }
     catch(RoutingException& e)
     {
-        sendLog(e.what());
-
         return false;
     }
 
@@ -222,8 +220,6 @@ bool RoutingAlgorithm::branch(Cell& cell, Direction to)
     }
     catch(RoutingException& e)
     {
-        sendLog(e.what());
-
         return false;
     }
 

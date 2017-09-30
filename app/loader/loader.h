@@ -9,10 +9,6 @@
 #include "datamodels/version/version.h"
 #include "control/pool/entitytype.h"
 
-Q_DECLARE_METATYPE(QHostAddress)
-Q_DECLARE_METATYPE(Version)
-Q_DECLARE_METATYPE(EntityType)
-
 /**
  * @brief The Loader class
  * Encapsulates the routines on application loading.

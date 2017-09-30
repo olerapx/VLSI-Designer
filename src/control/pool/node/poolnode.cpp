@@ -1,11 +1,12 @@
 #include "poolnode.h"
+#include "generator/generator.h"
+#include "util/renderer/gridrenderer.h"
 
 PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
     PoolEntity(selfPort),
     sessionPath(sessionPath),
     programVersion(programVersion),
     poolManager(nullptr),
-    architecture(nullptr),
     acceptNodeConnection(false)
 {
     connectDispatcher();
@@ -61,7 +62,7 @@ void PoolNode::disable()
 
 void PoolNode::onNewConnection(QHostAddress address, int tcpPort)
 {
-    sendLog(tr("Got a new connection from %1:%2, waiting for identification.").arg(address.toString(), QString::number(tcpPort)), LogType::Information);
+    sendLog(tr("Got a new connection from %1:%2, waiting for identification.").arg(address.toString(), QString::number(tcpPort)));
     knownEntities.append(PoolEntityInfo("", address, tcpPort));
 }
 
@@ -116,7 +117,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
     QString typeString = ((type == EntityType::Manager) ? tr("manager") : tr("node"));
 
     sendLog(tr("Connection from %1:%2 identified as %3.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort()), typeString), LogType::Information);
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort()), typeString));
 
     if(type == EntityType::Manager)
     {
@@ -157,7 +158,7 @@ void PoolNode::onGetVersion(QUuid uuid)
 
     stream << programVersion.toString();
 
-    sendLog(tr("Sending response on program version request."), LogType::Information);
+    sendLog(tr("Sending response on program version request."));
     sendResponse(info.getAddress(), info.getTcpPort(), CommandType::SendVersion, uuid, body);
 }
 
@@ -165,7 +166,7 @@ void PoolNode::onDisableManager(QUuid uuid)
 {
     removeRequestFromList(incomingRequests, uuid);
 
-    sendLog(tr("Received a request to disable the manager."), LogType::Information);
+    sendLog(tr("Received a request to disable the manager."));
     sendDisableManager();
 }
 
@@ -188,11 +189,7 @@ void PoolNode::onSendLibraryList(QUuid uuid, QList<Library*> libraries)
     QDir dir(getCurrentSessionPath() + "/libraries");
     dir.mkpath(".");
 
-    for(Library* l: this->libraries)
-        delete l;
-    this->libraries.clear();
-
-    this->libraries = libraries;
+    client.setLibraries(libraries);
 
     JsonSerializer serializer;
 
@@ -213,8 +210,7 @@ void PoolNode::onSendArchitecture(QUuid uuid, Architecture* architecture)
 {
     PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
 
-    delete this->architecture;
-    this->architecture = architecture;
+    client.setArchitecture(architecture);
 
     QDir dir(getCurrentSessionPath() + "/architecture");
     dir.mkpath(".");

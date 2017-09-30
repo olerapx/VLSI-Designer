@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>Client</name>
+    <message>
+        <source>Decomposition is finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Primary placement is finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Secondary placement is finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routing is finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CompositionAlgorithm</name>
     <message>
         <source>Cannot change parameters while the algorithm is working.</source>
@@ -14,17 +33,6 @@
     <message>
         <source>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</source>
         <translation>Невозможно найти ячейку с контактом с индексом %1 и id %2 в ДРП %3.</translation>
-    </message>
-</context>
-<context>
-    <name>CompositionAlgorithmFactory</name>
-    <message>
-        <source>Cannot instantiate an algorithm with type %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Permutation composition</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -281,16 +289,8 @@
         <translation>Невозможно начать прослушивание порта %1.</translation>
     </message>
     <message>
-        <source>Got a new connection from %1:%2.</source>
-        <translation type="vanished">Новое соединение от %1:%2.</translation>
-    </message>
-    <message>
         <source>Disconnected from %1:%2.</source>
         <translation>Отключен от %1:%2.</translation>
-    </message>
-    <message>
-        <source>Already connected to %1:%2.</source>
-        <translation type="vanished">Уже подключено к %1:%2.</translation>
     </message>
     <message>
         <source>Cannot connect to %1:%2.</source>
@@ -354,6 +354,14 @@
         <source>Cannot set the port while the transmitter is enabled.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot find the command history entry with uuid %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying to access pool node at %1:%2 but node does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PoolManager</name>
@@ -382,15 +390,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Trying to access pool node at %1:%2 but node existed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Got an unexpected new connection from %1:%2. The connection was terminated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Lost connection with node at %1:%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Requesting for program version...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending session name to all nodes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current session name was accepted by node %1:%2. Sending library list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Library list was accepted by node %1:%2. Sending architecture.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node %1:%2 is initialized.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initialization finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received a program version from %1:%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version is compatible.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The node %1:%2 has an incompatible program version, disconnecting.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -405,19 +445,63 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disconnected from manager.</source>
+        <source>Got a new connection from %1:%2, waiting for identification.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Got a new connection from %1:%2 but already have a connected pool manager.The connection was terminated.</source>
+        <source>Lost connection with %1:%2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Got a new connection from %1:%2.</source>
-        <translation type="unfinished">Новое соединение от %1:%2.</translation>
+        <source>Connection with manager was lost.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lost connection with manager.</source>
+        <source>manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection from %1:%2 identified as %3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection with %1:%2 was aborted: already have a connected pool manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection with %1:%2 was aborted: have not received the assigning command.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending response on program version request.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received a request to disable the manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received current session name from manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received libraries list from manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received architecture from manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Assigning request denied, already assigned to a node.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Assigning request approved.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -465,10 +549,6 @@
     <message>
         <source>Library id cannot be empty.</source>
         <translation>id библиотеки не может быть пустым.</translation>
-    </message>
-    <message>
-        <source>Library version cannot be negative, passed: %1.</source>
-        <translation>Версия библиотеки не может быть отрицательной, передано: %1.</translation>
     </message>
     <message>
         <source>Element id cannot be empty.</source>
@@ -634,6 +714,46 @@
         <source>Invalid wire position specified, got: %1.</source>
         <translation>Указана некорректная позиция соединения, получено: %1.</translation>
     </message>
+    <message>
+        <source>Permutation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot instantiate an algorithm with type %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Row-wise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Row permutation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lee algorithm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Algorithm index cannot be negative, passed: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expanding coefficient must be bigger than 1, passed: %1.</source>
+        <translation type="unfinished">Коэффициент раздвижения должен быть больше, чем 1, передано: %1.</translation>
+    </message>
+    <message>
+        <source>Max extension attempts cannot be lesser than 0, passed: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The version number cannot be negative, passed: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RoutingAlgorithm</name>
@@ -656,6 +776,10 @@
     <message>
         <source>A broken wire detected at (%1; %2).</source>
         <translation>Прерванное соединение обнаружено в (%1; %2).</translation>
+    </message>
+    <message>
+        <source>Max extension attempts cannot be lesser than 0, passed: %1.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -736,7 +860,7 @@
     <name>SecondaryPlacementAlgorithm</name>
     <message>
         <source>Preparing.</source>
-        <translation>Подготовка.</translation>
+        <translation type="vanished">Подготовка.</translation>
     </message>
 </context>
 <context>

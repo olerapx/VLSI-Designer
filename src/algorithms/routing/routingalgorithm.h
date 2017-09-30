@@ -26,6 +26,7 @@ class RoutingAlgorithm : public Threadable
 
 public:
     RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
+    virtual ~RoutingAlgorithm() {}
 
     /**
      * @brief setParameters

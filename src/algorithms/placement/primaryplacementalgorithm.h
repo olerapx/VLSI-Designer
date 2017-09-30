@@ -16,6 +16,7 @@ class PrimaryPlacementAlgorithm : public Threadable
 
 public:
     PrimaryPlacementAlgorithm(Scheme* scheme, QList<Library*> libraries, double expandingCoefficient);
+    virtual ~PrimaryPlacementAlgorithm() {}
 
     /**
      * @brief setParameters

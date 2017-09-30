@@ -10,6 +10,8 @@
  */
 class SerialDecomposition : public DecompositionAlgorithm
 {
+    Q_OBJECT
+
 public:
     SerialDecomposition(Scheme* scheme, int number);
 

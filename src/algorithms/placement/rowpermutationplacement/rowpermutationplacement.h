@@ -12,6 +12,8 @@
  */
 class RowPermutationPlacement : public SecondaryPlacementAlgorithm
 {
+    Q_OBJECT
+
 public:
     RowPermutationPlacement(PlacementResult* previous);
 

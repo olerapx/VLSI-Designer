@@ -33,6 +33,7 @@ HEADERS += \
     $$PWD/control/pool/manager/poolmanager.h \
     $$PWD/control/pool/manager/sessiondata.h \
     $$PWD/control/pool/node/poolnode.h \
+    $$PWD/control/pool/node/client.h \
     $$PWD/network/networkscanner.h \
     $$PWD/network/networkexception.h \
     $$PWD/network/networktransmitter.h \

@@ -64,7 +64,7 @@ void PoolManager::connectToNode(PoolEntityInfo &info)
     if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
         return;
 
-    sendLog(tr("Connecting to %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+    sendLog(tr("Connecting to %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
     info.setStatus(NodeStatus::Connecting);
     sendUpdateNodeInfo(info);
@@ -81,7 +81,7 @@ void PoolManager::connectToNode(PoolEntityInfo &info)
 
         sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::Identify, body);
 
-        sendLog(tr("Requesting for program version..."), LogType::Information);
+        sendLog(tr("Requesting for program version..."));
         sendRequest(info.getAddress(), info.getTcpPort(), CommandType::GetVersion);
     }
     else
@@ -153,7 +153,7 @@ void PoolManager::disconnectFromNode(PoolEntityInfo& info)
 
 void PoolManager::disconnectFromNodeWithoutNotification(PoolEntityInfo &info)
 {
-    sendLog(tr("Disconnecting from %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+    sendLog(tr("Disconnecting from %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
     transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
 }
 
@@ -195,7 +195,7 @@ void PoolManager::disableManagers()
 
 void PoolManager::createSession()
 {
-    sendLog(tr("Sending session name to all nodes."), LogType::Information);
+    sendLog(tr("Sending session name to all nodes."));
     currentSessionName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
 
     for(PoolEntityInfo& info: knownEntities)
@@ -215,7 +215,7 @@ void PoolManager::startNodeInitialization(PoolEntityInfo& info)
 void PoolManager::sendLibraryListToNode(PoolEntityInfo& info)
 {
     sendLog(tr("Current session name was accepted by node %1:%2. Sending library list.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
     QByteArray* body = new QByteArray();
     QDataStream stream(body, QIODevice::WriteOnly);
@@ -236,7 +236,7 @@ void PoolManager::sendLibraryListToNode(PoolEntityInfo& info)
 void PoolManager::sendArchitectureToNode(PoolEntityInfo& info)
 {
     sendLog(tr("Library list was accepted by node %1:%2. Sending architecture.")
-            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
     BinarySerializer serializer;
     QByteArray architecture = serializer.serialize(data->getArchitecture());
@@ -333,7 +333,7 @@ void PoolManager::onSendVersion(QUuid uuid, Version version)
 {
     PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
 
-    sendLog(tr("Received a program version from %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Information);
+    sendLog(tr("Received a program version from %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
     info.setProgramVersion(version);
     sendUpdateNodeInfo(info);

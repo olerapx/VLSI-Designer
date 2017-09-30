@@ -45,9 +45,6 @@ signals:
     void sendUpdateNodeInfo(PoolEntityInfo& info);
     void sendRemoveNodeInfo(int index);
 
-    void sendLog(QString log, LogType type = LogType::Common);
-    void sendError(QString error);
-
     void sendDisconnected(QHostAddress address, int tcpPort);
 
 private slots:

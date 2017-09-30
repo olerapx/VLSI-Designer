@@ -14,6 +14,7 @@ class SecondaryPlacementAlgorithm : public Threadable
 
 public:
     SecondaryPlacementAlgorithm(PlacementResult* previous);
+    virtual ~SecondaryPlacementAlgorithm() {}
 
     /**
      * @brief setParameters

@@ -43,4 +43,6 @@ void Loader::registerMetaTypes()
     qRegisterMetaType<Version>("Version");
     qRegisterMetaType<EntityType>("EntityType");
     qRegisterMetaType<QList<Library*>>("QList<Library*>");
+    qRegisterMetaType<QList<Scheme*>>("QList<Scheme*>");
+    qRegisterMetaType<LogType>("LogType");
 }

@@ -5,6 +5,7 @@
 #include "control/pool/poolentity.h"
 #include "datamodels/version/version.h"
 #include "util/serializer/jsonserializer.h"
+#include "client.h"
 
 /**
  * @brief The PoolNode class
@@ -30,8 +31,6 @@ public:
     PoolEntityInfo* getPoolManagerInfo() const { return poolManager; }
 
 signals:
-    void sendLog(QString log, LogType type = LogType::Common);
-    void sendError(QString error);
     void sendDisableManager();
 
 private slots:
@@ -63,8 +62,7 @@ private:
     Version programVersion;
     PoolEntityInfo* poolManager;
 
-    QList<Library*> libraries;
-    Architecture* architecture;
-
     bool acceptNodeConnection;
+
+    Client client;
 };

@@ -13,6 +13,8 @@
  */
 class RowWisePlacement : public PrimaryPlacementAlgorithm
 {
+    Q_OBJECT
+
 public:
     RowWisePlacement(Scheme* scheme, QList<Library*> libraries, double expandingCoefficient);
 

@@ -14,6 +14,7 @@ class CompositionAlgorithm : public Threadable
 
 public:
     CompositionAlgorithm(QList<Grid*> grids, Scheme* scheme);
+    virtual ~CompositionAlgorithm() {}
 
     /**
      * @brief setParameters

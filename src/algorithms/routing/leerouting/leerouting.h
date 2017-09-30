@@ -12,6 +12,8 @@
  */
 class LeeRouting : public RoutingAlgorithm
 {
+    Q_OBJECT
+
 public:
     LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
 

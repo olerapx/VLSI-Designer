@@ -9,7 +9,6 @@
 enum class LogType
 {
     Common,
-    Information,
     Success,
     Warning,
     Error
@@ -21,6 +20,8 @@ enum class LogType
  */
 class PoolEntity : public QObject
 {
+    Q_OBJECT
+
 public:
     PoolEntity(int selfPort = 0);
     virtual ~PoolEntity();
@@ -32,6 +33,10 @@ public:
     void disableTransmitter();
 
     bool isTransmitterEnabled() { return (transmitter != nullptr); }
+
+signals:
+    void sendLog(QString log, LogType type = LogType::Common);
+    void sendError(QString error);
 
 protected:
     virtual void connectDispatcher() = 0;

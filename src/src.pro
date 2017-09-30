@@ -38,6 +38,7 @@ SOURCES += \
     control/pool/manager/poolmanager.cpp \
     control/pool/manager/sessiondata.cpp \
     control/pool/node/poolnode.cpp \
+    control/pool/node/client.cpp \
     network/networkscanner.cpp \
     network/networktransmitter.cpp \
     network/tcpsocket.cpp \

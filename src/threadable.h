@@ -15,6 +15,7 @@ class Threadable : public QObject
 
 public:
     Threadable();
+    virtual ~Threadable() {}
 
     /**
      * @brief isStopped

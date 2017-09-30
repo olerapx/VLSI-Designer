@@ -14,6 +14,8 @@
  */
 class PermutationComposition : public CompositionAlgorithm
 {
+    Q_OBJECT
+
 public:
     PermutationComposition(QList<Grid*> grids, Scheme* scheme);
 

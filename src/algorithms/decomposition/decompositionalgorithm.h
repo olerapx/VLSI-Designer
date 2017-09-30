@@ -13,6 +13,7 @@ class DecompositionAlgorithm : public Threadable
 
 public:
     DecompositionAlgorithm(Scheme* scheme, int number);
+    virtual ~DecompositionAlgorithm() {}
 
     /**
      * @brief setParameters

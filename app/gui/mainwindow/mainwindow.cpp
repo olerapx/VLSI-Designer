@@ -15,10 +15,10 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->nodesTable->setModel(nodeViewModel);
     createTableContextMenu();
 
-    connect(&manager, &PoolManager::sendLog, this, &MainWindow::onSendManagerLog);
-    connect(&node, &PoolNode::sendLog, this, &MainWindow::onSendNodeLog);
-    connect(&manager, &PoolManager::sendError, this, &MainWindow::onSendManagerError);
-    connect(&node, &PoolNode::sendError, this, &MainWindow::onSendNodeError);
+    connect(&manager, &PoolEntity::sendLog, this, &MainWindow::onSendManagerLog);
+    connect(&node, &PoolEntity::sendLog, this, &MainWindow::onSendNodeLog);
+    connect(&manager, &PoolEntity::sendError, this, &MainWindow::onSendManagerError);
+    connect(&node, &PoolEntity::sendError, this, &MainWindow::onSendNodeError);
 
     connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager);
 
@@ -201,10 +201,6 @@ void MainWindow::colorizeLog(QString &string, LogType type)
 
     switch(type)
     {
-    case LogType::Information:
-        string.prepend("<font color=\"#0080ff\">");
-        string.append("<font/>");
-        break;
     case LogType::Success:
         string.prepend("<font color=\"green\">");
         string.append("<font/>");
