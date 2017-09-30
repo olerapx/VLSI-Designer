@@ -72,6 +72,7 @@ private:
 
     void disableManagers();
     void createSession();
+    void startNodeInitialization(PoolEntityInfo& info);
     void sendLibraryListToNode(PoolEntityInfo& info);
     void sendArchitectureToNode(PoolEntityInfo& info);
     void markNodeInitialized(PoolEntityInfo& info);
@@ -81,5 +82,6 @@ private:
     SessionData* data;
     bool started;
 
-    Version programVersion;    
+    Version programVersion;
+    QString currentSessionName;
 };

@@ -195,18 +195,21 @@ void PoolManager::disableManagers()
 
 void PoolManager::createSession()
 {
-    QString sessionDirectoryName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
     sendLog(tr("Sending session name to all nodes."), LogType::Information);
+    currentSessionName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
 
     for(PoolEntityInfo& info: knownEntities)
     {
         if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
-        {
-            QByteArray* body = new QByteArray();
-            body->append(sessionDirectoryName);
-            sendRequest(info.getAddress(), info.getTcpPort(), CommandType::SendSessionDirectoryName, body);
-        }
+             startNodeInitialization(info);
     }
+}
+
+void PoolManager::startNodeInitialization(PoolEntityInfo& info)
+{
+    QByteArray* body = new QByteArray();
+    body->append(currentSessionName + QString(" %1").arg(QString::number(info.getTcpPort())));
+    sendRequest(info.getAddress(), info.getTcpPort(), CommandType::SendSessionDirectoryName, body);
 }
 
 void PoolManager::sendLibraryListToNode(PoolEntityInfo& info)
@@ -338,6 +341,10 @@ void PoolManager::onSendVersion(QUuid uuid, Version version)
     if(info.getProgramVersion() == programVersion)
     {
         sendLog(tr("Version is compatible."), LogType::Success);
+
+        if(isStarted())
+            startNodeInitialization(info);
+
         return;
     }
 

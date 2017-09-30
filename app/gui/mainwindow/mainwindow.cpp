@@ -69,9 +69,6 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 
     while(!success)
         success = tryChangeNetworkConfig(firstTime);
-
-    manager.enable();
-    node.enable();
 }
 
 bool MainWindow::tryChangeNetworkConfig(bool firstTime)
@@ -89,12 +86,15 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
                 scanner.initIPv4Broadcast(config.getNetworkInterface(), config.getUdpPort());
             else
                 scanner.initIPv6Multicast(config.getMulticastAddress(), config.getNetworkInterface(), config.getUdpPort());
+
+            manager.enable();
+            node.enable();
         }
         return true;
     }
     catch(Exception& e)
     {
-        QMessageBox::warning(this, tr("Network error"), tr("Cannot initialize network scanner:\n\n%1\n\n"
+        QMessageBox::warning(this, tr("Network error"), tr("Cannot initialize network module:\n\n%1\n\n"
                                                             "Try set different parameters.").arg(e.what()));
 
     }
