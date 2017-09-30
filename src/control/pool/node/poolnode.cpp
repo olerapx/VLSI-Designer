@@ -198,7 +198,7 @@ void PoolNode::onSendLibraryList(QUuid uuid, QList<Library*> libraries)
 
     for(Library* l: libraries)
     {
-        QFile f(QString("%1/%2-%3.json").arg(dir.absolutePath(), l->getName(), l->getVersion().toString()));
+        QFile f(QString("%1/%2-%3.json").arg(dir.absolutePath(), l->getId(), l->getVersion().toString()));
         f.open(QIODevice::WriteOnly);
 
         f.write(serializer.serialize(l));

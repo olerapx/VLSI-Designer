@@ -202,6 +202,18 @@
          <property name="spacing">
           <number>5</number>
          </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="managerLogLabel">
            <property name="font">
@@ -274,18 +286,18 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Tools</string>
+     <string>Too&amp;ls</string>
     </property>
     <addaction name="generatorAction"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Settings</string>
+     <string>Setti&amp;ngs</string>
     </property>
     <addaction name="networkConfigurationAction"/>
    </widget>
@@ -294,12 +306,12 @@
   </widget>
   <action name="generatorAction">
    <property name="text">
-    <string>Generator</string>
+    <string>&amp;Generator</string>
    </property>
   </action>
   <action name="networkConfigurationAction">
    <property name="text">
-    <string>Network configuration</string>
+    <string>&amp;Network configuration</string>
    </property>
   </action>
  </widget>
