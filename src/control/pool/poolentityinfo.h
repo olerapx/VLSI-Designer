@@ -18,6 +18,8 @@ enum class NodeStatus
     Incompatible
 };
 
+Q_DECLARE_METATYPE(NodeStatus)
+
 /**
  * @brief The PoolEntityInfo class
  * Encapsulates the information and current status of pool node or pool manager.

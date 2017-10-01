@@ -16,30 +16,36 @@ int NodeViewModel::rowCount(const QModelIndex&) const
 
 int NodeViewModel::columnCount(const QModelIndex&) const
 {
-    return 4;
+    return 5;
 }
 
 QVariant NodeViewModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
+    if(!index.isValid())
         return QVariant();
+
+    int row = index.row();
+    int col = index.column();
+
+    PoolEntityInfo& info = manager.getPoolNodesInfo()[row];
 
     if(role == Qt::DisplayRole)
     {
-        int row = index.row();
-        int col = index.column();
-
-        PoolEntityInfo& info = manager.getPoolNodesInfo()[row];
-
         switch(col)
         {
         case 0:
             return info.getHostName();
         case 1:
-            return tr(nodeStatusMap.value(info.getStatus()).toLocal8Bit().constData());
+        {
+            QVariant var;
+            var.setValue(info.getStatus());
+            return var;
+        }
         case 2:
-            return ((info.getProgramVersion() == Version()) ? "" : info.getProgramVersion().toString());
+            return tr(nodeStatusMap.value(info.getStatus()).toLocal8Bit().constData());
         case 3:
+            return ((info.getProgramVersion() == Version()) ? "" : info.getProgramVersion().toString());
+        case 4:
             return QString("%1:%2").arg(info.getAddress().toString(), QString::number(info.getTcpPort()));
         }
     }
@@ -56,15 +62,17 @@ QVariant NodeViewModel::headerData(int section, Qt::Orientation orientation, int
     {
         if(orientation == Qt::Horizontal)
         {
-            switch (section)
+            switch(section)
             {
             case 0:
                 return QString(tr("Hostname"));
             case 1:
-                return QString(tr("Status"));
+                return QString("");
             case 2:
-                return QString(tr("Program version"));
+                return QString(tr("Status"));
             case 3:
+                return QString(tr("Program version"));
+            case 4:
                 return QString(tr("Address"));
             }
         }

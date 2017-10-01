@@ -11,8 +11,10 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     ui->setupUi(this);
 
-    nodeViewModel = new NodeViewModel(this, manager);
+    nodeViewModel = new NodeViewModel(this, manager);    
     ui->nodesTable->setModel(nodeViewModel);
+    ui->nodesTable->setItemDelegate(new NodeStatusDelegate(ui->nodesTable));
+    ui->nodesTable->resizeColumnsToContents();
     createTableContextMenu();
 
     connect(&manager, &PoolEntity::sendLog, this, &MainWindow::onSendManagerLog);

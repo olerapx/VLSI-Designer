@@ -83,5 +83,11 @@
         <file>localization/app_ru_RU.qm</file>
         <file>localization/src_en_US.qm</file>
         <file>localization/src_ru_RU.qm</file>
+        <file>images/status/blue.png</file>
+        <file>images/status/empty.png</file>
+        <file>images/status/green.png</file>
+        <file>images/status/grey.png</file>
+        <file>images/status/red.png</file>
+        <file>images/status/yellow.png</file>
     </qresource>
 </RCC>

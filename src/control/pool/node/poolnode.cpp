@@ -52,6 +52,8 @@ void PoolNode::disable()
     disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
     disconnect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
 
+    client.sendStop();
+
     poolManager = nullptr;
     PoolEntity::disableTransmitter();
 

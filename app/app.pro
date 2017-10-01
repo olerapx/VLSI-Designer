@@ -26,7 +26,8 @@ HEADERS += \
     gui/setupsessiondialog/setupsessiondialog.h \
     config/configbuilder.h \
     loader/loader.h \
-    app.h
+    app.h \
+    viewmodels/nodestatusdelegate.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
@@ -39,7 +40,8 @@ SOURCES +=  main.cpp \
     gui/setupsessiondialog/setupsessiondialog.cpp \
     config/configbuilder.cpp \
     loader/loader.cpp \
-    app.cpp
+    app.cpp \
+    viewmodels/nodestatusdelegate.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \
