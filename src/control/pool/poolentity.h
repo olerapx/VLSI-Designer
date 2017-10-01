@@ -4,15 +4,8 @@
 #include "control/command/commanddispatcher.h"
 #include "poolentityinfo.h"
 #include "entitytype.h"
+#include "logtype.h"
 #include "manager/commandhistoryentry.h"
-
-enum class LogType
-{
-    Common,
-    Success,
-    Warning,
-    Error
-};
 
 /**
  * @brief The PoolEntity class

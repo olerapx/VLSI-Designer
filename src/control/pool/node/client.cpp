@@ -15,6 +15,12 @@ Client::Client() :
 
 }
 
+Client::~Client()
+{
+    sendStop();
+    algorithmThread.wait();
+}
+
 void Client::setArchitecture(Architecture* a)
 {
     if(!stopped) return;
@@ -65,7 +71,7 @@ void Client::startDecomposition(Scheme* scheme, int number)
         delete decomposition;
         decomposition = nullptr;
 
-        sendLog(tr("Decomposition is finished."));
+        sendLog(tr("Decomposition is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
     algorithmThread.start();
@@ -78,7 +84,7 @@ void Client::moveAlgorithmToThread(Threadable* t)
     connect(&algorithmThread, &QThread::started, t, &Threadable::onStart);
     connect(this, &Client::sendStop, t, &Threadable::onStop, Qt::DirectConnection);
 
-    connect(t, &Threadable::sendLog, this, &Client::sendLog, Qt::DirectConnection);
+    connect(t, &Threadable::sendLog, this, &Client::onLog, Qt::DirectConnection);
     connect(t, &Threadable::sendError, this, &Client::sendError, Qt::DirectConnection);
 }
 
@@ -104,10 +110,15 @@ void Client::startPlacingAndRouting(Scheme* scheme)
         delete primaryPlacement;
         primaryPlacement = nullptr;
 
-        sendLog(tr("Primary placement is finished."));
+        sendLog(tr("Primary placement is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
     algorithmThread.start();
+}
+
+void Client::onLog(QString log)
+{
+    sendLog(log);
 }
 
 void Client::onPrimaryPlacementFinished(PlacementResult* res)
@@ -125,7 +136,7 @@ void Client::onPrimaryPlacementFinished(PlacementResult* res)
         delete secondaryPlacement;
         secondaryPlacement = nullptr;
 
-        sendLog(tr("Secondary placement is finished."));
+        sendLog(tr("Secondary placement is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
     algorithmThread.start();
@@ -152,7 +163,7 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
         delete routing;
         routing = nullptr;
 
-        sendLog(tr("Routing is finished."));
+        sendLog(tr("Routing is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
     algorithmThread.start();
@@ -183,7 +194,7 @@ void Client::startComposition(QList<Grid*> grids, Scheme *scheme, int level)
         delete composition;
         composition = nullptr;
 
-        sendLog(tr("Composition is finished."));
+        sendLog(tr("Composition is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
     algorithmThread.start();
@@ -209,7 +220,7 @@ void Client::onCompositionFinished(Grid* grid)
         delete routing;
         routing = nullptr;
 
-        sendLog(tr("Routing is finished."));
+        sendLog(tr("Routing is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
     algorithmThread.start();

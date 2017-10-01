@@ -8,6 +8,7 @@
 #include "algorithms/routing/routingstrategy.h"
 #include "algorithms/composition/compositionstrategy.h"
 #include "datamodels/architecture/architecture.h"
+#include "control/pool/logtype.h"
 
 /**
  * @brief The Client class
@@ -23,6 +24,7 @@ public:
      * Constructs an empty object.
      */
     Client();
+    ~Client();
 
     void setArchitecture(Architecture* a);
     void setLibraries(QList<Library*> list);
@@ -60,13 +62,15 @@ public:
     void startComposition(QList<Grid*> grids, Scheme* scheme, int level);
 
 private slots:
+    void onLog(QString log);
+
     void onPrimaryPlacementFinished(PlacementResult* res);
     void onSecondaryPlacementFinished(PlacementResult* res);
 
     void onCompositionFinished(Grid* grid);
 
 signals:
-    void sendLog(QString log);
+    void sendLog(QString log, LogType type = LogType::Common);
     void sendError(QString error);    
     void sendDecomposedSchemes(QList<Scheme*> schemes);
     void sendRoutedGrid(Grid* grid);

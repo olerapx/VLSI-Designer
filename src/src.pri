@@ -25,6 +25,7 @@ HEADERS += \
     $$PWD/algorithms/routing/leerouting/wiredistancecomparator.h \
     $$PWD/algorithms/routing/leerouting/pointdistancecomparator.h \
     $$PWD/control/pool/entitytype.h \
+    $$PWD/control/pool/logtype.h \
     $$PWD/control/pool/poolentity.h \
     $$PWD/control/pool/poolentityinfo.h \
     $$PWD/control/command/command.h \
