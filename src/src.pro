@@ -13,13 +13,17 @@ include(src.pri)
 SOURCES += \
     threadable.cpp \
     algorithms/composition/compositionalgorithm.cpp \
+    algorithms/composition/compositionstrategy.cpp \
     algorithms/composition/permutationcomposition/permutationcomposition.cpp \
     algorithms/decomposition/decompositionalgorithm.cpp \
+    algorithms/decomposition/decompositionstrategy.cpp \
     algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \
     algorithms/decomposition/serialdecomposition/schemevertex.cpp \
     algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
     algorithms/placement/primaryplacementalgorithm.cpp \
     algorithms/placement/secondaryplacementalgorithm.cpp \
+    algorithms/placement/primaryplacementstrategy.cpp \
+    algorithms/placement/secondaryplacementstrategy.cpp \
     algorithms/placement/placementresult.cpp \
     algorithms/placement/elementcoordinate.cpp \
     algorithms/placement/wirecoordinate.cpp \
@@ -30,6 +34,9 @@ SOURCES += \
     algorithms/routing/leerouting/leerouting.cpp \
     algorithms/routing/leerouting/wiredistancecomparator.cpp \
     algorithms/routing/leerouting/pointdistancecomparator.cpp \
+    algorithms/routing/routingstrategy.cpp \
+    control/distribution/distributor.cpp \
+    control/distribution/defaultdistributor.cpp \
     control/pool/poolentity.cpp \
     control/pool/poolentityinfo.cpp \
     control/command/command.cpp \
@@ -70,13 +77,10 @@ SOURCES += \
     generator/generator.cpp \
     generator/nodeelement.cpp \
     util/renderer/gridrenderer.cpp \
-    util/aliaser/aliaser.cpp \
-    algorithms/composition/compositionstrategy.cpp \
-    algorithms/decomposition/decompositionstrategy.cpp \
-    algorithms/placement/primaryplacementstrategy.cpp \
-    algorithms/placement/secondaryplacementstrategy.cpp \
-    algorithms/routing/routingstrategy.cpp
+    util/aliaser/aliaser.cpp
 
 TRANSLATIONS = \
     ../resources/localization/src_en_US.ts  \
     ../resources/localization/src_ru_RU.ts
+
+HEADERS +=

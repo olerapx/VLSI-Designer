@@ -24,7 +24,7 @@ public:
      * @throw Exception
      * @return
      */
-    PlacementResult* execute();
+    PlacementResult* execute() override;
 
 private:
     Grid* grid;

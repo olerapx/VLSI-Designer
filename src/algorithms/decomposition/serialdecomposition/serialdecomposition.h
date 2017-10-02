@@ -21,7 +21,7 @@ public:
      * @throw Exception
      * @return decomposed scheme.
      */
-    QList<Scheme*> execute();
+    QList<Scheme*> execute() override;
 
 private:
     QList<SchemeVertex*> undistributedVertices;

@@ -25,7 +25,7 @@ public:
      * @throw IllegalArgumentException
      * @return the byte array.
      */
-    QByteArray serialize(Serializable* s);
+    QByteArray serialize(Serializable* s) override;
 
     /**
      * @brief deserialize
@@ -34,7 +34,7 @@ public:
      * @throw IllegalArgumentException
      * @return the pointer on the deserialized object.
      */
-    Serializable* deserialize(QByteArray binaryData);
+    Serializable* deserialize(QByteArray binaryData) override;
 
 protected:
     QByteArray serializeLibrary(Library* l);

@@ -22,14 +22,14 @@ public:
      * Executes the algorithm with the given parameters.
      * @return
      */
-    PlacementResult* execute();
+    PlacementResult* execute() override;
 
     /**
      * @brief getFitnessValue
      * Retrieves the fitness value of the current elements configuration.
      * @return
      */
-    qint64 getFitnessValue();
+    qint64 getFitnessValue() override;
 
 private:
     QList<QList<ElementCoordinate>> elementCoordinates;

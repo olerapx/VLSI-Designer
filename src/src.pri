@@ -7,12 +7,16 @@ HEADERS += \
     $$PWD/threadable.h \
     $$PWD/algorithms/composition/compositionalgorithm.h \
     $$PWD/algorithms/composition/permutationcomposition/permutationcomposition.h \
+    $$PWD/algorithms/composition/compositionstrategy.h \
     $$PWD/algorithms/decomposition/decompositionalgorithm.h \
+    $$PWD/algorithms/decomposition/decompositionstrategy.h \
     $$PWD/algorithms/decomposition/serialdecomposition/serialdecomposition.h \
     $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \
     $$PWD/algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h \
     $$PWD/algorithms/placement/primaryplacementalgorithm.h \
     $$PWD/algorithms/placement/secondaryplacementalgorithm.h \
+    $$PWD/algorithms/placement/primaryplacementstrategy.h \
+    $$PWD/algorithms/placement/secondaryplacementstrategy.h \
     $$PWD/algorithms/placement/placementresult.h \
     $$PWD/algorithms/placement/elementcoordinate.h \
     $$PWD/algorithms/placement/wirecoordinate.h \
@@ -21,9 +25,12 @@ HEADERS += \
     $$PWD/algorithms/placement/rowpermutationplacement/rowpermutationplacement.h \
     $$PWD/algorithms/routing/routingalgorithm.h \
     $$PWD/algorithms/routing/routingexception.h \
+    $$PWD/algorithms/routing/routingstrategy.h \
     $$PWD/algorithms/routing/leerouting/leerouting.h \
     $$PWD/algorithms/routing/leerouting/wiredistancecomparator.h \
     $$PWD/algorithms/routing/leerouting/pointdistancecomparator.h \
+    $$PWD/control/distribution/distributor.h \
+    $$PWD/control/distribution/defaultdistributor.h \
     $$PWD/control/pool/entitytype.h \
     $$PWD/control/pool/logtype.h \
     $$PWD/control/pool/poolentity.h \
@@ -71,12 +78,7 @@ HEADERS += \
     $$PWD/generator/generator.h \
     $$PWD/generator/nodeelement.h \
     $$PWD/util/renderer/gridrenderer.h \
-    $$PWD/util/aliaser/aliaser.h \
-    $$PWD/algorithms/composition/compositionstrategy.h \
-    $$PWD/algorithms/decomposition/decompositionstrategy.h \
-    $$PWD/algorithms/placement/primaryplacementstrategy.h \
-    $$PWD/algorithms/placement/secondaryplacementstrategy.h \
-    $$PWD/algorithms/routing/routingstrategy.h
+    $$PWD/util/aliaser/aliaser.h
 
 RESOURCES += \
     $$PWD/../resources/resources.qrc

@@ -8,6 +8,9 @@ PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
     acceptNodeConnection(false)
 {
     connectDispatcher();
+
+    connect(&client, &Client::sendLog, this, &PoolEntity::sendLog);
+    connect(&client, &Client::sendError, this, &PoolEntity::sendError);
 }
 
 PoolNode::~PoolNode()

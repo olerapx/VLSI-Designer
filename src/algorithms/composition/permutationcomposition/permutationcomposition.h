@@ -25,7 +25,7 @@ public:
      * @throw Exception
      * @return composed grid.
      */
-    Grid* execute();
+    Grid* execute() override;
 
 private:
     struct GridPosition

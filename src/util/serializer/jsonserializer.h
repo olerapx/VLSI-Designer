@@ -27,7 +27,7 @@ public:
      * @throw IllegalArgumentException
      * @return the byte array represents the created JSON document.
      */
-    QByteArray serialize(Serializable* s);
+    QByteArray serialize(Serializable* s) override;
 
     /**
      * @brief deserialize
@@ -36,7 +36,7 @@ public:
      * @throw IllegalArgumentException
      * @return the pointer on the deserialized object.
      */
-    Serializable* deserialize(QByteArray jsonData);
+    Serializable* deserialize(QByteArray jsonData) override;
 
 protected:
     QByteArray serializeLibrary(Library* l);

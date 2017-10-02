@@ -5,7 +5,7 @@
 #include "control/pool/poolentity.h"
 #include "datamodels/version/version.h"
 #include "util/serializer/jsonserializer.h"
-#include "client.h"
+#include "control/distribution/defaultdistributor.h"
 
 /**
  * @brief The PoolNode class
