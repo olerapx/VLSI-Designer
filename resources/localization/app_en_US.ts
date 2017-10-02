@@ -271,22 +271,22 @@
         <translation>&amp;Network configuration</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="39"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="41"/>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="40"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="42"/>
         <source>Reconnect</source>
         <translation>Reconnect</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="100"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
         <source>Network error</source>
         <translation>Network error</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="100"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
         <source>Cannot initialize network module:
 
 %1
@@ -299,12 +299,12 @@ Try set different parameters.</source>
 Try set different parameters.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="141"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
         <source>No nodes added</source>
         <translation>No nodes added</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="141"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
         <source>Cannot start work without any node added. Add nodes and try again.</source>
         <translation>Cannot start work without any node added. Add nodes and try again.</translation>
     </message>
@@ -390,62 +390,62 @@ Try set different parameters.</translation>
 <context>
     <name>NodeViewModel</name>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="62"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="68"/>
         <source>Hostname</source>
         <translation>Hostname</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="64"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="72"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="66"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="74"/>
         <source>Program version</source>
         <translation>Program version</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="68"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="76"/>
         <source>Address</source>
         <translation>Address</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="10"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="11"/>
         <source>Ready</source>
         <translation>Ready</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="11"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="12"/>
         <source>Unconnected</source>
         <translation>Unconnected</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="12"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="13"/>
         <source>Not responding</source>
         <translation>Not responding</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="13"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="14"/>
         <source>Initialization</source>
         <translation>Initialization</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="14"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="15"/>
         <source>Assigned</source>
         <translation>Assigned</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="15"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="16"/>
         <source>Working</source>
         <translation>Working</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="16"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="17"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="17"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="18"/>
         <source>Incompatible</source>
         <translation>Incompatible</translation>
     </message>

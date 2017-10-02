@@ -271,22 +271,22 @@
         <translation>&amp;Конфигурация сети</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="39"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="41"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="40"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="42"/>
         <source>Reconnect</source>
         <translation>Переподключиться</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="100"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
         <source>Network error</source>
         <translation>Ошибка сети</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="100"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
         <source>Cannot initialize network module:
 
 %1
@@ -299,12 +299,12 @@ Try set different parameters.</source>
 Попробуйте задать другие параметры.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="141"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
         <source>No nodes added</source>
         <translation>Нет добавленных узлов</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="141"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
         <source>Cannot start work without any node added. Add nodes and try again.</source>
         <translation>Невозможно начать работу без добавленных узлов. Добавьте узлы и попробуйте снова.</translation>
     </message>
@@ -390,62 +390,62 @@ Try set different parameters.</source>
 <context>
     <name>NodeViewModel</name>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="62"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="68"/>
         <source>Hostname</source>
         <translation>Имя хоста</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="64"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="72"/>
         <source>Status</source>
         <translation>Статус</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="66"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="74"/>
         <source>Program version</source>
         <translation>Версия программы</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="68"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="76"/>
         <source>Address</source>
         <translation>Адрес</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="10"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="11"/>
         <source>Ready</source>
         <translation>Готов</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="11"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="12"/>
         <source>Unconnected</source>
         <translation>Не подключен</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="12"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="13"/>
         <source>Not responding</source>
         <translation>Не отвечает</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="13"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="14"/>
         <source>Initialization</source>
         <translation>Инициализация</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="14"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="15"/>
         <source>Assigned</source>
         <translation>Назначен</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="15"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="16"/>
         <source>Working</source>
         <translation>Работает</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="16"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="17"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="17"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="18"/>
         <source>Incompatible</source>
         <translation>Несовместим</translation>
     </message>
@@ -478,7 +478,7 @@ Try set different parameters.</source>
     <message>
         <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="43"/>
         <source>Choose scheme</source>
-        <translation>Выбор схемы</translation>
+        <translation>Выберите схему</translation>
     </message>
     <message>
         <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="56"/>
@@ -579,7 +579,7 @@ Try set different parameters.</source>
     <message>
         <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="90"/>
         <source>Greedy</source>
-        <translation>Жадный</translation>
+        <translation>Жадная</translation>
     </message>
     <message>
         <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="134"/>

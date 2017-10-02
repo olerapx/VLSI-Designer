@@ -8,18 +8,6 @@
 
 #include "control/pool/poolentityinfo.h"
 
-static const QMap<NodeStatus, QString> nodeStatusMap
-{
-    { NodeStatus::Ready, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Ready") },
-    { NodeStatus::Unconnected, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Unconnected") },
-    { NodeStatus::NotResponding, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Not responding") },
-    { NodeStatus::Initialization, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Initialization") },
-    { NodeStatus::Assigned, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Assigned") },
-    { NodeStatus::Working, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Working") },
-    { NodeStatus::Error, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Error") },
-    { NodeStatus::Incompatible, QT_TRANSLATE_NOOP("NodeStatusDelegate", "Incompatible") }
-};
-
 class NodeStatusDelegate : public QStyledItemDelegate
 {
     Q_OBJECT

@@ -6,6 +6,18 @@
 #include "nodestatusdelegate.h"
 #include "control/pool/manager/poolmanager.h"
 
+static const QMap<NodeStatus, QString> nodeStatusMap
+{
+    { NodeStatus::Ready, QT_TRANSLATE_NOOP("NodeViewModel", "Ready") },
+    { NodeStatus::Unconnected, QT_TRANSLATE_NOOP("NodeViewModel", "Unconnected") },
+    { NodeStatus::NotResponding, QT_TRANSLATE_NOOP("NodeViewModel", "Not responding") },
+    { NodeStatus::Initialization, QT_TRANSLATE_NOOP("NodeViewModel", "Initialization") },
+    { NodeStatus::Assigned, QT_TRANSLATE_NOOP("NodeViewModel", "Assigned") },
+    { NodeStatus::Working, QT_TRANSLATE_NOOP("NodeViewModel", "Working") },
+    { NodeStatus::Error, QT_TRANSLATE_NOOP("NodeViewModel", "Error") },
+    { NodeStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") }
+};
+
 class NodeViewModel : public QAbstractTableModel
 {
     Q_OBJECT

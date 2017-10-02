@@ -17,12 +17,12 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->nodesTable->resizeColumnsToContents();
     createTableContextMenu();
 
-    connect(&manager, &PoolEntity::sendLog, this, &MainWindow::onSendManagerLog);
-    connect(&node, &PoolEntity::sendLog, this, &MainWindow::onSendNodeLog);
-    connect(&manager, &PoolEntity::sendError, this, &MainWindow::onSendManagerError);
-    connect(&node, &PoolEntity::sendError, this, &MainWindow::onSendNodeError);
+    connect(&manager, &PoolEntity::sendLog, this, &MainWindow::onSendManagerLog, Qt::QueuedConnection);
+    connect(&node, &PoolEntity::sendLog, this, &MainWindow::onSendNodeLog, Qt::QueuedConnection);
+    connect(&manager, &PoolEntity::sendError, this, &MainWindow::onSendManagerError, Qt::QueuedConnection);
+    connect(&node, &PoolEntity::sendError, this, &MainWindow::onSendNodeError, Qt::QueuedConnection);
 
-    connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager);
+    connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager, Qt::QueuedConnection);
 
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }

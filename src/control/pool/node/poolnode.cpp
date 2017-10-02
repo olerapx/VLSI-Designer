@@ -151,15 +151,22 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
 
 void PoolNode::onGetVersion(QUuid uuid)
 {
-    PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
+    try
+    {
+        PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
 
-    QByteArray* body = new QByteArray();
-    QDataStream stream(body, QIODevice::WriteOnly);
+        QByteArray* body = new QByteArray();
+        QDataStream stream(body, QIODevice::WriteOnly);
 
-    stream << programVersion.toString();
+        stream << programVersion.toString();
 
-    sendLog(tr("Sending response on program version request."));
-    sendResponse(info.getAddress(), info.getTcpPort(), CommandType::SendVersion, uuid, body);
+        sendLog(tr("Sending response on program version request."));
+        sendResponse(info.getAddress(), info.getTcpPort(), CommandType::SendVersion, uuid, body);
+    }
+    catch(Exception&)
+    {
+
+    }
 }
 
 void PoolNode::onDisableManager(QUuid uuid)
