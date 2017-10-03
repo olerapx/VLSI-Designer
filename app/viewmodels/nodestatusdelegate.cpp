@@ -71,6 +71,12 @@ void NodeStatusDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
     case NodeStatus::Incompatible:
         image = getImageFromCache("red");
         break;
+    case NodeStatus::Manager:
+        image = getImageFromCache("green");
+        break;
+    case NodeStatus::Node:
+        image = getImageFromCache("blue");
+        break;
     default:
         image = getImageFromCache("empty");
         break;

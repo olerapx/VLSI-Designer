@@ -38,7 +38,9 @@ signals:
     void sendSendSessionDirectoryName(QUuid uuid, QString name);
     void sendSendLibraryList(QUuid uuid, QList<Library*> libraries);
     void sendSendArchitecture(QUuid uuid, Architecture* architecture);
+    void sendGetAvailableNode(QUuid uuid);
     void sendAssign(QUuid uuid);
+    void sendSendAssignedNode(QHostAddress address, int port);
 
 private:
     void handleError(Command* command);
@@ -47,4 +49,5 @@ private:
     void handleSendSessionDirectoryName(Command* command);
     void handleSendLibraryList(Command* command);
     void handleSendArchitecture(Command* command);
+    void handleSendAssignedNode(Command* command);
 };

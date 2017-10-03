@@ -33,28 +33,22 @@ public:
     void removeNode(PoolEntityInfo& info);
 
     void start();
-    bool isStarted() const { return started; }
-
-    QList<PoolEntityInfo>& getPoolNodesInfo() { return knownEntities; }
+    bool isStarted() const { return started; }    
 
     SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
 
 signals:
-    void sendClearNodesInfo();
-    void sendUpdateNodeInfo(PoolEntityInfo& info);
-    void sendRemoveNodeInfo(int index);
-
     void sendDisconnected(QHostAddress address, int tcpPort);
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
     void onDisconnected(QHostAddress address, int tcpPort);
-    void onDataReceived(QByteArray* data, QHostAddress, int);
 
     void onOK(QUuid uuid);
     void onError(QUuid uuid, QString what);
     void onSendVersion(QUuid uuid, Version version);
+    void onGetAvailableNode(QUuid uuid);
 
 protected:
     void connectDispatcher();
@@ -73,6 +67,8 @@ private:
     void sendLibraryListToNode(PoolEntityInfo& info);
     void sendArchitectureToNode(PoolEntityInfo& info);
     void markNodeInitialized(PoolEntityInfo& info);
+    void sendAssignedNode(PoolEntityInfo& info, QUuid uuid);
+    void sendCannotAssignNode(QUuid uuid);
 
     static const EntityType entityType = EntityType::Manager;
 

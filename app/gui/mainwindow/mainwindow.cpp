@@ -138,7 +138,7 @@ void MainWindow::on_startButton_clicked()
     if(manager.isStarted())
         return;
 
-    if(manager.getPoolNodesInfo().isEmpty())
+    if(manager.getKnownEntities().isEmpty())
     {
         QMessageBox::information(this, tr("No nodes added"), tr("Cannot start work without any node added. Add nodes and try again."));
         return;
@@ -162,7 +162,7 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
     for(QAction* a: tableContextMenu.actions())
         a->setEnabled(true);
 
-    PoolEntityInfo& info = manager.getPoolNodesInfo()[index.row()];
+    PoolEntityInfo& info = manager.getKnownEntities()[index.row()];
 
     if(manager.isStarted())
         tableContextMenu.actions()[0]->setEnabled(false);
@@ -175,13 +175,13 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
 
 void MainWindow::onRemove()
 {
-    PoolEntityInfo& info = manager.getPoolNodesInfo()[lastContextActionIndex.row()];
+    PoolEntityInfo& info = manager.getKnownEntities()[lastContextActionIndex.row()];
     manager.removeNode(info);
 }
 
 void MainWindow::onReconnect()
 {
-    PoolEntityInfo& info = manager.getPoolNodesInfo()[lastContextActionIndex.row()];
+    PoolEntityInfo& info = manager.getKnownEntities()[lastContextActionIndex.row()];
     manager.connectToNode(info);
 }
 
@@ -246,10 +246,16 @@ void MainWindow::onSendNodeError(QString error)
 void MainWindow::onDisableManager()
 {
     manager.disable();
-
+// TODO: enable back
     if(manager.isStarted())
         return;
 
     ui->managerWidget->setMaximumSize(QSize(0, 0));
     ui->logLayout->setSpacing(0);
+
+    delete nodeViewModel;
+    nodeViewModel = new NodeViewModel(this, node);
+    ui->nodesTable->setModel(nodeViewModel);
+
+    disconnect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }

@@ -14,7 +14,9 @@ enum class CommandType
     SendSessionDirectoryName,
     SendLibraryList,
     SendArchitecture,
-    Assign
+    GetAvailableNode,
+    Assign,
+    SendAssignedNode
 };
 
 /**

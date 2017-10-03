@@ -1,17 +1,17 @@
 #include "nodeviewmodel.h"
 
-NodeViewModel::NodeViewModel(QObject* parent, PoolManager& manager) :
+NodeViewModel::NodeViewModel(QObject* parent, PoolEntity& entity) :
     QAbstractTableModel(parent),
-    manager(manager)
+    entity(entity)
 {
-    connect(&manager, &PoolManager::sendClearNodesInfo, this, &NodeViewModel::onClearNodeInfo);
-    connect(&manager, &PoolManager::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
-    connect(&manager, &PoolManager::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
+    connect(&entity, &PoolEntity::sendClearNodesInfo, this, &NodeViewModel::onClearNodeInfo);
+    connect(&entity, &PoolEntity::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
+    connect(&entity, &PoolEntity::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
 }
 
 int NodeViewModel::rowCount(const QModelIndex&) const
 {
-    return manager.getPoolNodesInfo().size();
+    return entity.getKnownEntities().size();
 }
 
 int NodeViewModel::columnCount(const QModelIndex&) const
@@ -27,7 +27,7 @@ QVariant NodeViewModel::data(const QModelIndex& index, int role) const
     int row = index.row();
     int col = index.column();
 
-    PoolEntityInfo& info = manager.getPoolNodesInfo()[row];
+    PoolEntityInfo& info = entity.getKnownEntities()[row];
 
     if(role == Qt::DisplayRole)
     {
@@ -83,9 +83,9 @@ QVariant NodeViewModel::headerData(int section, Qt::Orientation orientation, int
 
 void NodeViewModel::appendRow(PoolEntityInfo info, const QModelIndex& parent)
 {
-    beginInsertRows(parent, manager.getPoolNodesInfo().size(), manager.getPoolNodesInfo().size());
+    beginInsertRows(parent, entity.getKnownEntities().size(), entity.getKnownEntities().size());
 
-    manager.getPoolNodesInfo().append(info);
+    entity.getKnownEntities().append(info);
 
     endInsertRows();
 }
@@ -95,9 +95,9 @@ void NodeViewModel::appendRows(QList<PoolEntityInfo>& list, const QModelIndex& p
     if(list.size() == 0)
         return;
 
-    beginInsertRows(parent, manager.getPoolNodesInfo().size(), manager.getPoolNodesInfo().size() + list.size() - 1);
+    beginInsertRows(parent, entity.getKnownEntities().size(), entity.getKnownEntities().size() + list.size() - 1);
 
-    manager.getPoolNodesInfo().append(list);
+    entity.getKnownEntities().append(list);
 
     endInsertRows();
 }
@@ -110,7 +110,7 @@ void NodeViewModel::onClearNodeInfo()
 
 void NodeViewModel::onUpdateNodeInfo(PoolEntityInfo& info)
 {
-    int rowIndex = manager.getPoolNodesInfo().indexOf(info);
+    int rowIndex = entity.getKnownEntities().indexOf(info);
     dataChanged(createIndex(rowIndex, 0), createIndex(rowIndex, 3));
 }
 

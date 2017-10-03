@@ -36,7 +36,6 @@ signals:
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
     void onDisconnected(QHostAddress address, int port);
-    void onDataReceived(QByteArray* data, QHostAddress address, int port);
 
     void onOK(QUuid uuid);
     void onError(QUuid uuid, QString what);
@@ -47,6 +46,7 @@ private slots:
     void onSendLibraryList(QUuid uuid, QList<Library*> libraries);
     void onSendArchitecture(QUuid uuid, Architecture* architecture);
     void onAssign(QUuid uuid);
+    void onSendAssignedNode(QHostAddress address, int port);
 
 protected:
     void connectDispatcher();

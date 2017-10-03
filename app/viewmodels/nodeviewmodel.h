@@ -15,7 +15,9 @@ static const QMap<NodeStatus, QString> nodeStatusMap
     { NodeStatus::Assigned, QT_TRANSLATE_NOOP("NodeViewModel", "Assigned") },
     { NodeStatus::Working, QT_TRANSLATE_NOOP("NodeViewModel", "Working") },
     { NodeStatus::Error, QT_TRANSLATE_NOOP("NodeViewModel", "Error") },
-    { NodeStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") }
+    { NodeStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") },
+    { NodeStatus::Manager, QT_TRANSLATE_NOOP("NodeViewModel", "Manager") },
+    { NodeStatus::Node, QT_TRANSLATE_NOOP("NodeViewModel", "Node") }
 };
 
 class NodeViewModel : public QAbstractTableModel
@@ -23,7 +25,7 @@ class NodeViewModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    NodeViewModel(QObject* parent, PoolManager& manager);
+    NodeViewModel(QObject* parent, PoolEntity& entity);
 
     int rowCount(const QModelIndex& = QModelIndex()) const override;
     int columnCount(const QModelIndex& = QModelIndex()) const override;
@@ -40,5 +42,5 @@ private slots:
     void onRemoveNodeInfo(int index);
 
 private:
-    PoolManager& manager;
+    PoolEntity& entity;
 };

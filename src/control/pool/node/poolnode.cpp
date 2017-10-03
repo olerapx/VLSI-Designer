@@ -29,6 +29,7 @@ void PoolNode::connectDispatcher()
     connect(&dispatcher, &CommandDispatcher::sendSendLibraryList, this, &PoolNode::onSendLibraryList, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendArchitecture, this, &PoolNode::onSendArchitecture, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendAssign, this, &PoolNode::onAssign, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendSendAssignedNode, this, &PoolNode::onSendAssignedNode, Qt::QueuedConnection);
 }
 
 void PoolNode::enable()
@@ -40,7 +41,7 @@ void PoolNode::enable()
 
     PoolEntity::enableTransmitter();
     connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolNode::onNewConnection, Qt::QueuedConnection);
-    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived, Qt::QueuedConnection);
+    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolEntity::onDataReceived, Qt::QueuedConnection);
     connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected, Qt::QueuedConnection);
 
     sendLog(tr("Pool node is enabled."));
@@ -73,30 +74,25 @@ void PoolNode::onDisconnected(QHostAddress address, int port)
 {
     sendLog(tr("Lost connection with %1:%2.").arg(address.toString(), QString::number(port)), LogType::Warning);
 
-    if(address == knownEntities[0].getAddress() && port == knownEntities[0].getTcpPort())
+    bool managerDisconnected = false;
+
+    if(address == knownEntities[0].getAddress() && port == knownEntities[0].getTcpPort() && poolManager != nullptr)
+    {
         poolManager = nullptr;
+        managerDisconnected = true;
+    }
 
-    knownEntities.removeAll(PoolEntityInfo("", address, port));
+    int index = knownEntities.indexOf(PoolEntityInfo("", address, port));
+    knownEntities.removeAt(index);
+    sendRemoveNodeInfo(index);
 
-    if(poolManager == nullptr)
+    if(managerDisconnected)
     {
         sendLog(tr("Connection with manager was lost."), LogType::Warning);
 
         for(PoolEntityInfo& info: knownEntities)
             transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
     }
-}
-
-void PoolNode::onDataReceived(QByteArray* data, QHostAddress address, int port)
-{
-    Command* command = new Command(data);
-
-    if(dispatcher.isRequest(command->getType()))
-        incomingRequests.append(CommandHistoryEntry(address, port, command->getType(), command->getUuid()));
-
-    dispatcher.dispatchCommand(command);
-
-    delete command;
 }
 
 void PoolNode::onOK(QUuid uuid)
@@ -107,10 +103,18 @@ void PoolNode::onOK(QUuid uuid)
 
 void PoolNode::onError(QUuid uuid, QString what)
 {
-    Q_UNUSED(uuid)
-    // TODO
+    CommandType previousCommandType = getCommandHistoryEntry(outcomingRequests, uuid).getType();
+    removeRequestFromList(outcomingRequests, uuid);
 
-    sendError(what);
+    switch(previousCommandType)
+    {
+    case CommandType::GetAvailableNode:
+        break;
+    default:
+        break;
+    }
+
+    sendLog(what, LogType::Warning);
 }
 
 void PoolNode::onIdentify(QUuid uuid, EntityType type)
@@ -136,12 +140,19 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
         }
 
         poolManager = &(knownEntities[0]);
+
+        knownEntities[0].setStatus(NodeStatus::Manager);
+        sendUpdateNodeInfo(knownEntities[0]);
+
         return;
     }
 
     if(acceptNodeConnection)
     {
         acceptNodeConnection = false;
+
+        info.setStatus(NodeStatus::Node);
+        sendUpdateNodeInfo(info);
         return;
     }
 
@@ -261,4 +272,24 @@ void PoolNode::onAssign(QUuid uuid)
 QString PoolNode::getCurrentSessionPath()
 {
     return(sessionPath + "/" + currentSessionName);
+}
+
+void PoolNode::onSendAssignedNode(QHostAddress address, int port)
+{
+    sendLog(tr("Received the available node."), LogType::Success);
+
+    try
+    {
+        transmitter->connectToHost(address, port);
+        knownEntities.append(PoolEntityInfo("", address, port));
+
+        knownEntities.last().setStatus(NodeStatus::Node);
+        sendUpdateNodeInfo(knownEntities.last());
+
+        sendLog(tr("Connected to the available node."), LogType::Success);
+    }
+    catch(Exception&)
+    {
+        sendLog(tr("Cannot connect to the available node."), LogType::Warning);
+    }
 }

@@ -42,6 +42,18 @@ void PoolEntity::disableTransmitter()
     transmitter = nullptr;
 }
 
+void PoolEntity::onDataReceived(QByteArray* data, QHostAddress address, int port)
+{
+    Command* command = new Command(data);
+
+    if(dispatcher.isRequest(command->getType()))
+        incomingRequests.append(CommandHistoryEntry(address, port, command->getType(), command->getUuid()));
+
+    dispatcher.dispatchCommand(command);
+
+    delete command;
+}
+
 CommandHistoryEntry& PoolEntity::getCommandHistoryEntry(QList<CommandHistoryEntry>& list, QUuid uuid)
 {
     for(CommandHistoryEntry& entry: list)

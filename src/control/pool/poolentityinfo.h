@@ -15,7 +15,9 @@ enum class NodeStatus
     Assigned,
     Working,
     Error,
-    Incompatible
+    Incompatible,
+    Manager,
+    Node
 };
 
 Q_DECLARE_METATYPE(NodeStatus)

@@ -27,9 +27,18 @@ public:
 
     bool isTransmitterEnabled() { return (transmitter != nullptr); }
 
+    QList<PoolEntityInfo>& getKnownEntities() { return knownEntities; }
+
 signals:
     void sendLog(QString log, LogType type = LogType::Common);
     void sendError(QString error);
+
+    void sendClearNodesInfo();
+    void sendUpdateNodeInfo(PoolEntityInfo& info);
+    void sendRemoveNodeInfo(int index);
+
+public slots:
+    void onDataReceived(QByteArray* data, QHostAddress address, int port);
 
 protected:
     virtual void connectDispatcher() = 0;

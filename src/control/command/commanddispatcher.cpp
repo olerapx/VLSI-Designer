@@ -32,8 +32,12 @@ bool CommandDispatcher::isRequest(CommandType type)
         return true;
     case CommandType::SendArchitecture:
         return true;
+    case CommandType::GetAvailableNode:
+        return true;
     case CommandType::Assign:
         return true;
+    case CommandType::SendAssignedNode:
+        return false;
     default:
         return true;
     }
@@ -70,8 +74,14 @@ void CommandDispatcher::dispatchCommand(Command* command)
     case CommandType::SendArchitecture:
         handleSendArchitecture(command);
         break;
+    case CommandType::GetAvailableNode:
+        sendGetAvailableNode(command->getUuid());
+        break;
     case CommandType::Assign:
         sendAssign(command->getUuid());
+        break;
+    case CommandType::SendAssignedNode:
+        handleSendAssignedNode(command);
         break;
     }
 }
@@ -151,4 +161,17 @@ void CommandDispatcher::handleSendArchitecture(Command* command)
     Architecture* architecture = dynamic_cast<Architecture*>(serializer.deserialize(*body));
 
     sendSendArchitecture(command->getUuid(), architecture);
+}
+
+void CommandDispatcher::handleSendAssignedNode(Command* command)
+{
+    QByteArray* body = command->getBody();
+    QDataStream stream(body, QIODevice::ReadOnly);
+
+    QString address;
+    int port;
+
+    stream >> address >> port;
+
+    sendSendAssignedNode(QHostAddress(address), port);
 }

@@ -20,6 +20,7 @@ void PoolManager::connectDispatcher()
     connect(&dispatcher, &CommandDispatcher::sendOK, this, &PoolManager::onOK, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendError, this, &PoolManager::onError, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendVersion, this, &PoolManager::onSendVersion, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendGetAvailableNode, this, &PoolManager::onGetAvailableNode, Qt::QueuedConnection);
 }
 
 void PoolManager::enable()
@@ -29,7 +30,7 @@ void PoolManager::enable()
 
     PoolEntity::enableTransmitter();
     connect(transmitter, &NetworkTransmitter::sendNewConnection, this, &PoolManager::onNewConnection, Qt::QueuedConnection);
-    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolManager::onDataReceived, Qt::QueuedConnection);
+    connect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolEntity::onDataReceived, Qt::QueuedConnection);
     connect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolManager::onDisconnected, Qt::QueuedConnection);
 
     sendLog(tr("Pool manager is enabled."));
@@ -288,16 +289,6 @@ void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
     sendDisconnected(address, tcpPort);
 }
 
-void PoolManager::onDataReceived(QByteArray* data, QHostAddress, int)
-{
-    Command* command = new Command(data);
-
-    if(!dispatcher.isRequest(command->getType()))
-        dispatcher.dispatchCommand(command);
-
-    delete command;
-}
-
 void PoolManager::onOK(QUuid uuid)
 {
     CommandType previousCommandType = getCommandHistoryEntry(outcomingRequests, uuid).getType();
@@ -314,6 +305,9 @@ void PoolManager::onOK(QUuid uuid)
     case CommandType::SendArchitecture:
         markNodeInitialized(info);
         break;
+    case CommandType::Assign:
+        sendAssignedNode(info, uuid);
+        break;
     default:
         return;
     }
@@ -321,12 +315,22 @@ void PoolManager::onOK(QUuid uuid)
 
 void PoolManager::onError(QUuid uuid, QString what)
 {
-    sendError(what);
-
+    CommandType previousCommandType = getCommandHistoryEntry(outcomingRequests, uuid).getType();
     PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
+
+    switch(previousCommandType)
+    {
+    case CommandType::Assign:
+        sendCannotAssignNode(uuid);
+        break;
+    default:
+        return;
+    }
 
     info.setStatus(NodeStatus::Error);
     sendUpdateNodeInfo(info);
+
+    sendLog(what, LogType::Warning);
 }
 
 void PoolManager::onSendVersion(QUuid uuid, Version version)
@@ -365,4 +369,52 @@ void PoolManager::onSendVersion(QUuid uuid, Version version)
     });
 
     disconnectFromNodeWithoutNotification(info);
+}
+
+void PoolManager::onGetAvailableNode(QUuid uuid)
+{
+    CommandHistoryEntry& entry = getCommandHistoryEntry(incomingRequests, uuid);
+    PoolEntityInfo& info = getInfoByAddressAndPort(entry.getAddress(), entry.getPort());
+
+    for(PoolEntityInfo& i: knownEntities)
+    {
+        if(i.getStatus() == NodeStatus::Ready && !(i == info))
+        {
+            sendResponse(i.getAddress(), i.getTcpPort(), CommandType::Assign, uuid);
+            outcomingRequests.append(CommandHistoryEntry(i.getAddress(), i.getTcpPort(), CommandType::Assign, uuid));
+            return;
+        }
+    }
+
+    QByteArray* body = new QByteArray(tr("An available node was not found.").toUtf8());
+
+    sendLog(tr("An available node was not found."), LogType::Warning);
+    sendResponse(info.getAddress(), info.getTcpPort(), CommandType::Error, uuid, body);
+}
+
+void PoolManager::sendAssignedNode(PoolEntityInfo& info, QUuid uuid)
+{
+    PoolEntityInfo& senderInfo = removeRequestFromList(incomingRequests, uuid);
+
+    sendLog(tr("An available node was found at %1:%2, sending to %3:%4.").arg(info.getAddress().toString(), QString::number(info.getTcpPort()),
+                                                                           senderInfo.getAddress().toString(), QString::number(senderInfo.getTcpPort())), LogType::Success);
+
+    info.setStatus(NodeStatus::Assigned);
+    sendUpdateNodeInfo(info);
+
+    QByteArray* body = new QByteArray();
+    QDataStream stream(body, QIODevice::WriteOnly);
+    stream << info.getAddress().toString() << info.getTcpPort();
+
+    sendResponse(senderInfo.getAddress(), senderInfo.getTcpPort(), CommandType::SendAssignedNode, uuid, body);
+}
+
+void PoolManager::sendCannotAssignNode(QUuid uuid)
+{
+    PoolEntityInfo& senderInfo = removeRequestFromList(incomingRequests, uuid);
+
+    QByteArray* body = new QByteArray(tr("Failed to connect to available node.").toUtf8());
+    sendLog(tr("Failed to connect to available node."), LogType::Warning);
+
+    sendResponse(senderInfo.getAddress(), senderInfo.getTcpPort(), CommandType::Error, uuid, body);
 }
