@@ -38,6 +38,10 @@ bool CommandDispatcher::isRequest(CommandType type)
         return true;
     case CommandType::SendAssignedNode:
         return false;
+    case CommandType::SendScheme:
+        return true;
+    case CommandType::SendGrid:
+        return false;
     default:
         return true;
     }
@@ -82,6 +86,12 @@ void CommandDispatcher::dispatchCommand(Command* command)
         break;
     case CommandType::SendAssignedNode:
         handleSendAssignedNode(command);
+        break;
+    case CommandType::SendScheme:
+        handleSendScheme(command);
+        break;
+    case CommandType::SendGrid:
+        handleSendGrid(command);
         break;
     }
 }
@@ -174,4 +184,36 @@ void CommandDispatcher::handleSendAssignedNode(Command* command)
     stream >> address >> port;
 
     sendSendAssignedNode(QHostAddress(address), port);
+}
+
+void CommandDispatcher::handleSendScheme(Command* command)
+{
+    QByteArray* body = command->getBody();
+    QDataStream stream(body, QIODevice::ReadOnly);
+
+    qint32 level;
+    stream >> level;
+
+    body->remove(0, sizeof(qint32));
+
+    BinarySerializer serializer;
+    Scheme* s = dynamic_cast<Scheme*>(serializer.deserialize(*body));
+
+    sendSendScheme(command->getUuid(), s, level);
+}
+
+void CommandDispatcher::handleSendGrid(Command* command)
+{
+    QByteArray* body = command->getBody();
+    QDataStream stream(body, QIODevice::ReadOnly);
+
+    qint32 level;
+    stream >> level;
+
+    body->remove(0, sizeof(qint32));
+
+    BinarySerializer serializer;
+    Grid* g = dynamic_cast<Grid*>(serializer.deserialize(*body));
+
+    sendSendGrid(command->getUuid(), g, level);
 }

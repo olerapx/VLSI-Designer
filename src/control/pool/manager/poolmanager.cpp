@@ -21,6 +21,7 @@ void PoolManager::connectDispatcher()
     connect(&dispatcher, &CommandDispatcher::sendError, this, &PoolManager::onError, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendVersion, this, &PoolManager::onSendVersion, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendGetAvailableNode, this, &PoolManager::onGetAvailableNode, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendSendGrid, this, &PoolManager::onSendGrid, Qt::QueuedConnection);
 }
 
 void PoolManager::enable()
@@ -62,17 +63,17 @@ void PoolManager::connectToUnconnectedNodes()
 
 void PoolManager::connectToNode(PoolEntityInfo &info)
 {
-    if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+    if(info.getStatus() != EntityStatus::Unconnected && info.getStatus() != EntityStatus::NotResponding)
         return;
 
     sendLog(tr("Connecting to %1:%2...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
-    info.setStatus(NodeStatus::Connecting);
+    info.setStatus(EntityStatus::Connecting);
     sendUpdateNodeInfo(info);
 
     if(tryConnect(info))
     {
-        info.setStatus(NodeStatus::Ready);
+        info.setStatus(EntityStatus::Ready);
         sendUpdateNodeInfo(info);
         sendLog(tr("Success."), LogType::Success);
 
@@ -87,7 +88,7 @@ void PoolManager::connectToNode(PoolEntityInfo &info)
     }
     else
     {
-        info.setStatus(NodeStatus::NotResponding);
+        info.setStatus(EntityStatus::NotResponding);
         sendUpdateNodeInfo(info);
         sendLog(tr("Connection failed."), LogType::Warning);
     }
@@ -108,7 +109,7 @@ bool PoolManager::tryConnect(PoolEntityInfo& info)
 
 void PoolManager::removeNode(PoolEntityInfo& info)
 {
-    if(info.getStatus() == NodeStatus::Unconnected || info.getStatus() == NodeStatus::NotResponding)
+    if(info.getStatus() == EntityStatus::Unconnected || info.getStatus() == EntityStatus::NotResponding)
     {
         int index = knownEntities.indexOf(info);
         knownEntities.removeAt(index);
@@ -142,7 +143,7 @@ void PoolManager::disconnectFromNode(PoolEntityInfo& info)
     {
         if(address == info.getAddress() && tcpPort == info.getTcpPort())
         {
-            info.setStatus(NodeStatus::Unconnected);
+            info.setStatus(EntityStatus::Unconnected);
             sendUpdateNodeInfo(info);
 
             obj->deleteLater();
@@ -168,16 +169,16 @@ void PoolManager::start()
 {
     started = true;
 
-    setStatusOfAllConnectedNodes(NodeStatus::Initialization);
+    setStatusOfAllConnectedNodes(EntityStatus::Initialization);
     disableManagers();
     createSession();
 }
 
-void PoolManager::setStatusOfAllConnectedNodes(NodeStatus status)
+void PoolManager::setStatusOfAllConnectedNodes(EntityStatus status)
 {
     for(PoolEntityInfo& info: knownEntities)
     {
-        if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+        if(info.getStatus() != EntityStatus::Unconnected && info.getStatus() != EntityStatus::NotResponding)
         {
             info.setStatus(status);
             sendUpdateNodeInfo(info);
@@ -189,7 +190,7 @@ void PoolManager::disableManagers()
 {
     for(PoolEntityInfo& info: knownEntities)
     {
-        if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+        if(info.getStatus() != EntityStatus::Unconnected && info.getStatus() != EntityStatus::NotResponding)
             sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::DisableManager);
     }
 }
@@ -201,7 +202,7 @@ void PoolManager::createSession()
 
     for(PoolEntityInfo& info: knownEntities)
     {
-        if(info.getStatus() != NodeStatus::Unconnected && info.getStatus() != NodeStatus::NotResponding)
+        if(info.getStatus() != EntityStatus::Unconnected && info.getStatus() != EntityStatus::NotResponding)
              startNodeInitialization(info);
     }
 }
@@ -252,13 +253,13 @@ void PoolManager::markNodeInitialized(PoolEntityInfo& info)
     sendLog(tr("Node %1:%2 is initialized.")
             .arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Success);
 
-    info.setStatus(NodeStatus::Ready);
+    info.setStatus(EntityStatus::Ready);
     sendUpdateNodeInfo(info);
 
     bool allInitialized = true;
     for(PoolEntityInfo& info: knownEntities)
     {
-        if(info.getStatus() == NodeStatus::Initialization)
+        if(info.getStatus() == EntityStatus::Initialization)
         {
             allInitialized = false;
             break;
@@ -269,6 +270,19 @@ void PoolManager::markNodeInitialized(PoolEntityInfo& info)
         return;
 
     sendLog(tr("Initialization finished."), LogType::Success);
+
+    BinarySerializer serializer;
+
+    QByteArray schemeArray = serializer.serialize(data->getScheme());
+
+    QByteArray* body = new QByteArray(schemeArray);
+    body->prepend(sizeof(qint32), ' ');
+
+    QDataStream stream(body, QIODevice::WriteOnly);
+    stream.device()->seek(0);
+    stream << (qint32)0;
+
+    sendRequest(knownEntities[0].getAddress(), knownEntities[0].getTcpPort(), CommandType::SendScheme, body);
 }
 
 void PoolManager::onNewConnection(QHostAddress address, int tcpPort)
@@ -281,7 +295,7 @@ void PoolManager::onDisconnected(QHostAddress address, int tcpPort)
 {
     PoolEntityInfo& info = getInfoByAddressAndPort(address, tcpPort);
 
-    info.setStatus(NodeStatus::NotResponding);
+    info.setStatus(EntityStatus::NotResponding);
     sendUpdateNodeInfo(info);
 
     sendLog(tr("Lost connection with node at %1:%2.").arg(address.toString(), QString::number(tcpPort)), LogType::Warning);
@@ -327,7 +341,7 @@ void PoolManager::onError(QUuid uuid, QString what)
         return;
     }
 
-    info.setStatus(NodeStatus::Error);
+    info.setStatus(EntityStatus::Error);
     sendUpdateNodeInfo(info);
 
     sendLog(what, LogType::Warning);
@@ -361,7 +375,7 @@ void PoolManager::onSendVersion(QUuid uuid, Version version)
     {
         if(address == info.getAddress() && tcpPort == info.getTcpPort())
         {
-            info.setStatus(NodeStatus::Incompatible);
+            info.setStatus(EntityStatus::Incompatible);
             sendUpdateNodeInfo(info);
 
             obj->deleteLater();
@@ -378,9 +392,13 @@ void PoolManager::onGetAvailableNode(QUuid uuid)
 
     for(PoolEntityInfo& i: knownEntities)
     {
-        if(i.getStatus() == NodeStatus::Ready && !(i == info))
+        if(i.getStatus() == EntityStatus::Ready && !(i == info))
         {
+            i.setStatus(EntityStatus::Assigned);
+            sendUpdateNodeInfo(i);
+
             sendResponse(i.getAddress(), i.getTcpPort(), CommandType::Assign, uuid);
+
             outcomingRequests.append(CommandHistoryEntry(i.getAddress(), i.getTcpPort(), CommandType::Assign, uuid));
             return;
         }
@@ -399,9 +417,6 @@ void PoolManager::sendAssignedNode(PoolEntityInfo& info, QUuid uuid)
     sendLog(tr("An available node was found at %1:%2, sending to %3:%4.").arg(info.getAddress().toString(), QString::number(info.getTcpPort()),
                                                                            senderInfo.getAddress().toString(), QString::number(senderInfo.getTcpPort())), LogType::Success);
 
-    info.setStatus(NodeStatus::Assigned);
-    sendUpdateNodeInfo(info);
-
     QByteArray* body = new QByteArray();
     QDataStream stream(body, QIODevice::WriteOnly);
     stream << info.getAddress().toString() << info.getTcpPort();
@@ -417,4 +432,21 @@ void PoolManager::sendCannotAssignNode(QUuid uuid)
     sendLog(tr("Failed to connect to available node."), LogType::Warning);
 
     sendResponse(senderInfo.getAddress(), senderInfo.getTcpPort(), CommandType::Error, uuid, body);
+}
+
+void PoolManager::onSendGrid(QUuid uuid, Grid* grid, int)
+{
+    PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
+    sendLog(tr("Node %1:%2 has finished the design process.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Success);
+
+    setStatusOfAllConnectedNodes(EntityStatus::Ready);
+
+    // TODO: sendStop
+
+    started = false;
+    sendFinish();
+
+    GridRenderer renderer(grid, data->getScheme());
+    renderer.execute().save("RES.png");
+    delete grid;
 }

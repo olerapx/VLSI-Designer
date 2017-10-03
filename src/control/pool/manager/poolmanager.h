@@ -5,6 +5,7 @@
 #include "control/pool/poolentity.h"
 #include "exception/illegalargumentexception.h"
 #include "sessiondata.h"
+#include "util/renderer/gridrenderer.h"
 
 /**
  * @brief The PoolManager class
@@ -40,6 +41,7 @@ public:
 
 signals:
     void sendDisconnected(QHostAddress address, int tcpPort);
+    void sendFinish();
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
@@ -49,6 +51,7 @@ private slots:
     void onError(QUuid uuid, QString what);
     void onSendVersion(QUuid uuid, Version version);
     void onGetAvailableNode(QUuid uuid);
+    void onSendGrid(QUuid uuid, Grid* grid, int level);
 
 protected:
     void connectDispatcher();
@@ -59,7 +62,7 @@ private:
     void disconnectFromNode(PoolEntityInfo& info);
     void disconnectFromNodeWithoutNotification(PoolEntityInfo& info);
 
-    void setStatusOfAllConnectedNodes(NodeStatus status);
+    void setStatusOfAllConnectedNodes(EntityStatus status);
 
     void disableManagers();
     void createSession();

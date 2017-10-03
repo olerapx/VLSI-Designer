@@ -5,10 +5,10 @@ PoolEntityInfo::PoolEntityInfo(QString hostName, QHostAddress address, int tcpPo
     address(address),
     tcpPort(tcpPort)
 {
-    status = NodeStatus::Unconnected;
+    status = EntityStatus::Unconnected;
 }
 
-void PoolEntityInfo::setStatus(NodeStatus status)
+void PoolEntityInfo::setStatus(EntityStatus status)
 {
     this->status = status;
 }

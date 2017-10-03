@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     nodeViewModel = new NodeViewModel(this, manager);    
     ui->nodesTable->setModel(nodeViewModel);
-    ui->nodesTable->setItemDelegate(new NodeStatusDelegate(ui->nodesTable));
+    ui->nodesTable->setItemDelegate(new EntityStatusDelegate(ui->nodesTable));
     ui->nodesTable->resizeColumnsToContents();
     createTableContextMenu();
 
@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&node, &PoolEntity::sendError, this, &MainWindow::onSendNodeError, Qt::QueuedConnection);
 
     connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager, Qt::QueuedConnection);
+    connect(&manager, &PoolManager::sendFinish, this, &MainWindow::onFinish, Qt::QueuedConnection);
 
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
@@ -167,7 +168,7 @@ void MainWindow::onTableContextMenuRequested(QPoint pos)
     if(manager.isStarted())
         tableContextMenu.actions()[0]->setEnabled(false);
 
-    if(info.getStatus() != NodeStatus::NotResponding && info.getStatus() != NodeStatus::Unconnected)
+    if(info.getStatus() != EntityStatus::NotResponding && info.getStatus() != EntityStatus::Unconnected)
         tableContextMenu.actions()[1]->setEnabled(false);
 
     tableContextMenu.popup(ui->nodesTable->viewport()->mapToGlobal(pos));
@@ -258,4 +259,10 @@ void MainWindow::onDisableManager()
     ui->nodesTable->setModel(nodeViewModel);
 
     disconnect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
+}
+
+void MainWindow::onFinish()
+{
+    ui->setupButton->setEnabled(true);
+    ui->stopButton->setEnabled(false);
 }

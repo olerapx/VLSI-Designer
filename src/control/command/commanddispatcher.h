@@ -41,6 +41,8 @@ signals:
     void sendGetAvailableNode(QUuid uuid);
     void sendAssign(QUuid uuid);
     void sendSendAssignedNode(QHostAddress address, int port);
+    void sendSendScheme(QUuid uuid, Scheme* scheme, int level);
+    void sendSendGrid(QUuid uuid, Grid* grid, int level);
 
 private:
     void handleError(Command* command);
@@ -50,4 +52,6 @@ private:
     void handleSendLibraryList(Command* command);
     void handleSendArchitecture(Command* command);
     void handleSendAssignedNode(Command* command);
+    void handleSendScheme(Command* command);
+    void handleSendGrid(Command* command);
 };

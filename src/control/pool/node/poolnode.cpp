@@ -5,7 +5,9 @@ PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
     sessionPath(sessionPath),
     programVersion(programVersion),
     poolManager(nullptr),
-    acceptNodeConnection(false)
+    acceptNodeConnection(false),
+    distributor(nullptr),
+    neededNodes(0)
 {
     connectDispatcher();
 
@@ -16,6 +18,7 @@ PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
 PoolNode::~PoolNode()
 {
     disable();
+    delete distributor;
 }
 
 void PoolNode::connectDispatcher()
@@ -30,6 +33,17 @@ void PoolNode::connectDispatcher()
     connect(&dispatcher, &CommandDispatcher::sendSendArchitecture, this, &PoolNode::onSendArchitecture, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendAssign, this, &PoolNode::onAssign, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendAssignedNode, this, &PoolNode::onSendAssignedNode, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendSendScheme, this, &PoolNode::onSendScheme, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendSendGrid, this, &PoolNode::onSendGrid, Qt::QueuedConnection);
+}
+
+void PoolNode::connectDistributor()
+{
+    if(distributor == nullptr)
+        return;
+
+    connect(distributor, &Distributor::sendSchemePart, this, &PoolNode::onSchemePart);
+    connect(distributor, &Distributor::sendNeedNodes, this, &PoolNode::onNeedNodes);
 }
 
 void PoolNode::enable()
@@ -141,7 +155,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
 
         poolManager = &(knownEntities[0]);
 
-        knownEntities[0].setStatus(NodeStatus::Manager);
+        knownEntities[0].setStatus(EntityStatus::Manager);
         sendUpdateNodeInfo(knownEntities[0]);
 
         return;
@@ -151,7 +165,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
     {
         acceptNodeConnection = false;
 
-        info.setStatus(NodeStatus::Node);
+        info.setStatus(EntityStatus::Node);
         sendUpdateNodeInfo(info);
         return;
     }
@@ -233,6 +247,14 @@ void PoolNode::onSendArchitecture(QUuid uuid, Architecture* architecture)
 
     client.setArchitecture(architecture);
 
+    delete distributor;
+    distributor = nullptr;
+
+    if(architecture->getDistributionType() == DistributionType::Default)
+        distributor = new DefaultDistributor(client, getCurrentSessionPath());
+
+    connectDistributor();
+
     QDir dir(getCurrentSessionPath() + "/architecture");
     dir.mkpath(".");
 
@@ -258,7 +280,7 @@ void PoolNode::onAssign(QUuid uuid)
         body->append(error);
 
         sendResponse(info.getAddress(), info.getTcpPort(), CommandType::Error, uuid, body);
-        sendLog(error, LogType::Error);
+        sendLog(error, LogType::Warning);
 
         return;
     }
@@ -274,16 +296,29 @@ QString PoolNode::getCurrentSessionPath()
     return(sessionPath + "/" + currentSessionName);
 }
 
+void PoolNode::onNeedNodes(int number)
+{
+    sendLog(tr("Requesting %1 node(s) from manager.").arg(QString::number(number)));
+    neededNodes = number;
+
+    for(int i=0; i<number; i++)
+    {
+        sendRequest(poolManager->getAddress(), poolManager->getTcpPort(), CommandType::GetAvailableNode);
+    }
+}
+
 void PoolNode::onSendAssignedNode(QHostAddress address, int port)
 {
-    sendLog(tr("Received the available node."), LogType::Success);
+    sendLog(tr("Received the available node: %1:%2.").arg(address.toString(), QString::number(port)), LogType::Success);
+
+    neededNodes --;
 
     try
     {
         transmitter->connectToHost(address, port);
         knownEntities.append(PoolEntityInfo("", address, port));
 
-        knownEntities.last().setStatus(NodeStatus::Node);
+        knownEntities.last().setStatus(EntityStatus::Node);
         sendUpdateNodeInfo(knownEntities.last());
 
         sendLog(tr("Connected to the available node."), LogType::Success);
@@ -292,4 +327,82 @@ void PoolNode::onSendAssignedNode(QHostAddress address, int port)
     {
         sendLog(tr("Cannot connect to the available node."), LogType::Warning);
     }
+
+    if(neededNodes == 0)
+        distributor->onReceivedNodes();
+}
+
+void PoolNode::onSchemePart(Scheme* scheme, int level)
+{
+    sendLog(tr("Sending scheme part to any available node."));
+
+    for(int i=1; i<knownEntities.size(); i++)
+    {
+        if(knownEntities[i].getStatus() == EntityStatus::Node)
+        {
+            knownEntities[i].setStatus(EntityStatus::Working);
+            sendUpdateNodeInfo(knownEntities[i]);
+
+            sendLog(tr("Sending scheme to %1:%2.").arg(knownEntities[i].getAddress().toString(), QString::number(knownEntities[i].getTcpPort())));
+
+            BinarySerializer serializer;
+
+            QByteArray schemeArray = serializer.serialize(scheme);
+            delete scheme;
+
+            QByteArray* body = new QByteArray(schemeArray);
+            body->prepend(sizeof(qint32), ' ');
+
+            QDataStream stream(body, QIODevice::WriteOnly);
+            stream.device()->seek(0);
+            stream << (qint32)level;
+
+            sendRequest(knownEntities[i].getAddress(), knownEntities[i].getTcpPort(), CommandType::SendScheme, body);
+
+            return;
+        }
+    }
+
+    sendLog(tr("Cannot find available node, sending to this node."), LogType::Warning);
+    distributor->start(scheme, level);
+}
+
+void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int level)
+{
+    PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
+
+    sendLog(tr("Received scheme from %1:%2. Starting...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+
+    QObject* obj = new QObject(this);
+
+    QObject::connect(distributor, &Distributor::sendResult, obj, [this, obj, info, uuid] (Grid* grid, int level)
+    {
+        BinarySerializer serializer;
+
+        QByteArray gridArray = serializer.serialize(grid);
+        delete grid;
+
+        QByteArray* body = new QByteArray(gridArray);
+        body->prepend(sizeof(qint32), ' ');
+
+        QDataStream stream(body, QIODevice::WriteOnly);
+        stream.device()->seek(0);
+        stream << (qint32)level;
+
+        sendResponse(info.getAddress(), info.getTcpPort(), CommandType::SendGrid, uuid, body);
+
+        obj->deleteLater();
+    });
+
+    distributor->start(scheme, level);
+}
+
+void PoolNode::onSendGrid(QUuid uuid, Grid* grid, int level)
+{
+    PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
+    sendLog(tr("Received grid from %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+
+    transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
+
+    distributor->onIncomingGrid(grid, level);
 }

@@ -27,7 +27,7 @@ HEADERS += \
     config/configbuilder.h \
     loader/loader.h \
     app.h \
-    viewmodels/nodestatusdelegate.h
+    viewmodels/entitystatusdelegate.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
@@ -41,7 +41,7 @@ SOURCES +=  main.cpp \
     config/configbuilder.cpp \
     loader/loader.cpp \
     app.cpp \
-    viewmodels/nodestatusdelegate.cpp
+    viewmodels/entitystatusdelegate.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \

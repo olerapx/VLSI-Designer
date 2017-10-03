@@ -5,7 +5,7 @@
 
 #include "datamodels/version/version.h"
 
-enum class NodeStatus
+enum class EntityStatus
 {
     Ready,
     Unconnected,
@@ -20,7 +20,7 @@ enum class NodeStatus
     Node
 };
 
-Q_DECLARE_METATYPE(NodeStatus)
+Q_DECLARE_METATYPE(EntityStatus)
 
 /**
  * @brief The PoolEntityInfo class
@@ -33,8 +33,8 @@ public:
 
     QString getHostName() const { return hostName; }
 
-    NodeStatus getStatus() const { return status; }
-    void setStatus(NodeStatus status);
+    EntityStatus getStatus() const { return status; }
+    void setStatus(EntityStatus status);
 
     Version getProgramVersion() { return programVersion; }
     void setProgramVersion(Version version);
@@ -47,7 +47,7 @@ public:
 
 private:
     QString hostName;
-    NodeStatus status;
+    EntityStatus status;
     Version programVersion;
     QHostAddress address;
 

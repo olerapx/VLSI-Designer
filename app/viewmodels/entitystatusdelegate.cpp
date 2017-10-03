@@ -1,12 +1,12 @@
-#include "nodestatusdelegate.h"
+#include "entitystatusdelegate.h"
 
-NodeStatusDelegate::NodeStatusDelegate(QWidget* parent) :
+EntityStatusDelegate::EntityStatusDelegate(QWidget* parent) :
     QStyledItemDelegate(parent)
 {
     fillCache();
 }
 
-void NodeStatusDelegate::fillCache()
+void EntityStatusDelegate::fillCache()
 {
     QString path = ":/resources/images/status";
 
@@ -22,7 +22,7 @@ void NodeStatusDelegate::fillCache()
     }
 }
 
-QImage NodeStatusDelegate::getImageFromCache(QString key) const
+QImage EntityStatusDelegate::getImageFromCache(QString key) const
 {
     if(imageCache.contains(key))
         return imageCache[key];
@@ -30,7 +30,7 @@ QImage NodeStatusDelegate::getImageFromCache(QString key) const
     return imageCache["empty"];
 }
 
-void NodeStatusDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void EntityStatusDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     if(index.column() != 1)
     {
@@ -38,43 +38,43 @@ void NodeStatusDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
         return;
     }
 
-    NodeStatus status = qvariant_cast<NodeStatus>(index.data());
+    EntityStatus status = qvariant_cast<EntityStatus>(index.data());
 
     QImage image;
 
     switch(status)
     {
-    case NodeStatus::Ready:
+    case EntityStatus::Ready:
         image = getImageFromCache("green");
         break;
-    case NodeStatus::Unconnected:
+    case EntityStatus::Unconnected:
         image = getImageFromCache("grey");
         break;
-    case NodeStatus::NotResponding:
+    case EntityStatus::NotResponding:
         image = getImageFromCache("red");
         break;
-    case NodeStatus::Connecting:
+    case EntityStatus::Connecting:
         image = getImageFromCache("blue");
         break;
-    case NodeStatus::Initialization:
+    case EntityStatus::Initialization:
         image = getImageFromCache("blue");
         break;
-    case NodeStatus::Assigned:
+    case EntityStatus::Assigned:
         image = getImageFromCache("blue");
         break;
-    case NodeStatus::Working:
+    case EntityStatus::Working:
         image = getImageFromCache("yellow");
         break;
-    case NodeStatus::Error:
+    case EntityStatus::Error:
         image = getImageFromCache("red");
         break;
-    case NodeStatus::Incompatible:
+    case EntityStatus::Incompatible:
         image = getImageFromCache("red");
         break;
-    case NodeStatus::Manager:
+    case EntityStatus::Manager:
         image = getImageFromCache("green");
         break;
-    case NodeStatus::Node:
+    case EntityStatus::Node:
         image = getImageFromCache("blue");
         break;
     default:

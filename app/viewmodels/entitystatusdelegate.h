@@ -8,12 +8,12 @@
 
 #include "control/pool/poolentityinfo.h"
 
-class NodeStatusDelegate : public QStyledItemDelegate
+class EntityStatusDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    NodeStatusDelegate(QWidget* parent = nullptr);
+    EntityStatusDelegate(QWidget* parent = nullptr);
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 

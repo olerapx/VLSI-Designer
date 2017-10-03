@@ -112,9 +112,13 @@ void SetupSessionDialog::fillParametersFromData(SessionData* data)
     else
         ui->distributionTypeBox->setCurrentIndex(1);
 
-    QString numbers = QString::number(data->getArchitecture()->getModel()[0]);
-    for(int i=1; i<data->getArchitecture()->getModel().size(); i++)
-        numbers.append(QString(", %1").arg(QString::number(data->getArchitecture()->getModel()[i])));
+    QString numbers;
+    if(!data->getArchitecture()->getModel().isEmpty())
+    {
+        numbers = QString::number(data->getArchitecture()->getModel()[0]);
+        for(int i=1; i<data->getArchitecture()->getModel().size(); i++)
+            numbers.append(QString(", %1").arg(QString::number(data->getArchitecture()->getModel()[i])));
+    }
 
     ui->distributionModelText->setText(numbers);
 }

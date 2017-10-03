@@ -47,12 +47,18 @@ private slots:
     void onSendArchitecture(QUuid uuid, Architecture* architecture);
     void onAssign(QUuid uuid);
     void onSendAssignedNode(QHostAddress address, int port);
+    void onSendScheme(QUuid uuid, Scheme* scheme, int level);
+    void onSendGrid(QUuid uuid, Grid* grid, int level);
+
+    void onSchemePart(Scheme* scheme, int level);
+    void onNeedNodes(int number);
 
 protected:
     void connectDispatcher();
 
 private:
     QString getCurrentSessionPath();
+    void connectDistributor();
 
     static const EntityType entityType = EntityType::Node;
 
@@ -65,4 +71,7 @@ private:
     bool acceptNodeConnection;
 
     Client client;
+    Distributor* distributor;
+
+    int neededNodes;
 };

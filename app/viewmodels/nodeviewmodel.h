@@ -3,21 +3,21 @@
 #include <QAbstractTableModel>
 #include <QMap>
 
-#include "nodestatusdelegate.h"
+#include "entitystatusdelegate.h"
 #include "control/pool/manager/poolmanager.h"
 
-static const QMap<NodeStatus, QString> nodeStatusMap
+static const QMap<EntityStatus, QString> nodeStatusMap
 {
-    { NodeStatus::Ready, QT_TRANSLATE_NOOP("NodeViewModel", "Ready") },
-    { NodeStatus::Unconnected, QT_TRANSLATE_NOOP("NodeViewModel", "Unconnected") },
-    { NodeStatus::NotResponding, QT_TRANSLATE_NOOP("NodeViewModel", "Not responding") },
-    { NodeStatus::Initialization, QT_TRANSLATE_NOOP("NodeViewModel", "Initialization") },
-    { NodeStatus::Assigned, QT_TRANSLATE_NOOP("NodeViewModel", "Assigned") },
-    { NodeStatus::Working, QT_TRANSLATE_NOOP("NodeViewModel", "Working") },
-    { NodeStatus::Error, QT_TRANSLATE_NOOP("NodeViewModel", "Error") },
-    { NodeStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") },
-    { NodeStatus::Manager, QT_TRANSLATE_NOOP("NodeViewModel", "Manager") },
-    { NodeStatus::Node, QT_TRANSLATE_NOOP("NodeViewModel", "Node") }
+    { EntityStatus::Ready, QT_TRANSLATE_NOOP("NodeViewModel", "Ready") },
+    { EntityStatus::Unconnected, QT_TRANSLATE_NOOP("NodeViewModel", "Unconnected") },
+    { EntityStatus::NotResponding, QT_TRANSLATE_NOOP("NodeViewModel", "Not responding") },
+    { EntityStatus::Initialization, QT_TRANSLATE_NOOP("NodeViewModel", "Initialization") },
+    { EntityStatus::Assigned, QT_TRANSLATE_NOOP("NodeViewModel", "Assigned") },
+    { EntityStatus::Working, QT_TRANSLATE_NOOP("NodeViewModel", "Working") },
+    { EntityStatus::Error, QT_TRANSLATE_NOOP("NodeViewModel", "Error") },
+    { EntityStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") },
+    { EntityStatus::Manager, QT_TRANSLATE_NOOP("NodeViewModel", "Manager") },
+    { EntityStatus::Node, QT_TRANSLATE_NOOP("NodeViewModel", "Node") }
 };
 
 class NodeViewModel : public QAbstractTableModel

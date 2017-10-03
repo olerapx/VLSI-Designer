@@ -16,7 +16,9 @@ enum class CommandType
     SendArchitecture,
     GetAvailableNode,
     Assign,
-    SendAssignedNode
+    SendAssignedNode,
+    SendScheme,
+    SendGrid
 };
 
 /**

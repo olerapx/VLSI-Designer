@@ -1,6 +1,10 @@
 #pragma once
 
+#include <QDir>
+#include <QFile>
+
 #include "control/pool/node/client.h"
+#include "util/serializer/binaryserializer.h"
 
 /**
  * @brief The Distributor class
@@ -11,7 +15,7 @@ class Distributor : public QObject
     Q_OBJECT
 
 public:
-    Distributor(Client& client);
+    Distributor(Client& client, QString currentSessionPath);
 
     /**
      * @brief start
@@ -54,9 +58,26 @@ protected:
     int getLevelsNumber() const;
     int getClientsNumberOnNextLevel(int levelNumber) const;
     bool isLastLevel(int levelNumber) const;
+    QString getLevelPath(int level) const;
+    QString getGridsPath(int level) const;
+    QString getSchemesPath(int level) const;
+
+    void writeGrid(Grid* g, int level) const;
+    void writeScheme(Scheme* s, int level) const;
+    void writeGridPart(Grid* g, int level) const;
+    void writeSchemePart(Scheme* s, int level) const;
+
+    QList<Grid*> readGridParts(int level) const;
+    QList<Scheme*> readSchemeParts(int level) const;
+
+    int getGridPartsNumber(int level) const;
+    int getSchemePartsNumber(int level) const;
 
     Client& client;
+    QString currentSessionPath;
 
     int initialLevel;
     int currentLevel;
+
+    Scheme* scheme;
 };

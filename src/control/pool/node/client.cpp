@@ -105,8 +105,6 @@ void Client::startPlacingAndRouting(Scheme* scheme)
 
     connect(primaryPlacement, &PrimaryPlacementAlgorithm::sendFinish, this, [this] ()
     {
-        algorithmThread.quit();
-
         delete primaryPlacement;
         primaryPlacement = nullptr;
 
@@ -131,13 +129,14 @@ void Client::onPrimaryPlacementFinished(PlacementResult* res)
 
     connect(secondaryPlacement, &SecondaryPlacementAlgorithm::sendFinish, this, [this] ()
     {
-        algorithmThread.quit();
-
         delete secondaryPlacement;
         secondaryPlacement = nullptr;
 
         sendLog(tr("Secondary placement is finished."), LogType::Success);
     }, Qt::DirectConnection);
+
+    algorithmThread.quit();
+    algorithmThread.wait();
 
     algorithmThread.start();
 }
@@ -166,6 +165,9 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
         sendLog(tr("Routing is finished."), LogType::Success);
     }, Qt::DirectConnection);
 
+    algorithmThread.quit();
+    algorithmThread.wait();
+
     algorithmThread.start();
 }
 
@@ -186,13 +188,11 @@ void Client::startComposition(QList<Grid*> grids, Scheme *scheme, int level)
 
     connect(composition, &CompositionAlgorithm::sendFinish, this, [this, grids] ()
     {
-        algorithmThread.quit();
+        delete composition;
+        composition = nullptr;
 
         for(Grid* g: grids)
             delete g;
-
-        delete composition;
-        composition = nullptr;
 
         sendLog(tr("Composition is finished."), LogType::Success);
     }, Qt::DirectConnection);
@@ -222,6 +222,9 @@ void Client::onCompositionFinished(Grid* grid)
 
         sendLog(tr("Routing is finished."), LogType::Success);
     }, Qt::DirectConnection);
+
+    algorithmThread.quit();
+    algorithmThread.wait();
 
     algorithmThread.start();
 }
