@@ -282,7 +282,7 @@ void PoolNode::onAssign(QUuid uuid)
         body->append(error);
 
         sendResponse(info.getAddress(), info.getTcpPort(), CommandType::Error, uuid, body);
-        sendLog(error, LogType::Warning);
+        sendLog(tr("Assigning request denied: already assigned to a node."), LogType::Warning);
 
         return;
     }
@@ -323,6 +323,11 @@ void PoolNode::onSendAssignedNode(QHostAddress address, int port)
         knownEntities.last().setStatus(EntityStatus::Node);
         sendAddEntityInfo();
 
+        QByteArray* body = new QByteArray();
+        QDataStream stream(body, QIODevice::WriteOnly);
+        stream << (qint32) entityType;
+
+        sendUntrackedRequest(address, port, CommandType::Identify, body);
         sendLog(tr("Connected to the available node."), LogType::Success);
     }
     catch(Exception&)

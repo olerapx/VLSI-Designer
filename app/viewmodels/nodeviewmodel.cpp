@@ -7,6 +7,7 @@ NodeViewModel::NodeViewModel(QObject* parent, PoolEntity& entity) :
     connect(&entity, &PoolEntity::sendClearEntitiesInfo, this, &NodeViewModel::onClearEntitiesInfo);
     connect(&entity, &PoolEntity::sendUpdateEntityInfo, this, &NodeViewModel::onUpdateEntityInfo);
     connect(&entity, &PoolEntity::sendRemoveEntityInfo, this, &NodeViewModel::onRemoveEntityInfo);
+    connect(&entity, &PoolEntity::sendAddEntityInfo, this, &NodeViewModel::onAddEntityInfo);
 }
 
 int NodeViewModel::rowCount(const QModelIndex&) const
