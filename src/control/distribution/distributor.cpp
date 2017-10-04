@@ -2,10 +2,7 @@
 
 Distributor::Distributor(Client& client, QString currentSessionPath) :
     client(client),
-    currentSessionPath(currentSessionPath),
-    initialLevel(0),
-    currentLevel(0),
-    scheme(nullptr)
+    currentSessionPath(currentSessionPath)
 {
 
 }

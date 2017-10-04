@@ -16,9 +16,9 @@ public:
 
     void onIncomingGrid(Grid* grid, int level) override;
     void onError(QString error) override;
-    void onReceivedNodes() override;
+    void onReceivedNodes(int level) override;
 
 private:
-    void handleLastLevel(int initialLevel);
-    void distributeToNextLevel(int initialLevel);
+    void handleLastLevel(Scheme* scheme, int initialLevel);
+    void distributeToNextLevel(Scheme* scheme, int initialLevel);
 };

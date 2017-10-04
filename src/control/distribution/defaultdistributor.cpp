@@ -8,35 +8,28 @@ DefaultDistributor::DefaultDistributor(Client& client, QString currentSessionPat
 
 void DefaultDistributor::start(Scheme* scheme, int initialLevel)
 {
-    this->initialLevel = initialLevel;
-    this->scheme = scheme;
-
     writeScheme(scheme, initialLevel);
 
     if(isLastLevel(initialLevel))
     {
-        handleLastLevel(initialLevel);
+        handleLastLevel(scheme, initialLevel);
         return;
     }
-    distributeToNextLevel(initialLevel);
+    distributeToNextLevel(scheme, initialLevel);
 }
 
 void DefaultDistributor::stop()
 {
     client.sendStop();
-    delete scheme;
 }
 
-void DefaultDistributor::handleLastLevel(int initialLevel)
+void DefaultDistributor::handleLastLevel(Scheme* scheme, int initialLevel)
 {
    QObject* obj = new QObject(this);
 
-   QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, obj, initialLevel] (Grid* grid)
+   QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, scheme, obj, initialLevel] (Grid* grid)
    {
-       writeGridImage(grid, scheme, initialLevel);
-
        delete scheme;
-       scheme = nullptr;
 
        writeGrid(grid, initialLevel);
 
@@ -47,12 +40,29 @@ void DefaultDistributor::handleLastLevel(int initialLevel)
    client.startPlacingAndRouting(scheme);
 }
 
-void DefaultDistributor::distributeToNextLevel(int initialLevel)
+void DefaultDistributor::distributeToNextLevel(Scheme* scheme, int initialLevel)
 {
     writeScheme(scheme, initialLevel);
 
-    int clientsNumber = getClientsNumberOnNextLevel(initialLevel);
-    sendNeedNodes(clientsNumber);
+    int clientsNumber = getClientsNumberOnNextLevel(initialLevel);    
+
+    QObject* obj = new QObject(this);
+
+    QObject::connect(&client, &Client::sendDecomposedSchemes, obj, [this, obj, initialLevel, scheme, clientsNumber] (QList<Scheme*> schemes)
+    {
+        for(Scheme* s: schemes)
+        {
+            writeSchemePart(s, initialLevel + 1);
+        }
+
+        delete scheme;
+
+        sendNeedNodes(initialLevel + 1, clientsNumber);
+
+        obj->deleteLater();
+    });
+
+    client.startDecomposition(scheme, clientsNumber);
 }
 
 void DefaultDistributor::onIncomingGrid(Grid* grid, int level)
@@ -87,28 +97,14 @@ void DefaultDistributor::onIncomingGrid(Grid* grid, int level)
 
 void DefaultDistributor::onError(QString)
 {
+    stop();
     // TODO
 }
 
-void DefaultDistributor::onReceivedNodes()
+void DefaultDistributor::onReceivedNodes(int level)
 {
-    int clientsNumber = getClientsNumberOnNextLevel(initialLevel);
+    QList<Scheme*> schemes = readSchemeParts(level);
 
-    QObject* obj = new QObject(this);
-
-    QObject::connect(&client, &Client::sendDecomposedSchemes, obj, [this, obj] (QList<Scheme*> schemes)
-    {
-        for(Scheme* s: schemes)
-        {
-            writeSchemePart(s, initialLevel + 1);
-            sendSchemePart(s, initialLevel + 1);
-
-            delete scheme;
-            scheme = nullptr;
-        }
-
-        obj->deleteLater();
-    });
-
-    client.startDecomposition(scheme, clientsNumber);
+    for(Scheme* s: schemes)
+        sendSchemePart(s, level);
 }

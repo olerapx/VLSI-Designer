@@ -49,12 +49,12 @@ signals:
      * Emits when the nodes are needed to continue the design process.
      * @param number
      */
-    void sendNeedNodes(int number);
+    void sendNeedNodes(int level, int number);
 
 public slots:    
     virtual void onIncomingGrid(Grid* grid, int level) = 0;    
     virtual void onError(QString error) = 0;
-    virtual void onReceivedNodes() = 0;
+    virtual void onReceivedNodes(int level) = 0;
 
 protected:
     int getLevelsNumber() const;
@@ -79,9 +79,4 @@ protected:
 
     Client& client;
     QString currentSessionPath;
-
-    int initialLevel;
-    int currentLevel;
-
-    Scheme* scheme;
 };

@@ -33,6 +33,7 @@ public:
 signals:
     void sendDisableManager();
     void sendEnableManager();
+    void sendIncomingGrid(Grid* grid, int level);
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
@@ -48,12 +49,13 @@ private slots:
     void onSendArchitecture(QUuid uuid, Architecture* architecture);
     void onAssign(QUuid uuid);
     void onSendAssignedNode(QHostAddress address, int port);
-    void onSendScheme(QUuid uuid, Scheme* scheme, int level);
+    void onNoAssignedNode();
+    void onSendScheme(QUuid uuid, Scheme* scheme, int initialLevel);
     void onSendGrid(QUuid uuid, Grid* grid, int level);
     void onStop(QUuid uuid);
 
     void onSchemePart(Scheme* scheme, int level);
-    void onNeedNodes(int number);
+    void onNeedNodes(int level, int number);
     void sendSetEntityStatus(QHostAddress address, int port, EntityStatus status);
 
 protected:
@@ -76,5 +78,5 @@ private:
     Client client;
     Distributor* distributor;
 
-    int neededNodes;
+    QMap<int, int> neededNodes;
 };
