@@ -32,6 +32,7 @@ public:
 
 signals:
     void sendDisableManager();
+    void sendEnableManager();
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
@@ -49,9 +50,11 @@ private slots:
     void onSendAssignedNode(QHostAddress address, int port);
     void onSendScheme(QUuid uuid, Scheme* scheme, int level);
     void onSendGrid(QUuid uuid, Grid* grid, int level);
+    void onStop(QUuid uuid);
 
     void onSchemePart(Scheme* scheme, int level);
     void onNeedNodes(int number);
+    void sendSetEntityStatus(QHostAddress address, int port, EntityStatus status);
 
 protected:
     void connectDispatcher();

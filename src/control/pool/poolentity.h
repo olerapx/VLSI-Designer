@@ -33,9 +33,10 @@ signals:
     void sendLog(QString log, LogType type = LogType::Common);
     void sendError(QString error);
 
-    void sendClearNodesInfo();
-    void sendUpdateNodeInfo(PoolEntityInfo& info);
-    void sendRemoveNodeInfo(int index);
+    void sendClearEntitiesInfo();
+    void sendUpdateEntityInfo(PoolEntityInfo& info);
+    void sendRemoveEntityInfo(int index);
+    void sendAddEntityInfo();
 
 public slots:
     void onDataReceived(QByteArray* data, QHostAddress address, int port);

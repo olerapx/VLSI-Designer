@@ -37,9 +37,10 @@ public:
     void appendRows(QList<PoolEntityInfo>& list, const QModelIndex& parent = QModelIndex());
 
 private slots:
-    void onClearNodeInfo();
-    void onUpdateNodeInfo(PoolEntityInfo& info);
-    void onRemoveNodeInfo(int index);
+    void onClearEntitiesInfo();
+    void onUpdateEntityInfo(PoolEntityInfo& info);
+    void onRemoveEntityInfo(int index);
+    void onAddEntityInfo();
 
 private:
     PoolEntity& entity;

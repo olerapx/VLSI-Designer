@@ -171,7 +171,7 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
     algorithmThread.start();
 }
 
-void Client::startComposition(QList<Grid*> grids, Scheme *scheme, int level)
+void Client::startComposition(QList<Grid*> grids, Scheme* scheme, int level)
 {
     if(!stopped) return;
 
@@ -190,9 +190,6 @@ void Client::startComposition(QList<Grid*> grids, Scheme *scheme, int level)
     {
         delete composition;
         composition = nullptr;
-
-        for(Grid* g: grids)
-            delete g;
 
         sendLog(tr("Composition is finished."), LogType::Success);
     }, Qt::DirectConnection);

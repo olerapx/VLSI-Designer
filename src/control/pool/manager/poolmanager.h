@@ -5,7 +5,6 @@
 #include "control/pool/poolentity.h"
 #include "exception/illegalargumentexception.h"
 #include "sessiondata.h"
-#include "util/renderer/gridrenderer.h"
 
 /**
  * @brief The PoolManager class
@@ -52,6 +51,8 @@ private slots:
     void onSendVersion(QUuid uuid, Version version);
     void onGetAvailableNode(QUuid uuid);
     void onSendGrid(QUuid uuid, Grid* grid, int level);
+
+    void onSetEntityStatus(QUuid uuid, QHostAddress address, int port, EntityStatus status);
 
 protected:
     void connectDispatcher();

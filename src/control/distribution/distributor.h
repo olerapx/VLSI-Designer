@@ -5,6 +5,7 @@
 
 #include "control/pool/node/client.h"
 #include "util/serializer/binaryserializer.h"
+#include "util/renderer/gridrenderer.h"
 
 /**
  * @brief The Distributor class
@@ -24,6 +25,7 @@ public:
      * @param initialLevel
      */
     virtual void start(Scheme* scheme, int initialLevel) = 0;
+    virtual void stop() = 0;
 
 signals:
     /**
@@ -63,12 +65,14 @@ protected:
     QString getSchemesPath(int level) const;
 
     void writeGrid(Grid* g, int level) const;
+    void writeGridImage(Grid* g, Scheme* s, int level) const;
     void writeScheme(Scheme* s, int level) const;
     void writeGridPart(Grid* g, int level) const;
-    void writeSchemePart(Scheme* s, int level) const;
+    void writeSchemePart(Scheme* s, int level) const;    
 
     QList<Grid*> readGridParts(int level) const;
     QList<Scheme*> readSchemeParts(int level) const;
+    Scheme* readScheme(int level) const;
 
     int getGridPartsNumber(int level) const;
     int getSchemePartsNumber(int level) const;

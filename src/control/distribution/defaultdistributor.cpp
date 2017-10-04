@@ -21,12 +21,23 @@ void DefaultDistributor::start(Scheme* scheme, int initialLevel)
     distributeToNextLevel(initialLevel);
 }
 
+void DefaultDistributor::stop()
+{
+    client.sendStop();
+    delete scheme;
+}
+
 void DefaultDistributor::handleLastLevel(int initialLevel)
 {
    QObject* obj = new QObject(this);
 
    QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, obj, initialLevel] (Grid* grid)
    {
+       writeGridImage(grid, scheme, initialLevel);
+
+       delete scheme;
+       scheme = nullptr;
+
        writeGrid(grid, initialLevel);
 
        sendResult(grid, initialLevel);
@@ -47,18 +58,26 @@ void DefaultDistributor::distributeToNextLevel(int initialLevel)
 void DefaultDistributor::onIncomingGrid(Grid* grid, int level)
 {
     writeGridPart(grid, level);
+    delete grid;
 
-    if(getGridPartsNumber(level) != getClientsNumberOnNextLevel(initialLevel))
+    if(getGridPartsNumber(level) != getClientsNumberOnNextLevel(level - 1))
         return;
 
     QList<Grid*> grids = readGridParts(level);
+    Scheme* scheme = readScheme(level - 1);
 
     QObject* obj = new QObject(this);
 
-    QObject::connect(&client, &Client::sendComposedGrid, obj, [this, obj, grids] (Grid* grid, int level)
+    QObject::connect(&client, &Client::sendComposedGrid, obj, [this, obj, grids, scheme] (Grid* grid, int level)
     {
         writeGrid(grid, level);
+        writeGridImage(grid, scheme, level);
         sendResult(grid, level);
+
+        delete scheme;
+
+        for(Grid* g: grids)
+            delete g;
 
         obj->deleteLater();
     });
@@ -68,7 +87,7 @@ void DefaultDistributor::onIncomingGrid(Grid* grid, int level)
 
 void DefaultDistributor::onError(QString)
 {
-
+    // TODO
 }
 
 void DefaultDistributor::onReceivedNodes()
@@ -83,6 +102,9 @@ void DefaultDistributor::onReceivedNodes()
         {
             writeSchemePart(s, initialLevel + 1);
             sendSchemePart(s, initialLevel + 1);
+
+            delete scheme;
+            scheme = nullptr;
         }
 
         obj->deleteLater();

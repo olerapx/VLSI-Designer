@@ -12,6 +12,7 @@ public:
     DefaultDistributor(Client& client, QString currentSessionPath);
 
     void start(Scheme* scheme, int initialLevel) override;
+    void stop() override;
 
     void onIncomingGrid(Grid* grid, int level) override;
     void onError(QString error) override;

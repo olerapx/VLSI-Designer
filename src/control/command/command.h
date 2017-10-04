@@ -18,7 +18,9 @@ enum class CommandType
     Assign,
     SendAssignedNode,
     SendScheme,
-    SendGrid
+    SendGrid,
+    SetEntityStatus,
+    Stop
 };
 
 /**

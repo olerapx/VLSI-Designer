@@ -35,6 +35,7 @@ void PoolNode::connectDispatcher()
     connect(&dispatcher, &CommandDispatcher::sendSendAssignedNode, this, &PoolNode::onSendAssignedNode, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendScheme, this, &PoolNode::onSendScheme, Qt::QueuedConnection);
     connect(&dispatcher, &CommandDispatcher::sendSendGrid, this, &PoolNode::onSendGrid, Qt::QueuedConnection);
+    connect(&dispatcher, &CommandDispatcher::sendStop, this, &PoolNode::onStop, Qt::QueuedConnection);
 }
 
 void PoolNode::connectDistributor()
@@ -82,6 +83,7 @@ void PoolNode::onNewConnection(QHostAddress address, int tcpPort)
 {
     sendLog(tr("Got a new connection from %1:%2, waiting for identification.").arg(address.toString(), QString::number(tcpPort)));
     knownEntities.append(PoolEntityInfo("", address, tcpPort));
+    sendAddEntityInfo();
 }
 
 void PoolNode::onDisconnected(QHostAddress address, int port)
@@ -98,7 +100,7 @@ void PoolNode::onDisconnected(QHostAddress address, int port)
 
     int index = knownEntities.indexOf(PoolEntityInfo("", address, port));
     knownEntities.removeAt(index);
-    sendRemoveNodeInfo(index);
+    sendRemoveEntityInfo(index);
 
     if(managerDisconnected)
     {
@@ -156,7 +158,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
         poolManager = &(knownEntities[0]);
 
         knownEntities[0].setStatus(EntityStatus::Manager);
-        sendUpdateNodeInfo(knownEntities[0]);
+        sendUpdateEntityInfo(knownEntities[0]);
 
         return;
     }
@@ -166,7 +168,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
         acceptNodeConnection = false;
 
         info.setStatus(EntityStatus::Node);
-        sendUpdateNodeInfo(info);
+        sendUpdateEntityInfo(info);
         return;
     }
 
@@ -276,7 +278,7 @@ void PoolNode::onAssign(QUuid uuid)
     if(acceptNodeConnection)
     {
         QByteArray* body = new QByteArray();
-        QString error = tr("Assigning request denied, already assigned to a node.");
+        QString error = tr("Assigning request was denied by the node: already assigned.");
         body->append(error);
 
         sendResponse(info.getAddress(), info.getTcpPort(), CommandType::Error, uuid, body);
@@ -319,7 +321,7 @@ void PoolNode::onSendAssignedNode(QHostAddress address, int port)
         knownEntities.append(PoolEntityInfo("", address, port));
 
         knownEntities.last().setStatus(EntityStatus::Node);
-        sendUpdateNodeInfo(knownEntities.last());
+        sendAddEntityInfo();
 
         sendLog(tr("Connected to the available node."), LogType::Success);
     }
@@ -341,7 +343,7 @@ void PoolNode::onSchemePart(Scheme* scheme, int level)
         if(knownEntities[i].getStatus() == EntityStatus::Node)
         {
             knownEntities[i].setStatus(EntityStatus::Working);
-            sendUpdateNodeInfo(knownEntities[i]);
+            sendUpdateEntityInfo(knownEntities[i]);
 
             sendLog(tr("Sending scheme to %1:%2.").arg(knownEntities[i].getAddress().toString(), QString::number(knownEntities[i].getTcpPort())));
 
@@ -357,25 +359,30 @@ void PoolNode::onSchemePart(Scheme* scheme, int level)
             stream.device()->seek(0);
             stream << (qint32)level;
 
+            knownEntities[i].setStatus(EntityStatus::Working);
+            sendUpdateEntityInfo(knownEntities[i]);
+
             sendRequest(knownEntities[i].getAddress(), knownEntities[i].getTcpPort(), CommandType::SendScheme, body);
+            sendSetEntityStatus(knownEntities[i].getAddress(), knownEntities[i].getTcpPort(), EntityStatus::Working);
 
             return;
         }
     }
 
-    sendLog(tr("Cannot find available node, sending to this node."), LogType::Warning);
-    distributor->start(scheme, level);
+    sendLog(tr("Cannot find available node, handling the scheme part on one's own."), LogType::Warning);
+    distributor->start(scheme, level); // TODO: dangerous
 }
 
 void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int level)
 {
     PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
 
-    sendLog(tr("Received scheme from %1:%2. Starting...").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
+    sendLog(tr("Received scheme from %1:%2 on distribution level %3. Start handling.")
+            .arg(info.getAddress().toString(), QString::number(info.getTcpPort()), QString::number(level)));
 
     QObject* obj = new QObject(this);
 
-    QObject::connect(distributor, &Distributor::sendResult, obj, [this, obj, info, uuid] (Grid* grid, int level)
+    QObject::connect(distributor, &Distributor::sendResult, obj, [this, obj, info, uuid, scheme] (Grid* grid, int level)
     {
         BinarySerializer serializer;
 
@@ -389,6 +396,7 @@ void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int level)
         stream.device()->seek(0);
         stream << (qint32)level;
 
+        sendLog(tr("Finished handling scheme, sending back to %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
         sendResponse(info.getAddress(), info.getTcpPort(), CommandType::SendGrid, uuid, body);
 
         obj->deleteLater();
@@ -403,6 +411,26 @@ void PoolNode::onSendGrid(QUuid uuid, Grid* grid, int level)
     sendLog(tr("Received grid from %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
 
     transmitter->disconnectFromHost(info.getAddress(), info.getTcpPort());
+    sendSetEntityStatus(info.getAddress(), info.getTcpPort(), EntityStatus::Ready);
+    sendRemoveEntityInfo(knownEntities.indexOf(info));
 
     distributor->onIncomingGrid(grid, level);
+}
+
+void PoolNode::onStop(QUuid uuid)
+{
+    removeRequestFromList(incomingRequests, uuid);
+    sendLog(tr("Received a stop request."));
+
+    sendEnableManager();
+    distributor->stop();
+}
+
+void PoolNode::sendSetEntityStatus(QHostAddress address, int port, EntityStatus status)
+{
+    QByteArray* body = new QByteArray();
+    QDataStream stream(body, QIODevice::WriteOnly);
+    stream << address.toString() << port << (qint32) status;
+
+    sendUntrackedRequest(poolManager->getAddress(), poolManager->getTcpPort(), CommandType::SetEntityStatus, body);
 }

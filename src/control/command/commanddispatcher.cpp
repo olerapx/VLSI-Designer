@@ -42,6 +42,10 @@ bool CommandDispatcher::isRequest(CommandType type)
         return true;
     case CommandType::SendGrid:
         return false;
+    case CommandType::SetEntityStatus:
+        return true;
+    case CommandType::Stop:
+        return true;
     default:
         return true;
     }
@@ -92,6 +96,12 @@ void CommandDispatcher::dispatchCommand(Command* command)
         break;
     case CommandType::SendGrid:
         handleSendGrid(command);
+        break;
+    case CommandType::SetEntityStatus:
+        handleSetEntityStatus(command);
+        break;
+    case CommandType::Stop:
+        sendStop(command->getUuid());
         break;
     }
 }
@@ -216,4 +226,18 @@ void CommandDispatcher::handleSendGrid(Command* command)
     Grid* g = dynamic_cast<Grid*>(serializer.deserialize(*body));
 
     sendSendGrid(command->getUuid(), g, level);
+}
+
+void CommandDispatcher::handleSetEntityStatus(Command* command)
+{
+    QByteArray* body = command->getBody();
+    QDataStream stream(body, QIODevice::ReadOnly);
+
+    QString addressString;
+    int port;
+    qint32 status;
+
+    stream >> addressString >> port >> status;
+
+    sendSetEntityStatus(command->getUuid(), QHostAddress(addressString), port, static_cast<EntityStatus>(status));
 }

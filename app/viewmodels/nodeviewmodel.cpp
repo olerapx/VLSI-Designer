@@ -4,9 +4,9 @@ NodeViewModel::NodeViewModel(QObject* parent, PoolEntity& entity) :
     QAbstractTableModel(parent),
     entity(entity)
 {
-    connect(&entity, &PoolEntity::sendClearNodesInfo, this, &NodeViewModel::onClearNodeInfo);
-    connect(&entity, &PoolEntity::sendUpdateNodeInfo, this, &NodeViewModel::onUpdateNodeInfo);
-    connect(&entity, &PoolEntity::sendRemoveNodeInfo, this, &NodeViewModel::onRemoveNodeInfo);
+    connect(&entity, &PoolEntity::sendClearEntitiesInfo, this, &NodeViewModel::onClearEntitiesInfo);
+    connect(&entity, &PoolEntity::sendUpdateEntityInfo, this, &NodeViewModel::onUpdateEntityInfo);
+    connect(&entity, &PoolEntity::sendRemoveEntityInfo, this, &NodeViewModel::onRemoveEntityInfo);
 }
 
 int NodeViewModel::rowCount(const QModelIndex&) const
@@ -102,20 +102,26 @@ void NodeViewModel::appendRows(QList<PoolEntityInfo>& list, const QModelIndex& p
     endInsertRows();
 }
 
-void NodeViewModel::onClearNodeInfo()
+void NodeViewModel::onClearEntitiesInfo()
 {
     beginResetModel();
     endResetModel();
 }
 
-void NodeViewModel::onUpdateNodeInfo(PoolEntityInfo& info)
+void NodeViewModel::onUpdateEntityInfo(PoolEntityInfo& info)
 {
     int rowIndex = entity.getKnownEntities().indexOf(info);
     dataChanged(createIndex(rowIndex, 0), createIndex(rowIndex, 3));
 }
 
-void NodeViewModel::onRemoveNodeInfo(int index)
+void NodeViewModel::onRemoveEntityInfo(int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
     endRemoveRows();
+}
+
+void NodeViewModel::onAddEntityInfo()
+{
+    beginInsertRows(QModelIndex(), entity.getKnownEntities().size() - 1, entity.getKnownEntities().size() - 1);
+    endInsertRows();
 }

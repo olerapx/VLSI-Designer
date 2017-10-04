@@ -65,6 +65,16 @@ void Distributor::writeGrid(Grid* g, int level) const
     f.close();
 }
 
+void Distributor::writeGridImage(Grid* g, Scheme* s, int level) const
+{
+    GridRenderer renderer(g, s);
+
+    QDir dir(getLevelPath(level));
+    dir.mkpath(".");
+
+    renderer.execute().save(getLevelPath(level) + "/grid.png");
+}
+
 void Distributor::writeScheme(Scheme* s, int level) const
 {
     BinarySerializer serializer;
@@ -181,4 +191,16 @@ QList<Scheme*> Distributor::readSchemeParts(int level) const
     }
 
     return res;
+}
+
+Scheme* Distributor::readScheme(int level) const
+{
+    BinarySerializer serializer;
+
+    QFile f(getLevelPath(level) + "/scheme.bin");
+    f.open(QIODevice::ReadOnly);
+    Scheme* s = dynamic_cast<Scheme*>(serializer.deserialize(f.readAll()));
+    f.close();
+
+    return s;
 }

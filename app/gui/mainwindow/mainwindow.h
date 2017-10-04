@@ -51,6 +51,7 @@ private slots:
     void onSendNodeError(QString error);
 
     void onDisableManager();
+    void onEnableManager();
     void onFinish();
 
 private:

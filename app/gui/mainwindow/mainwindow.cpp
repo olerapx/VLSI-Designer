@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&node, &PoolEntity::sendError, this, &MainWindow::onSendNodeError, Qt::QueuedConnection);
 
     connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager, Qt::QueuedConnection);
+    connect(&node, &PoolNode::sendEnableManager, this, &MainWindow::onEnableManager, Qt::QueuedConnection);
     connect(&manager, &PoolManager::sendFinish, this, &MainWindow::onFinish, Qt::QueuedConnection);
 
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
@@ -247,7 +248,7 @@ void MainWindow::onSendNodeError(QString error)
 void MainWindow::onDisableManager()
 {
     manager.disable();
-// TODO: enable back
+
     if(manager.isStarted())
         return;
 
@@ -259,6 +260,23 @@ void MainWindow::onDisableManager()
     ui->nodesTable->setModel(nodeViewModel);
 
     disconnect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
+}
+
+void MainWindow::onEnableManager()
+{
+    if(manager.isStarted())
+        return;
+
+    manager.enable();
+
+    ui->managerWidget->setMaximumSize(QSize(16777215, 16777215));
+    ui->logLayout->setSpacing(6);
+
+    delete nodeViewModel;
+    nodeViewModel = new NodeViewModel(this, manager);
+    ui->nodesTable->setModel(nodeViewModel);
+
+    connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
 
 void MainWindow::onFinish()

@@ -4,6 +4,7 @@
 
 #include "command.h"
 #include "control/pool/entitytype.h"
+#include "control/pool/poolentityinfo.h"
 #include "util/serializer/binaryserializer.h"
 
 /**
@@ -43,6 +44,8 @@ signals:
     void sendSendAssignedNode(QHostAddress address, int port);
     void sendSendScheme(QUuid uuid, Scheme* scheme, int level);
     void sendSendGrid(QUuid uuid, Grid* grid, int level);
+    void sendSetEntityStatus(QUuid uuid, QHostAddress address, int port, EntityStatus status);
+    void sendStop(QUuid uuid);
 
 private:
     void handleError(Command* command);
@@ -54,4 +57,5 @@ private:
     void handleSendAssignedNode(Command* command);
     void handleSendScheme(Command* command);
     void handleSendGrid(Command* command);
+    void handleSetEntityStatus(Command* command);
 };
