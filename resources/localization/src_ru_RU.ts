@@ -437,6 +437,30 @@
         <source>The node %1:%2 has an incompatible program version, disconnecting.</source>
         <translation>Узел %1:%2 имеет несовместимую версию программы, отключение.</translation>
     </message>
+    <message>
+        <source>Starting the design process.</source>
+        <translation>Начало конструкторского процесса.</translation>
+    </message>
+    <message>
+        <source>Sending scheme to %1:%2.</source>
+        <translation>Отправка схемы на %1:%2.</translation>
+    </message>
+    <message>
+        <source>An available node was not found.</source>
+        <translation>Свободный узел не найден.</translation>
+    </message>
+    <message>
+        <source>An available node was found at %1:%2, sending to %3:%4.</source>
+        <translation>Свободный узел найден на %1:%2, отправка на %3:%4.</translation>
+    </message>
+    <message>
+        <source>Failed to connect to available node.</source>
+        <translation>Не удалось подключиться к свободному узлу.</translation>
+    </message>
+    <message>
+        <source>Node %1:%2 has finished the design process.</source>
+        <translation>Узел %1:%2 завершил конструкторский процесс.</translation>
+    </message>
 </context>
 <context>
     <name>PoolNode</name>
@@ -501,12 +525,60 @@
         <translation>Получена архитектура от менеджера.</translation>
     </message>
     <message>
-        <source>Assigning request denied, already assigned to a node.</source>
-        <translation>Запрос о назначении отклонен, уже назначено к узлу.</translation>
-    </message>
-    <message>
         <source>Assigning request approved.</source>
         <translation>Запрос на назначение принят.</translation>
+    </message>
+    <message>
+        <source>Assigning request was denied by the node: already assigned.</source>
+        <translation>Запрос на назначение был отклонен узлом: уже назначен.</translation>
+    </message>
+    <message>
+        <source>Assigning request denied: already assigned to a node.</source>
+        <translation>Запрос на назначение отклонен: уже назначен к узлу.</translation>
+    </message>
+    <message>
+        <source>Requesting %1 node(s) from manager.</source>
+        <translation>Запрос %1 узла(ов) от менеджера.</translation>
+    </message>
+    <message>
+        <source>Received the available node: %1:%2.</source>
+        <translation>Получен свободный узел: %1:%2.</translation>
+    </message>
+    <message>
+        <source>Connected to the available node.</source>
+        <translation>Подключен к свободному узлу.</translation>
+    </message>
+    <message>
+        <source>Cannot connect to the available node.</source>
+        <translation>Невозможно подключиться к свободному узлу.</translation>
+    </message>
+    <message>
+        <source>Sending scheme part to any available node.</source>
+        <translation>Отправка части схемы на любой свободный узел.</translation>
+    </message>
+    <message>
+        <source>Sending scheme to %1:%2.</source>
+        <translation>Отправка схемы на %1:%2.</translation>
+    </message>
+    <message>
+        <source>Cannot find available node, handling the scheme part on one&apos;s own.</source>
+        <translation>Невозможно найти свободный узел, обработка части схемы самостоятельно.</translation>
+    </message>
+    <message>
+        <source>Received scheme from %1:%2 on distribution level %3. Start handling.</source>
+        <translation>Получена схема от %1:%2 на уровне распределения %3. Начало обработки.</translation>
+    </message>
+    <message>
+        <source>Finished handling scheme, sending back to %1:%2.</source>
+        <translation>Обработка схемы завершена, отправка обратно на %1:%2.</translation>
+    </message>
+    <message>
+        <source>Received grid from %1:%2.</source>
+        <translation>Получено ДРП от %1:%2.</translation>
+    </message>
+    <message>
+        <source>Received a stop request.</source>
+        <translation>Получен запрос на остановку.</translation>
     </message>
 </context>
 <context>

@@ -271,22 +271,22 @@
         <translation>&amp;Конфигурация сети</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="41"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="43"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="42"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="44"/>
         <source>Reconnect</source>
         <translation>Переподключиться</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="104"/>
         <source>Network error</source>
         <translation>Ошибка сети</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="104"/>
         <source>Cannot initialize network module:
 
 %1
@@ -299,12 +299,12 @@ Try set different parameters.</source>
 Попробуйте задать другие параметры.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="145"/>
         <source>No nodes added</source>
         <translation>Нет добавленных узлов</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="145"/>
         <source>Cannot start work without any node added. Add nodes and try again.</source>
         <translation>Невозможно начать работу без добавленных узлов. Добавьте узлы и попробуйте снова.</translation>
     </message>
@@ -390,22 +390,22 @@ Try set different parameters.</source>
 <context>
     <name>NodeViewModel</name>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="68"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="69"/>
         <source>Hostname</source>
         <translation>Имя хоста</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="72"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="73"/>
         <source>Status</source>
         <translation>Статус</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="74"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="75"/>
         <source>Program version</source>
         <translation>Версия программы</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="76"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="77"/>
         <source>Address</source>
         <translation>Адрес</translation>
     </message>
@@ -448,6 +448,16 @@ Try set different parameters.</source>
         <location filename="../../app/viewmodels/nodeviewmodel.h" line="18"/>
         <source>Incompatible</source>
         <translation>Несовместим</translation>
+    </message>
+    <message>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="19"/>
+        <source>Manager</source>
+        <translation>Менеджер</translation>
+    </message>
+    <message>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="20"/>
+        <source>Node</source>
+        <translation>Узел</translation>
     </message>
 </context>
 <context>
@@ -582,34 +592,34 @@ Try set different parameters.</source>
         <translation>Жадная</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="134"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="138"/>
         <source>Scheme choosing</source>
         <translation>Выбор схемы</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="135"/>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="274"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="139"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="278"/>
         <source>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</source>
         <translation>Все поддерживаемые файлы (*.bin *.json);;JSON (*.json);;Бинарный (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="152"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="156"/>
         <source>The chosen file does not contain a scheme.</source>
         <translation>Выбранный файл не содержит схему.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="160"/>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="297"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="164"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="301"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="233"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="237"/>
         <source>The chosen file does not contain a library.</source>
         <translation>Выбранный файл не содержит библиотеку.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="261"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="265"/>
         <source>The following libraries used to generate scheme were not found:
 
 </source>
@@ -618,19 +628,19 @@ Try set different parameters.</source>
 </translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="266"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="270"/>
         <source>
 You can try to locate necessary libraries manually.</source>
         <translation>
 Вы можете попробовать указать необходимые библиотеки вручную.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="268"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="272"/>
         <source>Missing libraries</source>
         <translation>Не хватает библиотек</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="273"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="277"/>
         <source>Libraries choosing</source>
         <translation>Выбор библиотек</translation>
     </message>

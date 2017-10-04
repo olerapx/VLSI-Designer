@@ -271,22 +271,22 @@
         <translation>&amp;Network configuration</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="41"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="43"/>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="42"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="44"/>
         <source>Reconnect</source>
         <translation>Reconnect</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="104"/>
         <source>Network error</source>
         <translation>Network error</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="102"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="104"/>
         <source>Cannot initialize network module:
 
 %1
@@ -299,12 +299,12 @@ Try set different parameters.</source>
 Try set different parameters.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="145"/>
         <source>No nodes added</source>
         <translation>No nodes added</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="143"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="145"/>
         <source>Cannot start work without any node added. Add nodes and try again.</source>
         <translation>Cannot start work without any node added. Add nodes and try again.</translation>
     </message>
@@ -390,22 +390,22 @@ Try set different parameters.</translation>
 <context>
     <name>NodeViewModel</name>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="68"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="69"/>
         <source>Hostname</source>
         <translation>Hostname</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="72"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="73"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="74"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="75"/>
         <source>Program version</source>
         <translation>Program version</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="76"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.cpp" line="77"/>
         <source>Address</source>
         <translation>Address</translation>
     </message>
@@ -448,6 +448,16 @@ Try set different parameters.</translation>
         <location filename="../../app/viewmodels/nodeviewmodel.h" line="18"/>
         <source>Incompatible</source>
         <translation>Incompatible</translation>
+    </message>
+    <message>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="19"/>
+        <source>Manager</source>
+        <translation>Manager</translation>
+    </message>
+    <message>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="20"/>
+        <source>Node</source>
+        <translation>Node</translation>
     </message>
 </context>
 <context>
@@ -582,34 +592,34 @@ Try set different parameters.</translation>
         <translation>Greedy</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="134"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="138"/>
         <source>Scheme choosing</source>
         <translation>Scheme choosing</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="135"/>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="274"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="139"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="278"/>
         <source>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</source>
         <translation>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="152"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="156"/>
         <source>The chosen file does not contain a scheme.</source>
         <translation>The chosen file does not contain a scheme.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="160"/>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="297"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="164"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="301"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="233"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="237"/>
         <source>The chosen file does not contain a library.</source>
         <translation>The chosen file does not contain a library.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="261"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="265"/>
         <source>The following libraries used to generate scheme were not found:
 
 </source>
@@ -618,19 +628,19 @@ Try set different parameters.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="266"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="270"/>
         <source>
 You can try to locate necessary libraries manually.</source>
         <translation>
 You can try to locate necessary libraries manually.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="268"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="272"/>
         <source>Missing libraries</source>
         <translation>Missing libraries</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="273"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="277"/>
         <source>Libraries choosing</source>
         <translation>Libraries choosing</translation>
     </message>

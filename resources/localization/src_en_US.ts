@@ -437,6 +437,30 @@
         <source>The node %1:%2 has an incompatible program version, disconnecting.</source>
         <translation>The node %1:%2 has an incompatible program version, disconnecting.</translation>
     </message>
+    <message>
+        <source>Starting the design process.</source>
+        <translation>Starting the design process.</translation>
+    </message>
+    <message>
+        <source>Sending scheme to %1:%2.</source>
+        <translation>Sending scheme to %1:%2.</translation>
+    </message>
+    <message>
+        <source>An available node was not found.</source>
+        <translation>An available node was not found.</translation>
+    </message>
+    <message>
+        <source>An available node was found at %1:%2, sending to %3:%4.</source>
+        <translation>An available node was found at %1:%2, sending to %3:%4.</translation>
+    </message>
+    <message>
+        <source>Failed to connect to available node.</source>
+        <translation>Failed to connect to available node.</translation>
+    </message>
+    <message>
+        <source>Node %1:%2 has finished the design process.</source>
+        <translation>Node %1:%2 has finished the design process.</translation>
+    </message>
 </context>
 <context>
     <name>PoolNode</name>
@@ -501,12 +525,60 @@
         <translation>Received architecture from manager.</translation>
     </message>
     <message>
-        <source>Assigning request denied, already assigned to a node.</source>
-        <translation>Assigning request denied, already assigned to a node.</translation>
-    </message>
-    <message>
         <source>Assigning request approved.</source>
         <translation>Assigning request approved.</translation>
+    </message>
+    <message>
+        <source>Assigning request was denied by the node: already assigned.</source>
+        <translation>Assigning request was denied by the node: already assigned.</translation>
+    </message>
+    <message>
+        <source>Assigning request denied: already assigned to a node.</source>
+        <translation>Assigning request denied: already assigned to a node.</translation>
+    </message>
+    <message>
+        <source>Requesting %1 node(s) from manager.</source>
+        <translation>Requesting %1 node(s) from manager.</translation>
+    </message>
+    <message>
+        <source>Received the available node: %1:%2.</source>
+        <translation>Received the available node: %1:%2.</translation>
+    </message>
+    <message>
+        <source>Connected to the available node.</source>
+        <translation>Connected to the available node.</translation>
+    </message>
+    <message>
+        <source>Cannot connect to the available node.</source>
+        <translation>Cannot connect to the available node.</translation>
+    </message>
+    <message>
+        <source>Sending scheme part to any available node.</source>
+        <translation>Sending scheme part to any available node.</translation>
+    </message>
+    <message>
+        <source>Sending scheme to %1:%2.</source>
+        <translation>Sending scheme to %1:%2.</translation>
+    </message>
+    <message>
+        <source>Cannot find available node, handling the scheme part on one&apos;s own.</source>
+        <translation>Cannot find available node, handling the scheme part on one&apos;s own.</translation>
+    </message>
+    <message>
+        <source>Received scheme from %1:%2 on distribution level %3. Start handling.</source>
+        <translation>Received scheme from %1:%2 on distribution level %3. Start handling.</translation>
+    </message>
+    <message>
+        <source>Finished handling scheme, sending back to %1:%2.</source>
+        <translation>Finished handling scheme, sending back to %1:%2.</translation>
+    </message>
+    <message>
+        <source>Received grid from %1:%2.</source>
+        <translation>Received grid from %1:%2.</translation>
+    </message>
+    <message>
+        <source>Received a stop request.</source>
+        <translation>Received a stop request.</translation>
     </message>
 </context>
 <context>
