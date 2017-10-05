@@ -24,6 +24,8 @@ public:
     QString getGridsPath(int level) const;
     QString getSchemesPath(int level) const;
 
+    QString getStatisticsPath(int level) const;
+
 private:
     QString sessionDirectory;
     QString sessionName;

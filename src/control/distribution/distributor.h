@@ -7,6 +7,7 @@
 #include "util/serializer/binaryserializer.h"
 #include "util/renderer/gridrenderer.h"
 #include "control/filesystem/filesystem.h"
+#include "datamodels/statistics/statistics.h"
 
 /**
  * @brief The Distributor class
@@ -35,7 +36,7 @@ signals:
      * @param grid
      * @param level
      */
-    void sendResult(Grid* grid, int level);
+    void sendResult(Grid* grid, int level); // TODO: send stats too
 
     /**
      * @brief sendSchemePart
@@ -54,7 +55,6 @@ signals:
 
 public slots:    
     virtual void onIncomingGrid(Grid* grid, int level) = 0;    
-    virtual void onError(QString error) = 0;
     virtual void onReceivedNodes(int level) = 0;
 
 protected:
@@ -67,7 +67,9 @@ protected:
     void writeGridImage(Grid* g, Scheme* s, int level) const;
     void writeScheme(Scheme* s, int level) const;
     void writeGridPart(Grid* g, int level) const;
-    void writeSchemePart(Scheme* s, int level) const;    
+    void writeSchemePart(Scheme* s, int level) const;
+
+    QList<QFileInfo> getDirEntries(QDir& dir) const;
 
     QList<Grid*> readGridParts(int level) const;
     QList<Scheme*> readSchemeParts(int level) const;

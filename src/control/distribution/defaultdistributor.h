@@ -15,7 +15,6 @@ public:
     void stop() override;
 
     void onIncomingGrid(Grid* grid, int level) override;
-    void onError(QString error) override;
     void onReceivedNodes(int level) override;
 
 private:

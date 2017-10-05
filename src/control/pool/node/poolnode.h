@@ -58,11 +58,14 @@ private slots:
     void onNeedNodes(int level, int number);
     void sendSetEntityStatus(QHostAddress address, int port, EntityStatus status);
 
+    void onClientError(QString error);
+
 protected:
     void connectDispatcher();
 
 private:
     void connectDistributor();
+    void stop();
 
     static const EntityType entityType = EntityType::Node;
 

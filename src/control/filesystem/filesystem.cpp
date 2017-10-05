@@ -40,3 +40,8 @@ QString FileSystem::getSchemesPath(int level) const
 {
     return getLevelPath(level) + "/schemes";
 }
+
+QString FileSystem::getStatisticsPath(int level) const
+{
+    return getLevelPath(level) + "/stats";
+}

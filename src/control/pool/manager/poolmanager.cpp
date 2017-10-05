@@ -167,6 +167,9 @@ void PoolManager::setSessionData(SessionData* data)
 
 void PoolManager::start()
 {
+    if(isStarted())
+        return;
+
     started = true;
 
     setStatusOfAllConnectedNodes(EntityStatus::Initialization);
@@ -176,6 +179,9 @@ void PoolManager::start()
 
 void PoolManager::stop()
 {
+    if(!isStarted())
+        return;
+
     for(PoolEntityInfo& info: knownEntities)
     {
         sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::Stop);

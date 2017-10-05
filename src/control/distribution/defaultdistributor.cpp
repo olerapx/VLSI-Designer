@@ -118,11 +118,6 @@ void DefaultDistributor::onIncomingGrid(Grid* grid, int level)
     client.startComposition(grids, scheme, level);
 }
 
-void DefaultDistributor::onError(QString)
-{
-    stop();
-}
-
 void DefaultDistributor::onReceivedNodes(int level)
 {
     QList<Scheme*> schemes = readSchemeParts(level);

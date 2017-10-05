@@ -60,6 +60,8 @@ HEADERS += \
     $$PWD/datamodels/architecture/algorithmindexes.h \
     $$PWD/datamodels/architecture/algorithmparameters.h \
     $$PWD/datamodels/version/version.h \
+    $$PWD/datamodels/statistics/statistics.h \
+    $$PWD/datamodels/statistics/statisticsentry.h \
     $$PWD/exception/exception.h \
     $$PWD/exception/illegalargumentexception.h \
     $$PWD/exception/threadstoppedexception.h \

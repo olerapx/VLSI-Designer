@@ -53,6 +53,7 @@ SOURCES += \
     datamodels/serializable.cpp \
     datamodels/library/pin.cpp \
     datamodels/library/library.cpp \
+    datamodels/library/libraryelement.cpp \
     datamodels/scheme/schemeelement.cpp \
     datamodels/scheme/wire.cpp \
     datamodels/scheme/scheme.cpp \
@@ -65,6 +66,8 @@ SOURCES += \
     datamodels/architecture/algorithmindexes.cpp \
     datamodels/architecture/algorithmparameters.cpp \
     datamodels/version/version.cpp \
+    datamodels/statistics/statistics.cpp \
+    datamodels/statistics/statisticsentry.cpp \
     exception/exception.cpp \
     util/serializer/serializerstrategy.cpp \
     util/serializer/jsonserializer.cpp \
@@ -73,7 +76,6 @@ SOURCES += \
     util/misc/gridutils.cpp \
     util/misc/wireutils.cpp \
     util/misc/schemeutils.cpp \
-    datamodels/library/libraryelement.cpp \
     generator/generatorparameters.cpp \
     generator/generator.cpp \
     generator/nodeelement.cpp \

@@ -10,6 +10,7 @@ PoolNode::PoolNode(Version programVersion, FileSystem& system, int selfPort) :
 
     connect(&client, &Client::sendLog, this, &PoolEntity::sendLog);
     connect(&client, &Client::sendError, this, &PoolEntity::sendError);
+    connect(&client, &Client::sendError, this, &PoolNode::onClientError);
 }
 
 PoolNode::~PoolNode()
@@ -448,6 +449,11 @@ void PoolNode::onStop(QUuid uuid)
     removeRequestFromList(incomingRequests, uuid);
     sendLog(tr("Received a stop request."));
 
+    stop();
+}
+
+void PoolNode::stop()
+{
     sendEnableManager();
     distributor->stop();
 
@@ -462,4 +468,9 @@ void PoolNode::sendSetEntityStatus(QHostAddress address, int port, EntityStatus 
     stream << address.toString() << port << (qint32) status;
 
     sendUntrackedRequest(poolManager->getAddress(), poolManager->getTcpPort(), CommandType::SetEntityStatus, body);
+}
+
+void PoolNode::onClientError(QString)
+{
+    stop();
 }

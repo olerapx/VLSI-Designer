@@ -103,11 +103,7 @@ void Distributor::writeSchemePart(Scheme* s, int level) const
 int Distributor::getGridPartsNumber(int level) const
 {
     QDir dir(fileSystem.getGridsPath(level));
-
-    QStringList filters;
-    filters << "*.bin";
-
-    QList<QFileInfo> infos = dir.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
+    QList<QFileInfo> infos = getDirEntries(dir);
 
     return infos.size();
 }
@@ -115,11 +111,7 @@ int Distributor::getGridPartsNumber(int level) const
 int Distributor::getSchemePartsNumber(int level) const
 {
     QDir dir(fileSystem.getSchemesPath(level));
-
-    QStringList filters;
-    filters << "*.bin";
-
-    QList<QFileInfo> infos = dir.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
+    QList<QFileInfo> infos = getDirEntries(dir);
 
     return infos.size();
 }
@@ -127,13 +119,9 @@ int Distributor::getSchemePartsNumber(int level) const
 QList<Grid*> Distributor::readGridParts(int level) const
 {
     QDir dir(fileSystem.getGridsPath(level));
+    QList<QFileInfo> infos = getDirEntries(dir);
 
-    QStringList filters;
-    filters << "*.bin";
-
-    BinarySerializer serializer;
-
-    QList<QFileInfo> infos = dir.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
+    BinarySerializer serializer;    
 
     QList<Grid*> res;
 
@@ -153,13 +141,9 @@ QList<Grid*> Distributor::readGridParts(int level) const
 QList<Scheme*> Distributor::readSchemeParts(int level) const
 {
     QDir dir(fileSystem.getSchemesPath(level));
+    QList<QFileInfo> infos = getDirEntries(dir);
 
-    QStringList filters;
-    filters << "*.bin";
-
-    BinarySerializer serializer;
-
-    QList<QFileInfo> infos = dir.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
+    BinarySerializer serializer;    
 
     QList<Scheme*> res;
 
@@ -186,4 +170,13 @@ Scheme* Distributor::readScheme(int level) const
     f.close();
 
     return s;
+}
+
+QList<QFileInfo> Distributor::getDirEntries(QDir& dir) const
+{
+    QStringList filters;
+    filters << "*.bin";
+    QList<QFileInfo> infos = dir.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
+
+    return infos;
 }
