@@ -67,6 +67,7 @@ private:
     QModelIndex lastContextActionIndex;
 
     Config config;
+    FileSystem fileSystem;
 
     PoolManager manager;
     PoolNode node;    

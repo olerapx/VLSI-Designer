@@ -1,7 +1,9 @@
 #include "poolentity.h"
 
-PoolEntity::PoolEntity(int port) :
+PoolEntity::PoolEntity(Version programVersion, FileSystem& system, int port) :
     transmitter(nullptr),
+    programVersion(programVersion),
+    fileSystem(system),
     selfPort(port)
 {
 

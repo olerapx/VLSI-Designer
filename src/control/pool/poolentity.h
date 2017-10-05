@@ -6,6 +6,7 @@
 #include "entitytype.h"
 #include "logtype.h"
 #include "manager/commandhistoryentry.h"
+#include "control/filesystem/filesystem.h"
 
 /**
  * @brief The PoolEntity class
@@ -16,7 +17,7 @@ class PoolEntity : public QObject
     Q_OBJECT
 
 public:
-    PoolEntity(int selfPort = 0);
+    PoolEntity(Version programVersion, FileSystem& system, int selfPort = 0);
     virtual ~PoolEntity();
 
     int getSelfPort() const { return selfPort; }
@@ -56,10 +57,12 @@ protected:
     NetworkTransmitter* transmitter;
     CommandDispatcher dispatcher;
 
+    Version programVersion;
+    FileSystem& fileSystem;
     int selfPort;
 
     QList<PoolEntityInfo> knownEntities;
 
     QList<CommandHistoryEntry> outcomingRequests;
-    QList<CommandHistoryEntry> incomingRequests;
+    QList<CommandHistoryEntry> incomingRequests;    
 };

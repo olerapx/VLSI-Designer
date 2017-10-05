@@ -6,6 +6,7 @@
 #include "control/pool/node/client.h"
 #include "util/serializer/binaryserializer.h"
 #include "util/renderer/gridrenderer.h"
+#include "control/filesystem/filesystem.h"
 
 /**
  * @brief The Distributor class
@@ -16,7 +17,7 @@ class Distributor : public QObject
     Q_OBJECT
 
 public:
-    Distributor(Client& client, QString currentSessionPath);
+    Distributor(Client& client, FileSystem& system);
 
     /**
      * @brief start
@@ -59,10 +60,8 @@ public slots:
 protected:
     int getLevelsNumber() const;
     int getClientsNumberOnNextLevel(int levelNumber) const;
+
     bool isLastLevel(int levelNumber) const;
-    QString getLevelPath(int level) const;
-    QString getGridsPath(int level) const;
-    QString getSchemesPath(int level) const;
 
     void writeGrid(Grid* g, int level) const;
     void writeGridImage(Grid* g, Scheme* s, int level) const;
@@ -78,5 +77,5 @@ protected:
     int getSchemePartsNumber(int level) const;
 
     Client& client;
-    QString currentSessionPath;
+    FileSystem& fileSystem;
 };

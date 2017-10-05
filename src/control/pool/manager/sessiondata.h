@@ -19,7 +19,7 @@ public:
     Architecture* getArchitecture() const { return architecture; }
     QList<Library*> getLibraries() { return libraries; }
 
-    bool isEmpty() { return empty; }
+    bool isEmpty() const { return empty; }
 
 private:
     Scheme* scheme;

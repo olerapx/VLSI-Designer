@@ -1,8 +1,8 @@
 #include "distributor.h"
 
-Distributor::Distributor(Client& client, QString currentSessionPath) :
+Distributor::Distributor(Client& client, FileSystem& system) :
     client(client),
-    currentSessionPath(currentSessionPath)
+    fileSystem(system)
 {
 
 }
@@ -34,29 +34,14 @@ bool Distributor::isLastLevel(int levelNumber) const
     return false;
 }
 
-QString Distributor::getLevelPath(int level) const
-{
-    return currentSessionPath + "/blobs/" + QString::number(level);
-}
-
-QString Distributor::getGridsPath(int level) const
-{
-    return getLevelPath(level) + "/grids";
-}
-
-QString Distributor::getSchemesPath(int level) const
-{
-    return getLevelPath(level) + "/schemes";
-}
-
 void Distributor::writeGrid(Grid* g, int level) const
 {
     BinarySerializer serializer;
 
-    QDir dir(getLevelPath(level));
+    QDir dir(fileSystem.getLevelPath(level));
     dir.mkpath(".");
 
-    QFile f(getLevelPath(level) + "/grid.bin");
+    QFile f(fileSystem.getLevelPath(level) + "/grid.bin");
     f.open(QIODevice::WriteOnly);
     f.write(serializer.serialize(g));
     f.close();
@@ -66,20 +51,20 @@ void Distributor::writeGridImage(Grid* g, Scheme* s, int level) const
 {
     GridRenderer renderer(g, s);
 
-    QDir dir(getLevelPath(level));
+    QDir dir(fileSystem.getLevelPath(level));
     dir.mkpath(".");
 
-    renderer.execute().save(getLevelPath(level) + "/grid.png");
+    renderer.execute().save(fileSystem.getLevelPath(level) + "/grid.png");
 }
 
 void Distributor::writeScheme(Scheme* s, int level) const
 {
     BinarySerializer serializer;
 
-    QDir dir(getLevelPath(level));
+    QDir dir(fileSystem.getLevelPath(level));
     dir.mkpath(".");
 
-    QFile f(getLevelPath(level) + "/scheme.bin");
+    QFile f(fileSystem.getLevelPath(level) + "/scheme.bin");
     f.open(QIODevice::WriteOnly);
     f.write(serializer.serialize(s));
     f.close();
@@ -91,10 +76,10 @@ void Distributor::writeGridPart(Grid* g, int level) const
 
     BinarySerializer serializer;
 
-    QDir dir(getGridsPath(level));
+    QDir dir(fileSystem.getGridsPath(level));
     dir.mkpath(".");
 
-    QFile f(getGridsPath(level) + QString("/%1.bin").arg(QString::number(number)));
+    QFile f(fileSystem.getGridsPath(level) + QString("/%1.bin").arg(QString::number(number)));
     f.open(QIODevice::WriteOnly);
     f.write(serializer.serialize(g));
     f.close();
@@ -106,10 +91,10 @@ void Distributor::writeSchemePart(Scheme* s, int level) const
 
     BinarySerializer serializer;
 
-    QDir dir(getSchemesPath(level));
+    QDir dir(fileSystem.getSchemesPath(level));
     dir.mkpath(".");
 
-    QFile f(getSchemesPath(level) + QString("/%1.bin").arg(QString::number(number)));
+    QFile f(fileSystem.getSchemesPath(level) + QString("/%1.bin").arg(QString::number(number)));
     f.open(QIODevice::WriteOnly);
     f.write(serializer.serialize(s));
     f.close();
@@ -117,7 +102,7 @@ void Distributor::writeSchemePart(Scheme* s, int level) const
 
 int Distributor::getGridPartsNumber(int level) const
 {
-    QDir dir(getGridsPath(level));
+    QDir dir(fileSystem.getGridsPath(level));
 
     QStringList filters;
     filters << "*.bin";
@@ -129,7 +114,7 @@ int Distributor::getGridPartsNumber(int level) const
 
 int Distributor::getSchemePartsNumber(int level) const
 {
-    QDir dir(getSchemesPath(level));
+    QDir dir(fileSystem.getSchemesPath(level));
 
     QStringList filters;
     filters << "*.bin";
@@ -141,7 +126,7 @@ int Distributor::getSchemePartsNumber(int level) const
 
 QList<Grid*> Distributor::readGridParts(int level) const
 {
-    QDir dir(getGridsPath(level));
+    QDir dir(fileSystem.getGridsPath(level));
 
     QStringList filters;
     filters << "*.bin";
@@ -164,9 +149,10 @@ QList<Grid*> Distributor::readGridParts(int level) const
 
     return res;
 }
+
 QList<Scheme*> Distributor::readSchemeParts(int level) const
 {
-    QDir dir(getSchemesPath(level));
+    QDir dir(fileSystem.getSchemesPath(level));
 
     QStringList filters;
     filters << "*.bin";
@@ -194,7 +180,7 @@ Scheme* Distributor::readScheme(int level) const
 {
     BinarySerializer serializer;
 
-    QFile f(getLevelPath(level) + "/scheme.bin");
+    QFile f(fileSystem.getLevelPath(level) + "/scheme.bin");
     f.open(QIODevice::ReadOnly);
     Scheme* s = dynamic_cast<Scheme*>(serializer.deserialize(f.readAll()));
     f.close();

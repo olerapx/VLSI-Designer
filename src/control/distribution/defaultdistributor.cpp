@@ -1,7 +1,7 @@
 #include "defaultdistributor.h"
 
-DefaultDistributor::DefaultDistributor(Client& client, QString currentSessionPath) :
-    Distributor(client, currentSessionPath)
+DefaultDistributor::DefaultDistributor(Client& client, FileSystem& system) :
+    Distributor(client, system)
 {
 
 }
@@ -29,9 +29,10 @@ void DefaultDistributor::handleLastLevel(Scheme* scheme, int initialLevel)
 
    QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, scheme, obj, initialLevel] (Grid* grid)
    {
-       delete scheme;
-
+       writeGridImage(grid, scheme, initialLevel);
        writeGrid(grid, initialLevel);
+
+       delete scheme;
 
        sendResult(grid, initialLevel);
        obj->deleteLater();

@@ -21,7 +21,7 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolManager(Version programVersion, int selfPort = 0);
+    PoolManager(Version programVersion, FileSystem& system, int selfPort = 0);
     ~PoolManager();
 
     void enable();
@@ -78,7 +78,4 @@ private:
 
     SessionData* data;
     bool started;
-
-    Version programVersion;
-    QString currentSessionName;
 };

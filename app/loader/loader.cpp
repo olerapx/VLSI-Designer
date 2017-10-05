@@ -23,8 +23,8 @@ void Loader::installTranslators()
     QTranslator* appTranslator = new QTranslator(&a);
     QTranslator* srcTranslator = new QTranslator(&a);
 
-    appTranslator->load(":/resources/localization/app_" + QLocale::system().name());
-    srcTranslator->load(":/resources/localization/src_" + QLocale::system().name());
+    appTranslator->load(":/resources/localization/app_ru_RU");// + QLocale::system().name());
+    srcTranslator->load(":/resources/localization/src_ru_RU");// + QLocale::system().name());
 
     a.installTranslator(appTranslator);
     a.installTranslator(srcTranslator);

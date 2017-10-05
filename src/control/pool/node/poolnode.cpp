@@ -1,9 +1,7 @@
 #include "poolnode.h"
 
-PoolNode::PoolNode(QString sessionPath, Version programVersion, int selfPort) :
-    PoolEntity(selfPort),
-    sessionPath(sessionPath),
-    programVersion(programVersion),
+PoolNode::PoolNode(Version programVersion, FileSystem& system, int selfPort) :
+    PoolEntity(programVersion, system, selfPort),
     poolManager(nullptr),
     acceptNodeConnection(false),
     distributor(nullptr)
@@ -211,9 +209,9 @@ void PoolNode::onDisableManager(QUuid uuid)
 void PoolNode::onSendSessionDirectoryName(QUuid uuid, QString name)
 {
     PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
-    currentSessionName = name;
+    fileSystem.setSessionName(name);
 
-    QDir dir(getCurrentSessionPath());
+    QDir dir(fileSystem.getSessionPath());
     dir.mkpath(".");
 
     sendLog(tr("Received current session name from manager."), LogType::Success);
@@ -224,7 +222,7 @@ void PoolNode::onSendLibraryList(QUuid uuid, QList<Library*> libraries)
 {
     PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
 
-    QDir dir(getCurrentSessionPath() + "/libraries");
+    QDir dir(fileSystem.getLibrariesPath());
     dir.mkpath(".");
 
     client.setLibraries(libraries);
@@ -254,11 +252,11 @@ void PoolNode::onSendArchitecture(QUuid uuid, Architecture* architecture)
     distributor = nullptr;
 
     if(architecture->getDistributionType() == DistributionType::Default)
-        distributor = new DefaultDistributor(client, getCurrentSessionPath());
+        distributor = new DefaultDistributor(client, fileSystem);
 
     connectDistributor();
 
-    QDir dir(getCurrentSessionPath() + "/architecture");
+    QDir dir(fileSystem.getArchitecturePath());
     dir.mkpath(".");
 
     QFile f(QString("%1/%2.json").arg(dir.absolutePath(), "architecture"));
@@ -292,11 +290,6 @@ void PoolNode::onAssign(QUuid uuid)
 
     sendResponse(info.getAddress(), info.getTcpPort(), CommandType::OK, uuid);
     sendLog(tr("Assigning request approved."), LogType::Success);
-}
-
-QString PoolNode::getCurrentSessionPath()
-{
-    return(sessionPath + "/" + currentSessionName);
 }
 
 void PoolNode::onNeedNodes(int level, int number)

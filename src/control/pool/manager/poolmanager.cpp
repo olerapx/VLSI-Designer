@@ -1,9 +1,8 @@
 #include "poolmanager.h"
 
-PoolManager::PoolManager(Version programVersion, int selfPort) :
-    PoolEntity(selfPort),
-    started(false),
-    programVersion(programVersion)
+PoolManager::PoolManager(Version programVersion, FileSystem& system, int selfPort) :
+    PoolEntity(programVersion, system, selfPort),
+    started(false)
 {
     data = new SessionData();
     connectDispatcher();
@@ -199,7 +198,7 @@ void PoolManager::disableManagers()
 void PoolManager::createSession()
 {
     sendLog(tr("Sending session name to all nodes."));
-    currentSessionName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+    fileSystem.setSessionName(QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz"));
 
     for(PoolEntityInfo& info: knownEntities)
     {
@@ -211,7 +210,7 @@ void PoolManager::createSession()
 void PoolManager::startNodeInitialization(PoolEntityInfo& info)
 {
     QByteArray* body = new QByteArray();
-    body->append(currentSessionName + QString(" %1").arg(QString::number(info.getTcpPort())));
+    body->append(fileSystem.getSessionName() + QString(" %1").arg(QString::number(info.getTcpPort())));
     sendRequest(info.getAddress(), info.getTcpPort(), CommandType::SendSessionDirectoryName, body);
 }
 

@@ -9,7 +9,7 @@
 class DefaultDistributor : public Distributor
 {
 public:
-    DefaultDistributor(Client& client, QString currentSessionPath);
+    DefaultDistributor(Client& client, FileSystem& system);
 
     void start(Scheme* scheme, int initialLevel) override;
     void stop() override;

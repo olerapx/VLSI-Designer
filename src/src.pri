@@ -31,6 +31,7 @@ HEADERS += \
     $$PWD/algorithms/routing/leerouting/pointdistancecomparator.h \
     $$PWD/control/distribution/distributor.h \
     $$PWD/control/distribution/defaultdistributor.h \
+    $$PWD/control/filesystem/filesystem.h \
     $$PWD/control/pool/entitytype.h \
     $$PWD/control/pool/logtype.h \
     $$PWD/control/pool/poolentity.h \
