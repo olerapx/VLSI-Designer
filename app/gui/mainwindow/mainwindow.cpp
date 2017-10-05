@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->nodesTable->resizeColumnsToContents();
     createTableContextMenu();
 
+    connect(nodeViewModel, &NodeViewModel::sendFitTableToContent, this, &MainWindow::onFitTableToContent);
+
     connect(&manager, &PoolEntity::sendLog, this, &MainWindow::onSendManagerLog, Qt::QueuedConnection);
     connect(&node, &PoolEntity::sendLog, this, &MainWindow::onSendNodeLog, Qt::QueuedConnection);
     connect(&manager, &PoolEntity::sendError, this, &MainWindow::onSendManagerError, Qt::QueuedConnection);
@@ -153,6 +155,11 @@ void MainWindow::on_startButton_clicked()
     manager.start();
 }
 
+void MainWindow::on_stopButton_clicked()
+{
+    manager.stop();
+}
+
 void MainWindow::onTableContextMenuRequested(QPoint pos)
 {
     QModelIndex index = ui->nodesTable->indexAt(pos);
@@ -186,6 +193,17 @@ void MainWindow::onReconnect()
 {
     PoolEntityInfo& info = manager.getKnownEntities()[lastContextActionIndex.row()];
     manager.connectToNode(info);
+}
+
+void MainWindow::onFitTableToContent()
+{
+    ui->nodesTable->resizeColumnsToContents();
+    QRect rect = this->geometry();
+    rect.setWidth(rect.width() - 1);
+    this->setGeometry(rect);
+
+    rect.setWidth(rect.width() + 1);
+    this->setGeometry(rect);
 }
 
 void MainWindow::onSendManagerLog(QString log, LogType type)
@@ -260,6 +278,7 @@ void MainWindow::onDisableManager()
     nodeViewModel = new NodeViewModel(this, node);
     ui->nodesTable->setModel(nodeViewModel);
 
+    connect(nodeViewModel, &NodeViewModel::sendFitTableToContent, this, &MainWindow::onFitTableToContent);
     disconnect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
 
@@ -277,6 +296,7 @@ void MainWindow::onEnableManager()
     nodeViewModel = new NodeViewModel(this, manager);
     ui->nodesTable->setModel(nodeViewModel);
 
+    connect(nodeViewModel, &NodeViewModel::sendFitTableToContent, this, &MainWindow::onFitTableToContent);
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
 

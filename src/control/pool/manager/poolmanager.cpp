@@ -174,6 +174,19 @@ void PoolManager::start()
     createSession();
 }
 
+void PoolManager::stop()
+{
+    for(PoolEntityInfo& info: knownEntities)
+    {
+        sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::Stop);
+
+        info.setStatus(EntityStatus::Ready);
+        sendUpdateEntityInfo(info);
+    }
+
+    started = false;
+}
+
 void PoolManager::setStatusOfAllConnectedNodes(EntityStatus status)
 {
     for(PoolEntityInfo& info: knownEntities)
@@ -447,15 +460,7 @@ void PoolManager::onSendGrid(QUuid uuid, Grid* grid, int)
     info.setStatus(EntityStatus::Ready);
     sendUpdateEntityInfo(info);
 
-    for(PoolEntityInfo& info: knownEntities)
-    {
-        if(info.getStatus() == EntityStatus::Ready)
-        {
-            sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::Stop);
-        }
-    }
-
-    started = false;
+    stop();
     sendFinish();
 
     delete grid;

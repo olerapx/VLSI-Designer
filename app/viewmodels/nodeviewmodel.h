@@ -10,6 +10,7 @@ static const QMap<EntityStatus, QString> nodeStatusMap
 {
     { EntityStatus::Ready, QT_TRANSLATE_NOOP("NodeViewModel", "Ready") },
     { EntityStatus::Unconnected, QT_TRANSLATE_NOOP("NodeViewModel", "Unconnected") },
+    { EntityStatus::Connecting, QT_TRANSLATE_NOOP("NodeViewModel", "Connecting") },
     { EntityStatus::NotResponding, QT_TRANSLATE_NOOP("NodeViewModel", "Not responding") },
     { EntityStatus::Initialization, QT_TRANSLATE_NOOP("NodeViewModel", "Initialization") },
     { EntityStatus::Assigned, QT_TRANSLATE_NOOP("NodeViewModel", "Assigned") },
@@ -35,6 +36,9 @@ public:
 
     void appendRow(PoolEntityInfo info, const QModelIndex& parent = QModelIndex());
     void appendRows(QList<PoolEntityInfo>& list, const QModelIndex& parent = QModelIndex());
+
+signals:
+    void sendFitTableToContent();
 
 private slots:
     void onClearEntitiesInfo();

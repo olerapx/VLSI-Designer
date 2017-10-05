@@ -38,6 +38,8 @@ public:
     SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
 
+    void stop();
+
 signals:
     void sendDisconnected(QHostAddress address, int tcpPort);
     void sendFinish();

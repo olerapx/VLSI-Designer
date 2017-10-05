@@ -12,7 +12,7 @@
 
 /**
  * @brief The Client class
- * Encapsulates working with algorithms.
+ * Encapsulates working with algorithms. Does not deallocate any input data.
  */
 class Client : public QObject
 {
@@ -33,6 +33,7 @@ public:
     QList<Library*> getLibraries() { return libraries; }
 
     bool isStopped() const { return stopped; }
+    void stop();
 
     /**
      * @brief startDecomposition
@@ -53,13 +54,13 @@ public:
 
     /**
      * @brief startComposition
-     * Starts the process of composition. The grids from list is deleted on finish.
+     * Starts the process of composition.
      * The result will be sent in the sendComposedGrid signal.
      * @param grids
      * @param scheme
      * @param level - the level of grid parts in the distribution hierarchy. The composed grid will have level - 1.
      */
-    void startComposition(QList<Grid*> grids, Scheme* scheme, int level);
+    void startComposition(QList<Grid*> grids, Scheme* scheme, int level);    
 
 private slots:
     void onLog(QString log);
@@ -67,7 +68,7 @@ private slots:
     void onPrimaryPlacementFinished(PlacementResult* res);
     void onSecondaryPlacementFinished(PlacementResult* res);
 
-    void onCompositionFinished(Grid* grid);
+    void onCompositionFinished(Grid* grid);    
 
 signals:
     void sendLog(QString log, LogType type = LogType::Common);

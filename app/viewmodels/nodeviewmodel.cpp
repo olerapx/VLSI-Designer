@@ -85,10 +85,10 @@ QVariant NodeViewModel::headerData(int section, Qt::Orientation orientation, int
 void NodeViewModel::appendRow(PoolEntityInfo info, const QModelIndex& parent)
 {
     beginInsertRows(parent, entity.getKnownEntities().size(), entity.getKnownEntities().size());
-
     entity.getKnownEntities().append(info);
-
     endInsertRows();
+
+    sendFitTableToContent();
 }
 
 void NodeViewModel::appendRows(QList<PoolEntityInfo>& list, const QModelIndex& parent)
@@ -97,32 +97,40 @@ void NodeViewModel::appendRows(QList<PoolEntityInfo>& list, const QModelIndex& p
         return;
 
     beginInsertRows(parent, entity.getKnownEntities().size(), entity.getKnownEntities().size() + list.size() - 1);
-
     entity.getKnownEntities().append(list);
-
     endInsertRows();
+
+    sendFitTableToContent();
 }
 
 void NodeViewModel::onClearEntitiesInfo()
 {
     beginResetModel();
     endResetModel();
+
+    sendFitTableToContent();
 }
 
 void NodeViewModel::onUpdateEntityInfo(PoolEntityInfo& info)
 {
     int rowIndex = entity.getKnownEntities().indexOf(info);
+
     dataChanged(createIndex(rowIndex, 0), createIndex(rowIndex, 3));
+    sendFitTableToContent();
 }
 
 void NodeViewModel::onRemoveEntityInfo(int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
     endRemoveRows();
+
+    sendFitTableToContent();
 }
 
 void NodeViewModel::onAddEntityInfo()
 {
     beginInsertRows(QModelIndex(), entity.getKnownEntities().size() - 1, entity.getKnownEntities().size() - 1);
     endInsertRows();
+
+    sendFitTableToContent();
 }

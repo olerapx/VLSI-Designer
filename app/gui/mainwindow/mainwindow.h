@@ -39,10 +39,13 @@ private slots:
     void on_addNodesButton_clicked();
     void on_setupButton_clicked();
     void on_startButton_clicked();
+    void on_stopButton_clicked();
 
     void onTableContextMenuRequested(QPoint pos);
     void onRemove();
     void onReconnect();
+
+    void onFitTableToContent();
 
     void onSendManagerLog(QString log, LogType type);
     void onSendNodeLog(QString log, LogType type);
@@ -52,7 +55,7 @@ private slots:
 
     void onDisableManager();
     void onEnableManager();
-    void onFinish();
+    void onFinish();    
 
 private:
     void changeNetworkConfig(bool firstTime);

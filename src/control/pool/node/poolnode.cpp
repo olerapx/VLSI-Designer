@@ -69,7 +69,7 @@ void PoolNode::disable()
     disconnect(transmitter, &NetworkTransmitter::sendDataReceived, this, &PoolNode::onDataReceived);
     disconnect(transmitter, &NetworkTransmitter::sendDisconnected, this, &PoolNode::onDisconnected);
 
-    client.sendStop();
+    client.stop();
 
     poolManager = nullptr;
     PoolEntity::disableTransmitter();
@@ -397,6 +397,11 @@ void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int initialLevel)
 
     QObject* obj = new QObject(this);
 
+    QObject::connect(&dispatcher, &CommandDispatcher::sendStop, obj, [this, obj](QUuid)
+    {
+        obj->deleteLater();
+    });
+
     QObject::connect(distributor, &Distributor::sendResult, obj, [this, obj, info, uuid, scheme, initialLevel] (Grid* grid, int level)
     {
         if(level != initialLevel)
@@ -445,6 +450,9 @@ void PoolNode::onStop(QUuid uuid)
 
     sendEnableManager();
     distributor->stop();
+
+    for(int i=1; i<knownEntities.size(); i++)
+        transmitter->disconnectFromHost(knownEntities[i].getAddress(), knownEntities[i].getTcpPort());
 }
 
 void PoolNode::sendSetEntityStatus(QHostAddress address, int port, EntityStatus status)

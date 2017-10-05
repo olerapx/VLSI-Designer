@@ -17,7 +17,16 @@ Client::Client() :
 
 Client::~Client()
 {
+    stop();
+    algorithmThread.wait();
+}
+
+void Client::stop()
+{
     sendStop();
+    stopped = true;
+
+    algorithmThread.quit();
     algorithmThread.wait();
 }
 
