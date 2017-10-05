@@ -157,6 +157,7 @@ void MainWindow::on_startButton_clicked()
 
 void MainWindow::on_stopButton_clicked()
 {
+    onSendManagerLog(tr("Stopping the design process..."), LogType::Common);
     manager.stop();
 }
 

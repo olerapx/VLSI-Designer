@@ -271,22 +271,22 @@
         <translation>&amp;Конфигурация сети</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="43"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="46"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="44"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="47"/>
         <source>Reconnect</source>
         <translation>Переподключиться</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="104"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="107"/>
         <source>Network error</source>
         <translation>Ошибка сети</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="104"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="107"/>
         <source>Cannot initialize network module:
 
 %1
@@ -299,14 +299,19 @@ Try set different parameters.</source>
 Попробуйте задать другие параметры.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="145"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="148"/>
         <source>No nodes added</source>
         <translation>Нет добавленных узлов</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="145"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="148"/>
         <source>Cannot start work without any node added. Add nodes and try again.</source>
         <translation>Невозможно начать работу без добавленных узлов. Добавьте узлы и попробуйте снова.</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="160"/>
+        <source>Stopping the design process...</source>
+        <translation>Остановка конструкторского процесса...</translation>
     </message>
 </context>
 <context>
@@ -421,41 +426,46 @@ Try set different parameters.</source>
     </message>
     <message>
         <location filename="../../app/viewmodels/nodeviewmodel.h" line="13"/>
+        <source>Connecting</source>
+        <translation>Подключение</translation>
+    </message>
+    <message>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="14"/>
         <source>Not responding</source>
         <translation>Не отвечает</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="14"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="15"/>
         <source>Initialization</source>
         <translation>Инициализация</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="15"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="16"/>
         <source>Assigned</source>
         <translation>Назначен</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="16"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="17"/>
         <source>Working</source>
         <translation>Работает</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="17"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="18"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="18"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="19"/>
         <source>Incompatible</source>
         <translation>Несовместим</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="19"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="20"/>
         <source>Manager</source>
         <translation>Менеджер</translation>
     </message>
     <message>
-        <location filename="../../app/viewmodels/nodeviewmodel.h" line="20"/>
+        <location filename="../../app/viewmodels/nodeviewmodel.h" line="21"/>
         <source>Node</source>
         <translation>Узел</translation>
     </message>
