@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QFile>
+#include <QHostInfo>
 
 #include "control/pool/node/client.h"
 #include "util/serializer/binaryserializer.h"
@@ -36,7 +37,7 @@ signals:
      * @param grid
      * @param level
      */
-    void sendResult(Grid* grid, int level); // TODO: send stats too
+    void sendResult(Grid* grid, int level, Statistics* statistics);
 
     /**
      * @brief sendSchemePart
@@ -54,7 +55,7 @@ signals:
     void sendNeedNodes(int level, int number);
 
 public slots:    
-    virtual void onIncomingGrid(Grid* grid, int level) = 0;    
+    virtual void onIncomingGrid(Grid* grid, int level, Statistics* statistics) = 0;
     virtual void onReceivedNodes(int level) = 0;
 
 protected:
@@ -66,14 +67,16 @@ protected:
     void writeGrid(Grid* g, int level) const;
     void writeGridImage(Grid* g, Scheme* s, int level) const;
     void writeScheme(Scheme* s, int level) const;
+    void writeStatistics(Statistics* s, int level) const;
     void writeGridPart(Grid* g, int level) const;
-    void writeSchemePart(Scheme* s, int level) const;
+    void writeSchemePart(Scheme* s, int level) const;    
 
     QList<QFileInfo> getDirEntries(QDir& dir) const;
 
     QList<Grid*> readGridParts(int level) const;
     QList<Scheme*> readSchemeParts(int level) const;
     Scheme* readScheme(int level) const;
+    Statistics* readStatistics(int level) const;
 
     int getGridPartsNumber(int level) const;
     int getSchemePartsNumber(int level) const;

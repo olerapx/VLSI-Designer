@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QTime>
+
 #include "threadable.h"
 #include "algorithms/placement/placementresult.h"
 #include "wirecoordinate.h"
@@ -44,6 +46,13 @@ signals:
      * @param result - the algorithm result.
      */
     void sendResult(PlacementResult* result);
+
+    /**
+     * @brief sendTime
+     * Sends the algorithm execution time.
+     * @param msec
+     */
+    void sendTime(int msec);
 
 public slots:
     /**

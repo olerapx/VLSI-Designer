@@ -27,7 +27,8 @@ HEADERS += \
     config/configbuilder.h \
     loader/loader.h \
     app.h \
-    viewmodels/entitystatusdelegate.h
+    viewmodels/entitystatusdelegate.h \
+    gui/statisticsdialog/statisticsdialog.h
 
 SOURCES +=  main.cpp \
     gui/mainwindow/mainwindow.cpp \
@@ -41,14 +42,16 @@ SOURCES +=  main.cpp \
     config/configbuilder.cpp \
     loader/loader.cpp \
     app.cpp \
-    viewmodels/entitystatusdelegate.cpp
+    viewmodels/entitystatusdelegate.cpp \
+    gui/statisticsdialog/statisticsdialog.cpp
 
 FORMS += \
     gui/mainwindow/mainwindow.ui \
     gui/generatorwindow/generatorwindow.ui \
     gui/addnodesdialog/addnodesdialog.ui \
     gui/networkconfigurationwindow/networkconfigurationwindow.ui \
-    gui/setupsessiondialog/setupsessiondialog.ui
+    gui/setupsessiondialog/setupsessiondialog.ui \
+    gui/statisticsdialog/statisticsdialog.ui
 
 TRANSLATIONS = \
     ../resources/localization/app_en_US.ts  \

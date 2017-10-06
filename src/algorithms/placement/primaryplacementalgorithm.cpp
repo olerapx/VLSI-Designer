@@ -25,7 +25,12 @@ void PrimaryPlacementAlgorithm::onStart()
 {
     try
     {
+        QTime time;
+        time.start();
+
         PlacementResult* result = execute();
+
+        sendTime(time.elapsed());
         sendResult(result);
         sendFinish();
     }

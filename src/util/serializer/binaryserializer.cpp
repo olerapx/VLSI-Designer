@@ -3,14 +3,16 @@
 QByteArray BinarySerializer::serialize(Serializable* s)
 {
     const std::type_info& info = typeid(*s);
-    if (info == typeid(Library))
+    if(info == typeid(Library))
         return serializeLibrary(dynamic_cast<Library*>(s));
-    else if (info == typeid(Scheme))
+    else if(info == typeid(Scheme))
         return serializeScheme(dynamic_cast<Scheme*>(s));
-    else if (info == typeid(Grid))
+    else if(info == typeid(Grid))
         return serializeGrid(dynamic_cast<Grid*>(s));
-    else if (info == typeid(Architecture))
+    else if(info == typeid(Architecture))
         return serializeArchitecture(dynamic_cast<Architecture*>(s));
+    else if(info == typeid(Statistics))
+        return serializeStatistics(dynamic_cast<Statistics*>(s));
     else
         throw IllegalArgumentException(QObject::tr("The passed object's type is not supported: %1.").arg(info.name()));
 }
@@ -195,6 +197,43 @@ QDataStream& BinarySerializer::serializeAlgorithmParameters(AlgorithmParameters 
     return stream;
 }
 
+QByteArray BinarySerializer::serializeStatistics(Statistics* s)
+{
+    QByteArray array;
+    QDataStream stream(&array, QIODevice::WriteOnly);
+
+    stream << QString("statistics");
+
+    stream << (qint32) s->getTopLevel();
+    stream << (qint32) s->getData().size();
+
+    for(QList<StatisticsEntry> list:s->getData())
+    {
+        stream << (qint32)list.size();
+        for(StatisticsEntry e: list)
+            serializeStatisticsEntry(e, stream);
+    }
+
+    return array;
+}
+
+QDataStream& BinarySerializer::serializeStatisticsEntry(StatisticsEntry e, QDataStream& stream)
+{
+    stream << e.getHostName();
+    stream << (qint32) e.getPrimaryPlacememtTime() << (qint32) e.getSecondaryPlacementTime();
+    stream << (qint32) e.getInnerRoutingTime();
+
+    stream << (qint32) e.getDecompositionTime() << (qint32) e.getCompositionTime();
+    stream << (qint32) e.getOuterRoutingTime();
+
+    stream << (qint32) e.getInnerWiresNumber();
+    stream << (qint32) e.getWiresNumber();
+
+    stream << (qint32) e.getRoutedWiresNumber();
+
+    return stream;
+}
+
 Serializable* BinarySerializer::deserialize(QByteArray binaryData)
 {
     QDataStream stream(&binaryData, QIODevice::ReadOnly);
@@ -210,6 +249,8 @@ Serializable* BinarySerializer::deserialize(QByteArray binaryData)
         return deserializeGrid(stream);
     else if (key == "architecture")
         return deserializeArchitecture(stream);
+    else if(key == "statistics")
+        return deserializeStatistics(stream);
     else
         throw IllegalArgumentException(QObject::tr("The contained object is not supported or cannot be deserialized."));
 }
@@ -462,4 +503,81 @@ AlgorithmParameters BinarySerializer::deserializeAlgorithmParameters(QDataStream
     p.setMaxExtensionAttempts(attempts);
 
     return p;
+}
+
+Statistics* BinarySerializer::deserializeStatistics(QDataStream& stream)
+{
+    qint32 topLevel;
+    stream >> topLevel;
+
+    Statistics* s = new Statistics(topLevel);
+
+    qint32 size;
+    stream >> size;
+    s->getData().reserve(size);
+    for(int i=0; i<size; i++)
+    {
+        s->getData().append(QList<StatisticsEntry>());
+
+        qint32 listSize;
+        stream >> listSize;
+        s->getData()[i].reserve(listSize);
+
+        for(int j=0; j<listSize; j++)
+            s->getData()[i].append(deserializeStatisticsEntry(stream));
+    }
+
+    return s;
+}
+
+StatisticsEntry BinarySerializer::deserializeStatisticsEntry(QDataStream& stream)
+{
+    StatisticsEntry entry;
+
+    QString hostName;
+
+    qint32 primaryPlacementTime;
+    qint32 secondaryPlacementTime;
+    qint32 innerRoutingTime;
+
+    qint32 decompositionTime;
+    qint32 compositionTime;
+    qint32 outerRoutingTime;
+
+    qint32 innerWiresNumber;
+    qint32 wiresNumber;
+
+    qint32 routedWiresNumber;
+
+    stream >> hostName;
+
+    stream >> primaryPlacementTime;
+    stream >> secondaryPlacementTime;
+    stream >> innerRoutingTime;
+
+    stream >> decompositionTime;
+    stream >> compositionTime;
+    stream >> outerRoutingTime;
+
+    stream >> innerWiresNumber;
+    stream >> wiresNumber;
+
+    stream >> routedWiresNumber;
+
+    entry.setHostName(hostName);
+
+    entry.setPrimaryPlacementTime(primaryPlacementTime);
+    entry.setSecondaryPlacementTime(secondaryPlacementTime);
+    entry.setInnerRoutingTime(innerRoutingTime);
+
+    entry.setDecompositionTime(decompositionTime);
+    entry.setCompositionTime(compositionTime);
+    entry.setOuterRoutingTime(outerRoutingTime);
+
+    entry.setInnerWiresNumber(innerWiresNumber);
+    entry.setWiresNumber(wiresNumber);
+
+    entry.setRoutedWiresNumber(routedWiresNumber);
+
+    return entry;
 }

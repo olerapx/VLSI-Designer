@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QTime>
+
 #include "threadable.h"
 #include "datamodels/grid/grid.h"
 #include "datamodels/scheme/scheme.h"
@@ -52,6 +54,13 @@ signals:
      * @param grid - the changed grid. This is not a copy of the initial grid.
      */
     void sendResult(Grid* grid);
+
+    /**
+     * @brief sendTime
+     * Sends the algorithm execution time.
+     * @param msec
+     */
+    void sendTime(int msec);
 
 public slots:
     /**

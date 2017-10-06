@@ -70,6 +70,19 @@ void Distributor::writeScheme(Scheme* s, int level) const
     f.close();
 }
 
+void Distributor::writeStatistics(Statistics* s, int level) const
+{
+    BinarySerializer serializer;
+
+    QDir dir(fileSystem.getStatisticsPath(level));
+    dir.mkpath(".");
+
+    QFile f(fileSystem.getStatisticsPath(level) + "/stats.bin");
+    f.open(QIODevice::WriteOnly);
+    f.write(serializer.serialize(s));
+    f.close();
+}
+
 void Distributor::writeGridPart(Grid* g, int level) const
 {
     int number = getGridPartsNumber(level);
@@ -167,6 +180,18 @@ Scheme* Distributor::readScheme(int level) const
     QFile f(fileSystem.getLevelPath(level) + "/scheme.bin");
     f.open(QIODevice::ReadOnly);
     Scheme* s = dynamic_cast<Scheme*>(serializer.deserialize(f.readAll()));
+    f.close();
+
+    return s;
+}
+
+Statistics* Distributor::readStatistics(int level) const
+{
+    BinarySerializer serializer;
+
+    QFile f(fileSystem.getStatisticsPath(level) + "/stats.bin");
+    f.open(QIODevice::ReadOnly);
+    Statistics* s = dynamic_cast<Statistics*>(serializer.deserialize(f.readAll()));
     f.close();
 
     return s;

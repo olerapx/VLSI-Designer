@@ -403,23 +403,32 @@ void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int initialLevel)
         obj->deleteLater();
     });
 
-    QObject::connect(distributor, &Distributor::sendResult, obj, [this, obj, info, uuid, scheme, initialLevel] (Grid* grid, int level)
+    QObject::connect(distributor, &Distributor::sendResult, obj, [this, obj, info, uuid, scheme, initialLevel] (Grid* grid, int level, Statistics* statistics)
     {
         if(level != initialLevel)
         {
-            sendIncomingGrid(grid, level);
+            sendIncomingGrid(grid, level, statistics);
             return;
         }
 
         BinarySerializer serializer;
 
+        QByteArray statArray = serializer.serialize(statistics);
+        delete statistics;
+
         QByteArray gridArray = serializer.serialize(grid);
         delete grid;
 
-        QByteArray* body = new QByteArray(gridArray);
+        QByteArray* body = new QByteArray(statArray);
+        body->append(gridArray);
+
         body->prepend(sizeof(qint32), ' ');
 
         QDataStream stream(body, QIODevice::WriteOnly);
+        stream.device()->seek(0);
+        stream << (qint32) statArray.size();
+
+        body->prepend(sizeof(qint32), ' ');
         stream.device()->seek(0);
         stream << (qint32)level;
 
@@ -432,7 +441,7 @@ void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int initialLevel)
     distributor->start(scheme, initialLevel);
 }
 
-void PoolNode::onSendGrid(QUuid uuid, Grid* grid, int level)
+void PoolNode::onSendGrid(QUuid uuid, Grid* grid, int level, Statistics* statistics)
 {
     PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
     sendLog(tr("Received grid from %1:%2.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())));
@@ -441,7 +450,7 @@ void PoolNode::onSendGrid(QUuid uuid, Grid* grid, int level)
     sendSetEntityStatus(info.getAddress(), info.getTcpPort(), EntityStatus::Ready);
     sendRemoveEntityInfo(knownEntities.indexOf(info));
 
-    sendIncomingGrid(grid, level);
+    sendIncomingGrid(grid, level, statistics);
 }
 
 void PoolNode::onStop(QUuid uuid)

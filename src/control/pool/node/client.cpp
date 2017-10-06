@@ -57,11 +57,12 @@ bool Client::isInitialized() const
     return true;
 }
 
-void Client::startDecomposition(Scheme* scheme, int number)
+void Client::startDecomposition(Scheme* scheme, int number, StatisticsEntry& entry)
 {
     if(!stopped) return;
 
     stopped = false;
+    this->entry = &entry;
 
     decomposition = DecompositionStrategy().createAlgorithm(architecture->getAlgorithmIndexes().getDecompositionAlgorithmIndex(),
                                                            scheme, number);
@@ -72,6 +73,11 @@ void Client::startDecomposition(Scheme* scheme, int number)
         sendDecomposedSchemes(list);
         stopped = true;
     });
+
+    connect(decomposition, &DecompositionAlgorithm::sendTime, this, [this] (int time)
+    {
+        this->entry->setDecompositionTime(time);
+    }, Qt::DirectConnection);
 
     connect(decomposition, &DecompositionAlgorithm::sendFinish, this, [this] ()
     {
@@ -97,13 +103,14 @@ void Client::moveAlgorithmToThread(Threadable* t)
     connect(t, &Threadable::sendError, this, &Client::sendError, Qt::DirectConnection);
 }
 
-void Client::startPlacingAndRouting(Scheme* scheme)
+void Client::startPlacingAndRouting(Scheme* scheme, StatisticsEntry& entry)
 {
     if(!stopped) return;
 
     stopped = false;
 
     this->scheme = scheme;
+    this->entry = &entry;
 
     primaryPlacement = PrimaryPlacementStrategy().createAlgorithm(architecture->getAlgorithmIndexes().getPrimaryPlacementAlgorithmIndex(),
                                                                   scheme, libraries, architecture->getAlgorithmParameters().getExpandingCoefficient());
@@ -111,6 +118,11 @@ void Client::startPlacingAndRouting(Scheme* scheme)
     moveAlgorithmToThread(primaryPlacement);
 
     connect(primaryPlacement, &PrimaryPlacementAlgorithm::sendResult, this, &Client::onPrimaryPlacementFinished);
+
+    connect(primaryPlacement, &PrimaryPlacementAlgorithm::sendTime, this, [this] (int time)
+    {
+        this->entry->setPrimaryPlacementTime(time);
+    }, Qt::DirectConnection);
 
     connect(primaryPlacement, &PrimaryPlacementAlgorithm::sendFinish, this, [this] ()
     {
@@ -136,6 +148,11 @@ void Client::onPrimaryPlacementFinished(PlacementResult* res)
 
     connect(secondaryPlacement, &SecondaryPlacementAlgorithm::sendResult, this, &Client::onSecondaryPlacementFinished);
 
+    connect(secondaryPlacement, &SecondaryPlacementAlgorithm::sendTime, this, [this] (int time)
+    {
+        entry->setSecondaryPlacementTime(time);
+    }, Qt::DirectConnection);
+
     connect(secondaryPlacement, &SecondaryPlacementAlgorithm::sendFinish, this, [this] ()
     {
         delete secondaryPlacement;
@@ -160,9 +177,25 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
 
     connect(routing, &RoutingAlgorithm::sendResult, this, [this](Grid* grid)
     {
+        int innerWires = 0;
+        for(WireData& data: grid->getWiresData())
+        {
+            if(data.getWirePosition() == WirePosition::Internal)
+                innerWires ++;
+        }
+
+        entry->setInnerWiresNumber(innerWires);
+        entry->setWiresNumber(grid->getWiresData().size());
+        entry->setRoutedWiresNumber(grid->getRoutedWires().size());
+
         sendRoutedGrid(grid);
         stopped = true;
     });
+
+    connect(routing, &RoutingAlgorithm::sendTime, this, [this] (int time)
+    {
+        entry->setInnerRoutingTime(time);
+    }, Qt::DirectConnection);
 
     connect(routing, &RoutingAlgorithm::sendFinish, this, [this] ()
     {
@@ -180,7 +213,7 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
     algorithmThread.start();
 }
 
-void Client::startComposition(QList<Grid*> grids, Scheme* scheme, int level)
+void Client::startComposition(QList<Grid*> grids, Scheme* scheme, int level, StatisticsEntry& entry)
 {
     if(!stopped) return;
 
@@ -188,12 +221,18 @@ void Client::startComposition(QList<Grid*> grids, Scheme* scheme, int level)
 
     this->scheme = scheme;
     this->level = level;
+    this->entry = &entry;
 
     composition = CompositionStrategy().createAlgorithm(architecture->getAlgorithmIndexes().getCompositionAlgorithmIndex(),
                                                         grids, scheme);
     moveAlgorithmToThread(composition);
 
     connect(composition, &CompositionAlgorithm::sendResult, this, &Client::onCompositionFinished);
+
+    connect(composition, &CompositionAlgorithm::sendTime, this, [this, grids] (int time)
+    {
+        this->entry->setCompositionTime(time);
+    }, Qt::DirectConnection);
 
     connect(composition, &CompositionAlgorithm::sendFinish, this, [this, grids] ()
     {
@@ -215,9 +254,25 @@ void Client::onCompositionFinished(Grid* grid)
 
     connect(routing, &RoutingAlgorithm::sendResult, this, [this](Grid* grid)
     {
+        int innerWires = 0;
+        for(WireData& data: grid->getWiresData())
+        {
+            if(data.getWirePosition() == WirePosition::Internal)
+                innerWires ++;
+        }
+
+        entry->setInnerWiresNumber(innerWires);
+        entry->setWiresNumber(grid->getWiresData().size());
+        entry->setRoutedWiresNumber(grid->getRoutedWires().size());
+
         sendComposedGrid(grid, level - 1);
         stopped = true;
     });
+
+    connect(routing, &RoutingAlgorithm::sendTime, this, [this] (int time)
+    {
+        entry->setOuterRoutingTime(time);
+    }, Qt::DirectConnection);
 
     connect(routing, &RoutingAlgorithm::sendFinish, this, [this] ()
     {

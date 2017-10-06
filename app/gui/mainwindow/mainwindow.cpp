@@ -301,8 +301,13 @@ void MainWindow::onEnableManager()
     connect(ui->nodesTable, &QTableView::customContextMenuRequested, this, &MainWindow::onTableContextMenuRequested);
 }
 
-void MainWindow::onFinish()
+void MainWindow::onFinish(Statistics* statistics)
 {
     ui->setupButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
+
+    StatisticsDialog dialog(statistics, fileSystem);
+    dialog.exec();
+
+    delete statistics;
 }

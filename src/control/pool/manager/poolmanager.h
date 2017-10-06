@@ -42,7 +42,7 @@ public:
 
 signals:
     void sendDisconnected(QHostAddress address, int tcpPort);
-    void sendFinish();
+    void sendFinish(Statistics* statistics);
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
@@ -52,7 +52,7 @@ private slots:
     void onError(QUuid uuid, QString what);
     void onSendVersion(QUuid uuid, Version version);
     void onGetAvailableNode(QUuid uuid);
-    void onSendGrid(QUuid uuid, Grid* grid, int level);
+    void onSendGrid(QUuid uuid, Grid* grid, int level, Statistics* statistics);
 
     void onSetEntityStatus(QUuid uuid, QHostAddress address, int port, EntityStatus status);
 

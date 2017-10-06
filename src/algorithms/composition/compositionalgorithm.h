@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QTime>
+
 #include "threadable.h"
 #include "datamodels/grid/grid.h"
 #include "util/misc/schemeutils.h"
@@ -37,6 +39,13 @@ signals:
      * @param grid - the composed grid.
      */
     void sendResult(Grid* grid);
+
+    /**
+     * @brief sendTime
+     * Sends the algorithm execution time.
+     * @param msec
+     */
+    void sendTime(int msec);
 
 public slots:
     /**

@@ -1,13 +1,19 @@
 #pragma once
 
+#include <QString>
+
+#include "datamodels/serializable.h"
+
 /**
  * @brief The StatisticsEntry class
  * Encapsulates the design process statistics on a signle node.
  */
-class StatisticsEntry
+class StatisticsEntry : public Serializable
 {
 public:
     StatisticsEntry();
+
+    QString getHostName() const { return hostName; }
 
     int getPrimaryPlacememtTime() const { return primaryPlacementTime; }
     int getSecondaryPlacementTime() const { return secondaryPlacementTime; }
@@ -18,15 +24,18 @@ public:
     int getCompositionTime() const { return compositionTime; }
     int getOuterRoutingTime() const { return outerRoutingTime; }
 
+    int getTotalOuterTime() const { return decompositionTime + compositionTime + outerRoutingTime; }
+
     int getInnerWiresNumber() const { return innerWiresNumber; }
-    int getTotalChildrenInnerWiresNumber() const;
 
     int getWiresNumber() const { return wiresNumber; }
-    double getOuterWiresPercent() const { return (((double)(wiresNumber - innerWiresNumber)) / wiresNumber); }
+    double getOuterWiresPercent() const { return (((double)(wiresNumber - innerWiresNumber) * 100) / wiresNumber); }
 
     int getRoutedWiresNumber() const { return routedWiresNumber; }
-    double getInnerRoutedWiresPercent() const { return (((double) routedWiresNumber) / innerWiresNumber); }
-    double getRoutedWiresPercent() const { return (((double) routedWiresNumber) / wiresNumber); }
+    double getInnerRoutedWiresPercent() const { return (((double) routedWiresNumber * 100) / innerWiresNumber); }
+    double getRoutedWiresPercent() const { return (((double) routedWiresNumber * 100) / wiresNumber); }
+
+    void setHostName(QString name) { hostName = name; }
 
     void setPrimaryPlacementTime(int time) { primaryPlacementTime = time; }
     void setSecondaryPlacementTime(int time) { secondaryPlacementTime = time; }
@@ -41,7 +50,11 @@ public:
 
     void setRoutedWiresNumber(int number) { routedWiresNumber = number; }
 
+    bool operator ==(StatisticsEntry& other);
+
 private:
+    QString hostName;
+
     int primaryPlacementTime;
     int secondaryPlacementTime;
     int innerRoutingTime;

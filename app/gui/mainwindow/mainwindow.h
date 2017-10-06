@@ -14,6 +14,7 @@
 #include "gui/generatorwindow/generatorwindow.h"
 #include "gui/addnodesdialog/addnodesdialog.h"
 #include "gui/setupsessiondialog/setupsessiondialog.h"
+#include "gui/statisticsdialog/statisticsdialog.h"
 
 namespace Ui
 {
@@ -55,7 +56,7 @@ private slots:
 
     void onDisableManager();
     void onEnableManager();
-    void onFinish();    
+    void onFinish(Statistics* statistics);
 
 private:
     void changeNetworkConfig(bool firstTime);

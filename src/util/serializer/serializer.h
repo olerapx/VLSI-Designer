@@ -6,6 +6,7 @@
 #include "datamodels/grid/grid.h"
 #include "datamodels/library/library.h"
 #include "datamodels/scheme/scheme.h"
+#include "datamodels/statistics/statistics.h"
 
 static const QMap<QString, PinType> pinTypeMap
 {

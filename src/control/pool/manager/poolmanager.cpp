@@ -458,7 +458,7 @@ void PoolManager::sendCannotAssignNode(QUuid uuid)
     sendResponse(senderInfo.getAddress(), senderInfo.getTcpPort(), CommandType::Error, uuid, body);
 }
 
-void PoolManager::onSendGrid(QUuid uuid, Grid* grid, int)
+void PoolManager::onSendGrid(QUuid uuid, Grid* grid, int, Statistics* statistics)
 {
     PoolEntityInfo& info = removeRequestFromList(outcomingRequests, uuid);
     sendLog(tr("Node %1:%2 has finished the design process.").arg(info.getAddress().toString(), QString::number(info.getTcpPort())), LogType::Success);
@@ -467,7 +467,7 @@ void PoolManager::onSendGrid(QUuid uuid, Grid* grid, int)
     sendUpdateEntityInfo(info);
 
     stop();
-    sendFinish();
+    sendFinish(statistics);
 
     delete grid;
 }

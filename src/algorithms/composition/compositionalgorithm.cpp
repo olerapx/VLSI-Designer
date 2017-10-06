@@ -18,7 +18,12 @@ void CompositionAlgorithm::onStart()
 {
     try
     {
+        QTime time;
+        time.start();
+
         Grid* grid = execute();
+
+        sendTime(time.elapsed());
         sendResult(grid);
         sendFinish();
     }

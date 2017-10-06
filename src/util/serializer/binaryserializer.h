@@ -54,6 +54,8 @@ protected:
     QDataStream& serializeAlgorithmIndexes(AlgorithmIndexes i, QDataStream& stream);
     QDataStream& serializeAlgorithmParameters(AlgorithmParameters p, QDataStream& stream);
 
+    QByteArray serializeStatistics(Statistics* s);
+    QDataStream& serializeStatisticsEntry(StatisticsEntry e, QDataStream& stream);
 
     Library* deserializeLibrary(QDataStream& stream);
     LibraryElement deserializeLibraryElement(QDataStream& stream);
@@ -71,4 +73,7 @@ protected:
     Architecture* deserializeArchitecture(QDataStream& stream);
     AlgorithmIndexes deserializeAlgorithmIndexes(QDataStream& stream);
     AlgorithmParameters deserializeAlgorithmParameters(QDataStream& stream);
+
+    Statistics* deserializeStatistics(QDataStream& stream);
+    StatisticsEntry deserializeStatisticsEntry(QDataStream& stream);
 };

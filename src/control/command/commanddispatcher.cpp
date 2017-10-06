@@ -221,11 +221,21 @@ void CommandDispatcher::handleSendGrid(Command* command)
     stream >> level;
 
     body->remove(0, sizeof(qint32));
+    stream.device()->seek(0);
+
+    qint32 statArraySize;
+    stream >> statArraySize;
+
+    body->remove(0, sizeof(qint32));
+
+    QByteArray statArray = QByteArray(body->data(), statArraySize);
+    body->remove(0, statArraySize);
 
     BinarySerializer serializer;
+    Statistics* s = dynamic_cast<Statistics*>(serializer.deserialize(statArray));
     Grid* g = dynamic_cast<Grid*>(serializer.deserialize(*body));
 
-    sendSendGrid(command->getUuid(), g, level);
+    sendSendGrid(command->getUuid(), g, level, s);
 }
 
 void CommandDispatcher::handleSetEntityStatus(Command* command)

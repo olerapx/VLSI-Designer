@@ -24,6 +24,7 @@ private slots:
     void schemeTest();
     void gridTest();
     void architectureTest();
+    void statisticsTest();
 };
 
 void BinarySerializerTest::serializeTest()
@@ -209,6 +210,48 @@ void BinarySerializerTest::architectureTest()
 
     delete a;
     delete deserializedArchitecture;
+}
+
+void BinarySerializerTest::statisticsTest()
+{
+    StatisticsEntry entry1;
+
+    entry1.setHostName("1234");
+    entry1.setPrimaryPlacementTime(1);
+    entry1.setSecondaryPlacementTime(50);
+    entry1.setInnerRoutingTime(500);
+
+    entry1.setDecompositionTime(100);
+    entry1.setCompositionTime(69);
+    entry1.setOuterRoutingTime(4);
+
+    entry1.setInnerWiresNumber(60);
+    entry1.setWiresNumber(9);
+
+    entry1.setRoutedWiresNumber(8);
+
+    StatisticsEntry entry2 = entry1;
+    entry2.setHostName("23");
+
+    StatisticsEntry entry3;
+
+    Statistics* statistics = new Statistics(10);
+    statistics->getData().append(QList<StatisticsEntry>());
+    statistics->getData().append(QList<StatisticsEntry>());
+
+    statistics->getData()[0].append(entry1);
+    statistics->getData()[1].append(entry2);
+    statistics->getData()[1].append(entry3);
+
+    BinarySerializer serializer;
+    QByteArray array = serializer.serialize(statistics);
+
+    Statistics* deserializedStatistics = dynamic_cast<Statistics*>(serializer.deserialize(array));
+
+    QVERIFY((*statistics) == (*deserializedStatistics));
+
+    delete statistics;
+    delete deserializedStatistics;
 }
 
 QTEST_MAIN(BinarySerializerTest)

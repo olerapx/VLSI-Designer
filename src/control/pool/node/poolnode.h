@@ -33,7 +33,7 @@ public:
 signals:
     void sendDisableManager();
     void sendEnableManager();
-    void sendIncomingGrid(Grid* grid, int level);
+    void sendIncomingGrid(Grid* grid, int level, Statistics* statistics);
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
@@ -51,7 +51,7 @@ private slots:
     void onSendAssignedNode(QHostAddress address, int port);
     void onNoAssignedNode();
     void onSendScheme(QUuid uuid, Scheme* scheme, int initialLevel);
-    void onSendGrid(QUuid uuid, Grid* grid, int level);
+    void onSendGrid(QUuid uuid, Grid* grid, int level, Statistics* statistics);
     void onStop(QUuid uuid);
 
     void onSchemePart(Scheme* scheme, int level);

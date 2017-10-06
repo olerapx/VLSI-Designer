@@ -28,7 +28,12 @@ void DecompositionAlgorithm::onStart()
 {
     try
     {
+        QTime time;
+        time.start();
+
         QList<Scheme*> list = execute();
+
+        sendTime(time.elapsed());
         sendResult(list);
         sendFinish();
     }

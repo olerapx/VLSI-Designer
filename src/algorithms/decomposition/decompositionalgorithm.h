@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QTime>
+
 #include "threadable.h"
 #include "datamodels/scheme/scheme.h"
 
@@ -38,6 +40,13 @@ signals:
      * @param list - the list of schemes.
      */
     void sendResult(QList<Scheme*> list);
+
+    /**
+     * @brief sendTime
+     * Sends the algorithm execution time.
+     * @param msec
+     */
+    void sendTime(int msec);
 
 public slots:
     /**

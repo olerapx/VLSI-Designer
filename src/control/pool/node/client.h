@@ -9,6 +9,7 @@
 #include "algorithms/composition/compositionstrategy.h"
 #include "datamodels/architecture/architecture.h"
 #include "control/pool/logtype.h"
+#include "datamodels/statistics/statisticsentry.h"
 
 /**
  * @brief The Client class
@@ -42,7 +43,7 @@ public:
      * @param scheme
      * @param number
      */
-    void startDecomposition(Scheme* scheme, int number);
+    void startDecomposition(Scheme* scheme, int number, StatisticsEntry& entry);
 
     /**
      * @brief startPlacingAndRouting
@@ -50,7 +51,7 @@ public:
      * The result will be sent in the sendRoutedGrid signal.
      * @param scheme
      */
-    void startPlacingAndRouting(Scheme* scheme);
+    void startPlacingAndRouting(Scheme* scheme, StatisticsEntry& entry);
 
     /**
      * @brief startComposition
@@ -60,7 +61,7 @@ public:
      * @param scheme
      * @param level - the level of grid parts in the distribution hierarchy. The composed grid will have level - 1.
      */
-    void startComposition(QList<Grid*> grids, Scheme* scheme, int level);    
+    void startComposition(QList<Grid*> grids, Scheme* scheme, int level, StatisticsEntry& entry);
 
 private slots:
     void onLog(QString log);
@@ -85,6 +86,7 @@ private:
     void moveAlgorithmToThread(Threadable* t);
 
     Scheme* scheme;
+    StatisticsEntry* entry;
     Grid* grid;
 
     Architecture* architecture;
