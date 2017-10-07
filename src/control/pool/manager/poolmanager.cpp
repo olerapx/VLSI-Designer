@@ -1,8 +1,7 @@
 #include "poolmanager.h"
 
 PoolManager::PoolManager(Version programVersion, FileSystem& system, int selfPort) :
-    PoolEntity(programVersion, system, selfPort),
-    started(false)
+    PoolEntity(programVersion, system, selfPort)
 {
     data = new SessionData();
     connectDispatcher();

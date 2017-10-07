@@ -209,6 +209,8 @@ void PoolNode::onDisableManager(QUuid uuid)
 
 void PoolNode::onSendSessionDirectoryName(QUuid uuid, QString name)
 {
+    started = true;
+
     PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
     fileSystem.setSessionName(name);
 
@@ -468,6 +470,8 @@ void PoolNode::stop()
 
     for(int i=1; i<knownEntities.size(); i++)
         transmitter->disconnectFromHost(knownEntities[i].getAddress(), knownEntities[i].getTcpPort());
+
+    started = false;
 }
 
 void PoolNode::sendSetEntityStatus(QHostAddress address, int port, EntityStatus status)

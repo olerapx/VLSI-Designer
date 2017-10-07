@@ -70,6 +70,8 @@ private:
     QMenu tableContextMenu;
     QModelIndex lastContextActionIndex;
 
+    bool showed;
+
     Config config;
     FileSystem fileSystem;
 

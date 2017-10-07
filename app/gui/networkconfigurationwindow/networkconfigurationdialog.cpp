@@ -1,11 +1,12 @@
 #include "networkconfigurationdialog.h"
 #include "ui_networkconfigurationwindow.h"
 
-NetworkConfigurationDialog::NetworkConfigurationDialog(Config& config, PoolManager& manager, bool firstTime, QWidget* parent) :
+NetworkConfigurationDialog::NetworkConfigurationDialog(Config& config, PoolManager& manager, PoolNode& node, bool firstTime, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::NetworkConfigurationWindow),
     config(config),
     manager(manager),
+    node(node),
     firstTime(firstTime)
 {
     ui->setupUi(this);
@@ -72,7 +73,7 @@ void NetworkConfigurationDialog::readConfig()
 
 void NetworkConfigurationDialog::disableIfManagerIsStarted()
 {
-    if(!manager.isStarted())
+    if(!manager.isStarted() && !node.isStarted())
         return;
 
     ui->ipv4Radio->setEnabled(false);

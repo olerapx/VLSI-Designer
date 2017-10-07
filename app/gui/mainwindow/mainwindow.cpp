@@ -4,6 +4,7 @@
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    showed(false),
     config(ConfigBuilder::readConfig()),
     fileSystem(config.getSessionsPath()),
     manager(App::APP_VERSION, fileSystem),
@@ -51,7 +52,11 @@ void MainWindow::showEvent(QShowEvent* event)
 {
     QMainWindow::showEvent(event);
 
-    QTimer::singleShot(50, this, &MainWindow::onShow);
+    if(!showed)
+    {
+        QTimer::singleShot(50, this, &MainWindow::onShow);
+        showed = true;
+    }
 }
 
 void MainWindow::onShow()
@@ -68,7 +73,7 @@ void MainWindow::changeNetworkConfig(bool firstTime)
 {
     bool success = false;
 
-    if(!manager.isStarted())
+    if(!manager.isStarted() && !node.isStarted())
     {
         manager.disable();
         node.disable();
@@ -85,7 +90,7 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
 {
     try
     {
-        NetworkConfigurationDialog dialog(config, manager, firstTime);
+        NetworkConfigurationDialog dialog(config, manager, node, firstTime);
 
         if(dialog.exec() || firstTime)
         {

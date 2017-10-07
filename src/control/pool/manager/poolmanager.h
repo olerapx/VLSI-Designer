@@ -33,7 +33,6 @@ public:
     void removeNode(PoolEntityInfo& info);
 
     void start();
-    bool isStarted() const { return started; }    
 
     SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
@@ -78,6 +77,5 @@ private:
 
     static const EntityType entityType = EntityType::Manager;
 
-    SessionData* data;
-    bool started;
+    SessionData* data;    
 };

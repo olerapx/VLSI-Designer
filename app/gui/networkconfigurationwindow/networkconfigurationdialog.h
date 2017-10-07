@@ -6,6 +6,7 @@
 
 #include "config/config.h"
 #include "control/pool/manager/poolmanager.h"
+#include "control/pool/node/poolnode.h"
 
 namespace Ui
 {
@@ -17,7 +18,7 @@ class NetworkConfigurationDialog : public QDialog
     Q_OBJECT
 
 public:
-    NetworkConfigurationDialog(Config& config, PoolManager& manager, bool firstTime = false, QWidget* parent = 0);
+    NetworkConfigurationDialog(Config& config, PoolManager& manager, PoolNode& node, bool firstTime = false, QWidget* parent = 0);
     void fillNetworkInterfaces();
     void readConfig();
 
@@ -41,6 +42,7 @@ private:
 
     Config& config;
     PoolManager& manager;
+    PoolNode& node;
 
     QList<QNetworkInterface> interfaces;
 

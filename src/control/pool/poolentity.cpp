@@ -4,7 +4,8 @@ PoolEntity::PoolEntity(Version programVersion, FileSystem& system, int port) :
     transmitter(nullptr),
     programVersion(programVersion),
     fileSystem(system),
-    selfPort(port)
+    selfPort(port),
+    started(false)
 {
 
 }

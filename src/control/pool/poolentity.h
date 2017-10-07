@@ -27,6 +27,7 @@ public:
     void disableTransmitter();
 
     bool isTransmitterEnabled() { return (transmitter != nullptr); }
+    bool isStarted() const { return started; }
 
     QList<PoolEntityInfo>& getKnownEntities() { return knownEntities; }
 
@@ -65,4 +66,6 @@ protected:
 
     QList<CommandHistoryEntry> outcomingRequests;
     QList<CommandHistoryEntry> incomingRequests;    
+
+    bool started;
 };
