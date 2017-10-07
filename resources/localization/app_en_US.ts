@@ -655,4 +655,112 @@ You can try to locate necessary libraries manually.</translation>
         <translation>Libraries choosing</translation>
     </message>
 </context>
+<context>
+    <name>StatisticsDialog</name>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.ui" line="14"/>
+        <source>Statistics</source>
+        <translation>Statistics</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.ui" line="20"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="31"/>
+        <source>Session report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="60"/>
+        <source>Level</source>
+        <translation>Level</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="61"/>
+        <source>Average</source>
+        <translation>Average</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="62"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="96"/>
+        <source>Primary placement time</source>
+        <translation>Primary placement time</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="63"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="97"/>
+        <source>Secondary placement time</source>
+        <translation>Secondary placement time</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="64"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="98"/>
+        <source>Internal routing time</source>
+        <translation>Internal routing time</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="65"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="69"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="99"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="103"/>
+        <source>Total</source>
+        <translation>Total</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="66"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="100"/>
+        <source>Decomposition time</source>
+        <translation>Decomposition time</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="67"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="101"/>
+        <source>Composition time</source>
+        <translation>Composition time</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="68"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="102"/>
+        <source>External routing time</source>
+        <translation>External routing time</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="70"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="107"/>
+        <source>Internal routed wires percent</source>
+        <translation>Internal routed wires percent</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="71"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="108"/>
+        <source>Routed wires percent</source>
+        <translation>Routed wires percent</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="95"/>
+        <source>Computer</source>
+        <translation>Computer</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="104"/>
+        <source>Internal wires number</source>
+        <translation>Internal wires number</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="105"/>
+        <source>Wires number</source>
+        <translation>Wires number</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="106"/>
+        <source>External wires percent</source>
+        <translation>External wires percent</translation>
+    </message>
+</context>
 </TS>

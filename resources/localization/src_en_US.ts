@@ -830,6 +830,10 @@
         <source>The version number cannot be negative, passed: %1.</source>
         <translation>The version number cannot be negative, passed: %1.</translation>
     </message>
+    <message>
+        <source>Cannot merge statistics from level %1 to level %2.</source>
+        <translation>Cannot merge statistics from level %1 to level %2.</translation>
+    </message>
 </context>
 <context>
     <name>RoutingAlgorithm</name>
