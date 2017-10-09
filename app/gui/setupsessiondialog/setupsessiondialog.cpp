@@ -23,7 +23,7 @@ SetupSessionDialog::~SetupSessionDialog()
 
 void SetupSessionDialog::setValidators()
 {
-    QRegExpValidator* modelValidator = new QRegExpValidator(QRegExp("^([1-9]+,)+$"), this);
+    QRegExpValidator* modelValidator = new QRegExpValidator(QRegExp("^([1-9]+,( )*)+$"), this);
     ui->distributionModelText->setValidator(modelValidator);
 
     QDoubleValidator* doubleValidator = new QDoubleValidator(this);

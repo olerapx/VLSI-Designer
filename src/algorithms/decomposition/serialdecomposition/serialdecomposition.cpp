@@ -80,11 +80,18 @@ void SerialDecomposition::fillVertices()
     {
         if(stopped) return;
 
-        SchemeVertex* srcVertex = findVertexByIndex(w.getSrcIndex());
-        SchemeVertex* destVertex = findVertexByIndex(w.getDestIndex());
+        try
+        {
+            SchemeVertex* srcVertex = findVertexByIndex(w.getSrcIndex());
+            SchemeVertex* destVertex = findVertexByIndex(w.getDestIndex());
 
-        srcVertex->getConnectedElements().append(std::make_pair(destVertex, w.getType()));
-        destVertex->getConnectedElements().append(std::make_pair(srcVertex, w.getType()));
+            srcVertex->getConnectedElements().append(std::make_pair(destVertex, w.getType()));
+            destVertex->getConnectedElements().append(std::make_pair(srcVertex, w.getType()));
+        }
+        catch(Exception&)
+        {
+
+        }
     }
 }
 

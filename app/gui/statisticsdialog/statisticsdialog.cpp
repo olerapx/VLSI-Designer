@@ -8,6 +8,9 @@ StatisticsDialog::StatisticsDialog(Statistics* statistics, FileSystem& system, Q
     fileSystem(system)
 {
     ui->setupUi(this);
+    this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    this->setFixedSize(this->sizeHint());
+
     display();
 }
 

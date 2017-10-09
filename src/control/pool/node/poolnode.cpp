@@ -167,7 +167,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
     {
         acceptNodeConnection = false;
 
-        info.setStatus(EntityStatus::Node);
+        info.setStatus(EntityStatus::Ready);
         sendUpdateEntityInfo(info);
         return;
     }

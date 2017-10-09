@@ -20,7 +20,7 @@ void Statistics::merge(Statistics& other)
 
     for(int i=0; i<other.data.size(); i++)
     {
-        data[other.topLevel + i].append(other.data[i]);
+        data[other.topLevel - topLevel + i].append(other.data[i]);
     }
 }
 
