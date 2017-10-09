@@ -77,6 +77,9 @@ void EntityStatusDelegate::paint(QPainter* painter, const QStyleOptionViewItem& 
     case EntityStatus::Node:
         image = getImageFromCache("blue");
         break;
+    case EntityStatus::Sender:
+        image = getImageFromCache("green");
+        break;
     default:
         image = getImageFromCache("empty");
         break;

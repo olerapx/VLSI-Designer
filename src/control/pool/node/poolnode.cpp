@@ -167,7 +167,7 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
     {
         acceptNodeConnection = false;
 
-        info.setStatus(EntityStatus::Ready);
+        info.setStatus(EntityStatus::Node);
         sendUpdateEntityInfo(info);
         return;
     }
@@ -394,6 +394,9 @@ void PoolNode::onSchemePart(Scheme* scheme, int level)
 void PoolNode::onSendScheme(QUuid uuid, Scheme* scheme, int initialLevel)
 {
     PoolEntityInfo& info = removeRequestFromList(incomingRequests, uuid);
+
+    info.setStatus(EntityStatus::Sender);
+    sendUpdateEntityInfo(info);
 
     sendLog(tr("Received scheme from %1:%2 on distribution level %3. Start handling.")
             .arg(info.getAddress().toString(), QString::number(info.getTcpPort()), QString::number(initialLevel)));

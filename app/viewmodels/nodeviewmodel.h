@@ -18,7 +18,8 @@ static const QMap<EntityStatus, QString> nodeStatusMap
     { EntityStatus::Error, QT_TRANSLATE_NOOP("NodeViewModel", "Error") },
     { EntityStatus::Incompatible, QT_TRANSLATE_NOOP("NodeViewModel", "Incompatible") },
     { EntityStatus::Manager, QT_TRANSLATE_NOOP("NodeViewModel", "Manager") },
-    { EntityStatus::Node, QT_TRANSLATE_NOOP("NodeViewModel", "Node") }
+    { EntityStatus::Node, QT_TRANSLATE_NOOP("NodeViewModel", "Node") },
+    { EntityStatus::Sender, QT_TRANSLATE_NOOP("NodeViewModel", "Sender") }
 };
 
 class NodeViewModel : public QAbstractTableModel

@@ -9,7 +9,6 @@ StatisticsDialog::StatisticsDialog(Statistics* statistics, FileSystem& system, Q
 {
     ui->setupUi(this);
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    this->setFixedSize(this->sizeHint());
 
     display();
 }
@@ -30,7 +29,7 @@ void StatisticsDialog::display()
 void StatisticsDialog::showHeader()
 {
     ui->textBrowser->append(QString("<h1 style=\"text-align: center; text-transform: uppercase;\">%1</h1>"
-                                    "<p style=\"text-align: center; color: #66e0ff; font-weight: bold\">%2</p>")
+                                    "<p style=\"text-align: center; color: #191970; font-weight: bold\">%2</p>")
                                     .arg(tr("Session report"), fileSystem.getSessionName()));
 }
 
@@ -44,12 +43,12 @@ void StatisticsDialog::showDataForLevel(int level)
 
 void StatisticsDialog::showAverageData(int level)
 {
-    QString text = QString("<hr><br><h2 style=\"color: #33ccff; text-align: center; text-transform: uppercase;\">%1 %2</h2>")
+    QString text = QString("<hr><br><h2 style=\"color: #191970; text-align: center; text-transform: uppercase;\">%1 %2</h2>")
             .arg(tr("Level"), QString::number(level));
 
     if(level != 0)
-            text.append(QString("<h3 style=\"color: #33ccff;\">%1</h3>"
-                                    "<table cellpadding=\"5\" style=\"font-size: 10pt;\">"
+            text.append(QString("<h3 style=\"color: #191970;\">%1</h3>"
+                                    "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
                                     "<tr><td>%2</td> <td>%3 ms</td></tr>"
                                     "<tr><td>%4</td> <td>%5 ms</td></tr>"
                                     "<tr><td>%6</td> <td>%7 ms</td></tr>"
@@ -80,8 +79,8 @@ void StatisticsDialog::showHostData(int level, int index)
 {
     StatisticsEntry entry = statistics->getData()[level][index];
 
-    ui->textBrowser->append(QString("<h3 style=\"color: #33ccff;\">%1 %2: %3</h3>"
-                                    "<table cellpadding=\"5\" style=\"font-size: 10pt;\">"
+    ui->textBrowser->append(QString("<h3 style=\"color: #191970;\">%1 %2: %3</h3>"
+                                    "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
                                     "<tr><td>%4</td> <td>%5 ms</td></tr>"
                                     "<tr><td>%6</td> <td>%7 ms</td></tr>"
                                     "<tr><td>%8</td> <td>%9 ms</td></tr>"

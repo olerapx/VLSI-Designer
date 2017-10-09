@@ -17,7 +17,8 @@ enum class EntityStatus
     Error,
     Incompatible,
     Manager,
-    Node
+    Node,
+    Sender
 };
 
 Q_DECLARE_METATYPE(EntityStatus)
