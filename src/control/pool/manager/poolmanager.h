@@ -21,7 +21,7 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolManager(Version programVersion, FileSystem& system, int& selfNodePort, int selfPort = 0);
+    PoolManager(Version programVersion, FileSystem& system, int selfPort = 0);
     ~PoolManager();
 
     void enable();
@@ -36,8 +36,6 @@ public:
 
     SessionData* getSessionData() const { return data; }
     void setSessionData(SessionData* data);
-
-    void setSelfAddress(QHostAddress address) { this->selfAddress = address; }
 
     void stop();
 
@@ -77,12 +75,7 @@ private:
     void sendAssignedNode(PoolEntityInfo& info, QUuid uuid);
     void sendCannotAssignNode(QUuid uuid);
 
-    PoolEntityInfo& getSelfNodeInfo();
-    QHostAddress selfAddress;
-
     static const EntityType entityType = EntityType::Manager;
 
-    SessionData* data;
-
-    int& selfNodePort;
+    SessionData* data;    
 };

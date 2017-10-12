@@ -35,8 +35,6 @@ signals:
     void sendEnableManager();
     void sendIncomingGrid(Grid* grid, int level, Statistics* statistics);
 
-    void sendManagerAddress(QHostAddress address);
-
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
     void onDisconnected(QHostAddress address, int port);

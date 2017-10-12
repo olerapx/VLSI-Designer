@@ -156,7 +156,6 @@ void PoolNode::onIdentify(QUuid uuid, EntityType type)
         }
 
         poolManager = &(knownEntities[0]);
-        sendManagerAddress(poolManager->getAddress());
 
         knownEntities[0].setStatus(EntityStatus::Manager);
         sendUpdateEntityInfo(knownEntities[0]);
