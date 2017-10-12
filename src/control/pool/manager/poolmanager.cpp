@@ -466,9 +466,7 @@ void PoolManager::onSendGrid(QUuid uuid, Grid* grid, int, Statistics* statistics
     sendUpdateEntityInfo(info);
 
     stop();
-    sendFinish(statistics);
-
-    delete grid;
+    sendFinish(statistics, grid);
 }
 
 void PoolManager::onSetEntityStatus(QUuid uuid, QHostAddress address, int port, EntityStatus status)

@@ -56,7 +56,7 @@ private slots:
 
     void onDisableManager();
     void onEnableManager();
-    void onFinish(Statistics* statistics);
+    void onFinish(Statistics* statistics, Grid* grid);
 
 private:
     void changeNetworkConfig(bool firstTime);

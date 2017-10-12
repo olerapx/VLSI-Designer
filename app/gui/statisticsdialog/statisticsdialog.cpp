@@ -1,10 +1,11 @@
 #include "statisticsdialog.h"
 #include "ui_statisticsdialog.h"
 
-StatisticsDialog::StatisticsDialog(Statistics* statistics, FileSystem& system, QWidget* parent) :
+StatisticsDialog::StatisticsDialog(Statistics* statistics, Grid* grid, FileSystem& system, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::StatisticsDialog),
     statistics(statistics),
+    grid(grid),
     fileSystem(system)
 {
     ui->setupUi(this);
@@ -21,9 +22,62 @@ StatisticsDialog::~StatisticsDialog()
 void StatisticsDialog::display()
 {
     showHeader();
+    showCommon();
 
     for(int i=0; i<statistics->getData().size(); i++)
         showDataForLevel(i);
+}
+
+void StatisticsDialog::showCommon()
+{
+    ui->textBrowser->append(QString("<hr><br><h2 style=\"color: #191970; text-align: center; text-transform: uppercase;\">%1</h2><br>"
+                                    "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
+                                    "<tr><td>%2</td> <td>%3</td></tr>"
+                                    "<tr><td>%4</td> <td>%5 ms (%6 s)</td></tr>"
+                                    "<tr><td>%7</td> <td>%8%</td></tr>"
+                                    "<tr><td>%9</td> <td>%10</td></tr>"
+                                    "<tr><td>%11</td> <td>%12</td></tr>"
+                                    "<tr><td>%13</td> <td>%14</td></tr>")
+                                .arg(tr("Common data"),
+                                     tr("Used model"), getModel(),
+                                     tr("Total time"), QString::number(getTotalTime()), QString::number(getTotalTimeInSeconds()),
+                                     tr("Routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(0)))
+                                .arg(tr("Chip width"), QString::number(grid->getWidth()),
+                                     tr("Chip height"), QString::number(grid->getHeight()),
+                                     tr("Chip square"), QString::number(grid->getWidth() * grid->getHeight())));
+}
+
+int StatisticsDialog::getTotalTime()
+{
+    int res = 0;
+
+    for(int i=0; i<statistics->getData().size(); i++)
+    {
+        res += statistics->getAverageTotalInnerTime(i);
+        res += statistics->getAverageTotalOuterTime(i);
+    }
+
+    return res;
+}
+
+double StatisticsDialog::getTotalTimeInSeconds()
+{
+    double res = (double) getTotalTime();
+
+    return res / 1000.0;
+}
+
+QString StatisticsDialog::getModel()
+{
+    QString res;
+
+    for(int i=0; i<statistics->getData().size() - 1; i++)
+    {
+        int clientsNumber = statistics->getData()[i+1].size() / statistics->getData()[i].size();
+        res += QString(" %1").arg(QString::number(clientsNumber));
+    }
+
+    return res;
 }
 
 void StatisticsDialog::showHeader()
@@ -34,7 +88,7 @@ void StatisticsDialog::showHeader()
 }
 
 void StatisticsDialog::showDataForLevel(int level)
-{
+{   
     showAverageData(level);
 
     for(int i=0; i<statistics->getData()[level].size(); i++)
@@ -79,7 +133,7 @@ void StatisticsDialog::showHostData(int level, int index)
 {
     StatisticsEntry entry = statistics->getData()[level][index];
 
-    ui->textBrowser->append(QString("<h3 style=\"color: #191970;\">%1 %2: %3</h3>"
+    ui->textBrowser->append(QString("<br><h3 style=\"color: #191970;\">%1 %2: %3</h3>"
                                     "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
                                     "<tr><td>%4</td> <td>%5 ms</td></tr>"
                                     "<tr><td>%6</td> <td>%7 ms</td></tr>"

@@ -41,7 +41,7 @@ public:
 
 signals:
     void sendDisconnected(QHostAddress address, int tcpPort);
-    void sendFinish(Statistics* statistics);
+    void sendFinish(Statistics* statistics, Grid* grid);
 
 private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
