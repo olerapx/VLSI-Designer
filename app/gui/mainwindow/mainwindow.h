@@ -75,8 +75,8 @@ private:
     Config config;
     FileSystem fileSystem;
 
-    PoolManager manager;
     PoolNode node;    
+    PoolManager manager;
 
     NetworkScanner scanner;
 

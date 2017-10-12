@@ -3,6 +3,7 @@
 #include <QTime>
 
 #include "control/pool/poolentity.h"
+#include "control/pool/node/poolnode.h"
 #include "exception/illegalargumentexception.h"
 #include "sessiondata.h"
 
@@ -21,7 +22,7 @@ public:
      * Constructs the object.
      * @param selfPort - the port the transmitter will be set to.
      */
-    PoolManager(Version programVersion, FileSystem& system, int selfPort = 0);
+    PoolManager(Version programVersion, FileSystem& system, PoolNode& selfNode, int selfPort = 0);
     ~PoolManager();
 
     void enable();
@@ -47,6 +48,8 @@ private slots:
     void onNewConnection(QHostAddress address, int tcpPort);
     void onDisconnected(QHostAddress address, int tcpPort);
 
+    void onManagerAddress(QHostAddress address) { this->selfAddress = address; }
+
     void onOK(QUuid uuid);
     void onError(QUuid uuid, QString what);
     void onSendVersion(QUuid uuid, Version version);
@@ -66,6 +69,8 @@ private:
 
     void setStatusOfAllConnectedNodes(EntityStatus status);
 
+    PoolEntityInfo& getSelfNodeInfo();
+
     void disableManagers();
     void createSession();
     void startNodeInitialization(PoolEntityInfo& info);
@@ -77,5 +82,8 @@ private:
 
     static const EntityType entityType = EntityType::Manager;
 
-    SessionData* data;    
+    SessionData* data;
+
+    PoolNode& selfNode;
+    QHostAddress selfAddress;
 };

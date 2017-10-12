@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget* parent) :
     showed(false),
     config(ConfigBuilder::readConfig()),
     fileSystem(config.getSessionsPath()),
-    manager(App::APP_VERSION, fileSystem),
     node(App::APP_VERSION, fileSystem),
+    manager(App::APP_VERSION, fileSystem, node),
     scanner(config.getNodeTcpPort())
 {
     ui->setupUi(this);
@@ -157,6 +157,7 @@ void MainWindow::on_startButton_clicked()
     }
 
     ui->setupButton->setEnabled(false);
+    ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
 
     manager.start();
@@ -168,6 +169,7 @@ void MainWindow::on_stopButton_clicked()
     manager.stop();
 
     ui->setupButton->setEnabled(true);
+    ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
 }
 
@@ -314,6 +316,7 @@ void MainWindow::onEnableManager()
 void MainWindow::onFinish(Statistics* statistics, Grid* grid)
 {
     ui->setupButton->setEnabled(true);
+    ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
 
     StatisticsDialog dialog(statistics, grid, fileSystem);

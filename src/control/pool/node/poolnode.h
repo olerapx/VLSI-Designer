@@ -31,6 +31,8 @@ public:
     PoolEntityInfo* getPoolManagerInfo() const { return poolManager; }
 
 signals:
+    void sendManagerAddress(QHostAddress address);
+
     void sendDisableManager();
     void sendEnableManager();
     void sendIncomingGrid(Grid* grid, int level, Statistics* statistics);

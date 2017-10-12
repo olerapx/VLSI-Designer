@@ -1,10 +1,13 @@
 #include "poolmanager.h"
 
-PoolManager::PoolManager(Version programVersion, FileSystem& system, int selfPort) :
-    PoolEntity(programVersion, system, selfPort)
+PoolManager::PoolManager(Version programVersion, FileSystem& system, PoolNode& selfNode, int selfPort) :
+    PoolEntity(programVersion, system, selfPort),
+    selfNode(selfNode)
 {
     data = new SessionData();
     connectDispatcher();
+
+    connect(&selfNode, &PoolNode::sendManagerAddress, this, &PoolManager::onManagerAddress);
 }
 
 PoolManager::~PoolManager()
@@ -300,12 +303,25 @@ void PoolManager::markNodeInitialized(PoolEntityInfo& info)
     stream.device()->seek(0);
     stream << (qint32)0;
 
-    sendLog(tr("Starting the design process."));
-    sendLog(tr("Sending scheme to %1:%2.").arg(knownEntities[0].getAddress().toString(), QString::number(knownEntities[0].getTcpPort())));
-    knownEntities[0].setStatus(EntityStatus::Working);
-    sendUpdateEntityInfo(knownEntities[0]);
+    PoolEntityInfo& selfNode = getSelfNodeInfo();
 
-    sendRequest(knownEntities[0].getAddress(), knownEntities[0].getTcpPort(), CommandType::SendScheme, body);
+    sendLog(tr("Starting the design process."));
+    sendLog(tr("Sending scheme to %1:%2.").arg(selfNode.getAddress().toString(), QString::number(selfNode.getTcpPort())));
+    selfNode.setStatus(EntityStatus::Working);
+    sendUpdateEntityInfo(selfNode);
+
+    sendRequest(selfNode.getAddress(), selfNode.getTcpPort(), CommandType::SendScheme, body);
+}
+
+PoolEntityInfo& PoolManager::getSelfNodeInfo()
+{
+    for(PoolEntityInfo& info: knownEntities)
+    {
+        if(info.getAddress().isEqual(selfAddress, QHostAddress::TolerantConversion) && info.getTcpPort() == selfNode.getSelfPort())
+            return info;
+    }
+
+    return knownEntities[0];
 }
 
 void PoolManager::onNewConnection(QHostAddress address, int tcpPort)
