@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget* parent) :
     showed(false),
     config(ConfigBuilder::readConfig()),
     fileSystem(config.getSessionsPath()),
-    manager(App::APP_VERSION, fileSystem),
+    manager(App::APP_VERSION, fileSystem, config.getNodeTcpPort()),
     node(App::APP_VERSION, fileSystem),
     scanner(config.getNodeTcpPort())
 {
@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&node, &PoolEntity::sendLog, this, &MainWindow::onSendNodeLog, Qt::QueuedConnection);
     connect(&manager, &PoolEntity::sendError, this, &MainWindow::onSendManagerError, Qt::QueuedConnection);
     connect(&node, &PoolEntity::sendError, this, &MainWindow::onSendNodeError, Qt::QueuedConnection);
+
+    connect(&node, &PoolNode::sendManagerAddress, this, &MainWindow::onManagerAddress, Qt::QueuedConnection);
 
     connect(&node, &PoolNode::sendDisableManager, this, &MainWindow::onDisableManager, Qt::QueuedConnection);
     connect(&node, &PoolNode::sendEnableManager, this, &MainWindow::onEnableManager, Qt::QueuedConnection);
@@ -112,6 +114,8 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
         QMessageBox::warning(this, tr("Network error"), tr("Cannot initialize network module:\n\n%1\n\n"
                                                             "Try set different parameters.").arg(e.what()));
 
+        manager.disable();
+        node.disable();
     }
 
     return false;
@@ -164,6 +168,9 @@ void MainWindow::on_stopButton_clicked()
 {
     onSendManagerLog(tr("Stopping the design process..."), LogType::Common);
     manager.stop();
+
+    ui->setupButton->setEnabled(true);
+    ui->stopButton->setEnabled(false);
 }
 
 void MainWindow::onTableContextMenuRequested(QPoint pos)
@@ -254,6 +261,11 @@ void MainWindow::prependCurrentTime(QString& string)
 {
     QString time = QString("[%1] ").arg(QTime::currentTime().toString("hh:mm:ss"));
     string.prepend(time);
+}
+
+void MainWindow::onManagerAddress(QHostAddress address)
+{
+    manager.setSelfAddress(address);
 }
 
 void MainWindow::onSendManagerError(QString error)

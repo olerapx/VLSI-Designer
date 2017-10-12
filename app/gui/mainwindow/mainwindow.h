@@ -51,12 +51,14 @@ private slots:
     void onSendManagerLog(QString log, LogType type);
     void onSendNodeLog(QString log, LogType type);
 
+    void onManagerAddress(QHostAddress address);
+
     void onSendManagerError(QString error);
     void onSendNodeError(QString error);
 
     void onDisableManager();
     void onEnableManager();
-    void onFinish(Statistics* statistics, Grid* grid);
+    void onFinish(Statistics* statistics, Grid* grid);    
 
 private:
     void changeNetworkConfig(bool firstTime);
