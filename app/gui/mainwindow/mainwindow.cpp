@@ -112,6 +112,8 @@ bool MainWindow::tryChangeNetworkConfig(bool firstTime)
         QMessageBox::warning(this, tr("Network error"), tr("Cannot initialize network module:\n\n%1\n\n"
                                                             "Try set different parameters.").arg(e.what()));
 
+        manager.disable();
+        node.disable();
     }
 
     return false;
@@ -164,6 +166,9 @@ void MainWindow::on_stopButton_clicked()
 {
     onSendManagerLog(tr("Stopping the design process..."), LogType::Common);
     manager.stop();
+
+    ui->setupButton->setEnabled(true);
+    ui->stopButton->setEnabled(false);
 }
 
 void MainWindow::onTableContextMenuRequested(QPoint pos)
