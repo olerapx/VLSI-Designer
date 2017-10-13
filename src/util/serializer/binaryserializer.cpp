@@ -193,6 +193,7 @@ QDataStream& BinarySerializer::serializeAlgorithmParameters(AlgorithmParameters 
 {
     stream << p.getExpandingCoefficient();
     stream << p.getMaxExtensionAttempts();
+    stream << p.getMaxExtensionAttemptsForWire();
 
     return stream;
 }
@@ -498,9 +499,12 @@ AlgorithmParameters BinarySerializer::deserializeAlgorithmParameters(QDataStream
     p.setExpandingCoefficient(coefficient);
 
     int attempts;
-    stream >> attempts;
 
+    stream >> attempts;
     p.setMaxExtensionAttempts(attempts);
+
+    stream >> attempts;
+    p.setMaxExtensionAttemptsForWire(attempts);
 
     return p;
 }

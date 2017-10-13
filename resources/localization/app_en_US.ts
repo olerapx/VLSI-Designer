@@ -299,17 +299,17 @@ Try set different parameters.</source>
 Try set different parameters.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="153"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="155"/>
         <source>No nodes added</source>
         <translation>No nodes added</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="153"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="155"/>
         <source>Cannot start work without any node added. Add nodes and try again.</source>
         <translation>Cannot start work without any node added. Add nodes and try again.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="165"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.cpp" line="168"/>
         <source>Stopping the design process...</source>
         <translation>Stopping the design process...</translation>
     </message>
@@ -567,74 +567,89 @@ Try set different parameters.</translation>
         <translation>Max extension attempts</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="228"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="227"/>
+        <source>Total</source>
+        <translation>Total</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="234"/>
+        <source>100</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="244"/>
+        <source>For wire</source>
+        <translation>For wire</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="251"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="241"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="267"/>
         <source>Distribution</source>
         <translation>Distribution</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="247"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="273"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="264"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="290"/>
         <source>Model</source>
         <translation>Model</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="271"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="297"/>
         <source>2, 2, 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="321"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.ui" line="347"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="89"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="90"/>
         <source>Default</source>
         <translation>Default</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="90"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="91"/>
         <source>Greedy</source>
         <translation>Greedy</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="138"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="140"/>
         <source>Scheme choosing</source>
         <translation>Scheme choosing</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="139"/>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="278"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="141"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="280"/>
         <source>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</source>
         <translation>All supported files (*.bin *.json);;JSON (*.json);;Binary (*.bin)</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="156"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="158"/>
         <source>The chosen file does not contain a scheme.</source>
         <translation>The chosen file does not contain a scheme.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="164"/>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="301"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="166"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="303"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="237"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="239"/>
         <source>The chosen file does not contain a library.</source>
         <translation>The chosen file does not contain a library.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="265"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="267"/>
         <source>The following libraries used to generate scheme were not found:
 
 </source>
@@ -643,19 +658,19 @@ Try set different parameters.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="270"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="272"/>
         <source>
 You can try to locate necessary libraries manually.</source>
         <translation>
 You can try to locate necessary libraries manually.</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="272"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="274"/>
         <source>Missing libraries</source>
         <translation>Missing libraries</translation>
     </message>
     <message>
-        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="277"/>
+        <location filename="../../app/gui/setupsessiondialog/setupsessiondialog.cpp" line="279"/>
         <source>Libraries choosing</source>
         <translation>Libraries choosing</translation>
     </message>
@@ -677,124 +692,124 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="89"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="87"/>
         <source>Session report</source>
         <translation>Session report</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="103"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="101"/>
         <source>Level</source>
         <translation>Level</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="120"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="118"/>
         <source>Average</source>
         <translation>Average</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="121"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="156"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="119"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="154"/>
         <source>Primary placement time</source>
         <translation>Primary placement time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="122"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="157"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="120"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="155"/>
         <source>Secondary placement time</source>
         <translation>Secondary placement time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="123"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="158"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="121"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="156"/>
         <source>Internal routing time</source>
         <translation>Internal routing time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="124"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="128"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="159"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="163"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="122"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="126"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="157"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="161"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="125"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="160"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="123"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="158"/>
         <source>Decomposition time</source>
         <translation>Decomposition time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="126"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="161"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="124"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="159"/>
         <source>Composition time</source>
         <translation>Composition time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="127"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="162"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="125"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="160"/>
         <source>External routing time</source>
         <translation>External routing time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="129"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="167"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="127"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="165"/>
         <source>Internal routed wires percent</source>
         <translation>Internal routed wires percent</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="46"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="130"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="168"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="44"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="128"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="166"/>
         <source>Routed wires percent</source>
         <translation>Routed wires percent</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="43"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="41"/>
         <source>Common data</source>
         <translation>Common data</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="44"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="42"/>
         <source>Used model</source>
         <translation>Used model</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="45"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="43"/>
         <source>Total time</source>
         <translation>Total time</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="47"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="45"/>
         <source>Chip width</source>
         <translation>Chip width</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="48"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="46"/>
         <source>Chip height</source>
         <translation>Chip height</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="49"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="47"/>
         <source>Chip square</source>
         <translation>Chip square</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="155"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="153"/>
         <source>Computer</source>
         <translation>Computer</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="164"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="162"/>
         <source>Internal wires number</source>
         <translation>Internal wires number</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="165"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="163"/>
         <source>Wires number</source>
         <translation>Wires number</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="166"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="164"/>
         <source>External wires percent</source>
         <translation>External wires percent</translation>
     </message>

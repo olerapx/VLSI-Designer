@@ -38,6 +38,7 @@ void SetupSessionDialog::setValidators()
     QIntValidator* intValidator = new QIntValidator(this);
     intValidator->setBottom(0);
     ui->maxExtensionAttemptsText->setValidator(intValidator);
+    ui->maxExtensionAttemptsForWireText->setValidator(intValidator);
 }
 
 void SetupSessionDialog::initParameters()
@@ -105,6 +106,7 @@ void SetupSessionDialog::fillParametersFromData(SessionData* data)
     AlgorithmParameters parameters = data->getArchitecture()->getAlgorithmParameters();
     ui->expandingCoefficientText->setText(QString::number(parameters.getExpandingCoefficient()));
     ui->maxExtensionAttemptsText->setText(QString::number(parameters.getMaxExtensionAttempts()));
+    ui->maxExtensionAttemptsForWireText->setText(QString::number(parameters.getMaxExtensionAttemptsForWire()));
 
     DistributionType type = data->getArchitecture()->getDistributionType();
     if(type == DistributionType::Default)
@@ -321,6 +323,7 @@ void SetupSessionDialog::writeParameters()
     AlgorithmParameters parameters;
     parameters.setExpandingCoefficient(ui->expandingCoefficientText->text().toDouble());
     parameters.setMaxExtensionAttempts(ui->maxExtensionAttemptsText->text().toInt());
+    parameters.setMaxExtensionAttemptsForWire(ui->maxExtensionAttemptsForWireText->text().toInt());
 
     architecture = new Architecture(type, indexes, parameters);
 

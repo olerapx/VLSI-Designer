@@ -19,9 +19,13 @@ public:
     int getMaxExtensionAttempts() const { return maxExtensionAttempts; }
     void setMaxExtensionAttempts(int attempts);
 
+    int getMaxExtensionAttemptsForWire() const { return maxExtensionAttemptsForWire; }
+    void setMaxExtensionAttemptsForWire(int attempts);
+
     bool operator ==(const AlgorithmParameters& other) const;
 
 private:
     double expandingCoefficient;
     int maxExtensionAttempts;
+    int maxExtensionAttemptsForWire;
 };

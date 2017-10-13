@@ -15,7 +15,7 @@ class LeeRouting : public RoutingAlgorithm
     Q_OBJECT
 
 public:
-    LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
+    LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire);
 
     /**
      * @brief execute
@@ -36,7 +36,7 @@ private:
     QList<QList<CellInfo>> matrix;
 
     qint64 currentValue;
-    int extensionAttempts;
+    int extensionAttemptsForWire;
 
     bool finished;
     bool noMoreWays;

@@ -219,14 +219,6 @@
         <translation>Получение соединений, которые будут протрассированы.</translation>
     </message>
     <message>
-        <source>Pushing the wave to find all possible routes.</source>
-        <translation>Пуск волны для нахождения всех возможных путей.</translation>
-    </message>
-    <message>
-        <source>Attempting to extend the grid.</source>
-        <translation>Попытка раздвинуть ДРП.</translation>
-    </message>
-    <message>
         <source>Successful extension.</source>
         <translation>Успешное раздвижение.</translation>
     </message>
@@ -235,12 +227,20 @@
         <translation>Раздвижение не удалось.</translation>
     </message>
     <message>
-        <source>Drawing the most optimal route.</source>
-        <translation>Проведение наиболее оптимального пути.</translation>
-    </message>
-    <message>
         <source>Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.</source>
         <translation>Невозможно провести соединение от (%1; %2) к (%3; %4), хотя возможный путь был найден.</translation>
+    </message>
+    <message>
+        <source>Pushing the forward wave.</source>
+        <translation>Пуск прямой волны.</translation>
+    </message>
+    <message>
+        <source>Attempting to extend the grid. Total attempts left: %1, for wire: %2.</source>
+        <translation>Попытка раздвинуть ДРП. Всего попыток осталось: %1, для соединения: %2.</translation>
+    </message>
+    <message>
+        <source>Pushing the reverse wave.</source>
+        <translation>Пуск обратной волны.</translation>
     </message>
 </context>
 <context>

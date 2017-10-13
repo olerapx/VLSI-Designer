@@ -249,6 +249,7 @@ QJsonObject JsonSerializer::serializeAlgorithmParameters(AlgorithmParameters p)
 
     json["expanding-coefficient"] = p.getExpandingCoefficient();
     json["max-extension-attempts"] = p.getMaxExtensionAttempts();
+    json["max-extension-attempts-for-wire"] = p.getMaxExtensionAttemptsForWire();
 
     return json;
 }
@@ -516,6 +517,7 @@ AlgorithmParameters JsonSerializer::deserializeAlgorithmParameters(QJsonObject o
 
     res.setExpandingCoefficient(obj.value("expanding-coefficient").toDouble());
     res.setMaxExtensionAttempts(obj.value("max-extension-attempts").toInt());
+    res.setMaxExtensionAttemptsForWire(obj.value("max-extension-attempts-for-wire").toInt());
 
     return res;
 }

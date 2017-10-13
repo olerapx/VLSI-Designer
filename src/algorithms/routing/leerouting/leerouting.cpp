@@ -1,7 +1,7 @@
 #include "leerouting.h"
 
-LeeRouting::LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts) :
-    RoutingAlgorithm(grid, scheme, maxExtensionAttempts)
+LeeRouting::LeeRouting(Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire) :
+    RoutingAlgorithm(grid, scheme, maxExtensionAttempts, maxExtensionAttemptsForWire)
 {
     clear();
 }
@@ -66,7 +66,7 @@ void LeeRouting::clear()
     extensions.clear();
 
     currentValue = 0;
-    extensionAttempts = 0;
+    extensionAttemptsForWire = 0;
 
     finished = false;
     noMoreWays = false;
@@ -116,6 +116,10 @@ void LeeRouting::routeWire(WireData* data)
 {
     extensions.clear();
 
+    extensionAttemptsForWire = maxExtensionAttemptsForWire;
+    if(maxExtensionAttemptsForWire > maxExtensionAttempts)
+        extensionAttemptsForWire = maxExtensionAttempts;
+
     do
     {
         if(stopped) return;
@@ -127,20 +131,21 @@ void LeeRouting::routeWire(WireData* data)
 
         if(noMoreWays)
         {
-            if(extensionAttempts == maxExtensionAttempts)
+            if(extensionAttemptsForWire == 0)
                 break;
+
+            extensionAttemptsForWire --;
+            maxExtensionAttempts --;
 
             if(!tryExtend())
                 break;
-
-            extensionAttempts ++;
         }
     }
     while(!finished);
 
     if(!finished)
     {
-        if(extensionAttempts == maxExtensionAttempts)
+        if(extensionAttemptsForWire == 0)
             sendLog(tr("Cannot route wire with index %1. Max extension attempts number is reached.").arg(QString::number(data->getIndex())));
 
         sendLog(tr("Cannot route wire with index %1. Grid extension is unavailable.").arg(QString::number(data->getIndex())));
@@ -222,7 +227,7 @@ std::pair<QPoint, bool> LeeRouting::getNearbyAvailableCoord(QPoint coord)
 
 void LeeRouting::pushWave()
 {
-    sendLog(tr("Pushing the wave to find all possible routes."));
+    sendLog(tr("Pushing the forward wave."));
 
     currentValue = 0;
     matrix[startCoord.y()][startCoord.x()].value = currentValue;
@@ -290,7 +295,8 @@ bool LeeRouting::tryRoute(QPoint from, QPoint to)
 
 bool LeeRouting::tryExtend()
 {
-    sendLog(tr("Attempting to extend the grid."));
+    sendLog(tr("Attempting to extend the grid. Total attempts left: %1, for wire: %2.")
+            .arg(QString::number(maxExtensionAttempts), QString::number(extensionAttemptsForWire)));
 
     QList<QPoint> lastWavePoints;
 
@@ -328,13 +334,11 @@ bool LeeRouting::tryExtend()
 void LeeRouting::undoAllExtends()
 {
     undoExtends(extensions);
-
-    extensionAttempts -= extensions.size();
 }
 
 void LeeRouting::pushReverseWave()
 {
-    sendLog(tr("Drawing the most optimal route."));
+    sendLog(tr("Pushing the reverse wave."));
 
     QPoint currentCoord = finishCoord;
     currentValue = matrix[currentCoord.y()][currentCoord.x()].value;

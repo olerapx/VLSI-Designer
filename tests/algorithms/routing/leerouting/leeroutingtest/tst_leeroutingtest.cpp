@@ -110,7 +110,7 @@ void LeeRoutingTest::routingTest()
     s->getWires().append(Wire(0, "p1", 1, "p3", WireType::Outer, 1));
     s->getWires().append(Wire(0, "p1", 1, "p5", WireType::Outer, 2));
 
-    LeeRouting lee(g, s, 1);
+    LeeRouting lee(g, s, 1, 1);
 
     lee.execute();
 
@@ -197,7 +197,7 @@ void LeeRoutingTest::branchingTest()
     s->getWires().append(Wire(0, "p2", 3, "p1", WireType::Outer, 2));
     s->getWires().append(Wire(0, "p2", 4, "p1", WireType::Outer, 3));
 
-    LeeRouting lee(g, s, 1);
+    LeeRouting lee(g, s, 1, 1);
 
     lee.execute();
 
@@ -266,7 +266,7 @@ void LeeRoutingTest::wireSortingTest()
     s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
     s->getWires().append(Wire(0, "p2", 1, "p3", WireType::Inner, 3));
 
-    LeeRouting lee(g, s, 1);
+    LeeRouting lee(g, s, 1, 1);
 
     lee.execute();
 
@@ -331,7 +331,7 @@ void LeeRoutingTest::excludedWiresTest()
 
     s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
 
-    LeeRouting lee(g, s, 1);
+    LeeRouting lee(g, s, 1, 1);
 
     lee.execute();
 
@@ -384,7 +384,7 @@ void LeeRoutingTest::extendHorizontallyTest()
 
     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
 
-    LeeRouting lee(g, s, 1);
+    LeeRouting lee(g, s, 1, 1);
 
     lee.execute();
 
@@ -455,7 +455,7 @@ void LeeRoutingTest::extendVerticallyTest()
 
      s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 0));
 
-     LeeRouting lee(g, s, 1);
+     LeeRouting lee(g, s, 1, 1);
 
      lee.execute();
 
@@ -522,7 +522,7 @@ void LeeRoutingTest::extensionIsUnavailableTest()
 
      s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
 
-     LeeRouting lee(g, s, 1);
+     LeeRouting lee(g, s, 1, 1);
 
      lee.execute();
 
@@ -557,7 +557,7 @@ void LeeRoutingTest::maxExtensionAttemptsReachedTest()
 
      s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
 
-     LeeRouting lee(g, s, 2);
+     LeeRouting lee(g, s, 2, 2);
 
      lee.execute();
 

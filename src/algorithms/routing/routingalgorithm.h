@@ -27,7 +27,7 @@ class RoutingAlgorithm : public Threadable
     Q_OBJECT
 
 public:
-    RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
+    RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire);
     virtual ~RoutingAlgorithm() {}
 
     /**
@@ -38,7 +38,7 @@ public:
      * @param algorithm
      * @param maxExtensionAttempts
      */
-    void setParameters(Grid* grid, Scheme* scheme, int maxExtensionAttempts);
+    void setParameters(Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire);
 
     /**
      * @brief execute
@@ -85,7 +85,9 @@ protected:
 
     Grid* grid;
     Scheme* scheme;
-    int maxExtensionAttempts;    
+
+    int maxExtensionAttempts;
+    int maxExtensionAttemptsForWire;
 
     bool canEnter(QPoint coord, Direction from);
     bool checkCoordIsInGrid(QPoint coord);

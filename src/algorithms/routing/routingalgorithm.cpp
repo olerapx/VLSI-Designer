@@ -15,12 +15,12 @@ Direction operator !(const Direction& other)
     }
 }
 
-RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts)
+RoutingAlgorithm::RoutingAlgorithm(Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire)
 {
-    setParameters(grid, scheme, maxExtensionAttempts);
+    setParameters(grid, scheme, maxExtensionAttempts, maxExtensionAttemptsForWire);
 }
 
-void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, int maxExtensionAttempts)
+void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire)
 {
     this->grid = grid;
     this->scheme = scheme;
@@ -30,6 +30,7 @@ void RoutingAlgorithm::setParameters(Grid* grid, Scheme* scheme, int maxExtensio
                                        .arg(QString::number(maxExtensionAttempts)));
 
     this->maxExtensionAttempts = maxExtensionAttempts;
+    this->maxExtensionAttemptsForWire = maxExtensionAttemptsForWire;
 }
 
 void RoutingAlgorithm::onStart()

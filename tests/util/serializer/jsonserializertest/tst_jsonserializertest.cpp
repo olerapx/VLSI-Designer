@@ -254,7 +254,8 @@ void JsonSerializerTest::serializeArchitectureTest()
 
     AlgorithmParameters p;
     p.setExpandingCoefficient(1.5);
-    p.setMaxExtensionAttempts(10);
+    p.setMaxExtensionAttempts(100);
+    p.setMaxExtensionAttemptsForWire(10);
 
     Architecture* a = new Architecture(DistributionType::Default, i, p);
     a->getModel().append(1);
@@ -280,7 +281,8 @@ void JsonSerializerTest::serializeArchitectureTest()
 
     obj1 = obj.value("algorithm-parameters").toObject();
     QVERIFY(obj1.value("expanding-coefficient").toDouble() == 1.5);
-    QVERIFY(obj1.value("max-extension-attempts").toInt() == 10);
+    QVERIFY(obj1.value("max-extension-attempts").toInt() == 100);
+    QVERIFY(obj1.value("max-extension-attempts-for-wire").toInt() == 10);
 
     delete a;
 }
@@ -464,7 +466,8 @@ void JsonSerializerTest::deserializeArchitectureTest()
     QVERIFY(a->getAlgorithmIndexes().getRoutingAlgorithmIndex() == 4);
 
     QVERIFY(a->getAlgorithmParameters().getExpandingCoefficient() == 2.5);
-    QVERIFY(a->getAlgorithmParameters().getMaxExtensionAttempts() == 10);
+    QVERIFY(a->getAlgorithmParameters().getMaxExtensionAttempts() == 100);
+    QVERIFY(a->getAlgorithmParameters().getMaxExtensionAttemptsForWire() == 10);
 
     delete a;
 }

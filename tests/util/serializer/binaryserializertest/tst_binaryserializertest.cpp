@@ -189,7 +189,8 @@ void BinarySerializerTest::architectureTest()
 
     AlgorithmParameters p;
     p.setExpandingCoefficient(1.5);
-    p.setMaxExtensionAttempts(10);
+    p.setMaxExtensionAttempts(100);
+    p.setMaxExtensionAttemptsForWire(10);
 
     Architecture* a = new Architecture(DistributionType::Default, i, p);
     a->getModel().append(1);

@@ -8,7 +8,7 @@ public:
     RoutingStrategy();
 
     QList<QString>& getAlgorithms() { return algorithms; }
-    RoutingAlgorithm* createAlgorithm(int index, Grid* grid, Scheme* scheme, int maxExtensionAttempts);
+    RoutingAlgorithm* createAlgorithm(int index, Grid* grid, Scheme* scheme, int maxExtensionAttempts, int maxExtensionAttemptsForWire);
 
 private:
     QList<QString> algorithms;

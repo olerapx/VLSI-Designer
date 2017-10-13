@@ -219,14 +219,6 @@
         <translation>Obtaining wires to be traced.</translation>
     </message>
     <message>
-        <source>Pushing the wave to find all possible routes.</source>
-        <translation>Pushing the wave to find all possible routes.</translation>
-    </message>
-    <message>
-        <source>Attempting to extend the grid.</source>
-        <translation>Attempting to extend the grid.</translation>
-    </message>
-    <message>
         <source>Successful extension.</source>
         <translation>Successful extension.</translation>
     </message>
@@ -235,12 +227,20 @@
         <translation>Extension failed.</translation>
     </message>
     <message>
-        <source>Drawing the most optimal route.</source>
-        <translation>Drawing the most optimal route.</translation>
-    </message>
-    <message>
         <source>Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.</source>
         <translation>Cannot draw a wire from (%1; %2) to (%3; %4) but a possible way was found.</translation>
+    </message>
+    <message>
+        <source>Pushing the forward wave.</source>
+        <translation>Pushing the forward wave.</translation>
+    </message>
+    <message>
+        <source>Attempting to extend the grid. Total attempts left: %1, for wire: %2.</source>
+        <translation>Attempting to extend the grid. Total attempts left: %1, for wire: %2.</translation>
+    </message>
+    <message>
+        <source>Pushing the reverse wave.</source>
+        <translation>Pushing the reverse wave.</translation>
     </message>
 </context>
 <context>

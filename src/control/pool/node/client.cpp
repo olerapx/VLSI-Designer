@@ -170,7 +170,8 @@ void Client::onPrimaryPlacementFinished(PlacementResult* res)
 void Client::onSecondaryPlacementFinished(PlacementResult* res)
 {
     routing = RoutingStrategy().createAlgorithm(architecture->getAlgorithmIndexes().getRoutingAlgorithmIndex(),
-                                                res->getGrid(), scheme, architecture->getAlgorithmParameters().getMaxExtensionAttempts());
+                                                res->getGrid(), scheme, architecture->getAlgorithmParameters().getMaxExtensionAttempts(),
+                                                architecture->getAlgorithmParameters().getMaxExtensionAttemptsForWire());
 
     delete res;
     moveAlgorithmToThread(routing);
@@ -248,7 +249,8 @@ void Client::startComposition(QList<Grid*> grids, Scheme* scheme, int level, Sta
 void Client::onCompositionFinished(Grid* grid)
 {
     routing = RoutingStrategy().createAlgorithm(architecture->getAlgorithmIndexes().getRoutingAlgorithmIndex(),
-                                                grid, scheme, architecture->getAlgorithmParameters().getMaxExtensionAttempts());
+                                                grid, scheme, architecture->getAlgorithmParameters().getMaxExtensionAttempts(),
+                                                architecture->getAlgorithmParameters().getMaxExtensionAttemptsForWire());
 
     moveAlgorithmToThread(routing);
 

@@ -10,6 +10,7 @@
 	},
 	"algorithm-parameters": {
 		"expanding-coefficient": 2.5,
-		"max-extension-attempts": 10
+		"max-extension-attempts": 100,
+		"max-extension-attempts-for-wire": 10
 	}
 }}

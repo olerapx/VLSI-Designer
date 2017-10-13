@@ -23,10 +23,20 @@ void AlgorithmParameters::setMaxExtensionAttempts(int attempts)
     this->maxExtensionAttempts = attempts;
 }
 
+void AlgorithmParameters::setMaxExtensionAttemptsForWire(int attempts)
+{
+    if(attempts < 0)
+        throw IllegalArgumentException(QObject::tr("Max extension attempts cannot be lesser than 0, passed: %1.")
+                                       .arg(QString::number(attempts)));
+
+    this->maxExtensionAttemptsForWire = attempts;
+}
+
 bool AlgorithmParameters::operator ==(const AlgorithmParameters& other) const
 {
     if(expandingCoefficient == other.expandingCoefficient &&
-            maxExtensionAttempts == other.maxExtensionAttempts)
+            maxExtensionAttempts == other.maxExtensionAttempts &&
+            maxExtensionAttemptsForWire == other.maxExtensionAttemptsForWire)
         return true;
 
     return false;
