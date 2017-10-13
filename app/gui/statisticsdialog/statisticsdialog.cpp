@@ -41,7 +41,7 @@ void StatisticsDialog::showCommon()
                                 .arg(tr("Common data"),
                                      tr("Used model"), getModel(),
                                      tr("Total time"), QString::number(getTotalTime()), QString::number(getTotalTimeInSeconds()),
-                                     tr("Routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(0)))
+                                     tr("Routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(0), 'g', 3))
                                 .arg(tr("Chip width"), QString::number(grid->getWidth()),
                                      tr("Chip height"), QString::number(grid->getHeight()),
                                      tr("Chip square"), QString::number(grid->getWidth() * grid->getHeight())));
@@ -161,7 +161,7 @@ void StatisticsDialog::showHostData(int level, int index)
                               .arg(tr("Total"), QString::number(entry.getTotalOuterTime()),
                                  tr("Internal wires number"), QString::number(entry.getInnerWiresNumber()),
                                  tr("Wires number"), QString::number(entry.getWiresNumber()),
-                                 tr("External wires percent"), QString::number(entry.getOuterWiresPercent()))
+                                 tr("External wires percent"), QString::number(entry.getOuterWiresPercent(), 'g', 3))
                               .arg(tr("Internal routed wires percent"), QString::number(entry.getInnerRoutedWiresPercent(), 'g', 3),
                                 tr("Routed wires percent"), QString::number(entry.getRoutedWiresPercent(), 'g', 3)));
 
