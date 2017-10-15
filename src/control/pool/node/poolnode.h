@@ -6,6 +6,7 @@
 #include "datamodels/version/version.h"
 #include "util/serializer/jsonserializer.h"
 #include "control/distribution/defaultdistributor.h"
+#include "control/distribution/greedydistributor.h"
 
 /**
  * @brief The PoolNode class

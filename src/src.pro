@@ -37,6 +37,7 @@ SOURCES += \
     algorithms/routing/routingstrategy.cpp \
     control/distribution/distributor.cpp \
     control/distribution/defaultdistributor.cpp \
+    control/distribution/greedydistributor.cpp \
     control/filesystem/filesystem.cpp \
     control/pool/poolentity.cpp \
     control/pool/poolentityinfo.cpp \

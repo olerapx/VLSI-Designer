@@ -42,7 +42,7 @@ void PoolNode::connectDistributor()
         return;
 
     connect(distributor, &Distributor::sendSchemePart, this, &PoolNode::onSchemePart);
-    connect(distributor, &Distributor::sendNeedNodes, this, &PoolNode::onNeedNodes);
+    connect(distributor, &Distributor::sendNeedNodes, this, &PoolNode::onNeedNodes, Qt::QueuedConnection);
     connect(this, &PoolNode::sendIncomingGrid, distributor, &Distributor::onIncomingGrid, Qt::QueuedConnection);
 }
 
@@ -257,6 +257,8 @@ void PoolNode::onSendArchitecture(QUuid uuid, Architecture* architecture)
 
     if(architecture->getDistributionType() == DistributionType::Default)
         distributor = new DefaultDistributor(client, fileSystem);
+    else
+        distributor = new GreedyDistributor(client, fileSystem);
 
     connectDistributor();
 
@@ -298,6 +300,9 @@ void PoolNode::onAssign(QUuid uuid)
 
 void PoolNode::onNeedNodes(int level, int number)
 {
+    if(number == 0)
+        distributor->onReceivedNodes(level);
+
     sendLog(tr("Requesting %1 node(s) from manager.").arg(QString::number(number)));
     neededNodes.insert(level, number);
 

@@ -1,32 +1,39 @@
-#include "defaultdistributor.h"
+#include "greedydistributor.h"
 
-DefaultDistributor::DefaultDistributor(Client& client, FileSystem& system) :
-    Distributor(client, system)
+GreedyDistributor::GreedyDistributor(Client& client, FileSystem& system) :
+    Distributor(client, system),
+    initialLevel(0)
 {
 
 }
 
-void DefaultDistributor::start(Scheme* scheme, int initialLevel)
+void GreedyDistributor::start(Scheme* scheme, int initialLevel)
 {
-    Statistics* statistics = new Statistics(initialLevel);
+    this->initialLevel = initialLevel;
+    proceed(scheme, initialLevel);
+}
+
+void GreedyDistributor::proceed(Scheme* scheme, int currentLevel)
+{
+    Statistics* statistics = new Statistics(currentLevel);
     statistics->getData().append(QList<StatisticsEntry>());
     statistics->getData()[0].append(StatisticsEntry());
     statistics->getData()[0][0].setHostName(QHostInfo::localHostName());
 
-    if(isLastLevel(initialLevel))
+    if(isLastLevel(currentLevel))
     {
-        handleLastLevel(scheme, initialLevel, statistics);
+        handleLastLevel(scheme, currentLevel, statistics);
         return;
     }
-    distributeToNextLevel(scheme, initialLevel, statistics);
+    distributeToNextLevel(scheme, currentLevel, statistics);
 }
 
-void DefaultDistributor::stop()
+void GreedyDistributor::stop()
 {
     client.stop();
 }
 
-void DefaultDistributor::handleLastLevel(Scheme* scheme, int initialLevel, Statistics* statistics)
+void GreedyDistributor::handleLastLevel(Scheme* scheme, int currentLevel, Statistics* statistics)
 {
     QObject* obj = new QObject(this);
 
@@ -36,26 +43,30 @@ void DefaultDistributor::handleLastLevel(Scheme* scheme, int initialLevel, Stati
         obj->deleteLater();
     });
 
-    QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, scheme, obj, initialLevel, statistics] (Grid* grid)
+    QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, scheme, obj, currentLevel, statistics] (Grid* grid)
     {
-        writeGridImage(grid, scheme, initialLevel);
-        writeGrid(grid, initialLevel);
-        writeStatistics(statistics, initialLevel);
+        writeGridImage(grid, scheme, currentLevel);
+        writeGrid(grid, currentLevel);
+        writeStatistics(statistics, currentLevel);
 
         delete scheme;
 
-        sendResult(grid, initialLevel, statistics);
+        if(currentLevel == initialLevel)
+            sendResult(grid, currentLevel, statistics);
+        else
+            onIncomingGrid(grid, currentLevel, statistics);
+
         obj->deleteLater();
-    });
+    }, Qt::QueuedConnection);
 
     client.startPlacingAndRouting(scheme, statistics->getData()[0][0]);
 }
 
-void DefaultDistributor::distributeToNextLevel(Scheme* scheme, int initialLevel, Statistics* statistics)
+void GreedyDistributor::distributeToNextLevel(Scheme* scheme, int currentLevel, Statistics* statistics)
 {
-    writeScheme(scheme, initialLevel);
+    writeScheme(scheme, currentLevel);
 
-    int clientsNumber = getClientsNumberOnNextLevel(initialLevel);
+    int clientsNumber = getClientsNumberOnNextLevel(currentLevel);
 
     QObject* obj = new QObject(this);
 
@@ -65,20 +76,20 @@ void DefaultDistributor::distributeToNextLevel(Scheme* scheme, int initialLevel,
         obj->deleteLater();
     });
 
-    QObject::connect(&client, &Client::sendDecomposedSchemes, obj, [this, obj, initialLevel, scheme, clientsNumber, statistics] (QList<Scheme*> schemes)
+    QObject::connect(&client, &Client::sendDecomposedSchemes, obj, [this, obj, currentLevel, scheme, clientsNumber, statistics] (QList<Scheme*> schemes)
     {
         for(Scheme* s: schemes)
         {
-            writeSchemePart(s, initialLevel + 1);
+            writeSchemePart(s, currentLevel + 1);
             delete s;
         }
 
         delete scheme;
 
-        writeStatistics(statistics, initialLevel);
+        writeStatistics(statistics, currentLevel);
         delete statistics;
 
-        sendNeedNodes(initialLevel + 1, clientsNumber);
+        sendNeedNodes(currentLevel + 1, clientsNumber - 1);
 
         obj->deleteLater();
     });
@@ -86,7 +97,7 @@ void DefaultDistributor::distributeToNextLevel(Scheme* scheme, int initialLevel,
     client.startDecomposition(scheme, clientsNumber, statistics->getData()[0][0]);
 }
 
-void DefaultDistributor::onIncomingGrid(Grid* grid, int level, Statistics* statistics)
+void GreedyDistributor::onIncomingGrid(Grid* grid, int level, Statistics* statistics)
 {
     writeGridPart(grid, level);
     delete grid;
@@ -121,23 +132,29 @@ void DefaultDistributor::onIncomingGrid(Grid* grid, int level, Statistics* stati
     {
         writeGrid(grid, level);
         writeGridImage(grid, scheme, level);
-        sendResult(grid, level, commonStatistics);
 
         delete scheme;
 
         for(Grid* g: grids)
             delete g;
 
+        if(level == initialLevel)
+            sendResult(grid, level, commonStatistics);
+        else
+            onIncomingGrid(grid, level, commonStatistics);
+
         obj->deleteLater();
-    });
+    }, Qt::QueuedConnection);
 
     client.startComposition(grids, scheme, level, commonStatistics->getData()[0][0]);
 }
 
-void DefaultDistributor::onReceivedNodes(int level)
+void GreedyDistributor::onReceivedNodes(int level)
 {
     QList<Scheme*> schemes = readSchemeParts(level);
 
-    for(Scheme* s: schemes)
-        sendSchemePart(s, level);
+    for(int i=1; i<schemes.size(); i++)
+        sendSchemePart(schemes[i], level);
+
+    proceed(schemes[0], level);
 }
