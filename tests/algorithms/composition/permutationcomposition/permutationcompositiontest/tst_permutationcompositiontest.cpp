@@ -176,30 +176,30 @@ void PermutationCompositionTest::wiresDataCompositionTest()
 
     WireData data = grid->getWiresData()[0];
     QVERIFY(data.getWirePosition() == WirePosition::Internal);
-    QVERIFY(data.getSrcCoord() == QPoint(0, 0));
-    QVERIFY(data.getDestCoord() == QPoint(2, 3));
+    QVERIFY(data.getSrcCoord() == QPoint(4, 0));
+    QVERIFY(data.getDestCoord() == QPoint(2, 0));
 
     data = grid->getWiresData()[1];
     QVERIFY(data.getWirePosition() == WirePosition::External);
-    QVERIFY(data.getSrcCoord() == QPoint(2, 0));
+    QVERIFY(data.getSrcCoord() == QPoint(6, 0));
 
     data = grid->getWiresData()[2];
     QVERIFY(data.getWirePosition() == WirePosition::External);
-    QVERIFY(data.getSrcCoord() == QPoint(1, 4));
+    QVERIFY(data.getSrcCoord() == QPoint(1, 1));
 
     data = grid->getWiresData()[3];
     QVERIFY(data.getWirePosition() == WirePosition::Internal);
-    QVERIFY(data.getSrcCoord() == QPoint(3, 2));
-    QVERIFY(data.getDestCoord() == QPoint(1, 2));
+    QVERIFY(data.getSrcCoord() == QPoint(7, 2));
+    QVERIFY(data.getDestCoord() == QPoint(5, 2));
 
     data = grid->getWiresData()[4];
     QVERIFY(data.getWirePosition() == WirePosition::Internal);
-    QVERIFY(data.getSrcCoord() == QPoint(2, 4));
-    QVERIFY(data.getDestCoord() == QPoint(1, 5));
+    QVERIFY(data.getSrcCoord() == QPoint(2, 1));
+    QVERIFY(data.getDestCoord() == QPoint(1, 2));
 
     data = grid->getWiresData()[5];
     QVERIFY(data.getWirePosition() == WirePosition::External);
-    QVERIFY(data.getSrcCoord() == QPoint(1, 7));
+    QVERIFY(data.getSrcCoord() == QPoint(3, 4));
 
     for(Grid* g: grids)
         delete g;
