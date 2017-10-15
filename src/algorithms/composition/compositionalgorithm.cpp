@@ -118,3 +118,33 @@ QList<CompositionAlgorithm::ExternalWireData> CompositionAlgorithm::fillExternal
 
     return res;
 }
+
+void CompositionAlgorithm::rotateGridParts()
+{
+    if(grids.size() < 2)
+        return;
+
+    sendLog(tr("Rotating grid parts if needed."));
+
+    for(int i=0; i<grids.size() - 1; i++)
+    {
+        for(int j=i+1; j<grids.size(); j++)
+        {
+            double firstRatio = grids[i]->getHeight() / grids[i]->getWidth();
+            double secondRatio = grids[j]->getHeight() / grids[j]->getWidth();
+
+            bool ratiosAgreed = false;
+            if((firstRatio < 1 && secondRatio < 1) || (firstRatio >= 1 && secondRatio >= 1))
+                ratiosAgreed = true;
+
+            if(ratiosAgreed)
+                continue;
+
+            sendLog(tr("Rotating grid %1 90 degrees.").arg(QString::number(j+1)));
+
+            Grid* grid = GridUtils::rotate90(grids[j]);
+            *grids[j] = *grid;
+            delete grid;
+        }
+    }
+}

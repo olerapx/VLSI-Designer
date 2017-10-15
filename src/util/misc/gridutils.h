@@ -13,4 +13,9 @@ public:
 
     static void insertEmptyArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
     static void removeArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int rowsNumber);
+
+    static Grid* rotate90(Grid* grid);
+
+private:
+    static CellType rotateCellType(CellType type);
 };

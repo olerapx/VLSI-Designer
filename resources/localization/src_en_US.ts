@@ -38,6 +38,14 @@
         <source>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</source>
         <translation>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</translation>
     </message>
+    <message>
+        <source>Rotating grid parts if needed.</source>
+        <translation>Rotating grid parts if needed.</translation>
+    </message>
+    <message>
+        <source>Rotating grid %1 90 degrees.</source>
+        <translation>Rotating grid %1 90 degrees.</translation>
+    </message>
 </context>
 <context>
     <name>DecompositionAlgorithm</name>

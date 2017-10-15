@@ -5,6 +5,7 @@
 #include "threadable.h"
 #include "datamodels/grid/grid.h"
 #include "util/misc/schemeutils.h"
+#include "util/misc/gridutils.h"
 
 /**
  * @brief The CompositionAlgorithm class
@@ -55,6 +56,15 @@ public slots:
     void onStart();
 
 protected:
+    /**
+     * @brief fillPartsWireData
+     * Retrieves all external wires' data from all grid parts and combines them, filling the partsWireData list.
+     * Should be called if composition algorithm uses the wire coordinates to calculate fitness value.
+     */
+    void fillComposedWireData();
+
+    void rotateGridParts();
+
     struct GridPartWireData
     {
         qint64 index;
@@ -83,13 +93,6 @@ protected:
 
     QList<ExternalWireData> composedExternalWireData;
     QList<GridPartWireData> composedInternalWireData;
-
-    /**
-     * @brief fillPartsWireData
-     * Retrieves all external wires' data from all grid parts and combines them, filling the partsWireData list.
-     * Should be called if composition algorithm uses the wire coordinates to calculate fitness value.
-     */
-    void fillComposedWireData();
 
 private:
     QList<ExternalWireData> fillExternalWiresData();

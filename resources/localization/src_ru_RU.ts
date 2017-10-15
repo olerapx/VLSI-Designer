@@ -38,6 +38,14 @@
         <source>Cannot locate a cell pin with index %1 and pin id %2 at grid %3.</source>
         <translation>Невозможно найти ячейку с контактом с индексом %1 и id %2 в ДРП %3.</translation>
     </message>
+    <message>
+        <source>Rotating grid parts if needed.</source>
+        <translation>Поворот частей ДРП при необходимости.</translation>
+    </message>
+    <message>
+        <source>Rotating grid %1 90 degrees.</source>
+        <translation>Поворот ДРП %1 на 90 градусов.</translation>
+    </message>
 </context>
 <context>
     <name>DecompositionAlgorithm</name>

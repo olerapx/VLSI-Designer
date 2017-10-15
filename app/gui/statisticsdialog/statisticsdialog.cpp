@@ -33,14 +33,14 @@ void StatisticsDialog::showCommon()
     ui->textBrowser->append(QString("<hr><br><h2 style=\"color: #191970; text-align: center; text-transform: uppercase;\">%1</h2><br>"
                                     "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
                                     "<tr><td>%2</td> <td>%3</td></tr>"
-                                    "<tr><td>%4</td> <td>%5 ms (%6 s)</td></tr>"
+                                    "<tr><td>%4</td> <td>%5 (%6 ms)</td></tr>"
                                     "<tr><td>%7</td> <td>%8%</td></tr>"
                                     "<tr><td>%9</td> <td>%10</td></tr>"
                                     "<tr><td>%11</td> <td>%12</td></tr>"
                                     "<tr><td>%13</td> <td>%14</td></tr>")
                                 .arg(tr("Common data"),
                                      tr("Used model"), getModel(),
-                                     tr("Total time"), QString::number(getTotalTime()), QString::number(getTotalTimeInSeconds()),
+                                     tr("Total time"), getTotalTimeString(), QString::number(getTotalTime()),
                                      tr("Routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(0), 'g', 3))
                                 .arg(tr("Chip width"), QString::number(grid->getWidth()),
                                      tr("Chip height"), QString::number(grid->getHeight()),
@@ -60,11 +60,13 @@ int StatisticsDialog::getTotalTime()
     return res;
 }
 
-double StatisticsDialog::getTotalTimeInSeconds()
+QString StatisticsDialog::getTotalTimeString()
 {
-    double res = (double) getTotalTime();
+    QTime time(0, 0, 0, 0);
+    time = time.addMSecs(getTotalTime());
 
-    return res / 1000.0;
+    QString timeString = time.toString("hh:mm:ss.zzz");
+    return timeString;
 }
 
 QString StatisticsDialog::getModel()

@@ -119,3 +119,66 @@ void GridUtils::removeArea(Grid* grid, QPoint topLeftCoord, int colsNumber, int 
         }
     }
 }
+
+Grid* GridUtils::rotate90(Grid* grid)
+{
+    Grid* res = new Grid();
+
+    for(int i=0; i<grid->getWidth(); i++)
+    {
+        QList<Cell> row;
+
+        for(int j=grid->getHeight() - 1; j>=0; j--)
+        {
+            Cell cell = grid->getCells()[j][i];
+            cell.setType(rotateCellType(cell.getType()), cell.getIndex(), cell.getPinId());
+
+            row.append(cell);
+        }
+        res->getCells().append(row);
+    }
+
+    res->getRoutedWires().append(grid->getRoutedWires());
+    for(WireData& data: grid->getWiresData())
+    {
+        WireData newData = data;
+
+        newData.setSrcCoord(QPoint(grid->getHeight() - 1 - data.getSrcCoord().y(), data.getSrcCoord().x()));
+
+        if(data.getWirePosition() != WirePosition::External)
+            newData.setDestCoord(QPoint(grid->getHeight() - 1 - data.getDestCoord().y(), data.getDestCoord().x()));
+
+        res->getWiresData().append(newData);
+    }
+
+    return res;
+}
+
+CellType GridUtils::rotateCellType(CellType type)
+{
+    switch(type)
+    {
+    case CellType::UD:
+        return CellType::LR;
+    case CellType::LR:
+        return CellType::UD;
+    case CellType::UL:
+        return CellType::UR;
+    case CellType::UR:
+        return CellType::DR;
+    case CellType::DL:
+        return CellType::UL;
+    case CellType::DR:
+        return CellType::DL;
+    case CellType::UDL:
+        return CellType::LRU;
+    case CellType::UDR:
+        return CellType::LRD;
+    case CellType::LRU:
+        return CellType::UDR;
+    case CellType::LRD:
+        return CellType::UDL;
+    default:
+        return type;
+    }
+}

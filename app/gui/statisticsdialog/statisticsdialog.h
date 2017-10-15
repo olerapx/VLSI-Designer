@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDialog>
+#include <QTime>
 
 #include "datamodels/statistics/statistics.h"
 #include "datamodels/grid/grid.h"
@@ -29,7 +30,7 @@ private:
     void showHostData(int level, int index);
 
     int getTotalTime();
-    double getTotalTimeInSeconds();
+    QString getTotalTimeString();
     QString getModel();
 
     Ui::StatisticsDialog *ui;

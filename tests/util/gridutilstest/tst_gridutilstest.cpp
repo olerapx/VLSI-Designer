@@ -15,6 +15,7 @@ private slots:
     void pasteTest();
     void insertEmptyColumnsTest();
     void removeColumnsTest();
+    void rotate90Test();
 };
 
 void GridUtilsTest::cutTest()
@@ -142,6 +143,67 @@ void GridUtilsTest::removeColumnsTest()
     QVERIFY(g->getCells()[2][2] == Cell(CellType::LRU));
 
     delete g;
+}
+
+void GridUtilsTest::rotate90Test()
+{
+    Grid* g = new Grid();
+
+    QList<QList<Cell>> cells =
+    {
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Pin, 0, "p1"), Cell(CellType::Empty),
+          Cell(CellType::UR), Cell(CellType::UL), Cell(CellType::DL), Cell(CellType::DR) },
+
+        { Cell(CellType::Empty), Cell(CellType::Element, 0), Cell(CellType::Element, 0), Cell(CellType::Empty),
+          Cell(CellType::UDLR), Cell(CellType::UDLRI), Cell(CellType::UDL), Cell(CellType::LRU) },
+
+        { Cell(CellType::Pin, 0, "p2"), Cell(CellType::Element, 0), Cell(CellType::Element, 0), Cell(CellType::Empty),
+          Cell(CellType::UDR), Cell(CellType::LRD), Cell(CellType::UD), Cell(CellType::LR) }
+    };
+
+    QList<RoutedWireIndex> routedWires = { 0, 10, 12 };
+    QList<WireData> wiresData = { WireData(0, QPoint(5, 2), QPoint(2, 1), WirePosition::Internal),
+                                  WireData(0, QPoint(6, 1), QPoint(0, 0), WirePosition::External) };
+
+    g->getCells().append(cells);
+    g->getRoutedWires().append(routedWires);
+    g->getWiresData().append(wiresData);
+
+    Grid* res = GridUtils::rotate90(g);
+
+    QVERIFY(res->getHeight() == 8);
+    QVERIFY(res->getWidth() == 3);
+
+    QList<QList<Cell>> newCells =
+    {
+        { Cell(CellType::Pin, 0, "p2"), Cell(CellType::Empty), Cell(CellType::Empty) },
+        { Cell(CellType::Element, 0), Cell(CellType::Element, 0), Cell(CellType::Empty) },
+        { Cell(CellType::Element, 0), Cell(CellType::Element, 0), Cell(CellType::Pin, 0, "p1") },
+        { Cell(CellType::Empty), Cell(CellType::Empty), Cell(CellType::Empty) },
+        { Cell(CellType::LRD), Cell(CellType::UDLR), Cell(CellType::DR) },
+        { Cell(CellType::UDL), Cell(CellType::UDLRI), Cell(CellType::UR) },
+        { Cell(CellType::LR), Cell(CellType::LRU), Cell(CellType::UL) },
+        { Cell(CellType::UD), Cell(CellType::UDR), Cell(CellType::DL) }
+    };
+
+    QVERIFY(res->getCells()== newCells);
+
+    QVERIFY(res->getRoutedWires() == routedWires);
+
+    QVERIFY(res->getWiresData()[0] == WireData(0, QPoint(0, 5), QPoint(1, 2), WirePosition::Internal));
+    QVERIFY(res->getWiresData()[1] == WireData(0, QPoint(1, 6), QPoint(0, 0), WirePosition::External));
+
+    for(int i=0; i<3; i++)
+    {
+        Grid* newRes = GridUtils::rotate90(res);
+        delete res;
+        res = newRes;
+    }
+
+    QVERIFY(*res == *g);
+
+    delete g;
+    delete res;
 }
 
 QTEST_MAIN(GridUtilsTest)

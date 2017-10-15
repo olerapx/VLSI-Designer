@@ -19,6 +19,7 @@ Grid* PermutationComposition::execute()
         if(grids.empty())
             return new Grid();
 
+        rotateGridParts();
         fillOffsets();
         fillPositions();
         fillComposedWireData();
@@ -117,9 +118,6 @@ void PermutationComposition::getGridWidth()
 
     if(gridWidth % maxSize.width() != 0)
         gridWidth = round((double)gridWidth / maxSize.width()) * maxSize.width();
-
-   // gridWidth = floor(sqrt(grids.size()));
-  //  gridWidth *= maxSize.width();
 }
 
 void PermutationComposition::centerLastRow()
