@@ -186,6 +186,9 @@ void PoolManager::stop()
 
     for(PoolEntityInfo& info: knownEntities)
     {
+        if(info.getStatus() == EntityStatus::NotResponding || info.getStatus() == EntityStatus::Unconnected)
+            continue;
+
         sendUntrackedRequest(info.getAddress(), info.getTcpPort(), CommandType::Stop);
 
         info.setStatus(EntityStatus::Ready);
