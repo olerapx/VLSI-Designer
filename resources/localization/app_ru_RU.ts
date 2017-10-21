@@ -221,52 +221,60 @@
         <translation>VLSI Designer</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="55"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="44"/>
         <source>Add nodes</source>
         <translation>Добавить узлы</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="82"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="47"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="70"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="106"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="132"/>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="67"/>
         <source>Setup session</source>
         <translation>Настроить сессию</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="112"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="103"/>
         <source>Start</source>
         <translation>Старт</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="142"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="129"/>
         <source>Stop</source>
         <translation>Стоп</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="225"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="219"/>
         <source>Manager log</source>
         <translation>Лог менеджера</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="257"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="251"/>
         <source>Node log</source>
         <translation>Лог узла</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="294"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="288"/>
         <source>Too&amp;ls</source>
         <translation>&amp;Инструменты</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="300"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="294"/>
         <source>Setti&amp;ngs</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="309"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="303"/>
         <source>&amp;Generator</source>
         <translation>&amp;Генератор</translation>
     </message>
     <message>
-        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="314"/>
+        <location filename="../../app/gui/mainwindow/mainwindow.ui" line="308"/>
         <source>&amp;Network configuration</source>
         <translation>&amp;Конфигурация сети</translation>
     </message>
@@ -690,6 +698,16 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.ui" line="33"/>
+        <source>Show grid</source>
+        <translation>Показать ДРП</translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.ui" line="40"/>
+        <source>Open session directory</source>
+        <translation>Открыть каталог сессии</translation>
     </message>
     <message>
         <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="89"/>

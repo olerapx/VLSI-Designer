@@ -2,6 +2,7 @@
 
 #include <QDialog>
 #include <QTime>
+#include <QDesktopServices>
 
 #include "datamodels/statistics/statistics.h"
 #include "datamodels/grid/grid.h"
@@ -19,6 +20,11 @@ class StatisticsDialog : public QDialog
 public:
     StatisticsDialog(Statistics* statistics, Grid* grid, FileSystem& system, QWidget* parent = 0);
     ~StatisticsDialog();
+
+private slots:
+    void on_openGridImageButton_clicked();
+
+    void on_openSessionDirectoryButton_clicked();
 
 private:
     void display();

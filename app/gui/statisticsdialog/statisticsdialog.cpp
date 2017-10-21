@@ -168,3 +168,15 @@ void StatisticsDialog::showHostData(int level, int index)
                                 tr("Routed wires percent"), QString::number(entry.getRoutedWiresPercent(), 'g', 3)));
 
 }
+
+void StatisticsDialog::on_openGridImageButton_clicked()
+{
+    QString imagePath = fileSystem.getLevelPath(0) + "/grid.png";
+    QDesktopServices::openUrl(QUrl::fromLocalFile(imagePath));
+}
+
+void StatisticsDialog::on_openSessionDirectoryButton_clicked()
+{
+    QString sessionPath = fileSystem.getSessionPath();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(sessionPath));
+}
