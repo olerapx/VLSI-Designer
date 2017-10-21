@@ -121,18 +121,15 @@ QImage GridRenderer::execute()
 
         sendLog(tr("Starting."));
 
-        int totalSize = grid->getHeight() * grid->getWidth();
-        int i = 0;
-
         for(QList<Cell>& list: grid->getCells())
         {
+            sendLog(tr("Rendering grid row %1 of %2.").arg(QString::number(currentY + 1), QString::number(grid->getHeight())));
+
             for(Cell cell: list)
             {
                 if(stopped)
                     throw ThreadStoppedException(tr("Renderer is stopped."));
 
-                i++;
-                sendLog(tr("Rendering cell %1 of %2.").arg(i, totalSize));
                 renderCell(res, cell);
                 currentX ++;
             }

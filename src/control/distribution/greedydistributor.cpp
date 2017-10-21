@@ -43,20 +43,36 @@ void GreedyDistributor::handleLastLevel(Scheme* scheme, int currentLevel, Statis
         obj->deleteLater();
     });
 
+
     QObject::connect(&client, &Client::sendRoutedGrid, obj, [this, scheme, obj, currentLevel, statistics] (Grid* grid)
     {
-        writeGridImage(grid, scheme, currentLevel);
-        writeGrid(grid, currentLevel);
-        writeStatistics(statistics, currentLevel);
-
-        delete scheme;
-
-        if(currentLevel == initialLevel)
-            sendResult(grid, currentLevel, statistics);
-        else
-            onIncomingGrid(grid, currentLevel, statistics);
-
         obj->deleteLater();
+        QObject* obj1 = new QObject(this);
+
+
+        QObject::connect(&client, &Client::sendStop, obj1, [this, scheme, obj1] ()
+        {
+            delete scheme;
+            obj1->deleteLater();
+        });
+
+        QObject::connect(&client, &Client::sendGridImage, obj1, [this, grid, scheme, obj1, statistics, currentLevel] (QImage image)
+        {
+            writeGridImage(image, currentLevel);
+            writeGrid(grid, currentLevel);
+            writeStatistics(statistics, currentLevel);
+
+            delete scheme;
+
+            if(currentLevel == initialLevel)
+                sendResult(grid, currentLevel, statistics);
+            else
+                onIncomingGrid(grid, currentLevel, statistics);
+
+            obj1->deleteLater();
+        }, Qt::QueuedConnection);
+
+        client.startRendering(grid, scheme);
     }, Qt::QueuedConnection);
 
     client.startPlacingAndRouting(scheme, statistics->getData()[0][0]);
@@ -130,20 +146,34 @@ void GreedyDistributor::onIncomingGrid(Grid* grid, int level, Statistics* statis
 
     QObject::connect(&client, &Client::sendComposedGrid, obj, [this, obj, grids, scheme, commonStatistics] (Grid* grid, int level)
     {
-        writeGrid(grid, level);
-        writeGridImage(grid, scheme, level);
-
-        delete scheme;
-
-        for(Grid* g: grids)
-            delete g;
-
-        if(level == initialLevel)
-            sendResult(grid, level, commonStatistics);
-        else
-            onIncomingGrid(grid, level, commonStatistics);
-
         obj->deleteLater();
+        QObject* obj1 = new QObject(this);
+
+        QObject::connect(&client, &Client::sendStop, obj1, [this, scheme, obj1] ()
+        {
+            delete scheme;
+            obj1->deleteLater();
+        });
+
+        QObject::connect(&client, &Client::sendGridImage, obj1, [this, grid, scheme, obj1, commonStatistics, level, grids] (QImage image)
+        {
+            writeGrid(grid, level);
+            writeGridImage(image, level);
+
+            delete scheme;
+
+            for(Grid* g: grids)
+                delete g;
+
+            if(level == initialLevel)
+                sendResult(grid, level, commonStatistics);
+            else
+                onIncomingGrid(grid, level, commonStatistics);
+
+            obj1->deleteLater();
+        }, Qt::QueuedConnection);
+
+        client.startRendering(grid, scheme);
     }, Qt::QueuedConnection);
 
     client.startComposition(grids, scheme, level, commonStatistics->getData()[0][0]);

@@ -7,6 +7,7 @@
 #include "algorithms/placement/secondaryplacementstrategy.h"
 #include "algorithms/routing/routingstrategy.h"
 #include "algorithms/composition/compositionstrategy.h"
+#include "util/renderer/gridrenderer.h"
 #include "datamodels/architecture/architecture.h"
 #include "control/pool/logtype.h"
 #include "datamodels/statistics/statisticsentry.h"
@@ -63,6 +64,15 @@ public:
      */
     void startComposition(QList<Grid*> grids, Scheme* scheme, int level, StatisticsEntry& entry);
 
+    /**
+     * @brief startRendering
+     * Starts the process of rendering.
+     * The result will be sent in the sendGridImage signal.
+     * @param grid
+     * @param scheme
+     */
+    void startRendering(Grid* grid, Scheme* scheme);
+
 private slots:
     void onLog(QString log);
 
@@ -77,6 +87,7 @@ signals:
     void sendDecomposedSchemes(QList<Scheme*> schemes);
     void sendRoutedGrid(Grid* grid);
     void sendComposedGrid(Grid* grid, int level);
+    void sendGridImage(QImage image);
 
     void sendStop();
 
@@ -99,6 +110,7 @@ private:
     SecondaryPlacementAlgorithm* secondaryPlacement;
     RoutingAlgorithm* routing;
     CompositionAlgorithm* composition;
+    GridRenderer* renderer;
 
     int level;
     bool stopped;

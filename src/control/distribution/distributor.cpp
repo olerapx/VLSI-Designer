@@ -47,14 +47,12 @@ void Distributor::writeGrid(Grid* g, int level) const
     f.close();
 }
 
-void Distributor::writeGridImage(Grid* g, Scheme* s, int level) const
+void Distributor::writeGridImage(QImage image, int level) const
 {
-    GridRenderer renderer(g, s);
-
     QDir dir(fileSystem.getLevelPath(level));
     dir.mkpath(".");
 
-    renderer.execute().save(fileSystem.getLevelPath(level) + "/grid.png");
+    image.save(fileSystem.getLevelPath(level) + "/grid.png");
 }
 
 void Distributor::writeScheme(Scheme* s, int level) const

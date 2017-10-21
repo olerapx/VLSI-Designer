@@ -9,6 +9,7 @@ Client::Client() :
     secondaryPlacement(nullptr),
     routing(nullptr),
     composition(nullptr),
+    renderer(nullptr),
     level(0),
     stopped(true)
 {
@@ -288,6 +289,34 @@ void Client::onCompositionFinished(Grid* grid)
 
     algorithmThread.quit();
     algorithmThread.wait();
+
+    algorithmThread.start();
+}
+
+void Client::startRendering(Grid* grid, Scheme* scheme)
+{
+    if(!stopped) return;
+
+    stopped = false;
+
+    renderer = new GridRenderer(grid, scheme);
+    moveAlgorithmToThread(renderer);
+
+    connect(renderer, &GridRenderer::sendResult, this, [this] (QImage image)
+    {
+        sendGridImage(image);
+        stopped = true;
+    });
+
+    connect(renderer, &GridRenderer::sendFinish, this, [this] ()
+    {
+        algorithmThread.quit();
+
+        delete renderer;
+        renderer = nullptr;
+
+        sendLog(tr("Rendering is finished."), LogType::Success);
+    }, Qt::DirectConnection);
 
     algorithmThread.start();
 }

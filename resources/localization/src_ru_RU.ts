@@ -23,6 +23,10 @@
         <source>Composition is finished.</source>
         <translation>Композиция завершена.</translation>
     </message>
+    <message>
+        <source>Rendering is finished.</source>
+        <translation>Отрисовка завершена.</translation>
+    </message>
 </context>
 <context>
     <name>CompositionAlgorithm</name>
@@ -144,10 +148,6 @@
         <translation>Старт.</translation>
     </message>
     <message>
-        <source>Rendering cell %1 of %2.</source>
-        <translation>Отрисовка ячейки %1 из %2.</translation>
-    </message>
-    <message>
         <source>Missing cache image: %1.</source>
         <translation>Отсутствует изображение из кэша: %1.</translation>
     </message>
@@ -174,6 +174,10 @@
     <message>
         <source>Renderer is stopped.</source>
         <translation>Рендерер остановлен.</translation>
+    </message>
+    <message>
+        <source>Rendering grid row %1 of %2.</source>
+        <translation>Отрисовка строки ДРП %1 из %2.</translation>
     </message>
 </context>
 <context>

@@ -65,7 +65,7 @@ protected:
     bool isLastLevel(int levelNumber) const;
 
     void writeGrid(Grid* g, int level) const;
-    void writeGridImage(Grid* g, Scheme* s, int level) const;
+    void writeGridImage(QImage image, int level) const;
     void writeScheme(Scheme* s, int level) const;
     void writeStatistics(Statistics* s, int level) const;
     void writeGridPart(Grid* g, int level) const;

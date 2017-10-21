@@ -23,6 +23,10 @@
         <source>Composition is finished.</source>
         <translation>Composition is finished.</translation>
     </message>
+    <message>
+        <source>Rendering is finished.</source>
+        <translation>Rendering is finished.</translation>
+    </message>
 </context>
 <context>
     <name>CompositionAlgorithm</name>
@@ -144,10 +148,6 @@
         <translation>Starting.</translation>
     </message>
     <message>
-        <source>Rendering cell %1 of %2.</source>
-        <translation>Rendering cell %1 of %2.</translation>
-    </message>
-    <message>
         <source>Missing cache image: %1.</source>
         <translation>Missing cache image: %1.</translation>
     </message>
@@ -174,6 +174,10 @@
     <message>
         <source>Renderer is stopped.</source>
         <translation>Renderer is stopped.</translation>
+    </message>
+    <message>
+        <source>Rendering grid row %1 of %2.</source>
+        <translation>Rendering grid row %1 of %2.</translation>
     </message>
 </context>
 <context>
