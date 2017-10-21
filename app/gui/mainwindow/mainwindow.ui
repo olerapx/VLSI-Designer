@@ -39,116 +39,98 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="addNodesButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
+       <widget class="QToolButton" name="addNodesButton">
         <property name="text">
-         <string>Add nodes</string>
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/resources.qrc">
+          <normaloff>:/resources/images/icons/add.png</normaloff>:/resources/images/icons/add.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>16</width>
-          <height>16</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
-        <property name="flat">
-         <bool>false</bool>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="setupButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
+       <widget class="QToolButton" name="setupButton">
         <property name="text">
-         <string>Setup session</string>
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/resources.qrc">
+          <normaloff>:/resources/images/icons/setup.png</normaloff>:/resources/images/icons/setup.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>16</width>
-          <height>16</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
-        <property name="flat">
-         <bool>false</bool>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="startButton">
+       <widget class="Line" name="line">
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="startButton">
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
         <property name="text">
-         <string>Start</string>
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/resources.qrc">
+          <normaloff>:/resources/images/icons/start.png</normaloff>:/resources/images/icons/start.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>16</width>
-          <height>16</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
-        <property name="flat">
-         <bool>false</bool>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="stopButton">
+       <widget class="QToolButton" name="stopButton">
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
         <property name="text">
-         <string>Stop</string>
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../resources/resources.qrc">
+          <normaloff>:/resources/images/icons/stop.png</normaloff>:/resources/images/icons/stop.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>16</width>
-          <height>16</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
-        <property name="flat">
-         <bool>false</bool>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -316,6 +298,21 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

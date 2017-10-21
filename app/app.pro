@@ -15,6 +15,8 @@ INCLUDEPATH += $$PWD
 include(../src/src.pri)
 LIBS += -L../src -lvlsi
 
+win32: RC_ICONS += app.ico
+
 HEADERS += \
     gui/mainwindow/mainwindow.h \
     gui/generatorwindow/generatorwindow.h \

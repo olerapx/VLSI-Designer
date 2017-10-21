@@ -12,6 +12,8 @@ int Loader::load()
     setStyle();
     registerMetaTypes();
 
+    a.setWindowIcon(QIcon(":/resources/images/icons/app.ico"));
+
     MainWindow w;
     w.show();
 

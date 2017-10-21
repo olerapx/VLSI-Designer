@@ -89,5 +89,10 @@
         <file>images/status/grey.png</file>
         <file>images/status/red.png</file>
         <file>images/status/yellow.png</file>
+        <file>images/icons/add.png</file>
+        <file>images/icons/setup.png</file>
+        <file>images/icons/start.png</file>
+        <file>images/icons/stop.png</file>
+        <file>images/icons/app.ico</file>
     </qresource>
 </RCC>

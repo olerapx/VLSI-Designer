@@ -1,3 +1,3 @@
 #include "app.h"
 
-const Version App::APP_VERSION = Version(1, 0, 2, 0);
+const Version App::APP_VERSION = Version(1, 0, 3, 0);
