@@ -3,13 +3,13 @@
 StatisticsEntry::StatisticsEntry() :
     primaryPlacementTime(0),
     secondaryPlacementTime(0),
-    innerRoutingTime(0),
+    internalRoutingTime(0),
     decompositionTime(0),
     compositionTime(0),
-    outerRoutingTime(0),
-    innerWiresNumber(0),
-    wiresNumber(0),
-    routedWiresNumber(0)
+    externalRoutingTime(0),
+    internalUnroutedWiresNumber(0),
+    totalUnroutedWiresNumber(0),
+    routedWiresDelta(0)
 {
 
 }
@@ -18,10 +18,11 @@ bool StatisticsEntry::operator ==(StatisticsEntry& other)
 {
     if(hostName == other.hostName &&
             primaryPlacementTime == other.primaryPlacementTime && secondaryPlacementTime == other.secondaryPlacementTime &&
-            innerRoutingTime == other.innerRoutingTime && decompositionTime == other.decompositionTime &&
-            compositionTime == other.compositionTime && outerRoutingTime == other.outerRoutingTime &&
-            innerWiresNumber == other.innerWiresNumber && wiresNumber == other.wiresNumber &&
-            routedWiresNumber == other.routedWiresNumber)
+            internalRoutingTime == other.internalRoutingTime && decompositionTime == other.decompositionTime &&
+            compositionTime == other.compositionTime && externalRoutingTime == other.externalRoutingTime &&
+            internalUnroutedWiresNumber == other.internalUnroutedWiresNumber &&
+            totalUnroutedWiresNumber == other.totalUnroutedWiresNumber &&
+            routedWiresDelta == other.routedWiresDelta)
         return true;
 
     return false;

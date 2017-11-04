@@ -50,11 +50,11 @@ double Statistics::getAverageSecondaryPlacementTime(int level)
     return (((double) summaryTime) / data[level].size());
 }
 
-double Statistics::getAverageInnerRoutingTime(int level)
+double Statistics::getAverageInternalRoutingTime(int level)
 {
     int summaryTime = 0;
     for(StatisticsEntry& entry: data[level])
-        summaryTime += entry.getInnerRoutingTime();
+        summaryTime += entry.getInternalRoutingTime();
 
     return (((double) summaryTime) / data[level].size());
 }
@@ -63,7 +63,7 @@ double Statistics::getAverageTotalInnerTime(int level)
 {
     int summaryTime = 0;
     for(StatisticsEntry& entry: data[level])
-        summaryTime += entry.getTotalInnerTime();
+        summaryTime += entry.getTotalInternalTime();
 
     return (((double) summaryTime) / data[level].size());
 }
@@ -73,7 +73,7 @@ int Statistics::getMaxTotalInnerTime(int level)
     int maxTime = 0;
     for(StatisticsEntry& entry: data[level])
     {
-        int totalTime = entry.getTotalInnerTime();
+        int totalTime = entry.getTotalInternalTime();
         if(totalTime > maxTime)
             maxTime = totalTime;
     }
@@ -103,7 +103,7 @@ double Statistics::getAverageOuterRoutingTime(int level)
 {
     int summaryTime = 0;
     for(StatisticsEntry& entry: data[level])
-        summaryTime += entry.getOuterRoutingTime();
+        summaryTime += entry.getExternalRoutingTime();
 
     return (((double) summaryTime) / data[level].size());
 }
@@ -112,7 +112,7 @@ double Statistics::getAverageTotalOuterTime(int level)
 {
     int summaryTime = 0;
     for(StatisticsEntry& entry: data[level])
-        summaryTime += entry.getTotalOuterTime();
+        summaryTime += entry.getTotalExternalTime();
 
     return (((double) summaryTime) / data[level].size());
 }
@@ -122,7 +122,7 @@ int Statistics::getMaxTotalOuterTime(int level)
     int maxTime = 0;
     for(StatisticsEntry& entry: data[level])
     {
-        int totalTime = entry.getTotalOuterTime();
+        int totalTime = entry.getTotalExternalTime();
         if(totalTime > maxTime)
             maxTime = totalTime;
     }
@@ -130,20 +130,44 @@ int Statistics::getMaxTotalOuterTime(int level)
     return maxTime;
 }
 
-double Statistics::getAverageInnerRoutedWiresPercent(int level)
+double Statistics::getAverageRoutedWiresDelta(int level)
 {
     double summaryPercent = 0;
     for(StatisticsEntry& entry: data[level])
-        summaryPercent += entry.getInnerRoutedWiresPercent();
+        summaryPercent += entry.getRoutedWiresDelta();
 
     return (summaryPercent / data[level].size());
 }
 
-double Statistics::getAverageRoutedWiresPercent(int level)
+double Statistics::getAverageRoutedInternalWiresPercent(int level)
 {
     double summaryPercent = 0;
     for(StatisticsEntry& entry: data[level])
-        summaryPercent += entry.getRoutedWiresPercent();
+        summaryPercent += entry.getRoutedInternalWiresPercent();
 
     return (summaryPercent / data[level].size());
+}
+
+double Statistics::getAverageRoutedTotalWiresPercent(int level)
+{
+    double summaryPercent = 0;
+    for(StatisticsEntry& entry: data[level])
+        summaryPercent += entry.getRoutedTotalWiresPercent();
+
+    return (summaryPercent / data[level].size());
+}
+
+int Statistics::getTotalRoutedWiresDelta()
+{
+    int total = 0;
+
+    for(QList<StatisticsEntry>& list: data)
+    {
+        for(StatisticsEntry entry: list)
+        {
+            total += entry.getRoutedWiresDelta();
+        }
+    }
+
+    return total;
 }

@@ -147,7 +147,7 @@ void DefaultDistributor::onIncomingGrid(Grid* grid, int level, Statistics* stati
         {
             writeGrid(grid, level);
             writeGridImage(image, level);
-            writeStatistics(commonStatistics, level - 1);
+            writeStatistics(commonStatistics, level);
 
             sendResult(grid, level, commonStatistics);
 

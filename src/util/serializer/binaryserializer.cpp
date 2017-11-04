@@ -222,15 +222,15 @@ QDataStream& BinarySerializer::serializeStatisticsEntry(StatisticsEntry e, QData
 {
     stream << e.getHostName();
     stream << (qint32) e.getPrimaryPlacememtTime() << (qint32) e.getSecondaryPlacementTime();
-    stream << (qint32) e.getInnerRoutingTime();
+    stream << (qint32) e.getInternalRoutingTime();
 
     stream << (qint32) e.getDecompositionTime() << (qint32) e.getCompositionTime();
-    stream << (qint32) e.getOuterRoutingTime();
+    stream << (qint32) e.getExternalRoutingTime();
 
-    stream << (qint32) e.getInnerWiresNumber();
-    stream << (qint32) e.getWiresNumber();
+    stream << (qint32) e.getInternalUnroutedWiresNumber();
+    stream << (qint32) e.getTotalUnroutedWiresNumber();
 
-    stream << (qint32) e.getRoutedWiresNumber();
+    stream << (qint32) e.getRoutedWiresDelta();
 
     return stream;
 }
@@ -548,10 +548,10 @@ StatisticsEntry BinarySerializer::deserializeStatisticsEntry(QDataStream& stream
     qint32 compositionTime;
     qint32 outerRoutingTime;
 
-    qint32 innerWiresNumber;
-    qint32 wiresNumber;
+    qint32 internalUnroutedWiresNumber;
+    qint32 totalUnroutedWiresNumber;
 
-    qint32 routedWiresNumber;
+    qint32 routedWiresDelta;
 
     stream >> hostName;
 
@@ -563,25 +563,25 @@ StatisticsEntry BinarySerializer::deserializeStatisticsEntry(QDataStream& stream
     stream >> compositionTime;
     stream >> outerRoutingTime;
 
-    stream >> innerWiresNumber;
-    stream >> wiresNumber;
+    stream >> internalUnroutedWiresNumber;
+    stream >> totalUnroutedWiresNumber;
 
-    stream >> routedWiresNumber;
+    stream >> routedWiresDelta;
 
     entry.setHostName(hostName);
 
     entry.setPrimaryPlacementTime(primaryPlacementTime);
     entry.setSecondaryPlacementTime(secondaryPlacementTime);
-    entry.setInnerRoutingTime(innerRoutingTime);
+    entry.setInternalRoutingTime(innerRoutingTime);
 
     entry.setDecompositionTime(decompositionTime);
     entry.setCompositionTime(compositionTime);
-    entry.setOuterRoutingTime(outerRoutingTime);
+    entry.setExternalRoutingTime(outerRoutingTime);
 
-    entry.setInnerWiresNumber(innerWiresNumber);
-    entry.setWiresNumber(wiresNumber);
+    entry.setInternalUnroutedWiresNumber(internalUnroutedWiresNumber);
+    entry.setTotalUnroutedWiresNumber(totalUnroutedWiresNumber);
 
-    entry.setRoutedWiresNumber(routedWiresNumber);
+    entry.setRoutedWiresDelta(routedWiresDelta);
 
     return entry;
 }

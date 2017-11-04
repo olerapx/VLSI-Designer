@@ -95,6 +95,8 @@ private:
     bool isInitialized() const;
 
     void moveAlgorithmToThread(Threadable* t);
+    void calculateWiresNumber(Grid* grid);
+    void calculateRoutedDelta(Grid* grid);
 
     Scheme* scheme;
     StatisticsEntry* entry;

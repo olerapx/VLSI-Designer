@@ -76,7 +76,7 @@ void PermutationCompositionTest::compositionTest()
     PermutationComposition composition(grids, s);
     Grid* grid = composition.execute();
 
-    QVERIFY(grid->getHeight() == 9);
+    QVERIFY(grid->getHeight() == 12);
     QVERIFY(grid->getWidth() == 8);
 
     QVERIFY(grid->getWiresData().size() == 0);
@@ -170,7 +170,7 @@ void PermutationCompositionTest::wiresDataCompositionTest()
     PermutationComposition composition(grids, s);
     Grid* grid = composition.execute();
 
-    QVERIFY(grid->getWiresData().size() == 6);
+    QVERIFY(grid->getWiresData().size() == 4);
 
     std::sort(grid->getWiresData().begin(), grid->getWiresData().end(), PermutationCompositionTest::wiresDataIndexComparator);
 

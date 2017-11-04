@@ -303,16 +303,6 @@ void PermutationComposition::fillWiresData(Grid* result)
     {
         result->getWiresData().append(WireData(data.index, getActualCoord(data.gridIndex, data.srcCoord), QPoint(0, 0), WirePosition::External));
     }
-
-    for(int i=0; i<grids.size(); i++)
-    {
-        for(WireData& data: grids[i]->getWiresData())
-        {
-            if(data.getWirePosition() == WirePosition::Internal)
-                result->getWiresData().append(WireData(data.getIndex(), getActualCoord(i, data.getSrcCoord()),
-                                                       getActualCoord(i, data.getDestCoord()), WirePosition::Internal));
-        }
-    }
 }
 
 QPoint PermutationComposition::getActualCoord(int gridIndex, QPoint coord)

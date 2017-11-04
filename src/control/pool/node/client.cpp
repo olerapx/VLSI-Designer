@@ -177,18 +177,11 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
     delete res;
     moveAlgorithmToThread(routing);
 
+    calculateWiresNumber(res->getGrid());
+
     connect(routing, &RoutingAlgorithm::sendResult, this, [this](Grid* grid)
     {
-        int innerWires = 0;
-        for(WireData& data: grid->getWiresData())
-        {
-            if(data.getWirePosition() == WirePosition::Internal)
-                innerWires ++;
-        }
-
-        entry->setInnerWiresNumber(innerWires);
-        entry->setWiresNumber(grid->getWiresData().size());
-        entry->setRoutedWiresNumber(grid->getRoutedWires().size());
+        calculateRoutedDelta(grid);
 
         sendRoutedGrid(grid);
         stopped = true;
@@ -196,7 +189,7 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
 
     connect(routing, &RoutingAlgorithm::sendTime, this, [this] (int time)
     {
-        entry->setInnerRoutingTime(time);
+        entry->setInternalRoutingTime(time);
     }, Qt::DirectConnection);
 
     connect(routing, &RoutingAlgorithm::sendFinish, this, [this] ()
@@ -213,6 +206,43 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
     algorithmThread.wait();
 
     algorithmThread.start();
+}
+
+void Client::calculateWiresNumber(Grid* grid)
+{
+    int internalUnroutedWires = 0;
+    int totalUnroutedWires = 0;
+
+    for(WireData& data: grid->getWiresData())
+    {
+        if(grid->getRoutedWires().contains(data.getIndex()))
+            continue;
+
+        if(data.getWirePosition() == WirePosition::Internal)
+            internalUnroutedWires ++;
+
+        totalUnroutedWires ++;
+    }
+
+    entry->setInternalUnroutedWiresNumber(internalUnroutedWires);
+    entry->setTotalUnroutedWiresNumber(totalUnroutedWires);
+}
+
+void Client::calculateRoutedDelta(Grid* grid)
+{
+    int oldInternalUnroutedWires = entry->getInternalUnroutedWiresNumber();
+    int newInternalUnroutedWires = 0;
+
+    for(WireData& data: grid->getWiresData())
+    {
+        if(grid->getRoutedWires().contains(data.getIndex()))
+            continue;
+
+        if(data.getWirePosition() == WirePosition::Internal)
+            newInternalUnroutedWires ++;
+    }
+
+    entry->setRoutedWiresDelta(oldInternalUnroutedWires - newInternalUnroutedWires);
 }
 
 void Client::startComposition(QList<Grid*> grids, Scheme* scheme, int level, StatisticsEntry& entry)
@@ -255,18 +285,11 @@ void Client::onCompositionFinished(Grid* grid)
 
     moveAlgorithmToThread(routing);
 
+    calculateWiresNumber(grid);
+
     connect(routing, &RoutingAlgorithm::sendResult, this, [this](Grid* grid)
     {
-        int innerWires = 0;
-        for(WireData& data: grid->getWiresData())
-        {
-            if(data.getWirePosition() == WirePosition::Internal)
-                innerWires ++;
-        }
-
-        entry->setInnerWiresNumber(innerWires);
-        entry->setWiresNumber(grid->getWiresData().size());
-        entry->setRoutedWiresNumber(grid->getRoutedWires().size());
+        calculateRoutedDelta(grid);
 
         sendComposedGrid(grid, level - 1);
         stopped = true;
@@ -274,7 +297,7 @@ void Client::onCompositionFinished(Grid* grid)
 
     connect(routing, &RoutingAlgorithm::sendTime, this, [this] (int time)
     {
-        entry->setOuterRoutingTime(time);
+        entry->setExternalRoutingTime(time);
     }, Qt::DirectConnection);
 
     connect(routing, &RoutingAlgorithm::sendFinish, this, [this] ()

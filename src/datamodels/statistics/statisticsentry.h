@@ -17,38 +17,36 @@ public:
 
     int getPrimaryPlacememtTime() const { return primaryPlacementTime; }
     int getSecondaryPlacementTime() const { return secondaryPlacementTime; }
-    int getInnerRoutingTime() const { return innerRoutingTime; }
-    int getTotalInnerTime() const { return primaryPlacementTime + secondaryPlacementTime + innerRoutingTime; }
+    int getInternalRoutingTime() const { return internalRoutingTime; }
+    int getTotalInternalTime() const { return primaryPlacementTime + secondaryPlacementTime + internalRoutingTime; }
 
     int getDecompositionTime() const { return decompositionTime; }
     int getCompositionTime() const { return compositionTime; }
-    int getOuterRoutingTime() const { return outerRoutingTime; }
+    int getExternalRoutingTime() const { return externalRoutingTime; }
 
-    int getTotalOuterTime() const { return decompositionTime + compositionTime + outerRoutingTime; }
+    int getTotalExternalTime() const { return decompositionTime + compositionTime + externalRoutingTime; }
 
-    int getInnerWiresNumber() const { return innerWiresNumber; }
+    int getInternalUnroutedWiresNumber() const { return internalUnroutedWiresNumber; }
+    int getTotalUnroutedWiresNumber() const { return totalUnroutedWiresNumber; }
 
-    int getWiresNumber() const { return wiresNumber; }
-    double getOuterWiresPercent() const { return (((double)(wiresNumber - innerWiresNumber) * 100) / wiresNumber); }
-
-    int getRoutedWiresNumber() const { return routedWiresNumber; }
-    double getInnerRoutedWiresPercent() const { return (((double) routedWiresNumber * 100) / innerWiresNumber); }
-    double getRoutedWiresPercent() const { return (((double) routedWiresNumber * 100) / wiresNumber); }
+    int getRoutedWiresDelta() const { return routedWiresDelta; }
+    double getRoutedInternalWiresPercent() const { return (((double)routedWiresDelta * 100) / internalUnroutedWiresNumber); }
+    double getRoutedTotalWiresPercent() const { return (((double)routedWiresDelta * 100) / totalUnroutedWiresNumber); }
 
     void setHostName(QString name) { hostName = name; }
 
     void setPrimaryPlacementTime(int time) { primaryPlacementTime = time; }
     void setSecondaryPlacementTime(int time) { secondaryPlacementTime = time; }
-    void setInnerRoutingTime(int time) { innerRoutingTime = time; }
+    void setInternalRoutingTime(int time) { internalRoutingTime = time; }
 
     void setDecompositionTime(int time) { decompositionTime = time; }
     void setCompositionTime(int time) { compositionTime = time; }
-    void setOuterRoutingTime(int time) { outerRoutingTime = time; }
+    void setExternalRoutingTime(int time) { externalRoutingTime = time; }
 
-    void setInnerWiresNumber(int number) { innerWiresNumber = number; }
-    void setWiresNumber(int number) { wiresNumber = number; }
+    void setInternalUnroutedWiresNumber(int number) { internalUnroutedWiresNumber = number; }
+    void setTotalUnroutedWiresNumber(int number) { totalUnroutedWiresNumber = number; }
 
-    void setRoutedWiresNumber(int number) { routedWiresNumber = number; }
+    void setRoutedWiresDelta(int delta) { routedWiresDelta = delta; }
 
     bool operator ==(StatisticsEntry& other);
 
@@ -57,14 +55,13 @@ private:
 
     int primaryPlacementTime;
     int secondaryPlacementTime;
-    int innerRoutingTime;
+    int internalRoutingTime;
 
     int decompositionTime;
     int compositionTime;
-    int outerRoutingTime;
+    int externalRoutingTime;
 
-    int innerWiresNumber;
-    int wiresNumber;
-
-    int routedWiresNumber;
+    int internalUnroutedWiresNumber;
+    int totalUnroutedWiresNumber;
+    int routedWiresDelta;
 };

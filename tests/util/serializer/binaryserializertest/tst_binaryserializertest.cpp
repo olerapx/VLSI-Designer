@@ -220,16 +220,16 @@ void BinarySerializerTest::statisticsTest()
     entry1.setHostName("1234");
     entry1.setPrimaryPlacementTime(1);
     entry1.setSecondaryPlacementTime(50);
-    entry1.setInnerRoutingTime(500);
+    entry1.setInternalRoutingTime(500);
 
     entry1.setDecompositionTime(100);
     entry1.setCompositionTime(69);
-    entry1.setOuterRoutingTime(4);
+    entry1.setExternalRoutingTime(4);
 
-    entry1.setInnerWiresNumber(60);
-    entry1.setWiresNumber(9);
+    entry1.setInternalUnroutedWiresNumber(10);
+    entry1.setTotalUnroutedWiresNumber(20);
 
-    entry1.setRoutedWiresNumber(8);
+    entry1.setRoutedWiresDelta(10);
 
     StatisticsEntry entry2 = entry1;
     entry2.setHostName("23");
