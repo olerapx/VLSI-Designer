@@ -159,6 +159,7 @@ void GreedyDistributor::onIncomingGrid(Grid* grid, int level, Statistics* statis
         {
             writeGrid(grid, level);
             writeGridImage(image, level);
+            writeStatistics(commonStatistics, level - 1);
 
             delete scheme;
 

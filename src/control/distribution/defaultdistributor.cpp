@@ -147,6 +147,8 @@ void DefaultDistributor::onIncomingGrid(Grid* grid, int level, Statistics* stati
         {
             writeGrid(grid, level);
             writeGridImage(image, level);
+            writeStatistics(commonStatistics, level - 1);
+
             sendResult(grid, level, commonStatistics);
 
             delete scheme;

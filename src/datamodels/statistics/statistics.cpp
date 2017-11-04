@@ -68,6 +68,19 @@ double Statistics::getAverageTotalInnerTime(int level)
     return (((double) summaryTime) / data[level].size());
 }
 
+int Statistics::getMaxTotalInnerTime(int level)
+{
+    int maxTime = 0;
+    for(StatisticsEntry& entry: data[level])
+    {
+        int totalTime = entry.getTotalInnerTime();
+        if(totalTime > maxTime)
+            maxTime = totalTime;
+    }
+
+    return maxTime;
+}
+
 double Statistics::getAverageDecompositionTime(int level)
 {
     int summaryTime = 0;
@@ -102,6 +115,19 @@ double Statistics::getAverageTotalOuterTime(int level)
         summaryTime += entry.getTotalOuterTime();
 
     return (((double) summaryTime) / data[level].size());
+}
+
+int Statistics::getMaxTotalOuterTime(int level)
+{
+    int maxTime = 0;
+    for(StatisticsEntry& entry: data[level])
+    {
+        int totalTime = entry.getTotalOuterTime();
+        if(totalTime > maxTime)
+            maxTime = totalTime;
+    }
+
+    return maxTime;
 }
 
 double Statistics::getAverageInnerRoutedWiresPercent(int level)

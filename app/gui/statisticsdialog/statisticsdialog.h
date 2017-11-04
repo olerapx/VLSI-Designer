@@ -31,6 +31,9 @@ private:
     void showHeader();
     void showCommon();
 
+    void appendRow(QString& data, QString key, QString value);
+    void appendEmptyRow(QString& data);
+
     void showDataForLevel(int level);
     void showAverageData(int level);
     void showHostData(int level, int index);

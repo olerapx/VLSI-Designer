@@ -30,21 +30,30 @@ void StatisticsDialog::display()
 
 void StatisticsDialog::showCommon()
 {
-    ui->textBrowser->append(QString("<hr><br><h2 style=\"color: #191970; text-align: center; text-transform: uppercase;\">%1</h2><br>"
-                                    "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
-                                    "<tr><td>%2</td> <td>%3</td></tr>"
-                                    "<tr><td>%4</td> <td>%5 (%6 ms)</td></tr>"
-                                    "<tr><td>%7</td> <td>%8%</td></tr>"
-                                    "<tr><td>%9</td> <td>%10</td></tr>"
-                                    "<tr><td>%11</td> <td>%12</td></tr>"
-                                    "<tr><td>%13</td> <td>%14</td></tr>")
-                                .arg(tr("Common data"),
-                                     tr("Used model"), getModel(),
-                                     tr("Total time"), getTotalTimeString(), QString::number(getTotalTime()),
-                                     tr("Routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(0), 'g', 3))
-                                .arg(tr("Chip width"), QString::number(grid->getWidth()),
-                                     tr("Chip height"), QString::number(grid->getHeight()),
-                                     tr("Chip square"), QString::number(grid->getWidth() * grid->getHeight())));
+    QString text = QString("<hr><br><h2 style=\"color: #191970; text-align: center; text-transform: uppercase;\">%1</h2><br>"
+                            "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">")
+                            .arg(tr("Common data"));
+
+    appendRow(text, tr("Used model"), getModel());
+    appendRow(text, tr("Total time"), QString("%1 (%2 ms)").arg(getTotalTimeString(), QString::number(getTotalTime())));
+    appendRow(text, tr("Routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(0), 'g', 3));
+    appendRow(text, tr("Chip width"), QString::number(grid->getWidth()));
+    appendRow(text, tr("Chip height"), QString::number(grid->getHeight()));
+    appendRow(text, tr("Chip square"), QString::number(grid->getWidth() * grid->getHeight()));
+
+    ui->textBrowser->append(text);
+}
+
+void StatisticsDialog::appendRow(QString& data, QString key, QString value)
+{
+    QString row = QString("<tr><td>%1</td> <td>%2</td></tr>").arg(key, value);
+    data.append(row);
+}
+
+void StatisticsDialog::appendEmptyRow(QString& data)
+{
+    QString row("<tr></tr>");
+    data.append(row);
 }
 
 int StatisticsDialog::getTotalTime()
@@ -53,8 +62,8 @@ int StatisticsDialog::getTotalTime()
 
     for(int i=0; i<statistics->getData().size(); i++)
     {
-        res += statistics->getAverageTotalInnerTime(i);
-        res += statistics->getAverageTotalOuterTime(i);
+        res += statistics->getMaxTotalInnerTime(i);
+        res += statistics->getMaxTotalOuterTime(i);
     }
 
     return res;
@@ -103,31 +112,26 @@ void StatisticsDialog::showAverageData(int level)
             .arg(tr("Level"), QString::number(level));
 
     if(level != 0)
-            text.append(QString("<h3 style=\"color: #191970;\">%1</h3>"
-                                    "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
-                                    "<tr><td>%2</td> <td>%3 ms</td></tr>"
-                                    "<tr><td>%4</td> <td>%5 ms</td></tr>"
-                                    "<tr><td>%6</td> <td>%7 ms</td></tr>"
-                                    "<tr><td>%8</td> <td>%9 ms</td></tr>"
-                                    "<tr></tr>"
-                                    "<tr><td>%10</td> <td>%11 ms</td></tr>"
-                                    "<tr><td>%12</td> <td>%13 ms</td></tr>"
-                                    "<tr><td>%14</td> <td>%15 ms</td></tr>"
-                                    "<tr><td>%16</td> <td>%17 ms</td></tr>"
-                                    "<tr></tr>"
-                                    "<tr><td>%18</td> <td>%19%</td></tr>"
-                                    "<tr><td>%20</td> <td>%21%</td></tr></table><br>")
-                            .arg(tr("Average"),
-                                 tr("Primary placement time"), QString::number(statistics->getAveragePrimaryPlacementTime(level)),
-                                 tr("Secondary placement time"), QString::number(statistics->getAverageSecondaryPlacementTime(level)),
-                                 tr("Internal routing time"), QString::number(statistics->getAverageInnerRoutingTime(level)))
-                             .arg(tr("Total"), QString::number(statistics->getAverageTotalInnerTime(level)),
-                                 tr("Decomposition time"), QString::number(statistics->getAverageDecompositionTime(level)),
-                                 tr("Composition time"), QString::number(statistics->getAverageCompositionTime(level)),
-                                 tr("External routing time"), QString::number(statistics->getAverageOuterRoutingTime(level)))
-                              .arg(tr("Total"), QString::number(statistics->getAverageTotalOuterTime(level)),
-                                 tr("Internal routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(level), 'g', 3),
-                                 tr("Routed wires percent"), QString::number(statistics->getAverageRoutedWiresPercent(level), 'g', 3)));
+    {
+        text.append(QString("<h3 style=\"color: #191970;\">%1</h3><table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">")
+                    .arg(tr("Average")));
+
+        appendRow(text, tr("Primary placement time"), QString::number(statistics->getAveragePrimaryPlacementTime(level)));
+        appendRow(text, tr("Secondary placement time"), QString::number(statistics->getAverageSecondaryPlacementTime(level)));
+        appendRow(text, tr("Internal routing time"), QString::number(statistics->getAverageInnerRoutingTime(level)));
+        appendRow(text, tr("Total"), QString::number(statistics->getAverageTotalInnerTime(level)));
+        appendEmptyRow(text);
+
+        appendRow(text, tr("Decomposition time"), QString::number(statistics->getAverageDecompositionTime(level)));
+        appendRow(text, tr("Composition time"), QString::number(statistics->getAverageCompositionTime(level)));
+        appendRow(text, tr("External routing time"), QString::number(statistics->getAverageOuterRoutingTime(level)));
+        appendRow(text, tr("Total"), QString::number(statistics->getAverageTotalOuterTime(level)));
+        appendEmptyRow(text);
+
+        appendRow(text, tr("Internal routed wires percent"), QString::number(statistics->getAverageInnerRoutedWiresPercent(level), 'g', 3));
+        appendRow(text, tr("Routed wires percent"), QString::number(statistics->getAverageRoutedWiresPercent(level), 'g', 3));
+    }
+
     ui->textBrowser->append(text);
 }
 
@@ -135,38 +139,29 @@ void StatisticsDialog::showHostData(int level, int index)
 {
     StatisticsEntry entry = statistics->getData()[level][index];
 
-    ui->textBrowser->append(QString("<br><h3 style=\"color: #191970;\">%1 %2: %3</h3>"
-                                    "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">"
-                                    "<tr><td>%4</td> <td>%5 ms</td></tr>"
-                                    "<tr><td>%6</td> <td>%7 ms</td></tr>"
-                                    "<tr><td>%8</td> <td>%9 ms</td></tr>"
-                                    "<tr><td>%10</td> <td>%11 ms</td></tr>"
-                                    "<tr></tr>"
-                                    "<tr><td>%12</td> <td>%13 ms</td></tr>"
-                                    "<tr><td>%14</td> <td>%15 ms</td></tr>"
-                                    "<tr><td>%16</td> <td>%17 ms</td></tr>"
-                                    "<tr><td>%18</td> <td>%19 ms</td></tr>"
-                                    "<tr></tr>"
-                                    "<tr><td>%20</td> <td>%21 ms</td></tr>"
-                                    "<tr><td>%22</td> <td>%23 ms</td></tr>"
-                                    "<tr><td>%24</td> <td>%25%</td></tr>"
-                                    "<tr><td>%26</td> <td>%27%</td></tr>"
-                                    "<tr><td>%28</td> <td>%29%</td></tr></table><br>")
-                            .arg(tr("Computer"), QString::number(index + 1), entry.getHostName(),
-                                 tr("Primary placement time"), QString::number(entry.getPrimaryPlacememtTime()),
-                                 tr("Secondary placement time"), QString::number(entry.getSecondaryPlacementTime()),
-                                 tr("Internal routing time"), QString::number(entry.getInnerRoutingTime()))
-                             .arg(tr("Total"), QString::number(entry.getTotalInnerTime()),
-                                 tr("Decomposition time"), QString::number(entry.getDecompositionTime()),
-                                 tr("Composition time"), QString::number(entry.getCompositionTime()),
-                                 tr("External routing time"), QString::number(entry.getOuterRoutingTime()))
-                              .arg(tr("Total"), QString::number(entry.getTotalOuterTime()),
-                                 tr("Internal wires number"), QString::number(entry.getInnerWiresNumber()),
-                                 tr("Wires number"), QString::number(entry.getWiresNumber()),
-                                 tr("External wires percent"), QString::number(entry.getOuterWiresPercent(), 'g', 3))
-                              .arg(tr("Internal routed wires percent"), QString::number(entry.getInnerRoutedWiresPercent(), 'g', 3),
-                                tr("Routed wires percent"), QString::number(entry.getRoutedWiresPercent(), 'g', 3)));
+    QString text = QString("<br><h3 style=\"color: #191970;\">%1 %2: %3</h3>"
+                           "<table align=\"center\" cellpadding=\"5\" style=\"font-size: 10pt;\">")
+                   .arg(tr("Computer"), QString::number(index + 1), entry.getHostName());
 
+    appendRow(text, tr("Primary placement time"), QString::number(entry.getPrimaryPlacememtTime()));
+    appendRow(text, tr("Secondary placement time"), QString::number(entry.getSecondaryPlacementTime()));
+    appendRow(text, tr("Internal routing time"), QString::number(entry.getInnerRoutingTime()));
+    appendRow(text, tr("Total"), QString::number(entry.getTotalInnerTime()));
+    appendEmptyRow(text);
+
+    appendRow(text, tr("Decomposition time"), QString::number(entry.getDecompositionTime()));
+    appendRow(text, tr("Composition time"), QString::number(entry.getCompositionTime()));
+    appendRow(text, tr("External routing time"), QString::number(entry.getOuterRoutingTime()));
+    appendRow(text, tr("Total"), QString::number(entry.getTotalOuterTime()));
+    appendEmptyRow(text);
+
+    appendRow(text, tr("Internal wires number"), QString::number(entry.getInnerWiresNumber()));
+    appendRow(text, tr("Wires number"), QString::number(entry.getWiresNumber()));
+    appendRow(text, tr("External wires percent"), QString::number(entry.getOuterWiresPercent(), 'g', 3));
+    appendRow(text, tr("Internal routed wires percent"), QString::number(entry.getInnerRoutedWiresPercent(), 'g', 3));
+    appendRow(text, tr("Routed wires percent"), QString::number(entry.getRoutedWiresPercent(), 'g', 3));
+
+    ui->textBrowser->append(text);
 }
 
 void StatisticsDialog::on_openGridImageButton_clicked()
