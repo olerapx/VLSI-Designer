@@ -174,10 +174,10 @@ void Client::onSecondaryPlacementFinished(PlacementResult* res)
                                                 res->getGrid(), scheme, architecture->getAlgorithmParameters().getMaxExtensionAttempts(),
                                                 architecture->getAlgorithmParameters().getMaxExtensionAttemptsForWire());
 
-    delete res;
-    moveAlgorithmToThread(routing);
-
     calculateWiresNumber(res->getGrid());
+    delete res;
+
+    moveAlgorithmToThread(routing);
 
     connect(routing, &RoutingAlgorithm::sendResult, this, [this](Grid* grid)
     {

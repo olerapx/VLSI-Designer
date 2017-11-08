@@ -161,8 +161,8 @@ void StatisticsDialog::showHostData(int level, int index)
     appendEmptyRow(text);
 
     appendRow(text, tr("Routed wires number change"), QString::number(entry.getRoutedWiresDelta()));
-    appendRow(text, tr("Internal routed wires percent"), QString::number(entry.getRoutedInternalWiresPercent()));
-    appendRow(text, tr("Total routed wires percent"), QString::number(entry.getRoutedTotalWiresPercent()));
+    appendRow(text, tr("Internal routed wires percent"), QString::number(entry.getRoutedInternalWiresPercent(), 'g', 3));
+    appendRow(text, tr("Total routed wires percent"), QString::number(entry.getRoutedTotalWiresPercent(), 'g', 3));
 
     ui->textBrowser->append(text);
 }
