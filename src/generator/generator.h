@@ -72,6 +72,7 @@ private:
     void clear();
 
     void generateElements();
+    void addFreeElement(SchemeElement element);
 
     int getTruncatedDistributedValue(std::normal_distribution<>& dist, int lowerLimit, int upperLimit);
     SchemeElement getRandomElement();

@@ -53,8 +53,8 @@ void GeneratorParameters::setBranching(int mean, double sigma, int lowerLimit, i
 
 void GeneratorParameters::validateDistributionParameters(int mean, double sigma, int lowerLimit, int upperLimit)
 {
-    if(mean <= 0 || sigma < 0 || lowerLimit < 0 || upperLimit <= 0)
-        throw IllegalArgumentException(QObject::tr("Distribution parameters must be positive."));
+    if(mean < 0 || sigma < 0 || lowerLimit < 0 || upperLimit < 0)
+        throw IllegalArgumentException(QObject::tr("Distribution parameters cannot be negative."));
 
     if (upperLimit < lowerLimit)
         throw IllegalArgumentException(QObject::tr("Upper limit must be bigger or equal than lower limit."));

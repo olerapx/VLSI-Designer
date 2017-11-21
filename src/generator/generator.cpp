@@ -109,7 +109,14 @@ void Generator::generateElements()
     while((capacity = pow(2, getTruncatedDistributedValue(nodeCapacityDistribution, param.getNodeCapacityLowerLimit(), param.getNodeCapacityUpperLimit())))
           <= elapsedElements)
     {
+        elapsedElements -= capacity;
         SchemeElement element = getRandomElement();
+
+        if(capacity == 1)
+        {
+            addFreeElement(element);
+            continue;
+        }
 
         groupedElements.append(QList<NodeElement*>());
 
@@ -132,19 +139,22 @@ void Generator::generateElements()
         }
 
         currentNodeNumber ++;
-
-        elapsedElements -= capacity;
     }
 
     sendLog(tr("Free elements generation."));
 
     for(int i=0; i<elapsedElements; i++)
     {
-        NodeElement* nodeElement = new NodeElement(getRandomElement(), freeNodeElementIndex, param.getLibraries());
-
-        elements.append(nodeElement);
-        groupedElements[0].append(nodeElement);
+        addFreeElement(getRandomElement());
     }
+}
+
+void Generator::addFreeElement(SchemeElement element)
+{
+    NodeElement* nodeElement = new NodeElement(element, freeNodeElementIndex, param.getLibraries());
+
+    elements.append(nodeElement);
+    groupedElements[0].append(nodeElement);
 }
 
 int Generator::getTruncatedDistributedValue(std::normal_distribution<>& dist, int lowerLimit, int upperLimit)
