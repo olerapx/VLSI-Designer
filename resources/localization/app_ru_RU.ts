@@ -110,11 +110,6 @@
         <translation>Число элементов</translation>
     </message>
     <message>
-        <location filename="../../app/gui/generatorwindow/generatorwindow.ui" line="334"/>
-        <source>Inner wire chance</source>
-        <translation>Вероятность внутренней связи</translation>
-    </message>
-    <message>
         <location filename="../../app/gui/generatorwindow/generatorwindow.ui" line="371"/>
         <source>Branching</source>
         <translation>Разветвленность</translation>
@@ -145,6 +140,11 @@
         <location filename="../../app/gui/generatorwindow/generatorwindow.ui" line="314"/>
         <source>10000</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../../app/gui/generatorwindow/generatorwindow.ui" line="334"/>
+        <source>In-node wire chance</source>
+        <translation>Вероятность внутриузловой связи</translation>
     </message>
     <message>
         <location filename="../../app/gui/generatorwindow/generatorwindow.ui" line="353"/>
@@ -710,129 +710,129 @@ p, li { white-space: pre-wrap; }
         <translation>Открыть каталог сессии</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="35"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="36"/>
         <source>Session report</source>
         <translation>Результаты сессии</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="112"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="113"/>
         <source>Level</source>
         <translation>Уровень</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="117"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="118"/>
         <source>Average</source>
         <translation>Усредненная</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="119"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="147"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="120"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="148"/>
         <source>Primary placement time</source>
         <translation>Время на первичное размещение</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="120"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="148"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="121"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="149"/>
         <source>Secondary placement time</source>
         <translation>Время на вторичное размещение</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="121"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="149"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="122"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="150"/>
         <source>Internal routing time</source>
         <translation>Время на внутреннюю трассировку</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="122"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="128"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="150"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="156"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="123"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="129"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="151"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="157"/>
         <source>Total</source>
         <translation>Всего</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="125"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="153"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="126"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="154"/>
         <source>Decomposition time</source>
         <translation>Время на декомпозицию</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="126"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="154"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="127"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="155"/>
         <source>Composition time</source>
         <translation>Время на композицию</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="127"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="155"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="128"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="156"/>
         <source>External routing time</source>
         <translation>Время на внешнюю трассировку</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="42"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="43"/>
         <source>Common data</source>
         <translation>Общие данные</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="44"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="45"/>
         <source>Used model</source>
         <translation>Используемая модель</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="45"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="46"/>
         <source>Total time</source>
         <translation>Общее время</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="46"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="47"/>
         <source>Routed wires number</source>
         <translation>Число проведенных соединений</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="47"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="48"/>
         <source>Chip width</source>
         <translation>Ширина чипа</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="48"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="49"/>
         <source>Chip height</source>
         <translation>Высота чипа</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="49"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="50"/>
         <source>Chip square</source>
         <translation>Площадь чипа</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="131"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="163"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="132"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="164"/>
         <source>Routed wires number change</source>
         <translation>Изменение числа проведенных соединений</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="132"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="164"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="133"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="165"/>
         <source>Internal routed wires percent</source>
         <translation>Процент проведенных внутренних соединений</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="133"/>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="165"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="134"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="166"/>
         <source>Total routed wires percent</source>
         <translation>Процент проведенных соединений</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="145"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="146"/>
         <source>Computer</source>
         <translation>Компьютер</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="159"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="160"/>
         <source>Internal unrouted wires number</source>
         <translation>Число внутренних непроведенных соединений</translation>
     </message>
     <message>
-        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="160"/>
+        <location filename="../../app/gui/statisticsdialog/statisticsdialog.cpp" line="161"/>
         <source>Total unrouted wires number</source>
         <translation>Общее число непроведенных соединений</translation>
     </message>

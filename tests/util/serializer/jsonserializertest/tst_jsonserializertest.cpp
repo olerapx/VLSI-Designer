@@ -121,7 +121,7 @@ void JsonSerializerTest::serializeSchemeTest()
     s->getElements().append(el1);
     s->getElements().append(el2);
 
-    Wire w(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::Outer, Q_INT64_C(0));
+    Wire w(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::InterNode, Q_INT64_C(0));
     s->getWires().append(w);
 
     JsonSerializer json;
@@ -158,7 +158,7 @@ void JsonSerializerTest::serializeSchemeTest()
     index = wire.value("dest-index").toString().toLongLong();
     QVERIFY(index == w.getDestIndex());
     QVERIFY(wire.value("dest-pin-id").toString() == w.getDestPinId());
-    QVERIFY(wire.value("type").toString() == "outer");
+    QVERIFY(wire.value("type").toString() == "inter-node");
 
     index = wire.value("index").toString().toLongLong();
     QVERIFY(index == w.getIndex());
@@ -374,7 +374,7 @@ void JsonSerializerTest::deserializeSchemeTest()
     QVERIFY(w.getSrcPinId() == "z");
     QVERIFY(w.getDestIndex() == 1);
     QVERIFY(w.getDestPinId() == "a");
-    QVERIFY(w.getType() == WireType::Inner);
+    QVERIFY(w.getType() == WireType::InNode);
     QVERIFY(w.getIndex() == 0);
 
     delete s;

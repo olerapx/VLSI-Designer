@@ -78,8 +78,8 @@ qint64 WireCoordinate::getFitnessValue()
     else
         res = WireUtils::getDistance(getSrcCoordinate(), getDestCoordinate(), position, height, width);
 
-    if(wire->getType() == WireType::Inner)
-        res *= innerWireFitnessCoefficient;
+    if(wire->getType() == WireType::InNode)
+        res *= inNodeWireFitnessCoefficient;
 
     return res;
 }

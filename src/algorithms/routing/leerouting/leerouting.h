@@ -32,7 +32,7 @@ private:
         bool branched;
     };
 
-    QList<WireData*> innerWires, outerWires;
+    QList<WireData*> inNodeWires, interNodeWires;
     QList<QList<CellInfo>> matrix;
 
     qint64 currentValue;
@@ -46,6 +46,8 @@ private:
     bool startBranched;
 
     QList<ExtensionRecord> extensions;
+    QList<QPoint> currentWavePoints;
+    QList<QPoint> nextWavePoints;
 
     void clear();
 

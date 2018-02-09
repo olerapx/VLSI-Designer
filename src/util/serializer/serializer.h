@@ -22,8 +22,8 @@ static const QMap<QString, DistributionType> distributionTypeMap
 
 static const QMap<QString, WireType> wireTypeMap
 {
-    {"inner", WireType::Inner},
-    {"outer", WireType::Outer}
+    {"in-node", WireType::InNode},
+    {"inter-node", WireType::InterNode}
 };
 
 static const QMap<QString, CellType> cellTypeMap

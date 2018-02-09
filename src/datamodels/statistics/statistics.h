@@ -25,15 +25,15 @@ public:
     double getAverageSecondaryPlacementTime(int level);
     double getAverageInternalRoutingTime(int level);
 
-    double getAverageTotalInnerTime(int level);
-    int getMaxTotalInnerTime(int level);
+    double getAverageTotalInternalTime(int level);
+    int getMaxTotalInternalTime(int level);
 
     double getAverageDecompositionTime(int level);
     double getAverageCompositionTime(int level);
-    double getAverageOuterRoutingTime(int level);
+    double getAverageExternalRoutingTime(int level);
 
-    double getAverageTotalOuterTime(int level);
-    int getMaxTotalOuterTime(int level);
+    double getAverageTotalExternalTime(int level);
+    int getMaxTotalExternalTime(int level);
 
     double getAverageRoutedWiresDelta(int level);
     double getAverageRoutedInternalWiresPercent(int level);

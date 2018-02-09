@@ -2,7 +2,7 @@
 
 #include "algorithms/decomposition/decompositionalgorithm.h"
 #include "algorithms/decomposition/serialdecomposition/schemevertex.h"
-#include "algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h"
+#include "algorithms/decomposition/serialdecomposition/internodeconnectionsnumbercomparator.h"
 
 /**
  * @brief The SerialDecomposition class

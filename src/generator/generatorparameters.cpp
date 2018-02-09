@@ -22,13 +22,13 @@ void GeneratorParameters::setElementsNumber(int number)
     this->elementsNumber = number;
 }
 
-void GeneratorParameters::setInnerWireChance(double chance)
+void GeneratorParameters::setInNodeWireChance(double chance)
 {
     if(chance < 0.0 || chance > 1.0)
         throw IllegalArgumentException(QObject::tr("Chance value must be in range from 0 to 1, passed: %1.")
                                        .arg(QString::number(chance)));
 
-    this->innerWireChance = chance;
+    this->inNodeWireChance = chance;
 }
 
 void GeneratorParameters::setNodeCapacity(int mean, double sigma, int lowerLimit, int upperLimit)

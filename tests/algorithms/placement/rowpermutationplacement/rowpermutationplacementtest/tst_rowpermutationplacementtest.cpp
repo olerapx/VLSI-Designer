@@ -83,11 +83,11 @@ void RowPermutationPlacementTest::fitnessFunctionTest()
 
     QList<Wire> wires =
     {
-        Wire(0, "p1", 10, "dummy", WireType::Outer, 0),
-        Wire(0, "p2", 11, "dummy1", WireType::Outer, 1),
-        Wire(0, "p3", 1, "p3", WireType::Outer, 2),
-        Wire(1, "p3", 0, "p2", WireType::Inner, 3),
-        Wire(0, "p3", 0, "p2", WireType::Outer, 4)
+        Wire(0, "p1", 10, "dummy", WireType::InterNode, 0),
+        Wire(0, "p2", 11, "dummy1", WireType::InterNode, 1),
+        Wire(0, "p3", 1, "p3", WireType::InterNode, 2),
+        Wire(1, "p3", 0, "p2", WireType::InNode, 3),
+        Wire(0, "p3", 0, "p2", WireType::InterNode, 4)
     };
 
     PlacementResult res(g, coords, wires, libraries);
@@ -173,8 +173,8 @@ void RowPermutationPlacementTest::rowsPermutationTest()
 
     QList<Wire> wires =
     {
-        Wire(0, "p1", 3, "p3", WireType::Outer, 0),
-        Wire(4, "p3", 10, "dummy", WireType::Inner, 1)
+        Wire(0, "p1", 3, "p3", WireType::InterNode, 0),
+        Wire(4, "p3", 10, "dummy", WireType::InNode, 1)
     };
 
     PlacementResult* res = new PlacementResult(g, coords, wires, libraries);
@@ -271,10 +271,10 @@ void RowPermutationPlacementTest::elementsPermutationTest()
 
     QList<Wire> wires =
     {
-        Wire(0, "p3", 0, "p2", WireType::Outer, 0),
-        Wire(3, "p3", 1, "p1", WireType::Outer, 1),
-        Wire(3, "p3", 2, "p2", WireType::Outer, 2),
-        Wire(10, "dummy", 0, "p1", WireType::Outer, 3)
+        Wire(0, "p3", 0, "p2", WireType::InterNode, 0),
+        Wire(3, "p3", 1, "p1", WireType::InterNode, 1),
+        Wire(3, "p3", 2, "p2", WireType::InterNode, 2),
+        Wire(10, "dummy", 0, "p1", WireType::InterNode, 3)
     };
 
     PlacementResult* res = new PlacementResult(g, coords, wires, libraries);

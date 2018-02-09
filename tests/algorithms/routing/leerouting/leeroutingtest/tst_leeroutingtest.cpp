@@ -106,9 +106,9 @@ void LeeRoutingTest::routingTest()
     s->getElements().append(SchemeElement("lib", "el4", 0));
     s->getElements().append(SchemeElement("lib", "el3", 1));
 
-    s->getWires().append(Wire(0, "p2", 1, "p4", WireType::Outer, 0));
-    s->getWires().append(Wire(0, "p1", 1, "p3", WireType::Outer, 1));
-    s->getWires().append(Wire(0, "p1", 1, "p5", WireType::Outer, 2));
+    s->getWires().append(Wire(0, "p2", 1, "p4", WireType::InterNode, 0));
+    s->getWires().append(Wire(0, "p1", 1, "p3", WireType::InterNode, 1));
+    s->getWires().append(Wire(0, "p1", 1, "p5", WireType::InterNode, 2));
 
     LeeRouting lee(g, s, 1, 1);
 
@@ -192,10 +192,10 @@ void LeeRoutingTest::branchingTest()
     s->getElements().append(SchemeElement("lib", "el4", 3));
     s->getElements().append(SchemeElement("lib", "el4", 4));
 
-    s->getWires().append(Wire(0, "p2", 1, "p2", WireType::Outer, 0));
-    s->getWires().append(Wire(0, "p2", 2, "p2", WireType::Outer, 1));
-    s->getWires().append(Wire(0, "p2", 3, "p1", WireType::Outer, 2));
-    s->getWires().append(Wire(0, "p2", 4, "p1", WireType::Outer, 3));
+    s->getWires().append(Wire(0, "p2", 1, "p2", WireType::InterNode, 0));
+    s->getWires().append(Wire(0, "p2", 2, "p2", WireType::InterNode, 1));
+    s->getWires().append(Wire(0, "p2", 3, "p1", WireType::InterNode, 2));
+    s->getWires().append(Wire(0, "p2", 4, "p1", WireType::InterNode, 3));
 
     LeeRouting lee(g, s, 1, 1);
 
@@ -260,11 +260,11 @@ void LeeRoutingTest::wireSortingTest()
     s->getElements().append(SchemeElement("lib", "el4", 0));
     s->getElements().append(SchemeElement("lib", "el3", 1));
 
-    s->getWires().append(Wire(0, "p1", 1, "p2", WireType::Outer, 0));
-    s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 1));
+    s->getWires().append(Wire(0, "p1", 1, "p2", WireType::InterNode, 0));
+    s->getWires().append(Wire(0, "p2", 1, "p1", WireType::InterNode, 1));
 
-    s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
-    s->getWires().append(Wire(0, "p2", 1, "p3", WireType::Inner, 3));
+    s->getWires().append(Wire(0, "p2", 1, "p5", WireType::InNode, 2));
+    s->getWires().append(Wire(0, "p2", 1, "p3", WireType::InNode, 3));
 
     LeeRouting lee(g, s, 1, 1);
 
@@ -326,10 +326,10 @@ void LeeRoutingTest::excludedWiresTest()
     s->getElements().append(SchemeElement("lib", "el4", 0));
     s->getElements().append(SchemeElement("lib", "el3", 1));
 
-    s->getWires().append(Wire(0, "p1", 1, "p2", WireType::Outer, 0));
-    s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 1));
+    s->getWires().append(Wire(0, "p1", 1, "p2", WireType::InterNode, 0));
+    s->getWires().append(Wire(0, "p2", 1, "p1", WireType::InterNode, 1));
 
-    s->getWires().append(Wire(0, "p2", 1, "p5", WireType::Inner, 2));
+    s->getWires().append(Wire(0, "p2", 1, "p5", WireType::InNode, 2));
 
     LeeRouting lee(g, s, 1, 1);
 
@@ -382,7 +382,7 @@ void LeeRoutingTest::extendHorizontallyTest()
     s->getElements().append(SchemeElement("lib", "el3", 2));
     s->getElements().append(SchemeElement("lib", "el3", 3));
 
-    s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
+    s->getWires().append(Wire(1, "p1", 0, "p2", WireType::InterNode, 0));
 
     LeeRouting lee(g, s, 1, 1);
 
@@ -453,7 +453,7 @@ void LeeRoutingTest::extendVerticallyTest()
      s->getElements().append(SchemeElement("lib", "el4", 3));
      s->getElements().append(SchemeElement("lib", "el4", 4));
 
-     s->getWires().append(Wire(0, "p2", 1, "p1", WireType::Outer, 0));
+     s->getWires().append(Wire(0, "p2", 1, "p1", WireType::InterNode, 0));
 
      LeeRouting lee(g, s, 1, 1);
 
@@ -520,7 +520,7 @@ void LeeRoutingTest::extensionIsUnavailableTest()
      s->getElements().append(SchemeElement("lib", "el4", 2));
      s->getElements().append(SchemeElement("lib", "el4", 3));
 
-     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
+     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::InterNode, 0));
 
      LeeRouting lee(g, s, 1, 1);
 
@@ -555,7 +555,7 @@ void LeeRoutingTest::maxExtensionAttemptsReachedTest()
      s->getElements().append(SchemeElement("lib", "el4", 0));
      s->getElements().append(SchemeElement("lib", "el4", 1));
 
-     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::Outer, 0));
+     s->getWires().append(Wire(1, "p1", 0, "p2", WireType::InterNode, 0));
 
      LeeRouting lee(g, s, 2, 2);
 

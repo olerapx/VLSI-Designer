@@ -5,8 +5,8 @@
 
 enum class WireType
 {
-    Inner,
-    Outer
+    InNode,
+    InterNode
 };
 
 /**

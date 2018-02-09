@@ -15,7 +15,7 @@ public:
 private slots:
     void generateTest();
     void distributionTest();
-    void outerIfUnableInnerTest();
+    void interNodeIfUnableInNodeTest();
     void changeBranchingTest();
 
 private:
@@ -24,7 +24,7 @@ private:
 
     void readLibraries();
 
-    bool containsOuter(Scheme* s);
+    bool containsInterNode(Scheme* s);
 
     Scheme* scheme;
 };
@@ -130,7 +130,7 @@ void GeneratorTest::distributionTest()
     delete g;
 }
 
-void GeneratorTest::outerIfUnableInnerTest()
+void GeneratorTest::interNodeIfUnableInNodeTest()
 {
     readLibraries();
     libraries.at(0)->getElements().removeAt(1);
@@ -140,21 +140,21 @@ void GeneratorTest::outerIfUnableInnerTest()
 
     param.setNodeCapacity(1, 0.1, 1, 1);
     param.setBranching(3, 0.2, 3, 3);
-    param.setInnerWireChance(1);
+    param.setInNodeWireChance(1);
 
     Generator* g = new Generator(param);
     Scheme* s = g->execute();
 
-    QVERIFY(containsOuter(s));
+    QVERIFY(containsInterNode(s));
 
     delete s;
     delete g;
 }
 
-bool GeneratorTest::containsOuter(Scheme *s)
+bool GeneratorTest::containsInterNode(Scheme *s)
 {
     for(Wire w: s->getWires())
-        if(w.getType() == WireType::Outer)
+        if(w.getType() == WireType::InterNode)
             return true;
 
     return false;

@@ -18,22 +18,22 @@ Grid* LeeRouting::execute()
 
         initWires();
 
-        sendLog(tr("Routing inner wires."));
+        sendLog(tr("Routing in-node wires."));
 
-        for(int i=0; i<innerWires.size(); i++)
+        for(int i=0; i<inNodeWires.size(); i++)
         {
-            sendLog(tr("Routing inner wire %1 of %2:")
-                    .arg(QString::number(i+1), QString::number(innerWires.size())));
-            routeWire(innerWires[i]);
+            sendLog(tr("Routing in-node wire %1 of %2:")
+                    .arg(QString::number(i+1), QString::number(inNodeWires.size())));
+            routeWire(inNodeWires[i]);
         }
 
-        sendLog(tr("Routing outer wires."));
+        sendLog(tr("Routing inter-node wires."));
 
-        for(int i=0; i<outerWires.size(); i++)
+        for(int i=0; i<interNodeWires.size(); i++)
         {
-            sendLog(tr("Routing outer wire %1 of %2:")
-                    .arg(QString::number(i+1), QString::number(outerWires.size())));
-            routeWire(outerWires[i]);
+            sendLog(tr("Routing inter-node wire %1 of %2:")
+                    .arg(QString::number(i+1), QString::number(interNodeWires.size())));
+            routeWire(interNodeWires[i]);
         }
 
         clear();
@@ -59,11 +59,13 @@ Grid* LeeRouting::execute()
 
 void LeeRouting::clear()
 {
-    innerWires.clear();
-    outerWires.clear();
+    inNodeWires.clear();
+    interNodeWires.clear();
 
     matrix.clear();
     extensions.clear();
+    currentWavePoints.clear();
+    nextWavePoints.clear();
 
     currentValue = 0;
     extensionAttemptsForWire = 0;
@@ -90,14 +92,14 @@ void LeeRouting::initWires()
         if(isWireRouted(w))
             continue;
 
-        if(w.getType() == WireType::Inner)
-            innerWires.append(&data);
+        if(w.getType() == WireType::InNode)
+            inNodeWires.append(&data);
         else
-            outerWires.append(&data);
+            interNodeWires.append(&data);
     }
 
-    std::sort(innerWires.begin(), innerWires.end(), WireDistanceComparator(grid->getHeight(), grid->getWidth()));
-    std::sort(outerWires.begin(), outerWires.end(), WireDistanceComparator(grid->getHeight(), grid->getWidth()));
+    std::sort(inNodeWires.begin(), inNodeWires.end(), WireDistanceComparator(grid->getHeight(), grid->getWidth()));
+    std::sort(interNodeWires.begin(), interNodeWires.end(), WireDistanceComparator(grid->getHeight(), grid->getWidth()));
 }
 
 bool LeeRouting::isWireRouted(Wire& wire)
@@ -229,9 +231,14 @@ void LeeRouting::pushWave()
 {
     sendLog(tr("Pushing the forward wave."));
 
+    currentWavePoints.clear();
+    nextWavePoints.clear();
+
     currentValue = 0;
     matrix[startCoord.y()][startCoord.x()].value = currentValue;
     matrix[startCoord.y()][startCoord.x()].branched = startBranched;
+
+    currentWavePoints.append(startCoord);
 
     finished = false;
     noMoreWays = false;
@@ -240,23 +247,23 @@ void LeeRouting::pushWave()
 
     while(!finished && !noMoreWays)
     {
-        if(stopped) return;
+        if(stopped) return;        
 
+        nextWavePoints.clear();
         pushedOnCurrentStep = 0;
 
-        for(int i=0; i<matrix.size(); i++)
+        for(QPoint& point: currentWavePoints)
         {
-            for(int j=0; j<matrix[i].size(); j++)
+            int j = point.x();
+            int i = point.y();
+
+            QPoint currentCoord = QPoint(j, i);
+            QPoint nearbyCoords[] = { QPoint(j - 1, i), QPoint(j, i - 1), QPoint(j + 1, i), QPoint(j, i + 1) };
+
+            for(QPoint& nearbyCoord: nearbyCoords)
             {
-                if(matrix[i][j].value != currentValue)
-                    continue;
-
-                QPoint currentCoord = QPoint(j, i);
-                QPoint nearbyCoords[] = { QPoint(j - 1, i), QPoint(j, i - 1), QPoint(j + 1, i), QPoint(j, i + 1) };
-
-                for(int k=0; k<4; k++)
-                    if(tryRoute(currentCoord, nearbyCoords[k]))
-                        pushedOnCurrentStep ++;
+                if(tryRoute(currentCoord, nearbyCoord))
+                    pushedOnCurrentStep ++;
             }
         }
 
@@ -264,6 +271,8 @@ void LeeRouting::pushWave()
             currentValue ++;
         else
             noMoreWays = true;
+
+        currentWavePoints = nextWavePoints;
     }
 }
 
@@ -283,6 +292,8 @@ bool LeeRouting::tryRoute(QPoint from, QPoint to)
 
         matrix[to.y()][to.x()].value = currentValue + 1;
         matrix[to.y()][to.x()].branched = state.newBranched;
+
+        nextWavePoints.append(to);
 
         if(to == finishCoord)
             finished = true;

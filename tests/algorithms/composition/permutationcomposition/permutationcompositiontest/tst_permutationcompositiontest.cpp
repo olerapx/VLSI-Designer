@@ -160,12 +160,12 @@ void PermutationCompositionTest::wiresDataCompositionTest()
     grids[2]->getWiresData().append(WireData(5, QPoint(0, 1), QPoint(0, 0), WirePosition::External));
 
     Scheme* s = new Scheme();
-    s->getWires().append(Wire(0, "p1", 2, "p1", WireType::Inner, 0));
-    s->getWires().append(Wire(1, "p1", 10, "p4", WireType::Outer, 1));
-    s->getWires().append(Wire(2, "p2", 10, "p5", WireType::Outer, 2));
-    s->getWires().append(Wire(0, "p2", 1, "p2", WireType::Inner, 3));
-    s->getWires().append(Wire(3, "p1", 3, "p2", WireType::Outer, 4));
-    s->getWires().append(Wire(4, "p1", 11, "p3", WireType::Outer, 5));
+    s->getWires().append(Wire(0, "p1", 2, "p1", WireType::InNode, 0));
+    s->getWires().append(Wire(1, "p1", 10, "p4", WireType::InterNode, 1));
+    s->getWires().append(Wire(2, "p2", 10, "p5", WireType::InterNode, 2));
+    s->getWires().append(Wire(0, "p2", 1, "p2", WireType::InNode, 3));
+    s->getWires().append(Wire(3, "p1", 3, "p2", WireType::InterNode, 4));
+    s->getWires().append(Wire(4, "p1", 11, "p3", WireType::InterNode, 5));
 
     PermutationComposition composition(grids, s);
     Grid* grid = composition.execute();
@@ -254,8 +254,8 @@ void PermutationCompositionTest::optimizationTest()
     grids[3]->getWiresData().append(WireData(1, QPoint(0, 1), QPoint(0, 0), WirePosition::External));
 
     Scheme* s = new Scheme();
-    s->getWires().append(Wire(0, "p1", 1, "p1", WireType::Outer, 0));
-    s->getWires().append(Wire(0, "p2", 2, "p1", WireType::Inner, 1));
+    s->getWires().append(Wire(0, "p1", 1, "p1", WireType::InterNode, 0));
+    s->getWires().append(Wire(0, "p2", 2, "p1", WireType::InNode, 1));
 
     PermutationComposition composition(grids, s);
     Grid* grid = composition.execute();

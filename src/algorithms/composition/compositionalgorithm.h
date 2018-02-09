@@ -86,7 +86,7 @@ protected:
         int gridIndex;
     };
 
-    static const int innerWireFitnessCoefficient = 10;
+    static const int inNodeWireFitnessCoefficient = 10;
 
     QList<Grid*> grids;
     Scheme* scheme;

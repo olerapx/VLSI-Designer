@@ -263,25 +263,25 @@ void Generator::generateWiresForOutput(NodeElement* element, Pin p)
         if(stopped) return;
 
         double chance = wireRandom(mt);
-        if(element->getNodeNumber() == freeNodeElementIndex || chance > param.getInnerWireChance())
+        if(element->getNodeNumber() == freeNodeElementIndex || chance > param.getInNodeWireChance())
         {
-            tryGenerateOuterWire(element, p, branching);
+            tryGenerateInterNodeWire(element, p, branching);
             continue;
         }
 
-        if (!tryGenerateInnerWire(element, p, branching))
-            tryGenerateOuterWire(element, p, branching);
+        if (!tryGenerateInNodeWire(element, p, branching))
+            tryGenerateInterNodeWire(element, p, branching);
     }
 }
 
-void Generator::tryGenerateOuterWire(NodeElement* element, Pin p, int attempts)
+void Generator::tryGenerateInterNodeWire(NodeElement* element, Pin p, int attempts)
 {
     for(int i=0; i<attempts; i++)
     {
         try
         {
             std::pair<NodeElement*, Pin> pair = getRandomPin();
-            Wire w = buildWire(element, p, pair.first, pair.second, WireType::Outer);
+            Wire w = buildWire(element, p, pair.first, pair.second, WireType::InterNode);
 
             wires.append(w);
             currentWireIndex ++;
@@ -296,14 +296,14 @@ void Generator::tryGenerateOuterWire(NodeElement* element, Pin p, int attempts)
     }
 }
 
-bool Generator::tryGenerateInnerWire(NodeElement* element, Pin p, int attempts)
+bool Generator::tryGenerateInNodeWire(NodeElement* element, Pin p, int attempts)
 {
     for(int i=0; i<attempts; i++)
     {
         try
         {
             std::pair<NodeElement*, Pin> pair = getRandomPin(element->getNodeNumber());
-            Wire w = buildWire(element, p, pair.first, pair.second, WireType::Inner);
+            Wire w = buildWire(element, p, pair.first, pair.second, WireType::InNode);
 
             wires.append(w);
             currentWireIndex ++;

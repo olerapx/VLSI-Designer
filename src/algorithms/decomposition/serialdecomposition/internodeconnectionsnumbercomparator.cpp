@@ -1,12 +1,12 @@
-#include "outerconnectionsnumbercomparator.h"
+#include "internodeconnectionsnumbercomparator.h"
 
-OuterConnectionsNumberComparator::OuterConnectionsNumberComparator(QList<SchemeVertex*> &list) :
+InterNodeConnectionsNumberComparator::InterNodeConnectionsNumberComparator(QList<SchemeVertex*> &list) :
     list(list)
 {
 
 }
 
-bool OuterConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVertex* v2) const
+bool InterNodeConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVertex* v2) const
 {
     int firstConnectionsNumber = 0;
     int secondConnectionsNumber = 0;

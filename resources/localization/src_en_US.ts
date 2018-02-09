@@ -211,22 +211,6 @@
         <translation>Cannot start drawing wire from/to pin at coordinates(%1; %2): no element found nearby.</translation>
     </message>
     <message>
-        <source>Routing inner wires.</source>
-        <translation>Routing inner wires.</translation>
-    </message>
-    <message>
-        <source>Routing inner wire %1 of %2:</source>
-        <translation>Routing inner wire %1 of %2:</translation>
-    </message>
-    <message>
-        <source>Routing outer wires.</source>
-        <translation>Routing outer wires.</translation>
-    </message>
-    <message>
-        <source>Routing outer wire %1 of %2:</source>
-        <translation>Routing outer wire %1 of %2:</translation>
-    </message>
-    <message>
         <source>Obtaining wires to be traced.</source>
         <translation>Obtaining wires to be traced.</translation>
     </message>
@@ -253,6 +237,22 @@
     <message>
         <source>Pushing the reverse wave.</source>
         <translation>Pushing the reverse wave.</translation>
+    </message>
+    <message>
+        <source>Routing in-node wires.</source>
+        <translation>Routing in-node wires.</translation>
+    </message>
+    <message>
+        <source>Routing in-node wire %1 of %2:</source>
+        <translation>Routing in-node wire %1 of %2:</translation>
+    </message>
+    <message>
+        <source>Routing inter-node wires.</source>
+        <translation>Routing inter-node wires.</translation>
+    </message>
+    <message>
+        <source>Routing inter-node wire %1 of %2:</source>
+        <translation>Routing inter-node wire %1 of %2:</translation>
     </message>
 </context>
 <context>
@@ -687,10 +687,6 @@
         <translation>Chance value must be in range from 0 to 1, passed: %1.</translation>
     </message>
     <message>
-        <source>Distribution parameters must be positive.</source>
-        <translation>Distribution parameters must be positive.</translation>
-    </message>
-    <message>
         <source>Mean must be in limits.</source>
         <translation>Mean must be in limits.</translation>
     </message>
@@ -845,6 +841,10 @@
     <message>
         <source>Cannot merge statistics from level %1 to level %2.</source>
         <translation>Cannot merge statistics from level %1 to level %2.</translation>
+    </message>
+    <message>
+        <source>Distribution parameters cannot be negative.</source>
+        <translation>Distribution parameters cannot be negative.</translation>
     </message>
 </context>
 <context>

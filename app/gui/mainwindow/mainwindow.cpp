@@ -223,14 +223,18 @@ void MainWindow::onSendManagerLog(QString log, LogType type)
 {
     colorizeLog(log, type);
     prependCurrentTime(log);
+
     ui->managerLogText->append(log);
+    ui->managerLogText->ensureCursorVisible();
 }
 
 void MainWindow::onSendNodeLog(QString log, LogType type)
 {
     colorizeLog(log, type);
     prependCurrentTime(log);
+
     ui->nodeLogText->append(log);
+    ui->nodeLogText->ensureCursorVisible();
 }
 
 void MainWindow::colorizeLog(QString &string, LogType type)
@@ -267,14 +271,18 @@ void MainWindow::onSendManagerError(QString error)
 {
     colorizeLog(error, LogType::Error);
     prependCurrentTime(error);
+
     ui->managerLogText->append(error);
+    ui->managerLogText->ensureCursorVisible();
 }
 
 void MainWindow::onSendNodeError(QString error)
 {
     colorizeLog(error, LogType::Error);
     prependCurrentTime(error);
+
     ui->nodeLogText->append(error);
+    ui->nodeLogText->ensureCursorVisible();
 }
 
 void MainWindow::onDisableManager()

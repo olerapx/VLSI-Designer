@@ -212,8 +212,8 @@ qint64 PermutationComposition::getFitnessValue(QList<GridPosition>& positions)
 
         int val = WireUtils::getDistance(srcCoord, destCoord, WirePosition::Internal, 0, 0);
 
-        if(wire.getType() == WireType::Inner)
-            val *= innerWireFitnessCoefficient;
+        if(wire.getType() == WireType::InNode)
+            val *= inNodeWireFitnessCoefficient;
 
         res += val;
     }

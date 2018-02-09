@@ -12,6 +12,7 @@ StatisticsDialog::StatisticsDialog(Statistics* statistics, Grid* grid, FileSyste
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     display();
+    scrollTop();
 }
 
 StatisticsDialog::~StatisticsDialog()
@@ -69,8 +70,8 @@ int StatisticsDialog::getTotalTime()
 
     for(int i=0; i<statistics->getData().size(); i++)
     {
-        res += statistics->getMaxTotalInnerTime(i);
-        res += statistics->getMaxTotalOuterTime(i);
+        res += statistics->getMaxTotalInternalTime(i);
+        res += statistics->getMaxTotalExternalTime(i);
     }
 
     return res;
@@ -119,13 +120,13 @@ void StatisticsDialog::showAverageData(int level)
         appendRow(text, tr("Primary placement time"), QString::number(statistics->getAveragePrimaryPlacementTime(level)));
         appendRow(text, tr("Secondary placement time"), QString::number(statistics->getAverageSecondaryPlacementTime(level)));
         appendRow(text, tr("Internal routing time"), QString::number(statistics->getAverageInternalRoutingTime(level)));
-        appendRow(text, tr("Total"), QString::number(statistics->getAverageTotalInnerTime(level)));
+        appendRow(text, tr("Total"), QString::number(statistics->getAverageTotalInternalTime(level)));
         appendEmptyRow(text);
 
         appendRow(text, tr("Decomposition time"), QString::number(statistics->getAverageDecompositionTime(level)));
         appendRow(text, tr("Composition time"), QString::number(statistics->getAverageCompositionTime(level)));
-        appendRow(text, tr("External routing time"), QString::number(statistics->getAverageOuterRoutingTime(level)));
-        appendRow(text, tr("Total"), QString::number(statistics->getAverageTotalOuterTime(level)));
+        appendRow(text, tr("External routing time"), QString::number(statistics->getAverageExternalRoutingTime(level)));
+        appendRow(text, tr("Total"), QString::number(statistics->getAverageTotalExternalTime(level)));
         appendEmptyRow(text);
 
         appendRow(text, tr("Routed wires number change"), QString::number(statistics->getAverageRoutedWiresDelta(level), 'g', 3));
@@ -165,6 +166,13 @@ void StatisticsDialog::showHostData(int level, int index)
     appendRow(text, tr("Total routed wires percent"), QString::number(entry.getRoutedTotalWiresPercent(), 'g', 3));
 
     ui->textBrowser->append(text);
+}
+
+void StatisticsDialog::scrollTop()
+{
+    QTextCursor cursor = ui->textBrowser->textCursor();
+    cursor.setPosition(0);
+    ui->textBrowser->setTextCursor(cursor);
 }
 
 void StatisticsDialog::on_openGridImageButton_clicked()

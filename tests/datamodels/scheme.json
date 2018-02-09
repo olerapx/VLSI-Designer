@@ -9,8 +9,8 @@
 		{"library-id": "another", "element-id": "aoi21", "index": "2"}
 	],
 	"wires": [
-		{"src-index": "9223372036854775807", "src-pin-id": "z", "dest-index": "1", "dest-pin-id": "a", "type": "inner", "index": "0"},
-		{"src-index": "9223372036854775807", "src-pin-id": "z", "dest-index": "2", "dest-pin-id": "a2", "type": "outer", "index": "1"},
-		{"src-index": "1", "src-pin-id": "a", "dest-index": "1", "dest-pin-id": "b", "type": "inner", "index": "2"}
+		{"src-index": "9223372036854775807", "src-pin-id": "z", "dest-index": "1", "dest-pin-id": "a", "type": "in-node", "index": "0"},
+		{"src-index": "9223372036854775807", "src-pin-id": "z", "dest-index": "2", "dest-pin-id": "a2", "type": "inter-node", "index": "1"},
+		{"src-index": "1", "src-pin-id": "a", "dest-index": "1", "dest-pin-id": "b", "type": "in-node", "index": "2"}
 	]
 }}

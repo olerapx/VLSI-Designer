@@ -48,7 +48,7 @@ public:
 
     /**
      * @brief startPlacingAndRouting
-     * Starts the process of placing and inner routing.
+     * Starts the process of placing and internal routing.
      * The result will be sent in the sendRoutedGrid signal.
      * @param scheme
      */

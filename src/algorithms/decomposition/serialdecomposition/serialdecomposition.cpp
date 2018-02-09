@@ -163,7 +163,7 @@ void SerialDecomposition::placeNextElement(QList<SchemeVertex*>& list, int index
     sendLog(tr("Placement of element %1 of %2.").arg(QString::number(index + 1), QString::number(list.size())));
 
     QList<SchemeVertex*> selectableVertices = getSelectableVertices(list);
-    std::sort(selectableVertices.begin(), selectableVertices.end(), OuterConnectionsNumberComparator(list));
+    std::sort(selectableVertices.begin(), selectableVertices.end(), InterNodeConnectionsNumberComparator(list));
 
     SchemeVertex* vertex = selectableVertices[0];
     list[index] = vertex;
@@ -187,7 +187,7 @@ QList<SchemeVertex*> SerialDecomposition::getSelectableVertices(QList<SchemeVert
 
         for(std::pair<SchemeVertex*, WireType> connectedElement: vertex->getConnectedElements())
         {
-            if(!connectedElement.first->isDistributed() && connectedElement.second == WireType::Inner)
+            if(!connectedElement.first->isDistributed() && connectedElement.second == WireType::InNode)
                 selectableElements.append(connectedElement.first);
         }
     }

@@ -28,7 +28,7 @@ public:
     bool operator ==(WireCoordinate& other) const;
 
 private:
-    static const int innerWireFitnessCoefficient = 10;
+    static const int inNodeWireFitnessCoefficient = 10;
 
     Wire* wire;
     ElementCoordinate *src, *dest;

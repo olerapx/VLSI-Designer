@@ -211,22 +211,6 @@
         <translation>Невозможно начать трассировку соединения от/к контакту на координатах (%1; %2): рядом не обнаружено элемента.</translation>
     </message>
     <message>
-        <source>Routing inner wires.</source>
-        <translation>Трассировка внутренних соединений.</translation>
-    </message>
-    <message>
-        <source>Routing inner wire %1 of %2:</source>
-        <translation>Трассировка внутреннего соединения %1 из %2:</translation>
-    </message>
-    <message>
-        <source>Routing outer wires.</source>
-        <translation>Трассировка внешних соединений.</translation>
-    </message>
-    <message>
-        <source>Routing outer wire %1 of %2:</source>
-        <translation>Трассировка внешнего соединения %1 из %2:</translation>
-    </message>
-    <message>
         <source>Obtaining wires to be traced.</source>
         <translation>Получение соединений, которые будут протрассированы.</translation>
     </message>
@@ -253,6 +237,22 @@
     <message>
         <source>Pushing the reverse wave.</source>
         <translation>Пуск обратной волны.</translation>
+    </message>
+    <message>
+        <source>Routing in-node wires.</source>
+        <translation>Трассировка внутриузловых соединений.</translation>
+    </message>
+    <message>
+        <source>Routing in-node wire %1 of %2:</source>
+        <translation>Трассировка внутриузлового соединения %1 из %2:</translation>
+    </message>
+    <message>
+        <source>Routing inter-node wires.</source>
+        <translation>Трассировка межузловых соединений.</translation>
+    </message>
+    <message>
+        <source>Routing inter-node wire %1 of %2:</source>
+        <translation>Трассировка межузлового соединения %1 из %2:</translation>
     </message>
 </context>
 <context>
@@ -687,10 +687,6 @@
         <translation>Значение вероятности должно быть в границах от 0 до 1, передано: %1.</translation>
     </message>
     <message>
-        <source>Distribution parameters must be positive.</source>
-        <translation>Параметры распределения должны быть положительными.</translation>
-    </message>
-    <message>
         <source>Mean must be in limits.</source>
         <translation>Медиана должна лежать в границах.</translation>
     </message>
@@ -845,6 +841,10 @@
     <message>
         <source>Cannot merge statistics from level %1 to level %2.</source>
         <translation>Невозможно присоединить статистику уровня %1 к уровню %2.</translation>
+    </message>
+    <message>
+        <source>Distribution parameters cannot be negative.</source>
+        <translation>Параметры распределения не могут быть отрицательными.</translation>
     </message>
 </context>
 <context>

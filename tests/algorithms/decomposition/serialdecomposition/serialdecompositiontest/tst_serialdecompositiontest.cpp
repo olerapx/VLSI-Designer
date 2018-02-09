@@ -14,8 +14,8 @@ public:
 private slots:
     void decompositionTest();
     void minConnectionsPriorityTest();
-    void innerWirePriorityTest();
-    void innerWireAndMinConnectionsPriorityTest();
+    void inNodeWirePriorityTest();
+    void inNodeWireAndMinConnectionsPriorityTest();
 };
 
 void SerialDecompositionTest::decompositionTest()
@@ -28,13 +28,13 @@ void SerialDecompositionTest::decompositionTest()
     for(int i=0; i<7; i++)
         s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
 
-    s->getWires().append(Wire(0, "s", 1, "d", WireType::Inner, 0));
+    s->getWires().append(Wire(0, "s", 1, "d", WireType::InNode, 0));
 
-    s->getWires().append(Wire(1, "s", 2, "d", WireType::Outer, 1));
-    s->getWires().append(Wire(1, "s", 3, "d", WireType::Outer, 2));
+    s->getWires().append(Wire(1, "s", 2, "d", WireType::InterNode, 1));
+    s->getWires().append(Wire(1, "s", 3, "d", WireType::InterNode, 2));
 
-    s->getWires().append(Wire(2, "s", 5, "d", WireType::Outer, 3));
-    s->getWires().append(Wire(3, "s", 2, "d", WireType::Outer, 4));
+    s->getWires().append(Wire(2, "s", 5, "d", WireType::InterNode, 3));
+    s->getWires().append(Wire(3, "s", 2, "d", WireType::InterNode, 4));
 
     SerialDecomposition decomposition(s, 3);
     QList<Scheme*> list = decomposition.execute();
@@ -58,7 +58,7 @@ void SerialDecompositionTest::decompositionTest()
     for(int i=0; i<3; i++)
         s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
 
-    s->getWires().append(Wire(0, "s", 1, "d", WireType::Inner, 0));
+    s->getWires().append(Wire(0, "s", 1, "d", WireType::InNode, 0));
 
     QVERIFY_EXCEPTION_THROWN(decomposition.setParameters(s, 4), IllegalArgumentException);
 
@@ -72,7 +72,7 @@ void SerialDecompositionTest::minConnectionsPriorityTest()
     for(int i=0; i<4; i++)
         s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
 
-    s->getWires().append(Wire(0, "s", 3, "d", WireType::Outer, 1));
+    s->getWires().append(Wire(0, "s", 3, "d", WireType::InterNode, 1));
 
     SerialDecomposition decomposition(s, 2);
     QList<Scheme*> list = decomposition.execute();
@@ -86,21 +86,21 @@ void SerialDecompositionTest::minConnectionsPriorityTest()
     delete s;
 }
 
-void SerialDecompositionTest::innerWirePriorityTest()
+void SerialDecompositionTest::inNodeWirePriorityTest()
 {
     Scheme* s = new Scheme();
 
     for(int i=0; i<4; i++)
         s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
 
-    s->getWires().append(Wire(0, "s", 2, "d", WireType::Inner, 0));
-    s->getWires().append(Wire(0, "s", 3, "d", WireType::Outer, 1));
+    s->getWires().append(Wire(0, "s", 2, "d", WireType::InNode, 0));
+    s->getWires().append(Wire(0, "s", 3, "d", WireType::InterNode, 1));
 
-    s->getWires().append(Wire(1, "s", 2, "d", WireType::Outer, 2));
-    s->getWires().append(Wire(1, "s", 3, "d", WireType::Outer, 3));
-    s->getWires().append(Wire(1, "s", 3, "d", WireType::Outer, 4));
+    s->getWires().append(Wire(1, "s", 2, "d", WireType::InterNode, 2));
+    s->getWires().append(Wire(1, "s", 3, "d", WireType::InterNode, 3));
+    s->getWires().append(Wire(1, "s", 3, "d", WireType::InterNode, 4));
 
-    s->getWires().append(Wire(2, "s", 3, "d", WireType::Outer, 5));
+    s->getWires().append(Wire(2, "s", 3, "d", WireType::InterNode, 5));
 
     SerialDecomposition decomposition(s, 2);
     QList<Scheme*> list = decomposition.execute();
@@ -114,24 +114,24 @@ void SerialDecompositionTest::innerWirePriorityTest()
     delete s;
 }
 
-void SerialDecompositionTest::innerWireAndMinConnectionsPriorityTest()
+void SerialDecompositionTest::inNodeWireAndMinConnectionsPriorityTest()
 {
     Scheme* s = new Scheme();
 
     for(int i=0; i<5; i++)
         s->getElements().append(SchemeElement("lib", QString("el%1").arg(QString::number(i)), i));
 
-    s->getWires().append(Wire(0, "s", 1, "d", WireType::Inner, 0));
-    s->getWires().append(Wire(0, "s", 2, "d", WireType::Inner, 1));
+    s->getWires().append(Wire(0, "s", 1, "d", WireType::InNode, 0));
+    s->getWires().append(Wire(0, "s", 2, "d", WireType::InNode, 1));
 
-    s->getWires().append(Wire(1, "s", 2, "d1", WireType::Outer, 2));
-    s->getWires().append(Wire(1, "s", 2, "d2", WireType::Outer, 3));
+    s->getWires().append(Wire(1, "s", 2, "d1", WireType::InterNode, 2));
+    s->getWires().append(Wire(1, "s", 2, "d2", WireType::InterNode, 3));
 
-    s->getWires().append(Wire(2, "s", 3, "d", WireType::Outer, 4));
+    s->getWires().append(Wire(2, "s", 3, "d", WireType::InterNode, 4));
 
-    s->getWires().append(Wire(3, "s", 4, "d1", WireType::Outer, 5));
-    s->getWires().append(Wire(3, "s", 4, "d2", WireType::Outer, 6));
-    s->getWires().append(Wire(3, "s", 4, "d3", WireType::Outer, 7));
+    s->getWires().append(Wire(3, "s", 4, "d1", WireType::InterNode, 5));
+    s->getWires().append(Wire(3, "s", 4, "d2", WireType::InterNode, 6));
+    s->getWires().append(Wire(3, "s", 4, "d3", WireType::InterNode, 7));
 
     SerialDecomposition decomposition(s, 2);
     QList<Scheme*> list = decomposition.execute();

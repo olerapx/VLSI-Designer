@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <QTime>
 #include <QDesktopServices>
+#include <QScrollBar>
 
 #include "datamodels/statistics/statistics.h"
 #include "datamodels/grid/grid.h"
@@ -41,6 +42,8 @@ private:
     int getTotalTime();
     QString getTotalTimeString();
     QString getModel();
+
+    void scrollTop();
 
     Ui::StatisticsDialog *ui;
 

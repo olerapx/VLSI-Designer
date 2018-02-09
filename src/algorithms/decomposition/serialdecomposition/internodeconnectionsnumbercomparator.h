@@ -2,10 +2,10 @@
 
 #include "algorithms/decomposition/serialdecomposition/schemevertex.h"
 
-class OuterConnectionsNumberComparator
+class InterNodeConnectionsNumberComparator
 {
 public:
-    OuterConnectionsNumberComparator(QList<SchemeVertex*>& list);
+    InterNodeConnectionsNumberComparator(QList<SchemeVertex*>& list);
     bool operator ()(SchemeVertex* v1, SchemeVertex* v2) const;
 
 private:

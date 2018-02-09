@@ -19,7 +19,7 @@ SOURCES += \
     algorithms/decomposition/decompositionstrategy.cpp \
     algorithms/decomposition/serialdecomposition/serialdecomposition.cpp \
     algorithms/decomposition/serialdecomposition/schemevertex.cpp \
-    algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.cpp \
+    algorithms/decomposition/serialdecomposition/internodeconnectionsnumbercomparator.cpp \
     algorithms/placement/primaryplacementalgorithm.cpp \
     algorithms/placement/secondaryplacementalgorithm.cpp \
     algorithms/placement/primaryplacementstrategy.cpp \

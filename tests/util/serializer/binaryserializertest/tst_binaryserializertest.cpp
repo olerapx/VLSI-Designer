@@ -98,7 +98,7 @@ void BinarySerializerTest::schemeTest()
     s->getElements().append(el1);
     s->getElements().append(el2);
 
-    Wire w(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::Outer, Q_INT64_C(0));
+    Wire w(Q_INT64_C(9223372036854775807), "a", Q_INT64_C(2), "z", WireType::InterNode, Q_INT64_C(0));
     s->getWires().append(w);
 
     BinarySerializer serializer;

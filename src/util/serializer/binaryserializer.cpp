@@ -542,11 +542,11 @@ StatisticsEntry BinarySerializer::deserializeStatisticsEntry(QDataStream& stream
 
     qint32 primaryPlacementTime;
     qint32 secondaryPlacementTime;
-    qint32 innerRoutingTime;
+    qint32 internalRoutingTime;
 
     qint32 decompositionTime;
     qint32 compositionTime;
-    qint32 outerRoutingTime;
+    qint32 externalRoutingTime;
 
     qint32 internalUnroutedWiresNumber;
     qint32 totalUnroutedWiresNumber;
@@ -557,11 +557,11 @@ StatisticsEntry BinarySerializer::deserializeStatisticsEntry(QDataStream& stream
 
     stream >> primaryPlacementTime;
     stream >> secondaryPlacementTime;
-    stream >> innerRoutingTime;
+    stream >> internalRoutingTime;
 
     stream >> decompositionTime;
     stream >> compositionTime;
-    stream >> outerRoutingTime;
+    stream >> externalRoutingTime;
 
     stream >> internalUnroutedWiresNumber;
     stream >> totalUnroutedWiresNumber;
@@ -572,11 +572,11 @@ StatisticsEntry BinarySerializer::deserializeStatisticsEntry(QDataStream& stream
 
     entry.setPrimaryPlacementTime(primaryPlacementTime);
     entry.setSecondaryPlacementTime(secondaryPlacementTime);
-    entry.setInternalRoutingTime(innerRoutingTime);
+    entry.setInternalRoutingTime(internalRoutingTime);
 
     entry.setDecompositionTime(decompositionTime);
     entry.setCompositionTime(compositionTime);
-    entry.setExternalRoutingTime(outerRoutingTime);
+    entry.setExternalRoutingTime(externalRoutingTime);
 
     entry.setInternalUnroutedWiresNumber(internalUnroutedWiresNumber);
     entry.setTotalUnroutedWiresNumber(totalUnroutedWiresNumber);

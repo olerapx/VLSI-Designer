@@ -12,7 +12,7 @@ HEADERS += \
     $$PWD/algorithms/decomposition/decompositionstrategy.h \
     $$PWD/algorithms/decomposition/serialdecomposition/serialdecomposition.h \
     $$PWD/algorithms/decomposition/serialdecomposition/schemevertex.h \
-    $$PWD/algorithms/decomposition/serialdecomposition/outerconnectionsnumbercomparator.h \
+    $$PWD/algorithms/decomposition/serialdecomposition/internodeconnectionsnumbercomparator.h \
     $$PWD/algorithms/placement/primaryplacementalgorithm.h \
     $$PWD/algorithms/placement/secondaryplacementalgorithm.h \
     $$PWD/algorithms/placement/primaryplacementstrategy.h \
