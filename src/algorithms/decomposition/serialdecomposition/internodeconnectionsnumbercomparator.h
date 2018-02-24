@@ -10,4 +10,5 @@ public:
 
 private:
     QList<SchemeVertex*>& list;
+    QList<SchemeVertex*> interConnectedElements;
 };

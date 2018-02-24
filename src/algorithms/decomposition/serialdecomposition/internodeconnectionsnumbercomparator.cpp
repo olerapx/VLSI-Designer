@@ -3,7 +3,17 @@
 InterNodeConnectionsNumberComparator::InterNodeConnectionsNumberComparator(QList<SchemeVertex*> &list) :
     list(list)
 {
+    for(SchemeVertex* v: list)
+    {
+        if (v == nullptr)
+            continue;
 
+        for(std::pair<SchemeVertex*, WireType>& connectedElement: v->getConnectedElements())
+        {
+            if(connectedElement.second == WireType::InterNode)
+                interConnectedElements.append(connectedElement.first);
+        }
+    }
 }
 
 bool InterNodeConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeVertex* v2) const
@@ -21,6 +31,18 @@ bool InterNodeConnectionsNumberComparator::operator ()(SchemeVertex* v1, SchemeV
     {
         if(!list.contains(connectedElement.first))
             secondConnectionsNumber ++;
+    }
+
+    for(SchemeVertex* v: interConnectedElements)
+    {
+        if(v != v1)
+        {
+            firstConnectionsNumber ++;
+        }
+        if (v != v2)
+        {
+            secondConnectionsNumber ++;
+        }
     }
 
     return (firstConnectionsNumber < secondConnectionsNumber);
