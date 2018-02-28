@@ -44,18 +44,16 @@ private:
     qint64 findFitnessDiffOnRowsSwapping(int firstRowPosition, int secondRowPosition);
     void swapRowsCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition);
     int getShift(QList<ElementCoordinate>& first, QList<ElementCoordinate>& second);
-    void swapRowsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition);
 
     void permutateRow(int rowIndex);
     void findOptimalElementPosition(int rowIndex, int elementIndex);
     qint64 findFitnessDiffOnElementsSwapping(int rowIndex, int firstElementPosition, int secondElementPosition);    
     void swapElementsCoordinates(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
     int getShift(ElementCoordinate first, ElementCoordinate second);
-    void swapElementsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition);
-    int getRowHeight(QList<ElementCoordinate>& row);
 
     qint64 getFitnessValue(QList<WireCoordinate>& wireCoordinates);
 
     PlacementResult* buildResult();
+    void rebuildGrid();
     QList<ElementCoordinate> concatElementCoordinates();
 };

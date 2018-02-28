@@ -739,20 +739,8 @@
         <translation>Невозможно получить координату назначения внешнего соединения.</translation>
     </message>
     <message>
-        <source>Cannot cut the area with the width %1 from the grid: the width is too big.</source>
-        <translation>Невозможно вырезать область шириной %1 из ДРП: ширина слишком большая.</translation>
-    </message>
-    <message>
-        <source>Cannot cut the area with the height %1 from the grid: the height is too big.</source>
-        <translation>Невозможно вырезать область высотой %1 из ДРП: высота слишком большая.</translation>
-    </message>
-    <message>
         <source>Width and height cannot be negative.</source>
         <translation>Ширина и высота не могут быть отрицательными.</translation>
-    </message>
-    <message>
-        <source>Cannot insert rows after y-coordinate %1 at the grid: the number is too big.</source>
-        <translation>Невозможно вставить строки после y-координаты %1 в ДРП: число слишком большое.</translation>
     </message>
     <message>
         <source>Cannot remove %1 rows from the grid: the number is too big.</source>
@@ -769,14 +757,6 @@
     <message>
         <source>Element coordinates cannot be negative, passed: (%1; %2).</source>
         <translation>Координаты элемента не могут быть отрицательными, передано: (%1; %2).</translation>
-    </message>
-    <message>
-        <source>Cannot paste the area with the height %1 into the grid: the height is too big.</source>
-        <translation>Невозможно вставить область высотой %1 в ДРП: высота слишком большая.</translation>
-    </message>
-    <message>
-        <source>Cannot paste the area with the width %1 into the grid: the width is too big.</source>
-        <translation>Невозможно вставить область шириной %1 в ДРП: ширина слишком большая.</translation>
     </message>
     <message>
         <source>The element does not contain a pin with the given id: %1.</source>
@@ -903,6 +883,10 @@
     <message>
         <source>Finding the optimal position of element %1 of %2.</source>
         <translation>Поиск оптимальной позиции элемента %1 из %2.</translation>
+    </message>
+    <message>
+        <source>Rebuilding the grid.</source>
+        <translation>Перестройка ДРП.</translation>
     </message>
 </context>
 <context>

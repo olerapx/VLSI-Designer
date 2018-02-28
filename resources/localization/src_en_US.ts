@@ -739,20 +739,8 @@
         <translation>Cannot get destination coordinate of an external wire.</translation>
     </message>
     <message>
-        <source>Cannot cut the area with the width %1 from the grid: the width is too big.</source>
-        <translation>Cannot cut the area with the width %1 from the grid: the width is too big.</translation>
-    </message>
-    <message>
-        <source>Cannot cut the area with the height %1 from the grid: the height is too big.</source>
-        <translation>Cannot cut the area with the height %1 from the grid: the height is too big.</translation>
-    </message>
-    <message>
         <source>Width and height cannot be negative.</source>
         <translation>Width and height cannot be negative.</translation>
-    </message>
-    <message>
-        <source>Cannot insert rows after y-coordinate %1 at the grid: the number is too big.</source>
-        <translation>Cannot insert rows after y-coordinate %1 at the grid: the number is too big.</translation>
     </message>
     <message>
         <source>Cannot remove %1 rows from the grid: the number is too big.</source>
@@ -769,14 +757,6 @@
     <message>
         <source>Element coordinates cannot be negative, passed: (%1; %2).</source>
         <translation>Element coordinates cannot be negative, passed: (%1; %2).</translation>
-    </message>
-    <message>
-        <source>Cannot paste the area with the height %1 into the grid: the height is too big.</source>
-        <translation>Cannot paste the area with the height %1 into the grid: the height is too big.</translation>
-    </message>
-    <message>
-        <source>Cannot paste the area with the width %1 into the grid: the width is too big.</source>
-        <translation>Cannot paste the area with the width %1 into the grid: the width is too big.</translation>
     </message>
     <message>
         <source>The element does not contain a pin with the given id: %1.</source>
@@ -903,6 +883,10 @@
     <message>
         <source>Finding the optimal position of element %1 of %2.</source>
         <translation>Finding the optimal position of element %1 of %2.</translation>
+    </message>
+    <message>
+        <source>Rebuilding the grid.</source>
+        <translation>Rebuilding the grid.</translation>
     </message>
 </context>
 <context>

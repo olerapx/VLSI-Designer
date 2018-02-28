@@ -4,6 +4,7 @@
 
 #include "algorithms/placement/primaryplacementalgorithm.h"
 #include "util/misc/libraryutils.h"
+#include "util/misc/gridutils.h"
 #include "elementheightcomparator.h"
 
 /**
@@ -58,6 +59,5 @@ private:
     QList<QPoint> concatTopLeftCoords();
     QList<ElementCoordinate> buildElementCoordinates(QList<QPoint>& topLeftCoords);
     void buildGrid(QList<QPoint>& topLeftCoords);
-    void drawElement(QPoint point, SchemeElement element);
     void fillRelatedWires();
 };

@@ -275,26 +275,8 @@ void RowWisePlacement::buildGrid(QList<QPoint>& topLeftCoords)
     {
         if(stopped) return;
 
-        drawElement(point, sortedElements[currentIndex]);
+        GridUtils::drawElement(grid, point, sortedElements[currentIndex], libraries);
         currentIndex ++;
-    }
-}
-
-void RowWisePlacement::drawElement(QPoint point, SchemeElement element)
-{
-    LibraryElement libraryElement = LibraryUtils::getCorrespondingElement(element, libraries);
-
-    for(int i=1; i<libraryElement.getHeight() - 1; i++)
-    {
-        for(int j=1; j<libraryElement.getWidth() - 1; j++)
-        {
-            grid->getCells()[point.y() + i][point.x() + j] = Cell(CellType::Element, element.getIndex());
-        }
-    }
-
-    for(Pin p: libraryElement.getPins())
-    {
-        grid->getCells()[point.y() + p.getY()][point.x() + p.getX()] = Cell(CellType::Pin, element.getIndex(), p.getId());
     }
 }
 

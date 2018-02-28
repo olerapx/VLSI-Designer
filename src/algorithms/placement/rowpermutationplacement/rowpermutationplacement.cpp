@@ -125,7 +125,6 @@ void RowPermutationPlacement::findOptimalRowPosition(int rowIndex)
 
     sendLog(tr("Performing permutation..."));
 
-    swapRowsOnGrid(elementCoordinates, rowPosition, positions[maxDiffIndex]);
     swapRowsCoordinates(elementCoordinates, rowPosition, positions[maxDiffIndex]);
 
     positions[rowIndex] = positions[maxDiffIndex];
@@ -191,41 +190,6 @@ int RowPermutationPlacement::getShift(QList<ElementCoordinate>& first, QList<Ele
     return shift;
 }
 
-void RowPermutationPlacement::swapRowsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int firstRowPosition, int secondRowPosition)
-{
-    if(firstRowPosition > secondRowPosition)
-        std::swap(firstRowPosition, secondRowPosition);
-
-    QList<ElementCoordinate>& firstRow = elementCoordinates[firstRowPosition];
-    QList<ElementCoordinate>& secondRow = elementCoordinates[secondRowPosition];
-
-    QPoint firstCoord = firstRow[0].getTopLeftCoord();
-    QPoint secondCoord = secondRow[0].getTopLeftCoord();
-
-    int shift = getShift(firstRow, secondRow);
-    int width = previous->getGrid()->getWidth();
-
-    int firstHeight = LibraryUtils::getCorrespondingElement(firstRow[0].getElement(), previous->getLibraries()).getHeight();
-    int secondHeight = LibraryUtils::getCorrespondingElement(secondRow[0].getElement(), previous->getLibraries()).getHeight();
-
-    QList<QList<Cell>> firstRowCells = GridUtils::cut(previous->getGrid(), QPoint(0, firstCoord.y()), width, firstHeight);
-    QList<QList<Cell>> secondRowCells = GridUtils::cut(previous->getGrid(), QPoint(0, secondCoord.y()), width, secondHeight);
-
-    if(shift > 0)
-    {
-        GridUtils::insertRows(previous->getGrid(), firstCoord.y(), shift);
-        GridUtils::removeRows(previous->getGrid(), secondCoord.y() + shift, shift);
-    }
-    else if(shift < 0)
-    {
-        GridUtils::insertRows(previous->getGrid(), secondCoord.y(), -shift);
-        GridUtils::removeRows(previous->getGrid(), firstCoord.y(), -shift);
-    }
-
-    GridUtils::paste(previous->getGrid(), secondRowCells, QPoint(0, firstCoord.y()));
-    GridUtils::paste(previous->getGrid(), firstRowCells, QPoint(0, secondCoord.y() + shift));
-}
-
 void RowPermutationPlacement::permutateRow(int rowIndex)
 {
     if(stopped) return;
@@ -282,7 +246,6 @@ void RowPermutationPlacement::findOptimalElementPosition(int rowIndex, int eleme
 
     sendLog(tr("Performing permutation..."));
 
-    swapElementsOnGrid(elementCoordinates, rowIndex, elementPosition, positions[maxDiffIndex]);
     swapElementsCoordinates(elementCoordinates, rowIndex, elementPosition, positions[maxDiffIndex]);
 
     positions[elementIndex] = positions[maxDiffIndex];
@@ -338,54 +301,6 @@ int RowPermutationPlacement::getShift(ElementCoordinate first, ElementCoordinate
     return shift;
 }
 
-void RowPermutationPlacement::swapElementsOnGrid(QList<QList<ElementCoordinate>>& elementCoordinates, int rowIndex, int firstElementPosition, int secondElementPosition)
-{
-    QList<ElementCoordinate>& row = elementCoordinates[rowIndex];
-
-    if(firstElementPosition > secondElementPosition)
-        std::swap(firstElementPosition, secondElementPosition);
-
-    ElementCoordinate& firstCoord = row[firstElementPosition];
-    ElementCoordinate& secondCoord = row[secondElementPosition];
-
-    int shift = getShift(firstCoord, secondCoord);
-
-    int height = getRowHeight(row);
-
-    LibraryElement firstLibElement = LibraryUtils::getCorrespondingElement(firstCoord.getElement(), previous->getLibraries());
-    LibraryElement secondLibElement = LibraryUtils::getCorrespondingElement(secondCoord.getElement(), previous->getLibraries());
-
-    QList<QList<Cell>> firstElementCells = GridUtils::cut(previous->getGrid(), firstCoord.getTopLeftCoord(), firstLibElement.getWidth(), height);
-    QList<QList<Cell>> secondElementCells = GridUtils::cut(previous->getGrid(), secondCoord.getTopLeftCoord(), secondLibElement.getWidth(), height);
-
-    if(shift > 0)
-    {
-        GridUtils::insertEmptyArea(previous->getGrid(), firstCoord.getTopLeftCoord(), shift, height);
-        GridUtils::removeArea(previous->getGrid(), (secondCoord.getTopLeftCoord() + QPoint(shift, 0)), shift, height);
-    }
-    else if(shift < 0)
-    {
-        GridUtils::insertEmptyArea(previous->getGrid(), secondCoord.getTopLeftCoord(), -shift, height);
-        GridUtils::removeArea(previous->getGrid(), firstCoord.getTopLeftCoord(), -shift, height);
-    }
-
-    GridUtils::paste(previous->getGrid(), secondElementCells, firstCoord.getTopLeftCoord());
-    GridUtils::paste(previous->getGrid(), firstElementCells, (secondCoord.getTopLeftCoord() + QPoint(shift, 0)));
-}
-
-int RowPermutationPlacement::getRowHeight(QList<ElementCoordinate>& row)
-{
-    int height = 0;
-    for(ElementCoordinate& c: row)
-    {
-        int h = LibraryUtils::getCorrespondingElement(c.getElement(), previous->getLibraries()).getHeight();
-        if(h > height)
-            height = h;
-    }
-
-    return height;
-}
-
 qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate>& wireCoordinates)
 {
     qint64 res = 0;
@@ -397,8 +312,32 @@ qint64 RowPermutationPlacement::getFitnessValue(QList<WireCoordinate>& wireCoord
 
 PlacementResult* RowPermutationPlacement::buildResult()
 {
+    rebuildGrid();
     QList<ElementCoordinate> elementCoords = concatElementCoordinates();
     return new PlacementResult(previous->getGrid(), elementCoords, previous->getRelatedWires(), previous->getLibraries());
+}
+
+void RowPermutationPlacement::rebuildGrid()
+{
+    if(stopped) return;
+
+    sendLog(tr("Rebuilding the grid."));
+
+    for(QList<Cell>& row: previous->getGrid()->getCells())
+    {
+        for(Cell& cell: row)
+        {
+            cell.setType(CellType::Empty);
+        }
+    }
+
+    for(QList<ElementCoordinate>& list: elementCoordinates)
+    {
+        for(ElementCoordinate& coord: list)
+        {
+            GridUtils::drawElement(previous->getGrid(), coord.getTopLeftCoord(), coord.getElement(), previous->getLibraries());
+        }
+    }
 }
 
 QList<ElementCoordinate> RowPermutationPlacement::concatElementCoordinates()
